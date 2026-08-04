@@ -1,0 +1,56 @@
+[
+  {
+    "id": "identity-state",
+    "label": "Identity & State",
+    "description": "Flags, maps, documents and the marks a country uses to identify itself.",
+    "auditKey": "id"
+  },
+  {
+    "id": "fashion-textiles",
+    "label": "Fashion & Textiles",
+    "description": "Cloth, garments, headwear and the crafts behind them.",
+    "auditKey": "fas"
+  },
+  {
+    "id": "food-drink",
+    "label": "Food & Drink",
+    "description": "Dishes, ingredients, street food and the vessels they are served in.",
+    "auditKey": "food"
+  },
+  {
+    "id": "music-art-play",
+    "label": "Music, Art & Play",
+    "description": "Instruments, games, film and the making of things.",
+    "auditKey": "mus"
+  },
+  {
+    "id": "transport",
+    "label": "Transport",
+    "description": "How people and goods move — road, water and rail.",
+    "auditKey": "tra"
+  },
+  {
+    "id": "places-landmarks",
+    "label": "Places & Landmarks",
+    "description": "Buildings, bridges, natural formations and named places.",
+    "auditKey": "pla"
+  },
+  {
+    "id": "commerce-industry",
+    "label": "Commerce & Industry",
+    "description": "Money, markets, trade and the industries behind them.",
+    "auditKey": "com"
+  },
+  {
+    "id": "culture-people",
+    "label": "Culture & People",
+    "description": "Ceremony, craft, regalia and everyday cultural objects.",
+    "auditKey": "cul"
+  },
+  {
+    "id": "defence",
+    "label": "Defence",
+    "description": "Armed-forces equipment and insignia.",
+    "auditKey": "def"
+  }
+]

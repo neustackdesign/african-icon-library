@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>African Icon Library</title>
+    <style>
+      /* __STYLES__ */
+    </style>
+  </head>
+  <body>
+    <header class="bar">
+      <label class="visually-hidden" for="search">Search icons</label>
+      <input
+        id="search"
+        type="search"
+        placeholder="Search jollof, danfo, drum…"
+        autocomplete="off"
+      />
+    </header>
+
+    <div class="bar bar--filters">
+      <label class="visually-hidden" for="category">Category</label>
+      <select id="category"></select>
+      <label class="visually-hidden" for="size">Insert size</label>
+      <select id="size"></select>
+    </div>
+
+    <div class="bar bar--weights">
+      <span class="bar__label" id="weights-label">Weight</span>
+      <div id="weights" class="chips" role="group" aria-labelledby="weights-label"></div>
+    </div>
+
+    <div id="count" class="count" aria-live="polite"></div>
+
+    <main>
+      <div id="grid" class="grid"></div>
+      <div id="empty" class="empty" hidden></div>
+    </main>
+
+    <section id="detail" class="detail" hidden>
+      <div>
+        <div id="detail-name" class="detail__name"></div>
+        <div id="detail-meta" class="detail__meta"></div>
+      </div>
+      <button id="insert" type="button" class="primary" disabled>Insert</button>
+    </section>
+
+    <footer>
+      <div id="context" class="context"></div>
+      <div id="status" class="status" role="status" aria-live="polite"></div>
+    </footer>
+
+    <script>
+      /* __SCRIPT__ */
+    </script>
+  </body>
+</html>

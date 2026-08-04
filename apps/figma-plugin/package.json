@@ -1,0 +1,22 @@
+{
+  "name": "@african-icon-library/figma-plugin",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Offline Figma plugin for the African Icon Library.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "tsx build.ts",
+    "dev": "tsx build.ts --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.132.0",
+    "esbuild": "^0.28.1",
+    "tsx": "^4.23.5",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@african-icon-library/metadata": "0.1.0"
+  }
+}

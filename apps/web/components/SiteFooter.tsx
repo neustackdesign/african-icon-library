@@ -1,0 +1,72 @@
+import Link from 'next/link';
+
+import { LIBRARY, SITE } from '@/lib/site';
+
+const COLUMNS = [
+  {
+    heading: 'Library',
+    links: [
+      { href: '/', label: 'Browse icons' },
+      { href: '/spec', label: 'Drawing spec' },
+      { href: '/downloads', label: 'Downloads' },
+      { href: '/status', label: 'Status' },
+    ],
+  },
+  {
+    heading: 'Project',
+    links: [
+      { href: '/changelog', label: 'Changelog' },
+      { href: '/contributing', label: 'Contributing' },
+      { href: '/licence', label: 'Licence' },
+    ],
+  },
+] as const;
+
+export function SiteFooter() {
+  return (
+    <footer className="site-footer">
+      <div className="shell">
+        <div className="site-footer__grid">
+          {COLUMNS.map((column) => (
+            <div key={column.heading}>
+              <h3>{column.heading}</h3>
+              <ul>
+                {column.links.map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href}>{link.label}</Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+
+          <div>
+            <h3>Source</h3>
+            <ul>
+              <li>
+                <a href={SITE.repository} rel="noreferrer noopener">
+                  GitHub repository
+                </a>
+              </li>
+              <li>
+                <a href={SITE.issues} rel="noreferrer noopener">
+                  Report an issue
+                </a>
+              </li>
+              <li>
+                <a href={`mailto:${SITE.contact}`}>{SITE.contact}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <hr style={{ margin: '1.75rem 0 1.25rem' }} />
+
+        <p className="mono">
+          {SITE.name} v{LIBRARY.version} · MIT licensed · maintained by {SITE.maintainer} · Nigeria
+          first, the continent next.
+        </p>
+      </div>
+    </footer>
+  );
+}

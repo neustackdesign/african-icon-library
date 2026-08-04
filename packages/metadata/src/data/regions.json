@@ -1,0 +1,7 @@
+[
+  {
+    "code": "NG",
+    "label": "Nigeria",
+    "note": "The first region shipped. The library's architecture treats region as a first-class axis, so entries from other African countries slot in without being treated as outliers."
+  }
+]

@@ -145,10 +145,16 @@ hr {
   padding-inline: clamp(1rem, 0.4rem + 2.4vw, 2.5rem);
 }
 
+/*
+ * Grid and flex children default to `min-width: auto`, so one wide code block
+ * can push a whole column past the viewport. Every container that can hold one
+ * opts out explicitly.
+ */
 .stack {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  min-width: 0;
 }
 
 .section {
@@ -161,10 +167,11 @@ hr {
 }
 
 .prose {
-  max-width: var(--measure);
+  max-width: min(var(--measure), 100%);
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  min-width: 0;
 }
 
 .prose h2 {
@@ -191,7 +198,7 @@ hr {
 .lede {
   font-size: clamp(1rem, 0.95rem + 0.4vw, 1.15rem);
   color: var(--ink-muted);
-  max-width: var(--measure);
+  max-width: min(var(--measure), 100%);
 }
 
 .muted {
@@ -380,6 +387,7 @@ hr {
 /* ---------------- notices ---------------- */
 
 .notice {
+  max-width: min(var(--measure), 100%);
   border: 1px solid var(--line-strong);
   border-left-width: 3px;
   border-left-color: var(--accent);
@@ -388,7 +396,6 @@ hr {
   padding: 0.9rem 1.1rem;
   font-size: 0.9375rem;
   color: var(--ink);
-  max-width: var(--measure);
 }
 
 .notice--caution {
@@ -427,6 +434,17 @@ hr {
 .stat__label {
   font-size: 0.8125rem;
   color: var(--ink-muted);
+}
+
+/* ---------------- hero proof strip ---------------- */
+
+.proof-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem 1.5rem;
+  margin-top: 2.5rem;
+  color: var(--ink);
 }
 
 /* ---------------- icon browser ---------------- */
@@ -601,6 +619,7 @@ hr {
 /* ---------------- code ---------------- */
 
 .code-block {
+  max-width: 100%;
   background: var(--paper-sunken);
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -610,6 +629,12 @@ hr {
   font-size: 0.8125rem;
   line-height: 1.7;
   color: var(--ink);
+}
+
+/* For markup a reader is meant to read and select, not scroll past. */
+.code-block--wrap {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 /* ---------------- tables ---------------- */
@@ -663,6 +688,7 @@ tbody tr:last-child td {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  min-width: 0;
 }
 
 /* ---------------- motion ---------------- */

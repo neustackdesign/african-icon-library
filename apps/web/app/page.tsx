@@ -58,13 +58,34 @@ export default function HomePage() {
           </div>
 
           <p className="notice">
-            <strong>Where this actually stands.</strong> {plural(LIBRARY.iconCount, 'icon')} passes
-            every automated check and ships today, in the <code>regular</code> weight only. The{' '}
+            <strong>Where this actually stands.</strong> All {plural(LIBRARY.iconCount, 'icon')}{' '}
+            pass every automated check and ship today, in the <code>regular</code> weight only. The{' '}
             {LIBRARY.weightsPlanned.join(', ')} weights are specified but <em>not drawn</em> — this
             library will not fake a weight by changing a stroke width.{' '}
             <Link href="/status">See the full status</Link>.
           </p>
         </div>
+
+        <div className="proof-strip" aria-hidden="true">
+          {entries.map((entry) => (
+            <svg
+              key={entry.icon.id}
+              width={36}
+              height={36}
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={1.5}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              focusable="false"
+              dangerouslySetInnerHTML={{ __html: entry.body }}
+            />
+          ))}
+        </div>
+        <p className="mono" style={{ marginTop: '0.85rem' }}>
+          ↑ every released icon, at real proportions. Nothing here is a placeholder.
+        </p>
       </section>
 
       <section className="section section--sunken" id="browse">

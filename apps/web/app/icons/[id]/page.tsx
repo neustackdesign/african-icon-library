@@ -153,7 +153,7 @@ export default async function IconPage({ params }: Params) {
           </ul>
 
           <h2 style={{ fontSize: '1.125rem', marginTop: '1rem' }}>SVG source</h2>
-          <pre className="code-block">
+          <pre className="code-block code-block--wrap">
             <code>{svg}</code>
           </pre>
 

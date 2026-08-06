@@ -30,7 +30,7 @@ on:
         default: true
 
 permissions:
-  contents: read
+  contents: write # create the GitHub release and attach artefacts
   id-token: write # required for npm trusted publishing
 
 concurrency:
@@ -39,7 +39,7 @@ concurrency:
 
 jobs:
   release:
-    name: Publish packages
+    name: Publish packages and create the release
     runs-on: ubuntu-latest
     timeout-minutes: 25
 
@@ -82,6 +82,28 @@ jobs:
           done
           echo "all three packages are $tag"
 
+      # `npm run check` already builds these, but rebuilding here makes the
+      # artefacts that get attached unambiguously the ones this run produced.
+      - name: Rebuild release artefacts
+        run: |
+          npm run release:build
+          npm run package:plugins
+
+      # Recomputes every published SHA-256 from the bytes on disk. A checksum
+      # nothing verifies is decoration; this refuses to attach one it has not
+      # just confirmed, and fails on any artefact shipping without one.
+      - name: Verify artefact checksums
+        run: npm run release:verify
+
+      # Composed from repository state and the changelog, so the release page
+      # cannot claim a count, a weight or a channel the library does not have.
+      - name: Generate release notes
+        run: |
+          npm run release:notes
+          echo "::group::release notes"
+          cat release/RELEASE_NOTES.md
+          echo "::endgroup::"
+
       # Trusted publishing needs npm >= 11.5.1; Node 22 ships npm 10. Pinned to
       # the 11 line rather than `latest`, so a future npm major cannot change
       # publish behaviour underneath a release without someone choosing it.
@@ -114,9 +136,44 @@ jobs:
             echo "::endgroup::"
           done
 
-      - name: Pack only (dry run)
+      # Release creation runs here rather than being handed to a person: the
+      # runner's GITHUB_TOKEN can reach the Releases API even when a local
+      # session cannot. Same reasoning as publishing npm from CI.
+      - name: Create the GitHub release
+        if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          tag="${GITHUB_REF_NAME}"
+          # Idempotent: a re-run of the same tag updates the release rather than
+          # failing outright, so a transient npm error does not strand the tag.
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "release $tag exists — updating notes and re-uploading artefacts"
+            gh release edit "$tag" --notes-file release/RELEASE_NOTES.md
+          else
+            gh release create "$tag" \
+              --title "African Icon Library $tag" \
+              --notes-file release/RELEASE_NOTES.md \
+              --verify-tag
+          fi
+          # --clobber so a re-run replaces an asset rather than erroring on it.
+          gh release upload "$tag" --clobber \
+            release/*.zip \
+            release/*.json \
+            release/figma/*.zip
+          echo "attached:"
+          gh release view "$tag" --json assets --jq '.assets[] | "  \(.name)  \(.size) bytes"'
+
+      # Proves every step above except the two that leave the runner: the npm
+      # publish and the release creation.
+      - name: Dry run summary
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
         run: |
+          echo "Artefacts that a tagged run would attach:"
+          ls -1 release/*.zip release/*.json release/figma/*.zip | sed 's|^|  |'
+          echo
+          echo "Packing the three packages:"
           for pkg in metadata icons react; do
             npm pack -w "@african-icon-library/$pkg" --pack-destination /tmp
           done

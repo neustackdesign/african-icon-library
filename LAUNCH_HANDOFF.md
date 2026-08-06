@@ -95,17 +95,21 @@ Set the default branch to `main` in GitHub settings, and confirm Vercel's Produc
 `main`. **Until this is checked, the merged integration may only have produced a preview
 deployment.**
 
-### 4. Repository presentation and the release
+### 4. Repository settings
 
-All blocked by the agent proxy, which refuses these API paths regardless of credential — a token
-would not help. A human on github.com:
+**Settings only.** These are blocked by the agent proxy, which refuses the settings API paths
+regardless of credential — a token would not help. A human on github.com:
 
 - description, homepage `https://icons.neustackstudio.com`, topics
 - enable the dependency graph (this is the sole cause of the one red workflow, on Dependabot's PR #1)
 - branch protection on `main` requiring `Lint, validate, test, build`
-- tag `v0.2.0` and create the release, attaching `release/*`
+- Discussions, or remove that entry from `.github/ISSUE_TEMPLATE/config.yml`
 
 Labels are **already done** — all nine exist.
+
+**The release itself is not manual.** It was listed here as a manual step because _this session_
+cannot call the Releases API; the Actions runner can, and now does. Pushing the tag creates the
+release, generates its notes, and attaches all 12 files. Nobody uploads anything by hand.
 
 ### 5. npm
 
@@ -117,9 +121,22 @@ unclaimed. An organisation cannot be created by a token, so the order matters:
    needs to pass through anyone's hands or any chat.
 3. Push the tag: `git tag v0.2.0 && git push origin v0.2.0`.
 
-`.github/workflows/release.yml` does the rest — full check, package verification, tag/version
-agreement, then publishes metadata → icons → react in dependency order with provenance. **The dry
-run passes today**; only the publish call is unproven.
+`.github/workflows/release.yml` does everything else in one run:
+
+1. full check — lint, format, validation, QA, generated-output drift, typecheck, 158 tests, build
+2. clean-room package verification
+3. tag and all three package versions must agree, or it stops
+4. rebuild the release artefacts
+5. recompute every published SHA-256 from disk and fail on any mismatch
+6. generate the release notes from repository state and the changelog
+7. publish metadata → icons → react in dependency order, with provenance
+8. create the GitHub release and attach all 12 files
+
+**The dry run passes today** (run `31098675063`), with exactly two steps skipped: the npm publish
+and the release creation, which are the only two that leave the runner. Everything else is proven.
+
+Release creation is idempotent — a re-run of the same tag edits the release and re-uploads with
+`--clobber` — so a transient npm failure cannot strand a tag with no release attached to it.
 
 After the first publish, delete the secret: the workflow prefers OIDC trusted publishing whenever
 `NPM_TOKEN` is absent, and npm can only attach a trusted publisher to a package that already exists.

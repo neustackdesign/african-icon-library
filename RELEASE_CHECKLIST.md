@@ -191,25 +191,47 @@ should not hold.
       validation, the QA report, generated-output drift, type-check, tests, the full build, and a
       clean-room install of the packed packages. Green on `main`.
 - [x] CodeQL, dependency review and Dependabot are configured.
+- [x] **The repository labels the issue forms reference exist.** GitHub silently drops labels that
+      do not exist, so the forms were inert until they were created. All six are now present —
+      `icon-proposal`, `cultural-correction`, `cultural-review`, `local-name`, `high-priority`,
+      `bug` — alongside `needs-redraw`, `weights` and `held` for the governance workflow.
+
+The remaining GitHub items are blocked by a **proxy policy, not a missing credential.** The
+session's token authenticates as `neustackdesign` and label, issue, PR and content writes all
+succeed; the Anthropic agent proxy refuses two specific classes of write regardless of token:
+
+- `PATCH /repos/{owner}/{repo}` → `Repository settings writes are not permitted through this proxy.`
+- `PUT .../branches/main/protection` → `Write access to this GitHub API path is not permitted through this proxy.`
+- `POST .../releases` → `Creating, editing, or deleting releases is not permitted for this session type.`
+
+Supplying a personal access token would not change this: the proxy inspects the request path, not
+the credential. These need a human on github.com, or a session type that permits them.
+
 - [ ] **Enable branch protection on `main`** requiring the `Lint, validate, test, build` check.
-      Not possible from this environment: the GitHub App backing it has no administration scope.
-- [ ] **Create the repository labels** the issue forms reference. GitHub silently drops labels that
-      do not exist, so the forms are inert until they are created. The list is in
-      `docs/governance/maintainer-guide.md`.
 - [ ] **Enable Discussions**, or delete that entry from `.github/ISSUE_TEMPLATE/config.yml` — it is
       a 404 in the issue chooser otherwise.
-- [ ] **Enable the dependency graph**, or `dependency-review.yml` is a no-op.
+- [ ] **Enable the dependency graph.** This is the cause of the one red workflow: `dependency-review`
+      fails with `Dependency review is not supported on this repository`, on Dependabot's PR #1.
+      The workflow is correct; the repository toggle is off.
 - [ ] **Set the repository description, homepage and topics.** Suggested:
       description `Open-source icons for African life, drawn on one 24-pixel grid. Nigeria first.`,
       homepage `https://icons.neustackstudio.com`, topics `icons`, `icon-set`, `svg`, `react`,
       `figma-plugin`, `design-system`, `african`, `nigeria`, `open-source`.
-- [ ] **Tag `v0.2.0` and create the release**, attaching `release/*` from the CI artefact. The
-      artefacts are built deterministically, so the checksums in `release/manifest.json` are the
-      ones to publish.
+- [ ] **Tag `v0.2.0` and create the release**, attaching `release/*`. The artefacts are built
+      deterministically, so the checksums in `release/manifest.json` are the ones to publish.
 
 ### 4.2 npm
 
-- [ ] Create or claim the `@african-icon-library` scope.
+`registry.npmjs.org` **is** reachable from the build environment — it bypasses the egress proxy —
+so publishing is blocked by credentials alone, not by the network. Verified against the live
+registry: all three package names return 404 and the scope itself returns
+`{"error":"Scope not found"}`. Nobody has taken `@african-icon-library`.
+
+Creating an npm **organisation** is a website action; a granular token cannot mint a scope. So the
+order matters: the org has to exist before any token is useful.
+
+- [ ] Create the `african-icon-library` organisation on npmjs.com (free tier is sufficient for
+      public packages), or decide to publish under an existing scope instead.
 - [ ] `npm publish --access public` for `metadata`, then `icons`, then `react` — in that order,
       because each depends on the previous.
 - [ ] Only after publishing, update the website copy that currently says the packages are not on
@@ -238,10 +260,22 @@ references and nothing else.
 
 ### 4.4 Vercel
 
-No Vercel CLI and no Vercel token exist in the build environment, so no deployment could be made
-from here. Everything that does not need account access is done: `vercel.json` is complete, the
-production build is verified on every CI run, and every route is static so a deploy cannot fail on
-a missing environment variable.
+**A Vercel token would not have been enough.** The build environment's egress policy denies
+`vercel.com` and `api.vercel.com` outright — every request returns `CONNECT tunnel failed,
+response 403` at the gateway, before any credential is presented. The agent proxy's own
+documentation says organisation policy denials must be reported rather than routed around. So no
+CLI path to a deployment exists from here at any level of authorisation.
+
+The good news is that the CLI is not the shortest path anyway. **The Vercel GitHub App is already
+installed on the `neustackdesign` organisation** — `neustackstudio-site` has a live
+`Vercel Preview Comments` check on its pull requests, which only appears once the integration is
+connected. The library repository simply has not been imported: it reports **0 deployments** and no
+Vercel check on `main`. Importing it in the dashboard is a two-minute action that also satisfies
+the automatic-deployment requirement, with no token to mint or store.
+
+Everything that does not need account access is done: `vercel.json` is complete, the production
+build is verified on every CI run, and every route is static so a deploy cannot fail on a missing
+environment variable — the app requires no environment variables at all.
 
 The full step-by-step, the smoke test to run against the preview, and the exact DNS record are in
 [docs/vercel-deployment.md](docs/vercel-deployment.md).

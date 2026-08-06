@@ -1,9 +1,22 @@
 # Deploying the website
 
-The site has **not** been deployed. This environment has no Vercel CLI and no Vercel token, so the
-deployment itself is item 4.4 in [RELEASE_CHECKLIST.md](../RELEASE_CHECKLIST.md). Everything that
-can be prepared without account access is prepared, and the production build is verified locally on
-every CI run.
+The site has **not** been deployed. Deployment is item 4.4 in
+[RELEASE_CHECKLIST.md](../RELEASE_CHECKLIST.md). Everything that can be prepared without account
+access is prepared, and the production build is verified on every CI run.
+
+## Why this could not be automated
+
+Not for want of a token. The build environment's egress policy denies `vercel.com` and
+`api.vercel.com` at the gateway — every request fails with `CONNECT tunnel failed, response 403`
+before a credential is ever offered — so no `vercel` CLI invocation can reach the API from there at
+any level of authorisation.
+
+Use the dashboard rather than the CLI, because the connection already half exists: the **Vercel
+GitHub App is installed on the `neustackdesign` organisation** (`neustackstudio-site` has a live
+`Vercel Preview Comments` check on its pull requests). This repository has simply never been
+imported — it reports 0 deployments and no Vercel check on `main`. Importing it takes about two
+minutes, needs no token, and wires up automatic production and preview deployments in the same
+step.
 
 ## What is already done
 

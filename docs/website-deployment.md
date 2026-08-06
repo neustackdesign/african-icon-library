@@ -84,3 +84,37 @@ This is why the following are absent, all of which the original concept asserted
 - an illustration tier (zero pieces exist)
 - `npm i @ail/icons` (nothing is published to npm)
 - the raster backlog in the icon browser (no raster asset is in the product at all)
+
+## Analytics
+
+The site works identically with no analytics provider attached. `apps/web/lib/analytics.ts` is a
+total function over an optional `window.ail` global: if nothing defines it, every call is a no-op.
+
+To attach a provider, load a script that defines `window.ail.track(name, properties)`. Plausible
+and Fathom both fit that shape in about two lines. Nothing is bundled here, because a library that
+ships a tracker by default is not privacy-respecting.
+
+Events, and exactly what each carries:
+
+| Event               | Fires when                                        | Properties                        |
+| ------------------- | ------------------------------------------------- | --------------------------------- |
+| `search`            | A browser query of two or more characters settles | `results`, `surface`              |
+| `icon_copy`         | An icon's SVG is copied                           | `target` (icon id), `surface`     |
+| `icon_download`     | A single icon is downloaded                       | `target` (icon id), `surface`     |
+| `category_download` | A category pack is downloaded                     | `target` (category id), `surface` |
+| `release_download`  | The full bundle or metadata is downloaded         | `target` (artefact), `surface`    |
+| `figma_click`       | An outbound link to Figma is followed             | `target`, `surface`               |
+| `github_click`      | An outbound link to GitHub is followed            | `target`, `surface`               |
+
+**The search query is never sent.** The result count answers "is search working" and "what are
+people failing to find" — a zero-result count is the useful signal — without recording what anyone
+typed.
+
+UTM parameters (`utm_source`, `utm_medium`, `utm_campaign`, `utm_content`) are read from the URL
+per page load, truncated to 64 characters, and attached to events. They are not persisted: no
+cookie, no storage. That makes attribution per-visit and deliberately not a durable identity.
+
+## Favicons
+
+`app/icon.tsx` and `app/apple-icon.tsx` render the talking-drum asset the library actually ships,
+at build time. They cannot drift from the set, because they read the same file the packages export.

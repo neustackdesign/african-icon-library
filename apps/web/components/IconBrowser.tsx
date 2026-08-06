@@ -1,9 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { useCallback, useDeferredValue, useMemo, useState } from 'react';
+import { useCallback, useDeferredValue, useEffect, useMemo, useState } from 'react';
 
 import { searchIcons, type Category, type Icon } from '@african-icon-library/metadata';
+
+import { track } from '@/lib/analytics';
 
 export interface BrowserIcon {
   icon: Icon;
@@ -40,11 +42,19 @@ export function IconBrowser({ entries, categories, weightsShipped, weightsPlanne
     }).map((result) => byId.get(result.icon.id)!);
   }, [entries, byId, deferredQuery, category]);
 
+  useEffect(() => {
+    // The query itself is never sent; the result count answers "is search
+    // working" without recording what anyone typed.
+    if (deferredQuery.trim().length < 2) return;
+    track('search', { results: results.length, surface: 'browser' });
+  }, [deferredQuery, results.length]);
+
   const selected = selectedId ? (byId.get(selectedId) ?? null) : null;
 
   const copy = useCallback(async (id: string, text: string) => {
     try {
       await navigator.clipboard.writeText(text);
+      track('icon_copy', { target: id, surface: 'browser' });
       setCopied(id);
       window.setTimeout(() => setCopied((current) => (current === id ? null : current)), 2000);
     } catch {
@@ -158,6 +168,16 @@ export function IconBrowser({ entries, categories, weightsShipped, weightsPlanne
                   ? 'Copy blocked'
                   : 'Copy SVG'}
             </button>
+            <a
+              className="button button--ghost"
+              href={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(selected.svg)}`}
+              download={`${selected.icon.id}.svg`}
+              onClick={() =>
+                track('icon_download', { target: selected.icon.id, surface: 'browser' })
+              }
+            >
+              Download SVG
+            </a>
             <Link className="button button--ghost" href={`/icons/${selected.icon.id}`}>
               Details
             </Link>

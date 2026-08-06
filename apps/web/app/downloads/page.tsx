@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 
+import { TrackedLink } from '@/components/TrackedLink';
 import { DOWNLOADS, LIBRARY, SITE, plural } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -56,12 +57,26 @@ export default async function DownloadsPage() {
       {manifest ? (
         <>
           <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', marginTop: '1.5rem' }}>
-            <a className="button" href={DOWNLOADS.icons} download>
+            <TrackedLink
+              className="button"
+              href={DOWNLOADS.icons}
+              download
+              event="release_download"
+              target_="icons-zip"
+              surface="downloads"
+            >
               SVG bundle (.zip)
-            </a>
-            <a className="button button--ghost" href={DOWNLOADS.metadata} download>
+            </TrackedLink>
+            <TrackedLink
+              className="button button--ghost"
+              href={DOWNLOADS.metadata}
+              download
+              event="release_download"
+              target_="metadata-json"
+              surface="downloads"
+            >
               Metadata (.json)
-            </a>
+            </TrackedLink>
           </div>
 
           <div className="prose" style={{ marginTop: '2.5rem' }}>
@@ -78,9 +93,15 @@ export default async function DownloadsPage() {
                 <h3>{category.label}</h3>
                 <p className="muted">{plural(category.icons, 'icon')}</p>
                 <p>
-                  <a href={`/downloads/${category.file}`} download>
+                  <TrackedLink
+                    href={`/downloads/${category.file}`}
+                    download
+                    event="category_download"
+                    target_={category.id}
+                    surface="downloads"
+                  >
                     Download pack →
-                  </a>
+                  </TrackedLink>
                 </p>
               </li>
             ))}

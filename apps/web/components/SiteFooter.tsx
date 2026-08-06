@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import { TrackedLink } from '@/components/TrackedLink';
 import { LIBRARY, SITE } from '@/lib/site';
 
 const COLUMNS = [
@@ -44,9 +45,14 @@ export function SiteFooter() {
             <h3>Source</h3>
             <ul>
               <li>
-                <a href={SITE.repository} rel="noreferrer noopener">
+                <TrackedLink
+                  href={SITE.repository}
+                  rel="noreferrer noopener"
+                  event="github_click"
+                  surface="footer"
+                >
                   GitHub repository
-                </a>
+                </TrackedLink>
               </li>
               <li>
                 <a href={SITE.issues} rel="noreferrer noopener">

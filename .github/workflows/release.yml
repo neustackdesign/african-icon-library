@@ -52,12 +52,10 @@ jobs:
           cache: npm
           registry-url: https://registry.npmjs.org
 
-      # Trusted publishing needs npm >= 11.5.1; Node 22 still ships npm 10.
-      - name: Use an npm that supports trusted publishing
-        run: |
-          npm install -g npm@latest
-          echo "npm $(npm -v)"
-
+      # Deliberately installs with the npm that produced the lockfile. npm 12
+      # tightened its optional-dependency check and rejects a lockfile written
+      # by npm 10 with "Missing: @esbuild/... from lock file", so the upgrade
+      # for trusted publishing happens after this step, not before it.
       - name: Install
         run: npm ci
 
@@ -84,15 +82,28 @@ jobs:
           done
           echo "all three packages are $tag"
 
+      # Trusted publishing needs npm >= 11.5.1; Node 22 ships npm 10. Pinned to
+      # the 11 line rather than `latest`, so a future npm major cannot change
+      # publish behaviour underneath a release without someone choosing it.
+      - name: Use an npm that supports trusted publishing
+        if: ${{ github.event_name == 'push' || !inputs.dry_run }}
+        run: |
+          npm install -g npm@11
+          echo "npm $(npm -v)"
+
       - name: Publish
         if: ${{ github.event_name == 'push' || !inputs.dry_run }}
         env:
+          # Empty when the secret is unset, which is the signal to use OIDC.
+          # setup-node writes a placeholder into .npmrc, so the presence of the
+          # secret is checked here rather than by inspecting the environment.
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          HAS_TOKEN: ${{ secrets.NPM_TOKEN != '' }}
         run: |
-          if [ -z "$NODE_AUTH_TOKEN" ]; then
-            echo "No NPM_TOKEN set — publishing via trusted publishing (OIDC)."
-          else
+          if [ "$HAS_TOKEN" = "true" ]; then
             echo "NPM_TOKEN present — publishing with the granular token."
+          else
+            echo "No NPM_TOKEN set — publishing via trusted publishing (OIDC)."
           fi
           # Dependency order: icons depends on metadata by exact version, and
           # react depends on both. Publishing out of order leaves a window where

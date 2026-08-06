@@ -1,0 +1,53 @@
+name: CodeQL
+
+# The realistic risk here is not a classic web vulnerability — there is no server and no user
+# data. It is a supply-chain or build-script problem reaching the published packages or the
+# Figma plugin bundle. CodeQL covers the code paths that could carry one.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Weekly, so a rule added to the CodeQL pack after a merge still finds an old problem.
+    - cron: '17 4 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: codeql-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  analyse:
+    name: Analyse javascript-typescript
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    permissions:
+      security-events: write
+      contents: read
+      actions: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Initialise CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+          queries: security-and-quality
+
+      # No build step: the JavaScript/TypeScript extractor reads source directly, and building
+      # would only add committed generated output that is already covered by its inputs.
+      - name: Analyse
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: '/language:javascript-typescript'

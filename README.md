@@ -3,7 +3,7 @@
 Open-source icons for African life, drawn on one 24-pixel grid. Nigeria first; the continent is
 the roadmap.
 
-**16 icons. One weight (`regular`). MIT licensed.**
+**32 icons. One weight (`regular`). MIT licensed.**
 
 That count is small and it is meant to be. This repository is the rebuild that followed the
 August 2026 audit of the v2 set — an audit that reviewed 86 drawings and found two visual species
@@ -36,15 +36,16 @@ npm run dev:plugin    # rebuild the Figma plugin on change
 
 |                                   |                        |
 | --------------------------------- | ---------------------- |
-| Released icons                    | 16                     |
+| Released icons                    | 32                     |
 | Weights drawn                     | `regular`              |
 | Weights specified but undrawn     | `thin`, `bold`, `fill` |
 | Drawings held for cultural review | 1                      |
-| Drawings held for icon design     | 1                      |
-| Audited concepts still in backlog | 61                     |
+| Drawings held for icon design     | 0                      |
+| Audited concepts still in backlog | 55                     |
 | Concepts merged by the audit      | 3                      |
 | Concepts cut by the audit         | 4                      |
 | Illustration-tier pieces released | 0                      |
+| Categories in use                 | 7 of 9                 |
 
 Nothing is published to npm. Nothing is published to the Figma Community. The website is not
 deployed. Those are account actions, and they are itemised in

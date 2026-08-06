@@ -98,9 +98,40 @@ async function run(): Promise<number> {
   const zip = createZip(entries);
   const metadataJson = Buffer.from(`${JSON.stringify(metadata, null, 2)}\n`, 'utf8');
 
+  // One pack per category that actually contains released icons. A pack for an
+  // empty category would be a download that promises something it cannot give.
+  const categoryPacks = categories
+    .map((category) => {
+      const members = icons.filter((icon) => icon.category === category.id);
+      if (members.length === 0) return null;
+      const ids = new Set(members.map((icon) => icon.id));
+      const packEntries: ZipEntry[] = [
+        ...assets
+          .filter((asset) => ids.has(asset.id))
+          .map((asset) => ({
+            path: `african-icon-library-${category.id}-${version}/svg/${asset.weight}/${asset.id}.svg`,
+            contents: asset.source,
+          })),
+        {
+          path: `african-icon-library-${category.id}-${version}/metadata.json`,
+          contents: `${JSON.stringify({ version, category, icons: members }, null, 2)}\n`,
+        },
+        { path: `african-icon-library-${category.id}-${version}/LICENSE`, contents: licence },
+      ];
+      return {
+        name: `african-icon-library-${category.id}-${version}.zip`,
+        categoryId: category.id,
+        categoryLabel: category.label,
+        icons: members.length,
+        contents: createZip(packEntries),
+      };
+    })
+    .filter((pack): pack is NonNullable<typeof pack> => pack !== null);
+
   const artefacts = [
     { name: `african-icon-library-icons-${version}.zip`, contents: zip },
     { name: `african-icon-library-metadata-${version}.json`, contents: metadataJson },
+    ...categoryPacks.map((pack) => ({ name: pack.name, contents: pack.contents })),
   ];
 
   await rm(PATHS.release, { recursive: true, force: true });
@@ -112,6 +143,12 @@ async function run(): Promise<number> {
     version,
     icons: icons.length,
     weights: [...new Set(icons.flatMap((icon) => icon.weights))].sort(),
+    categories: categoryPacks.map((pack) => ({
+      id: pack.categoryId,
+      label: pack.categoryLabel,
+      icons: pack.icons,
+      file: pack.name,
+    })),
     artefacts: artefacts.map((artefact) => ({
       name: artefact.name,
       bytes: artefact.contents.length,
@@ -130,7 +167,7 @@ async function run(): Promise<number> {
 
   process.stdout.write(
     [
-      `release ${version} — ${icons.length} icons, ${entries.length} files`,
+      `release ${version} — ${icons.length} icons, ${entries.length} files, ${categoryPacks.length} category packs`,
       ...manifest.artefacts.map(
         (artefact) =>
           `  ${artefact.name}  ${artefact.bytes} bytes  sha256:${artefact.sha256.slice(0, 16)}…`,

@@ -1,0 +1,120 @@
+name: Local-language name
+description: Contribute a local-language name for an icon, or confirm one that is already listed as pending.
+title: 'Local name: '
+labels:
+  - local-name
+  - cultural-review
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This is one of the most valuable contributions available to the project, and it needs no
+        code and no design skill.
+
+        Every local name in the library carries a review state. Only a **confirmed** name is shown
+        publicly; a pending one is searchable but never presented as authoritative. Confirming a
+        pending name is as useful as adding a new one — often more, because a pending name is a
+        claim the library is currently unable to stand behind.
+
+        You can submit one name or a whole list. One issue per language is easiest for us.
+
+  - type: input
+    id: icon
+    attributes:
+      label: Which icon or icons?
+      description: Ids, names from the website, or a description. A list is fine.
+      placeholder: talking-drum
+    validations:
+      required: true
+
+  - type: input
+    id: language
+    attributes:
+      label: Language
+      description: |
+        The language the name is in. A plain name is fine — we will map it to its ISO 639 code.
+        Name the variety if it matters (for example "Hausa (Kano)" rather than just "Hausa").
+      placeholder: Yoruba
+    validations:
+      required: true
+
+  - type: textarea
+    id: name
+    attributes:
+      label: The name, written correctly
+      description: |
+        Write it exactly as it should appear, with the tone marks, diacritics and sub-dots it
+        needs — `dùndún`, not `dundun`. The library stores the correct form and strips the marks
+        only for search, so "dundun" typed on any keyboard still finds it.
+      placeholder: dùndún
+    validations:
+      required: true
+
+  - type: textarea
+    id: orthography
+    attributes:
+      label: Notes on spelling and tone
+      description: |
+        Optional, and genuinely useful. If there is a competing orthography, if the diacritics are
+        often dropped in ordinary writing, or if the tone changes the meaning, say so here.
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Are you adding or confirming?
+      options:
+        - Adding a name that is not listed
+        - Confirming a name already listed as pending
+        - Correcting a name that is listed wrongly
+        - Saying that a listed name does not apply to the drawn object
+    validations:
+      required: true
+
+  - type: dropdown
+    id: relationship
+    attributes:
+      label: Your relationship to the language
+      description: |
+        This is not a credential check. It tells us how to weigh the entry and whether we need a
+        second opinion before marking it confirmed — a first-language speaker's answer settles most
+        questions on its own.
+      options:
+        - First-language speaker
+        - Fluent second-language speaker
+        - Heritage speaker — I grew up around it but do not speak it fluently
+        - I study or work with the language
+        - I know this particular object and its name, but not the language generally
+        - I read it somewhere and thought it should be checked
+    validations:
+      required: true
+
+  - type: textarea
+    id: does-it-match
+    attributes:
+      label: Does the name match the drawing?
+      description: |
+        Optional, and the question we most often get wrong. A name can be a real word and still be
+        the wrong word for the object drawn — `gangan` and `dùndún` are related instruments, not
+        synonyms. If the drawing shows something the name does not cover, that is the most useful
+        thing you can tell us.
+
+  - type: dropdown
+    id: consent
+    attributes:
+      label: May we credit you?
+      description: |
+        Confirming a name is real work and we would like to record it in CREDITS.md. This is
+        entirely your choice and a "no" changes nothing about how we treat the contribution.
+      options:
+        - Yes — credit me under the name or handle below
+        - Yes — credit me, but use my GitHub username
+        - 'No — please record the contribution as anonymous'
+    validations:
+      required: true
+
+  - type: input
+    id: credit-name
+    attributes:
+      label: Name to credit
+      description: Only needed if you chose the first option above. A display name, a handle, or a name and an affiliation.

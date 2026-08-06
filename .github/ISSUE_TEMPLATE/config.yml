@@ -1,0 +1,27 @@
+# Blank issues are disabled because every form here has an escape hatch: the cultural-correction
+# form requires exactly one field, and the bug form's "Not sure" surface option covers the rest.
+# If a report genuinely fits nothing, the email link below reaches a person.
+blank_issues_enabled: false
+
+contact_links:
+  # Discussions must be enabled in repository settings for this link to resolve. If it is not
+  # enabled, delete this entry rather than leaving a 404 in the issue chooser.
+  - name: Questions, ideas and general discussion
+    url: https://github.com/neustackdesign/african-icon-library/discussions
+    about: Ask how to use the packages or the plugin, or talk through an idea before it becomes a proposal.
+
+  - name: Security vulnerability
+    url: https://github.com/neustackdesign/african-icon-library/blob/main/SECURITY.md
+    about: Do not open a public issue. Email icons@neustackstudio.com — the policy explains the scope and what to include.
+
+  - name: Code of conduct concern
+    url: https://github.com/neustackdesign/african-icon-library/blob/main/CODE_OF_CONDUCT.md
+    about: Email icons@neustackstudio.com. Reports are handled by the maintainers and kept confidential.
+
+  - name: How cultural review works
+    url: https://github.com/neustackdesign/african-icon-library/blob/main/docs/cultural-review.md
+    about: What is currently under review, what each open question needs, and how a decision gets recorded.
+
+  - name: Where to ask what
+    url: https://github.com/neustackdesign/african-icon-library/blob/main/docs/governance/support.md
+    about: A short map of which channel fits which question, including what this project cannot help with.

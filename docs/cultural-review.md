@@ -76,10 +76,10 @@ but not interchangeable, and the drawn instrument may correspond to one more tha
 
 ### 3. Local names across the whole set
 
-Zero names are `confirmed` across 16 icons. Consequently the website makes no local-name claim at
+Zero names are `confirmed` across 32 icons. Consequently the website makes no local-name claim at
 all — the concept site's "EN + local-name search" line was removed rather than shipped early.
 
-**Needed:** speakers of Yoruba, Hausa, Igbo and Nigerian Pidgin willing to review a 16-row list.
+**Needed:** speakers of Yoruba, Hausa, Igbo and Nigerian Pidgin willing to review a 32-row list.
 This is the single highest-value cultural contribution available right now.
 
 ### 4. Renames the audit flagged, in the backlog
@@ -108,8 +108,8 @@ non-Nigerian icon ships, not after.
 
 ### 7. National symbols
 
-`nigeria-flag` and `football-jersey` ship as neutral outlines: no colour, no crest, no number, no
-lettering. That is a deliberate choice and worth an explicit confirmation before 1.0, since some
+`nigeria-flag`, `football-jersey` and `passport` ship as neutral outlines: no colour, no crest, no
+number, no lettering. The passport's cover device is a generic globe, not a national emblem. That is a deliberate choice and worth an explicit confirmation before 1.0, since some
 jurisdictions regulate depictions of national symbols.
 
 ## How to record a decision

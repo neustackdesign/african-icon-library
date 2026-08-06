@@ -1,0 +1,74 @@
+name: Cultural correction
+description: An icon is named wrong, drawn as the wrong thing, or represented in a way that is inaccurate or disrespectful.
+title: 'Cultural correction: '
+labels:
+  - cultural-correction
+  - high-priority
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for telling us. This is the most important kind of report this project receives.
+
+        **You do not need to be certain, and you do not need a citation.** "I think that drum is
+        mislabelled" is a complete and welcome report. If you turn out to be wrong, it costs us a
+        conversation. If you are right and stay quiet, the mistake ships to everyone who uses the
+        library.
+
+        Only the first box below is required. Answer as much or as little of the rest as you like.
+
+  - type: textarea
+    id: what-is-wrong
+    attributes:
+      label: What is wrong?
+      description: In your own words. Any language is fine; we will translate rather than ask you to.
+      placeholder: |
+        The icon called "talking-drum" — the Yoruba name listed with it looks like the wrong one
+        of the two related drums.
+    validations:
+      required: true
+
+  - type: input
+    id: icon
+    attributes:
+      label: Which icon?
+      description: The id, the name on the website, or a description of the drawing. Any of these is enough.
+      placeholder: talking-drum
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of problem is it?
+      description: Best guess. Pick more than one if that fits.
+      multiple: true
+      options:
+        - The name is wrong
+        - The drawing depicts a different object than its name claims
+        - The local-language name is wrong, misspelled, or has the wrong tone marks
+        - The regional attribution is wrong
+        - The representation is disrespectful or trivialising
+        - Something else
+
+  - type: textarea
+    id: correction
+    attributes:
+      label: What would be right instead?
+      description: If you know. A better name, the correct object, or the right spelling — whatever you have.
+
+  - type: textarea
+    id: how-you-know
+    attributes:
+      label: How do you know?
+      description: |
+        Optional, and there is no wrong answer. "I grew up with it" carries as much weight here
+        as a published reference — often more. Leave this blank if you would rather not say.
+
+  - type: input
+    id: credit
+    attributes:
+      label: How would you like to be credited?
+      description: |
+        Optional. If we act on your report we would like to record it in CREDITS.md. Give the name
+        or handle you would like us to use, or write "no credit" if you would rather not appear.
+      placeholder: no credit

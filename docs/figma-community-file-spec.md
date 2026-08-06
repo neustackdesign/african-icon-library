@@ -11,14 +11,14 @@ Nothing here has been published. Publishing is item 4.3 in
 ## Publishing metadata
 
 **File name**
-`African Icon Library — 16 icons for African life`
+`African Icon Library — 32 icons for African life`
 
 **Tagline** (under 100 characters)
 `Open-source icons for African life, on one 24px grid. Nigeria first.`
 
 **Description**
 
-> Sixteen icons for things global libraries have never drawn — a danfo, a suya skewer, a talking
+> 32 icons for things global libraries have never drawn — a danfo, a suya skewer, a talking
 > drum, a naira note, an agogo, a ludo board.
 >
 > Every icon is drawn on one 24-pixel grid with a 1.5 stroke, round caps and joins, and a 2-unit
@@ -32,7 +32,8 @@ Nothing here has been published. Publishing is item 4.3 in
 > prohibited text, hard-coded colour, element allow-list, metadata completeness and weight
 > completeness — and says plainly what has not been drawn yet.
 >
-> **What you get:** 16 icons in the regular weight, as components with variants ready to swap.
+> **What you get:** 32 icons in the regular weight, as components. The `Weight` property carries
+> a single value today, because a single weight is drawn.
 >
 > **What you do not get, yet:** the thin, bold and fill weights are specified but not drawn. They
 > will not be faked by changing a stroke width — a real weight redistributes mass and re-solves
@@ -111,8 +112,8 @@ The drawing rules, shown rather than described.
 ### Page 5 — `About & roadmap`
 
 - Where the set came from: the August 2026 audit, in four sentences.
-- The counts, stated exactly: 16 released, 1 held for cultural review, 1 held for redraw, 61 in
-  backlog, 3 merged, 4 cut.
+- The counts, stated exactly: 32 released, 1 held for cultural review, 55 audited concepts still
+  in backlog, 3 merged, 4 cut.
 - What is not drawn: three weights, the illustration tier.
 - How to contribute, and the specific ask for local-name reviewers.
 - Licence.
@@ -133,7 +134,7 @@ the first page.
   1. Six to eight real icons at large scale — `talking-drum`, `danfo`, `suya`, `naira-note`,
      `ludo`, `agogo` — in a single row. Real drawings, not a mock-up.
   2. The name, `African Icon Library`, set large.
-  3. One line of subtitle: `16 icons · 24px grid · MIT`.
+  3. One line of subtitle: `32 icons · 24px grid · MIT`.
 - **Do not** put a count on the cover that will go stale silently. `16` is fine as long as
   re-publishing updates it; if that feels fragile, drop the number.
 - **Do not** show icons that are not in the file. The cover is the first place a false claim would
@@ -151,7 +152,7 @@ first two only.
 
 | #   | Frame                | Content                                                                                                           | Point it makes                                            |
 | --- | -------------------- | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
-| 1   | `Carousel/01-set`    | The full 16-icon grid on paper, category labels visible                                                           | This is what you get, all of it, no scrolling required    |
+| 1   | `Carousel/01-set`    | The full 32-icon grid on paper, category labels visible                                                           | This is what you get, all of it, no scrolling required    |
 | 2   | `Carousel/02-24px`   | Every icon at 24 px on one row, then the same row at 400%                                                         | They actually read at UI size — the audit's decisive test |
 | 3   | `Carousel/03-grid`   | `talking-drum` on the 24-unit grid with live area and keylines marked                                             | There is a system here, not a folder of drawings          |
 | 4   | `Carousel/04-in-use` | Three realistic UI fragments — a nav bar, a food-delivery list row, a payment sheet — using the icons at 20–24 px | Proof they work in a real interface, not just on a grid   |

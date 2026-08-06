@@ -16,6 +16,7 @@ interface Manifest {
   version: string;
   icons: number;
   weights: string[];
+  categories: Array<{ id: string; label: string; icons: number; file: string }>;
   artefacts: Array<{ name: string; bytes: number; sha256: string }>;
 }
 
@@ -63,7 +64,33 @@ export default async function DownloadsPage() {
             </a>
           </div>
 
-          <div className="table-scroll" style={{ marginTop: '1.5rem' }}>
+          <div className="prose" style={{ marginTop: '2.5rem' }}>
+            <h2>Category packs</h2>
+            <p className="muted">
+              Only the categories that actually contain released icons are offered. An empty pack
+              would be a download that promises something it cannot give.
+            </p>
+          </div>
+
+          <ul className="card-grid" style={{ listStyle: 'none', margin: '1rem 0 0', padding: 0 }}>
+            {(manifest.categories ?? []).map((category) => (
+              <li className="card" key={category.id}>
+                <h3>{category.label}</h3>
+                <p className="muted">{plural(category.icons, 'icon')}</p>
+                <p>
+                  <a href={`/downloads/${category.file}`} download>
+                    Download pack →
+                  </a>
+                </p>
+              </li>
+            ))}
+          </ul>
+
+          <div className="prose" style={{ marginTop: '2.5rem' }}>
+            <h2>Checksums</h2>
+          </div>
+
+          <div className="table-scroll" style={{ marginTop: '1rem' }}>
             <table>
               <caption className="visually-hidden">Published artefacts and their checksums</caption>
               <thead>

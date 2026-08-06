@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Community File Builder</title>
+    <style>
+      /* __STYLES__ */
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Community File Builder</h1>
+      <p id="lede" class="muted"></p>
+    </header>
+
+    <section id="existing" class="notice" hidden></section>
+
+    <section class="actions">
+      <button id="build" type="button" class="primary">Build the file</button>
+      <button id="rebuild" type="button" class="secondary" hidden>Wipe and rebuild</button>
+    </section>
+
+    <section id="progress" class="progress" hidden>
+      <div class="progress__track"><div id="progress-bar" class="progress__bar"></div></div>
+      <div id="progress-label" class="muted" aria-live="polite"></div>
+    </section>
+
+    <section id="summary" class="summary" hidden>
+      <h2>Summary</h2>
+      <dl id="summary-figures"></dl>
+      <ul id="summary-notes" class="notes"></ul>
+      <p class="muted">
+        Check the file by eye before publishing: the cover frame first on page 00, no text inside an
+        icon frame, and every stroke still live.
+      </p>
+    </section>
+
+    <footer>
+      <div id="status" class="status" role="status" aria-live="polite"></div>
+    </footer>
+
+    <script>
+      /* __SCRIPT__ */
+    </script>
+  </body>
+</html>

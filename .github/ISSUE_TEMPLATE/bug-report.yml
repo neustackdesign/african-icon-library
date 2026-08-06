@@ -1,0 +1,84 @@
+name: Bug report
+description: Something in the website, the Figma plugin, the packages or an asset is broken.
+title: 'Bug: '
+labels:
+  - bug
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For an icon that is *named* wrong or *represents* something wrongly, please use the
+        **Cultural correction** form instead — those are handled on a different, faster path.
+
+        For anything you believe is exploitable, do not open an issue. Email
+        `icons@neustackstudio.com`. See
+        [SECURITY.md](https://github.com/neustackdesign/african-icon-library/blob/main/SECURITY.md).
+
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Which surface?
+      options:
+        - Website (icons.neustackstudio.com)
+        - Figma plugin
+        - Packages (@african-icon-library/icons, metadata or react)
+        - Assets (an SVG renders wrongly)
+        - Build, scripts or CI
+        - Not sure
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: |
+        For a package, the version in your lockfile. For the plugin, the version shown in its UI.
+        For the website, the version in the footer, or the date you saw it. "Latest" is not a
+        version — a specific one saves a round trip.
+      placeholder: 0.1.0
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Browser and version, Node version, framework, Figma desktop or web — whatever is relevant to the surface above.
+      placeholder: Firefox 141 on macOS 15 / Node 22.11 / Next.js 15
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Numbered steps someone else can follow exactly. A link to a minimal reproduction is the fastest possible report.
+      placeholder: |
+        1. Install @african-icon-library/react at 0.1.0
+        2. Render <Danfo /> inside a server component
+        3. …
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happened instead
+      description: Paste the exact error text if there is one, and screenshots if the problem is visual.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you file
+      options:
+        - label: I searched existing issues and this is not already reported.
+        - label: I checked this is not the known state of the project — the packages are not on npm yet, only the `regular` weight is drawn, and the website is not deployed.

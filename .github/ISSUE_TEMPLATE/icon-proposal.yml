@@ -1,0 +1,155 @@
+name: Icon proposal
+description: Propose a new concept for the library.
+title: 'Icon proposal: '
+labels:
+  - icon-proposal
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Two questions decide whether a concept belongs here, and this form is mostly those two
+        questions asked carefully:
+
+        1. **Is it specific?** A generic clipboard belongs in Phosphor or Lucide, which draw it
+           better. A danfo, a talking drum, an ayo board — those are the reason this library exists.
+        2. **Does it survive 24 px?** If it only reads with architectural detail or a scene, it is
+           illustration-tier work. The illustration tier has no released pieces, so an
+           illustration-tier proposal is a roadmap conversation rather than a pull request.
+
+        A proposal is not a commitment to draw it, and a "no" here is about the library's scope,
+        not about the concept's worth. See [CONTRIBUTING.md](https://github.com/neustackdesign/african-icon-library/blob/main/CONTRIBUTING.md) and
+        [docs/icon-spec.md](https://github.com/neustackdesign/african-icon-library/blob/main/docs/icon-spec.md).
+
+  - type: input
+    id: concept
+    attributes:
+      label: The concept
+      description: What is the object or idea? Use the name you would actually call it.
+      placeholder: keke napep — the three-wheeled passenger tricycle
+    validations:
+      required: true
+
+  - type: input
+    id: proposed-id
+    attributes:
+      label: Proposed id
+      description: |
+        Lower-case kebab-case, naming the concept rather than the drawing style. No `-line` or
+        `-outline` suffix. Leave blank if you are not sure — we will work it out together.
+      placeholder: keke-napep
+
+  - type: input
+    id: region
+    attributes:
+      label: Region
+      description: |
+        Where is this from? A country name is fine; we will map it to an ISO 3166-1 alpha-2 code.
+        If it belongs to more than one country, say so — that is useful information rather than a
+        complication.
+      placeholder: Nigeria
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      description: The closest fit from the library's nine categories.
+      options:
+        - Identity & State
+        - Fashion & Textiles
+        - Food & Drink
+        - Music, Art & Play
+        - Transport
+        - Places & Landmarks
+        - Commerce & Industry
+        - Culture & People
+        - Defence
+        - None of these fit
+    validations:
+      required: true
+
+  - type: textarea
+    id: specificity
+    attributes:
+      label: Why is this culturally specific rather than generic?
+      description: |
+        The test is whether a general-purpose icon set already covers it. "A bus" is generic. "A
+        danfo — the yellow Lagos minibus, with its particular window band and roof rack" is not.
+        What would be lost if someone reached for the generic icon instead?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: legibility
+    attributes:
+      label: Does it read at 24 px?
+      description: |
+        Squint at it. A concept that needs a scene, a crowd, or fine architectural detail does not
+        survive the icon grid — that is illustration-tier work.
+      options:
+        - Yes — it has a clear silhouette that works small
+        - Probably, but it would need simplifying
+        - No — it needs illustration-tier detail
+        - I am not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: naming-confidence
+    attributes:
+      label: How confident are you in the name?
+      description: |
+        This is not a trick question and low confidence is not a problem. An unconfirmed name is
+        not a blocker for the drawing; it is a blocker for release, and the repository has a place
+        for drawings in exactly that state.
+      options:
+        - Certain — this is my language or my culture and I use this name
+        - Confident — I know it well but I am not a speaker of the language
+        - Unsure — this is the name I have heard, but it may be regional or wrong
+        - Guessing — someone who knows needs to name this
+    validations:
+      required: true
+
+  - type: dropdown
+    id: rights
+    attributes:
+      label: Any trademark, trade dress or real-person concern?
+      description: |
+        The library cannot ship a brand mark, a distinctive registered packaging silhouette, or an
+        identifiable living person. Flagging one here does not necessarily kill the proposal —
+        several concepts survive as a genericised version. See
+        [docs/governance/rights-policy.md](https://github.com/neustackdesign/african-icon-library/blob/main/docs/governance/rights-policy.md).
+      options:
+        - None that I can see
+        - It is associated with a brand, but the concept can be drawn generically
+        - It is a brand mark, logo or distinctive packaging
+        - It depicts a specific real person
+        - It is a national symbol, emblem or uniform insignia
+        - I am not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: rights-detail
+    attributes:
+      label: Rights detail
+      description: If you flagged anything above, say what. Skip if you selected "None that I can see".
+
+  - type: textarea
+    id: references
+    attributes:
+      label: Reference images
+      description: |
+        Photographs of the real object are far more useful than existing icons of it. Drag files
+        into this box, or paste links. Please only attach images you are free to share — we use
+        them for reference and do not redistribute them.
+    validations:
+      required: true
+
+  - type: textarea
+    id: anything-else
+    attributes:
+      label: Anything else
+      description: Regional variations, related concepts that should be drawn as a family, or anything that would help whoever draws this.

@@ -1,4 +1,4 @@
-# Release checklist — v0.1.0
+# Release checklist — v0.2.0
 
 This is the honest ledger for the African Icon Library rebuild. It separates what is finished from
 what is waiting, and it names what each waiting item is waiting _on_.
@@ -17,7 +17,7 @@ Everything in this section is done, in the repository, and covered by `npm run c
 - [x] npm-workspace monorepo with `apps/web`, `apps/figma-plugin`, `packages/icons`,
       `packages/metadata`, `packages/react`.
 - [x] TypeScript strict across every workspace; ESLint 9 flat config; Prettier.
-- [x] Vitest suite — 128 tests covering path geometry, SVG parsing, every validation rule,
+- [x] Vitest suite covering path geometry, SVG parsing, every validation rule,
       metadata invariants, search ranking and the Figma plugin's document handling.
 - [x] GitHub Actions CI running lint → format → optimisation drift → validation → generated-output
       drift → type-check → tests → build, and uploading the release artefacts.
@@ -27,8 +27,11 @@ Everything in this section is done, in the repository, and covered by `npm run c
 
 - [x] All **18** v3 drawings from `icons-data.js` ingested as `regular`-weight candidates, with
       provenance back to the audit row each one descends from.
-- [x] **16** released to `packages/icons/svg/regular/`.
-- [x] **2** held in `packages/icons/staging/regular/`, each with a recorded blocker and reason.
+- [x] **32** icons released to `packages/icons/svg/regular/`, across 7 of the 9 categories.
+- [x] **1** held in `packages/icons/staging/regular/`, with a recorded blocker and reason.
+- [x] **1** v3 original superseded by a hand redraw (`clay-pot`), kept in
+      `packages/icons/superseded/` for the record. The ingest no longer overwrites it.
+- [x] **7** candidates drawn and then rejected rather than shipped weak — see section 2A.
 - [x] Every released asset normalised to one canonical form: fixed root attribute set,
       `stroke="currentColor"`, `fill="none"`, 1.5 stroke, round caps and joins, no ids, no
       transforms, no text.
@@ -121,15 +124,38 @@ No script can draw these. Each one is a specific, bounded piece of work.
 | #   | Item                         | Why it is blocked                                                                                                                                                       | Where it lives                                  |
 | --- | ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
 | 2.1 | `clay-pot` redraw            | Geometry reaches y = 22.193, outside the 2-unit live area. It needs a redraw that fits the safe padding — rescaling would make it read smaller than every neighbour.    | `packages/icons/staging/regular/clay-pot.svg`   |
-| 2.2 | `thin` weight, whole set     | 16 drawings. Not derivable from `regular`: at 1.0 the counters open up and some internal detail must go.                                                                | —                                               |
-| 2.3 | `bold` weight, whole set     | 16 drawings. At 2.0 the 1.5-unit counter minimum is violated by several current constructions; they need re-solving, not thickening.                                    | —                                               |
-| 2.4 | `fill` weight, whole set     | 16 drawings. A different drawing problem entirely — silhouette plus knockout, not a stroke conversion.                                                                  | —                                               |
+| 2.2 | `thin` weight, whole set     | 32 drawings. Not derivable from `regular`: at 1.0 the counters open up and some internal detail must go.                                                                | —                                               |
+| 2.3 | `bold` weight, whole set     | 32 drawings. At 2.0 the 1.5-unit counter minimum is violated by several current constructions; they need re-solving, not thickening.                                    | —                                               |
+| 2.4 | `fill` weight, whole set     | 32 drawings. A different drawing problem entirely — silhouette plus knockout, not a stroke conversion.                                                                  | —                                               |
 | 2.5 | Backlog redraws              | 61 audited concepts have no drawing that meets the spec. The audit's per-file notes say what each one needs.                                                            | `packages/metadata/src/data/audit-records.json` |
 | 2.6 | Shared-construction families | The audit found five fabric rolls drawn five ways, three snack wrappers, four bridges and three rocks. These need one shared construction each before any of them ship. | audit notes                                     |
 | 2.7 | Illustration tier            | Zero pieces exist. The tier needs its own 64-unit grid proof before any concept is drawn for it.                                                                        | —                                               |
 
 **Do not** attempt 2.2–2.4 by changing `stroke-width`. The validator will accept the file — it
 cannot tell a drawn weight from a thickened one — and the library will be worse for it.
+
+---
+
+## 2A. Candidates drawn and rejected
+
+Seven concepts were drawn to the grid, passed every automated rule, and were then cut because they
+did not read as the thing they claimed to be. Geometry compliance is necessary and not sufficient;
+a script cannot judge recognition, so a person looked at every one at 16 px and said no.
+
+Each is a real, bounded piece of work for an icon designer. None is blocked on anything else.
+
+| Candidate     | What it read as instead                                                                                                               | What a redraw needs                                                                                                       |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `plantain`    | A leaf, then a horseshoe, across three attempts. The crescent either tapered to points (leaf) or lost its taper entirely (horseshoe). | Blunt, asymmetric ends and a visible stem nub. The audit called it a hero concept; it deserves a designer.                |
+| `gele`        | An umbrella, then a hot-air balloon. A symmetrical dome over a band is an umbrella, and that is what a simplified headtie becomes.    | The asymmetric pleat that identifies a gele, kept legible at 24 px — probably with a head silhouette beneath for context. |
+| `agbada`      | A bell, then a mountain. The wide robe silhouette without visible sleeve drape is a skirt.                                            | Sleeve wings drawn as distinct masses rather than absorbed into the hem curve.                                            |
+| `generator`   | A boombox. A box with a round face and side vents is a radio.                                                                         | The recoil starter, exhaust and fuel cap arranged so the machine reads as an engine, not a speaker.                       |
+| `keke`        | A dome with a wheel — closer to a lamp than a tricycle.                                                                               | A silhouette that resolves the three-wheel geometry; the front view hides what makes a keke a keke.                       |
+| `ayo`         | A pill with dots; mush at 16 px.                                                                                                      | Fewer, larger pits, or a construction that carries the two end stores without eight small circles.                        |
+| `pounded-yam` | A generic bowl with a mound, too close to the existing bowl family.                                                                   | A distinguishing cue — the swallow's texture, or the paired soup bowl — that survives at 24 px.                           |
+
+The rejected drawings are not in the repository. Shipping them as staged assets would imply they
+are nearly ready; they are not, and the geometry is not the useful part of the work.
 
 ---
 
@@ -141,7 +167,7 @@ These need a person with the relevant knowledge. They are not code review.
 | --- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------- |
 | 3.1 | `fila` referent                      | The audit flagged the drawing as "crown-on-brim could be several hats" and refused to name it. A Nigerian reviewer needs to identify the object, or confirm the drawing should be redrawn as a specific hat. | Release of a drawn, otherwise-valid icon            |
 | 3.2 | Yoruba names for `talking-drum`      | `gangan` and `dùndún` came from the audit and are marked `pending`. A Yoruba speaker needs to confirm which applies to the drawn instrument, and whether both should ship.                                   | Local names appearing publicly                      |
-| 3.3 | Local names, whole set               | Zero names are `confirmed` across 16 icons. The website therefore makes no local-name claim at all.                                                                                                          | The local-name search feature                       |
+| 3.3 | Local names, whole set               | Zero names are `confirmed` across 32 icons. The website therefore makes no local-name claim at all.                                                                                                          | The local-name search feature                       |
 | 3.4 | Backlog renames flagged by the audit | `goje` (filed as "Banjo"), `twin-drums` (filed as "Bongo"), `ayo` vs `oware`, `abeti-aja` (filed as "Traditional Cap"), and the Olumo / Zuma / Aso rock cluster.                                             | Those concepts entering the backlog with real names |
 | 3.5 | `Fela Kuti Outline` disposition      | A real-person likeness. The audit's options were to abstract it to raised arms or to clear rights with the estate. Someone has to choose.                                                                    | That concept existing at all                        |
 | 3.6 | Region tagging beyond Nigeria        | `kente-cloth` is Ghanaian and sits in the backlog. Confirm the region-tagging convention before the first non-Nigerian icon ships.                                                                           | The second region                                   |

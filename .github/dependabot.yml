@@ -1,0 +1,58 @@
+# Low-noise by design. This repository has one lockfile, a small dev-only dependency set and no
+# runtime dependencies to speak of, so a per-package pull request stream would be pure noise.
+# Everything routine arrives as one grouped weekly pull request that CI either passes or does not.
+version: 2
+
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '07:00'
+      timezone: Africa/Lagos
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: 'deps'
+      prefix-development: 'deps-dev'
+      include: scope
+    labels:
+      - dependencies
+    groups:
+      # One pull request a week for everything routine. Majors stay ungrouped so they arrive
+      # individually and get read individually.
+      npm-minor-and-patch:
+        applies-to: version-updates
+        patterns:
+          - '*'
+        update-types:
+          - minor
+          - patch
+      # Security fixes are separated so they are never buried in the routine batch.
+      npm-security:
+        applies-to: security-updates
+        patterns:
+          - '*'
+    ignore:
+      # Node's own major line is pinned by `engines` and by the CI workflow, not by Dependabot.
+      - dependency-name: '@types/node'
+        update-types:
+          - version-update:semver-major
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '07:00'
+      timezone: Africa/Lagos
+    open-pull-requests-limit: 2
+    commit-message:
+      prefix: 'ci'
+    labels:
+      - dependencies
+      - ci
+    groups:
+      actions:
+        patterns:
+          - '*'

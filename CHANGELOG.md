@@ -11,6 +11,56 @@ ids may still move as cultural reviews land. The API shape is stable; the conten
 
 Nothing yet.
 
+## [0.2.0] — 2026-08-06
+
+The set doubles, and the provenance model grows up to describe how.
+
+### Added
+
+- **16 new released icons**, taking the library from 16 to **32**. Each was drawn on the 24-unit
+  grid, measured against the 2-unit live area, and reviewed at 16, 20, 24, 32 and 48 px before
+  release: `naira-sign`, `coral-beads`, `aso-oke-fabric`, `calabash`, `broom`, `beaded-crown`,
+  `kerosene-lantern`, `market-umbrella`, `pos-terminal`, `jerry-can`, `okada`, `shekere`,
+  `passport`, `akara`, `ata-rodo`, `clay-pot`.
+- **Two previously empty categories are now populated.** `fashion-textiles` gains 2 icons and
+  `culture-people` gains 5, taking categories in use from 5 to 7.
+- **Category download packs.** One zip per category that actually contains released icons, with
+  published SHA-256 checksums alongside the full release.
+- **`npm run qa`** — an icon-level QA record: per-icon geometry, provenance and cultural-review
+  state, a contact sheet at five sizes in both themes, before-and-after comparisons for superseded
+  drawings, and a deterministic `bounds.json` baseline for regression diffing.
+- **Governance layer** — issue forms for icon proposals, cultural corrections, bugs and local-name
+  contributions; a PR template; CodeQL and dependency-review workflows; Dependabot; and
+  `docs/governance/` covering versioning, deprecation, naming, rights, the cultural-review
+  workflow, and the maintainer guide.
+
+### Changed
+
+- **`clay-pot` is released.** The v3 original reached y = 22.193 and failed the live-area check, so
+  0.1.0 held it. It has been redrawn to fit. The superseded original is kept in
+  `packages/icons/superseded/` for the record, and the ingest no longer overwrites an asset that a
+  hand redraw has replaced.
+- **Provenance now distinguishes three histories**, because collapsing them would misstate all
+  three: `v3-audit-drawing` (descends from one of the audit's eighteen vector drawings),
+  `v2-asset-redrawn` (the audit judged a raster asset but produced no vector), and
+  `v3-audit-roadmap` (a gap the audit named and never drew).
+- **Pipeline counts come from the released set**, not from audit dispositions. Dispositions
+  describe what happened to the audit's own assets; they never described the size of the library.
+
+### Rejected
+
+Seven concepts were drawn and then cut rather than shipped weak. Each is recorded with its reason
+in `RELEASE_CHECKLIST.md`: `plantain`, `gele`, `agbada`, `generator`, `keke`, `ayo`,
+`pounded-yam`.
+
+### Still not done
+
+- Nothing is published to npm.
+- Nothing is published to the Figma Community.
+- The website is not deployed.
+- `thin`, `bold` and `fill` remain specified and undrawn.
+- No local name has been confirmed by a speaker.
+
 ## [0.1.0] — 2026-08-04
 
 The first release of the rebuilt library. It follows the August 2026 audit, which reviewed 86
@@ -59,5 +109,6 @@ concepts, and 38 files still named `Group-N`.
 
 Those three need account access. See `RELEASE_CHECKLIST.md`.
 
-[Unreleased]: https://github.com/neustackdesign/african-icon-library/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/neustackdesign/african-icon-library/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/neustackdesign/african-icon-library/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/neustackdesign/african-icon-library/releases/tag/v0.1.0

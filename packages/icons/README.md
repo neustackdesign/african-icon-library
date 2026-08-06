@@ -7,8 +7,9 @@ Canonical SVG assets for the [African Icon Library](https://github.com/neustackd
 ## What is in here
 
 ```
-svg/regular/*.svg    16 released drawings, 24 x 24, currentColor
+svg/regular/*.svg    32 released drawings, 24 x 24, currentColor
 staging/regular/     drawn but held from release — never exported
+superseded/regular/  v3 originals a later redraw replaced, kept for the record
 src/generated/       the drawings compiled into a module
 ```
 

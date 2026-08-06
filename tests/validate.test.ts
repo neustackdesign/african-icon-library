@@ -194,9 +194,11 @@ function icon(overrides: Partial<Icon> = {}): Icon {
     addedIn: '0.1.0',
     culturalReview: { required: false, status: 'not-required' },
     provenance: {
+      source: 'v3-audit-drawing',
       auditSourceFile: 'Suya Line.png',
       auditVerdict: 'redraw',
       referentConfirmed: true,
+      redrawnSinceIngest: false,
     },
     ...overrides,
   };

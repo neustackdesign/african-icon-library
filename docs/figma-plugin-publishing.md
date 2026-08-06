@@ -16,7 +16,7 @@ account access.
 
 **Description**
 
-> Search sixteen icons for African life and drop them straight onto the canvas as editable
+> Search 32 icons for African life and drop them straight onto the canvas as editable
 > vectors.
 >
 > **Offline by design.** Every icon is compiled into the plugin at build time. It requests no
@@ -112,13 +112,13 @@ search results.
 
 Up to five images, 1920 × 960. Most viewers see the first two.
 
-| #   | Content                                                                                                      | Point it makes                                               |
-| --- | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------ |
-| 1   | The plugin panel open beside a Figma canvas, mid-search, with results showing                                | This is the thing, working, in situ                          |
-| 2   | An icon being inserted into a selected frame, with the resulting layer tree visible — frame, then vectors    | Editable vectors, not flattened images or PNGs               |
-| 3   | The weight picker with `regular` active and `thin` / `bold` / `fill` struck through as unavailable           | Honest about what is drawn; sets expectations before install |
-| 4   | The empty state after a search that matches nothing, showing the "the library ships 16 icons so far" message | The set is small and the plugin says so                      |
-| 5   | The manifest's `networkAccess` block beside the build script's offline assertion, typeset plainly            | The offline claim is enforced, not asserted                  |
+| #   | Content                                                                                                    | Point it makes                                               |
+| --- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| 1   | The plugin panel open beside a Figma canvas, mid-search, with results showing                              | This is the thing, working, in situ                          |
+| 2   | An icon being inserted into a selected frame, with the resulting layer tree visible — frame, then vectors  | Editable vectors, not flattened images or PNGs               |
+| 3   | The weight picker with `regular` active and `thin` / `bold` / `fill` struck through as unavailable         | Honest about what is drawn; sets expectations before install |
+| 4   | The empty state after a search that matches nothing, showing the count of icons the library actually ships | The set is small and the plugin says so                      |
+| 5   | The manifest's `networkAccess` block beside the build script's offline assertion, typeset plainly          | The offline claim is enforced, not asserted                  |
 
 Frames 3 and 5 are unusual choices for a plugin listing. They are there because the alternative is
 a user finding out after install.

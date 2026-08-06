@@ -16,3 +16,7 @@ apps/figma-plugin/dist
 scripts/ingest/source
 apps/web/generated
 apps/web/next-env.d.ts
+qa
+# Launch copy is pasted verbatim into platforms; reflowing it would break
+# intentional line breaks in social posts and the UTM tables.
+launch

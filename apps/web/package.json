@@ -1,6 +1,6 @@
 {
   "name": "@african-icon-library/web",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Production website for the African Icon Library (icons.neustackstudio.com).",
   "license": "MIT",
@@ -11,9 +11,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@african-icon-library/icons": "0.1.0",
-    "@african-icon-library/metadata": "0.1.0",
-    "@african-icon-library/react": "0.1.0",
+    "@african-icon-library/icons": "0.2.0",
+    "@african-icon-library/metadata": "0.2.0",
+    "@african-icon-library/react": "0.2.0",
     "next": "16.2.12",
     "react": "19.2.4",
     "react-dom": "19.2.4"

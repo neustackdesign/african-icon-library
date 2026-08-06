@@ -5,20 +5,9 @@
     "description": "Paired agogo bells joined by a sprung handle.",
     "category": "music-art-play",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "bell",
-      "percussion",
-      "instrument",
-      "music",
-      "gong",
-      "rhythm"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
+    "keywords": ["bell", "percussion", "instrument", "music", "gong", "rhythm"],
     "localNames": [],
     "status": "released",
     "addedIn": "0.1.0",
@@ -41,21 +30,9 @@
     "description": "A bowl of akara, the bean fritters piled above the rim.",
     "category": "food-drink",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "akara",
-      "bean cake",
-      "fritter",
-      "breakfast",
-      "street food",
-      "bowl",
-      "snack"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
+    "keywords": ["akara", "bean cake", "fritter", "breakfast", "street food", "bowl", "snack"],
     "localNames": [],
     "status": "released",
     "addedIn": "0.2.0",
@@ -78,22 +55,9 @@
     "description": "A bolt of aso oke cloth, the woven stripe running its length.",
     "category": "fashion-textiles",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "cloth",
-      "fabric",
-      "textile",
-      "bolt",
-      "roll",
-      "weaving",
-      "aso oke",
-      "loom"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
+    "keywords": ["cloth", "fabric", "textile", "bolt", "roll", "weaving", "aso oke", "loom"],
     "localNames": [],
     "status": "released",
     "addedIn": "0.2.0",
@@ -116,12 +80,8 @@
     "description": "A scotch bonnet pepper with its lobed body and curled stem.",
     "category": "food-drink",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
     "keywords": [
       "pepper",
       "chilli",
@@ -153,22 +113,9 @@
     "description": "A conical beaded crown with a finial and a veil fringe.",
     "category": "culture-people",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "crown",
-      "regalia",
-      "royalty",
-      "beads",
-      "ceremony",
-      "oba",
-      "chief",
-      "fringe"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
+    "keywords": ["crown", "regalia", "royalty", "beads", "ceremony", "oba", "chief", "fringe"],
     "localNames": [],
     "status": "released",
     "addedIn": "0.2.0",
@@ -191,21 +138,9 @@
     "description": "A bound bundle of palm-frond ribs, fanning out from a wrapped grip.",
     "category": "culture-people",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "broom",
-      "sweep",
-      "cleaning",
-      "palm frond",
-      "igbale",
-      "household",
-      "chores"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
+    "keywords": ["broom", "sweep", "cleaning", "palm frond", "igbale", "household", "chores"],
     "localNames": [],
     "status": "released",
     "addedIn": "0.2.0",
@@ -227,21 +162,9 @@
     "description": "A bottle gourd with a narrow neck and an incised band.",
     "category": "culture-people",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "calabash",
-      "gourd",
-      "vessel",
-      "container",
-      "palm wine",
-      "serving",
-      "craft"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
+    "keywords": ["calabash", "gourd", "vessel", "container", "palm wine", "serving", "craft"],
     "localNames": [],
     "status": "released",
     "addedIn": "0.2.0",
@@ -263,20 +186,9 @@
     "description": "A dugout canoe seen side-on with a paddle across the hull.",
     "category": "transport",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "boat",
-      "paddle",
-      "river",
-      "water",
-      "ferry",
-      "fishing"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
+    "keywords": ["boat", "paddle", "river", "water", "ferry", "fishing"],
     "localNames": [],
     "status": "released",
     "addedIn": "0.1.0",
@@ -299,20 +211,9 @@
     "description": "A crimped snack wrapper with the contents visible through the window.",
     "category": "food-drink",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "snack",
-      "wrapper",
-      "packet",
-      "sachet",
-      "biscuit",
-      "street food"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
+    "keywords": ["snack", "wrapper", "packet", "sachet", "biscuit", "street food"],
     "localNames": [],
     "status": "released",
     "addedIn": "0.1.0",
@@ -335,22 +236,9 @@
     "description": "A round-bellied clay water pot with a flared rim and a banded waist.",
     "category": "culture-people",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "pot",
-      "clay",
-      "pottery",
-      "water",
-      "vessel",
-      "earthenware",
-      "storage",
-      "craft"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
+    "keywords": ["pot", "clay", "pottery", "water", "vessel", "earthenware", "storage", "craft"],
     "localNames": [],
     "status": "released",
     "addedIn": "0.2.0",
@@ -373,21 +261,9 @@
     "description": "A cocoa pod with a single central ridge.",
     "category": "food-drink",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "cocoa",
-      "cacao",
-      "pod",
-      "crop",
-      "agriculture",
-      "export",
-      "chocolate"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
+    "keywords": ["cocoa", "cacao", "pod", "crop", "agriculture", "export", "chocolate"],
     "localNames": [],
     "status": "released",
     "addedIn": "0.1.0",
@@ -410,21 +286,9 @@
     "description": "A strand of coral beads with a hanging pendant.",
     "category": "fashion-textiles",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "beads",
-      "coral",
-      "necklace",
-      "jewellery",
-      "regalia",
-      "ceremony",
-      "pendant"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
+    "keywords": ["beads", "coral", "necklace", "jewellery", "regalia", "ceremony", "pendant"],
     "localNames": [],
     "status": "released",
     "addedIn": "0.2.0",
@@ -447,21 +311,9 @@
     "description": "A Lagos danfo minibus with its beltline and two wheels.",
     "category": "transport",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "bus",
-      "minibus",
-      "lagos",
-      "commute",
-      "transport",
-      "public transport",
-      "van"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
+    "keywords": ["bus", "minibus", "lagos", "commute", "transport", "public transport", "van"],
     "localNames": [],
     "status": "released",
     "addedIn": "0.1.0",
@@ -484,21 +336,9 @@
     "description": "A film clapperboard with the arm raised.",
     "category": "music-art-play",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "film",
-      "clapperboard",
-      "movie",
-      "cinema",
-      "nollywood",
-      "production",
-      "slate"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
+    "keywords": ["film", "clapperboard", "movie", "cinema", "nollywood", "production", "slate"],
     "localNames": [],
     "status": "released",
     "addedIn": "0.1.0",
@@ -521,21 +361,9 @@
     "description": "A football jersey with a round collar and set-in sleeves.",
     "category": "identity-state",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "jersey",
-      "shirt",
-      "football",
-      "soccer",
-      "kit",
-      "team",
-      "sport"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
+    "keywords": ["jersey", "shirt", "football", "soccer", "kit", "team", "sport"],
     "localNames": [],
     "status": "released",
     "addedIn": "0.1.0",
@@ -558,12 +386,8 @@
     "description": "A fuel can with a carrying handle, a pouring spout and an embossed cross.",
     "category": "commerce-industry",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
     "keywords": [
       "fuel",
       "petrol",
@@ -595,21 +419,9 @@
     "description": "A mounded plate of jollof rice on a serving line.",
     "category": "food-drink",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "rice",
-      "jollof",
-      "party rice",
-      "plate",
-      "meal",
-      "food",
-      "west african"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
+    "keywords": ["rice", "jollof", "party rice", "plate", "meal", "food", "west african"],
     "localNames": [],
     "status": "released",
     "addedIn": "0.1.0",
@@ -632,21 +444,9 @@
     "description": "A hurricane lantern with a wire handle, a glass globe and a fuel tank.",
     "category": "culture-people",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "lantern",
-      "lamp",
-      "kerosene",
-      "light",
-      "power cut",
-      "hurricane lamp",
-      "evening"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
+    "keywords": ["lantern", "lamp", "kerosene", "light", "power cut", "hurricane lamp", "evening"],
     "localNames": [],
     "status": "released",
     "addedIn": "0.2.0",
@@ -668,20 +468,9 @@
     "description": "A ludo board with four home corners and one token in each.",
     "category": "music-art-play",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "ludo",
-      "board game",
-      "game",
-      "play",
-      "dice",
-      "counters"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
+    "keywords": ["ludo", "board game", "game", "play", "dice", "counters"],
     "localNames": [],
     "status": "released",
     "addedIn": "0.1.0",
@@ -704,22 +493,9 @@
     "description": "A ribbed market parasol on a centre pole with a weighted foot.",
     "category": "commerce-industry",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "umbrella",
-      "parasol",
-      "market",
-      "stall",
-      "trader",
-      "shade",
-      "canopy",
-      "vendor"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
+    "keywords": ["umbrella", "parasol", "market", "stall", "trader", "shade", "canopy", "vendor"],
     "localNames": [],
     "status": "released",
     "addedIn": "0.2.0",
@@ -741,21 +517,9 @@
     "description": "A banknote carrying the naira mark drawn as geometry rather than type.",
     "category": "commerce-industry",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "naira",
-      "money",
-      "cash",
-      "banknote",
-      "currency",
-      "payment",
-      "wallet"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
+    "keywords": ["naira", "money", "cash", "banknote", "currency", "payment", "wallet"],
     "localNames": [],
     "status": "released",
     "addedIn": "0.1.0",
@@ -778,22 +542,9 @@
     "description": "The naira mark, drawn as geometry rather than set as type.",
     "category": "commerce-industry",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "naira",
-      "currency",
-      "money",
-      "price",
-      "payment",
-      "sign",
-      "symbol",
-      "cost"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
+    "keywords": ["naira", "currency", "money", "price", "payment", "sign", "symbol", "cost"],
     "localNames": [],
     "status": "released",
     "addedIn": "0.2.0",
@@ -815,20 +566,9 @@
     "description": "A three-band vertical flag in the Nigerian proportion.",
     "category": "identity-state",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "flag",
-      "nigeria",
-      "national",
-      "country",
-      "identity",
-      "green white green"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
+    "keywords": ["flag", "nigeria", "national", "country", "identity", "green white green"],
     "localNames": [],
     "status": "released",
     "addedIn": "0.1.0",
@@ -851,21 +591,9 @@
     "description": "An oil pumpjack with its walking beam and counterweight.",
     "category": "commerce-industry",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "oil",
-      "petroleum",
-      "pumpjack",
-      "derrick",
-      "energy",
-      "crude",
-      "industry"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
+    "keywords": ["oil", "petroleum", "pumpjack", "derrick", "energy", "crude", "industry"],
     "localNames": [],
     "status": "released",
     "addedIn": "0.1.0",
@@ -888,21 +616,9 @@
     "description": "A commercial motorcycle seen side-on, frame and handlebar simplified.",
     "category": "transport",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "motorcycle",
-      "okada",
-      "bike",
-      "rider",
-      "transport",
-      "commute",
-      "delivery"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
+    "keywords": ["motorcycle", "okada", "bike", "rider", "transport", "commute", "delivery"],
     "localNames": [],
     "status": "released",
     "addedIn": "0.2.0",
@@ -925,21 +641,9 @@
     "description": "A passport booklet with a globe device on the cover and no lettering.",
     "category": "identity-state",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "passport",
-      "travel",
-      "identity",
-      "document",
-      "visa",
-      "border",
-      "immigration"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
+    "keywords": ["passport", "travel", "identity", "document", "visa", "border", "immigration"],
     "localNames": [],
     "status": "released",
     "addedIn": "0.2.0",
@@ -962,22 +666,9 @@
     "description": "A wide bowl of pepper soup with rising steam.",
     "category": "food-drink",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "soup",
-      "bowl",
-      "broth",
-      "hot",
-      "spicy",
-      "meal",
-      "food",
-      "steam"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
+    "keywords": ["soup", "bowl", "broth", "hot", "spicy", "meal", "food", "steam"],
     "localNames": [],
     "status": "released",
     "addedIn": "0.1.0",
@@ -1000,12 +691,8 @@
     "description": "A card payment terminal with a card seated in the top slot.",
     "category": "commerce-industry",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
     "keywords": [
       "pos",
       "card",
@@ -1037,12 +724,8 @@
     "description": "A gourd rattle wrapped in a beaded net, with its neck at the top.",
     "category": "music-art-play",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
     "keywords": [
       "shekere",
       "rattle",
@@ -1074,21 +757,9 @@
     "description": "A suya skewer with three cuts of meat.",
     "category": "food-drink",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "suya",
-      "skewer",
-      "kebab",
-      "grill",
-      "meat",
-      "street food",
-      "barbecue"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
+    "keywords": ["suya", "skewer", "kebab", "grill", "meat", "street food", "barbecue"],
     "localNames": [],
     "status": "released",
     "addedIn": "0.1.0",
@@ -1111,20 +782,9 @@
     "description": "An hourglass talking drum with tension cords along the waist.",
     "category": "music-art-play",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "drum",
-      "percussion",
-      "instrument",
-      "music",
-      "hourglass drum",
-      "rhythm"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
+    "keywords": ["drum", "percussion", "instrument", "music", "hourglass drum", "rhythm"],
     "localNames": [
       {
         "language": "yo",
@@ -1158,21 +818,9 @@
     "description": "A perforated travel ticket with a tear line.",
     "category": "transport",
     "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "ticket",
-      "train",
-      "rail",
-      "travel",
-      "fare",
-      "pass",
-      "boarding"
-    ],
+    "regions": ["NG"],
+    "weights": ["regular"],
+    "keywords": ["ticket", "train", "rail", "travel", "fare", "pass", "boarding"],
     "localNames": [],
     "status": "released",
     "addedIn": "0.1.0",

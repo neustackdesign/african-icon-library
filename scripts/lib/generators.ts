@@ -68,12 +68,19 @@ export function buildPipelineSummary(
   const shipped = new Set<Weight>();
   for (const icon of icons) for (const weight of icon.weights) shipped.add(weight);
 
+  const bySource = (source: string) =>
+    icons.filter((icon) => icon.provenance.source === source).length;
+
   return {
     auditRecords: records.length,
     drawingsIngested: records.filter(
       (record) => record.disposition === 'released' || record.disposition === 'held',
     ).length,
-    released: records.filter((record) => record.disposition === 'released').length,
+    // Counted from the released set. Audit dispositions describe what happened
+    // to the audit's own assets; they do not describe the library's size.
+    released: icons.length,
+    releasedFromAuditDrawings: bySource('v3-audit-drawing') + bySource('v2-asset-redrawn'),
+    releasedFromRoadmap: bySource('v3-audit-roadmap'),
     heldForCulturalReview: held.filter((record) => record.hold?.blocker === 'cultural-review')
       .length,
     heldForIconDesign: held.filter((record) => record.hold?.blocker === 'icon-design').length,

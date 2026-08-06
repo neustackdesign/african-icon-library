@@ -1,6 +1,6 @@
 {
   "name": "@african-icon-library/metadata",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Canonical, typed metadata for the African Icon Library.",
   "license": "MIT",
   "type": "module",

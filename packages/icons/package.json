@@ -1,6 +1,6 @@
 {
   "name": "@african-icon-library/icons",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Canonical SVG assets for the African Icon Library.",
   "license": "MIT",
   "type": "module",
@@ -34,7 +34,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@african-icon-library/metadata": "0.1.0"
+    "@african-icon-library/metadata": "0.2.0"
   },
   "devDependencies": {
     "typescript": "^5.9.3"

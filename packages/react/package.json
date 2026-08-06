@@ -1,6 +1,6 @@
 {
   "name": "@african-icon-library/react",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Generated, tree-shakeable React components for the African Icon Library.",
   "license": "MIT",
   "type": "module",

@@ -32,6 +32,8 @@ const ROOT = path.resolve(HERE, '../..');
 const SOURCE = path.join(HERE, 'source/icons-data.v3-audit.js');
 const RELEASED_DIR = path.join(ROOT, 'packages/icons/svg/regular');
 const STAGING_DIR = path.join(ROOT, 'packages/icons/staging/regular');
+/** v3 originals kept for the record after a hand redraw superseded them. */
+const SUPERSEDED_DIR = path.join(ROOT, 'packages/icons/superseded/regular');
 const AUDIT_JSON = path.join(ROOT, 'packages/metadata/src/data/audit-records.json');
 
 export type Blocker = 'cultural-review' | 'icon-design';
@@ -42,6 +44,14 @@ export type Blocker = 'cultural-review' | 'icon-design';
  * rather than listed here, so a bad drawing can never be waved through by
  * forgetting to add it to a list.
  */
+/**
+ * Drawings whose released asset has since been redrawn by hand and now
+ * supersedes the v3 original. The ingest records their provenance but must not
+ * overwrite the file — re-running it would silently reintroduce a drawing that
+ * failed the live-area check.
+ */
+const REDRAWN_SINCE_INGEST = new Set(['clay-pot']);
+
 const CULTURAL_HOLDS: Record<string, string> = {
   fila:
     'The v3 audit flagged the referent as unconfirmed ("crown-on-brim could be several hats"). ' +
@@ -148,10 +158,13 @@ async function main() {
     );
   }
 
-  await rm(RELEASED_DIR, { recursive: true, force: true });
+  // Only the directories the ingest owns are cleared. Concepts drawn for this
+  // release that the audit never drew are not the ingest's to remove.
   await rm(STAGING_DIR, { recursive: true, force: true });
+  await rm(SUPERSEDED_DIR, { recursive: true, force: true });
   await mkdir(RELEASED_DIR, { recursive: true });
   await mkdir(STAGING_DIR, { recursive: true });
+  await mkdir(SUPERSEDED_DIR, { recursive: true });
   await mkdir(path.dirname(AUDIT_JSON), { recursive: true });
 
   const drawings = new Map<string, string>();
@@ -197,7 +210,9 @@ async function main() {
     // A drawing is released only when nothing — human judgement or measured
     // geometry — is standing in its way.
     let hold: AuditRecord['hold'];
-    if (CULTURAL_HOLDS[id]) {
+    if (REDRAWN_SINCE_INGEST.has(id)) {
+      hold = undefined;
+    } else if (CULTURAL_HOLDS[id]) {
       hold = { blocker: 'cultural-review', reason: CULTURAL_HOLDS[id] };
     } else if (!confirmed) {
       hold = {
@@ -236,8 +251,13 @@ async function main() {
       ...(hold ? { hold } : {}),
     });
 
-    const target = disposition === 'released' ? RELEASED_DIR : STAGING_DIR;
-    await writeFile(path.join(target, `${id}.svg`), svg, 'utf8');
+    if (REDRAWN_SINCE_INGEST.has(id)) {
+      // Keep the v3 original for the record, but out of both shipping directories.
+      await writeFile(path.join(SUPERSEDED_DIR, `${id}.svg`), svg, 'utf8');
+    } else {
+      const target = disposition === 'released' ? RELEASED_DIR : STAGING_DIR;
+      await writeFile(path.join(target, `${id}.svg`), svg, 'utf8');
+    }
     drawings.delete(id);
 
     report.push({

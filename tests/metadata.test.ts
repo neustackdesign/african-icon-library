@@ -86,16 +86,29 @@ describe('audit provenance', () => {
     expect(auditRecords).toHaveLength(86);
   });
 
-  it('matches every released icon back to its audit row', () => {
+  it('matches every audit-descended icon back to its audit row', () => {
     const byId = new Map(auditRecords.map((record) => [record.proposedId, record]));
-    for (const icon of icons) {
+    const descended = icons.filter((icon) => icon.provenance.source !== 'v3-audit-roadmap');
+    expect(descended.length).toBeGreaterThan(0);
+
+    for (const icon of descended) {
       const record = byId.get(icon.id);
       expect(record, `no audit record for ${icon.id}`).toBeDefined();
-      expect(record?.disposition).toBe('released');
       expect(icon.provenance.auditSourceFile).toBe(record?.sourceFile);
       expect(icon.provenance.auditVerdict).toBe(record?.verdict);
       expect(icon.provenance.referentConfirmed).toBe(record?.referentConfirmed);
       expect(icon.category).toBe(record?.categoryId);
+    }
+  });
+
+  it('gives every roadmap-descended icon the entry that named the gap', () => {
+    const fromRoadmap = icons.filter((icon) => icon.provenance.source === 'v3-audit-roadmap');
+    expect(fromRoadmap.length).toBeGreaterThan(0);
+    for (const icon of fromRoadmap) {
+      expect(icon.provenance.roadmapEntry?.length ?? 0).toBeGreaterThan(5);
+      // A roadmap concept had no prior asset, so it must not claim one.
+      expect(icon.provenance.auditSourceFile).toBeUndefined();
+      expect(icon.provenance.auditVerdict).toBeUndefined();
     }
   });
 
@@ -122,10 +135,20 @@ describe('audit provenance', () => {
     const releasedIds = new Set(released.map((asset) => asset.id));
     const stagedIds = new Set(staged.map((asset) => asset.id));
 
+    // Ids the released set reached by drawing a concept the audit only wrote a
+    // verdict or a roadmap line for. Their audit rows stay 'backlog' — the audit
+    // never produced a drawing — but the concept is now released.
+    const drawnForThisRelease = new Set(
+      icons.filter((icon) => icon.provenance.source !== 'v3-audit-drawing').map((icon) => icon.id),
+    );
+
     for (const record of auditRecords) {
       if (record.disposition === 'released') expect(releasedIds.has(record.proposedId)).toBe(true);
       if (record.disposition === 'held') expect(stagedIds.has(record.proposedId)).toBe(true);
-      if (record.disposition === 'backlog' || record.disposition === 'dropped') {
+      if (record.disposition === 'dropped') {
+        expect(releasedIds.has(record.proposedId)).toBe(false);
+      }
+      if (record.disposition === 'backlog' && !drawnForThisRelease.has(record.proposedId)) {
         expect(releasedIds.has(record.proposedId)).toBe(false);
       }
     }
@@ -135,15 +158,23 @@ describe('audit provenance', () => {
 describe('pipeline summary', () => {
   const pipeline = buildPipelineSummary(auditRecords, icons);
 
-  it('adds up to the full audit', () => {
-    const total =
-      pipeline.released +
-      pipeline.heldForCulturalReview +
-      pipeline.heldForIconDesign +
-      pipeline.backlogConcepts +
-      pipeline.mergedByAudit +
-      pipeline.droppedByAudit;
+  it('accounts for every audit record exactly once', () => {
+    const dispositions = auditRecords.reduce<Record<string, number>>((counts, record) => {
+      counts[record.disposition] = (counts[record.disposition] ?? 0) + 1;
+      return counts;
+    }, {});
+    const total = Object.values(dispositions).reduce((sum, count) => sum + count, 0);
     expect(total).toBe(pipeline.auditRecords);
+    expect(pipeline.backlogConcepts).toBe(dispositions.backlog ?? 0);
+    expect(pipeline.mergedByAudit).toBe(dispositions.merged ?? 0);
+    expect(pipeline.droppedByAudit).toBe(dispositions.dropped ?? 0);
+  });
+
+  it('splits the released set by where each icon actually came from', () => {
+    expect(pipeline.releasedFromAuditDrawings + pipeline.releasedFromRoadmap).toBe(
+      pipeline.released,
+    );
+    expect(pipeline.releasedFromRoadmap).toBeGreaterThan(0);
   });
 
   it('counts the released icons that actually exist', () => {

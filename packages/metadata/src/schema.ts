@@ -113,6 +113,46 @@ export type Region = z.infer<typeof regionEntrySchema>;
 export const regionsSchema = z.array(regionEntrySchema).min(1);
 
 /* ------------------------------------------------------------------ *
+ * Provenance
+ * ------------------------------------------------------------------ */
+
+/**
+ * Where an icon came from. Three genuinely different histories, kept apart
+ * because collapsing them would make a false claim about any of them.
+ *
+ * `v3-audit-drawing` — descends from one of the eighteen vector drawings the
+ * August 2026 audit produced. Carries that audit row's file and verdict.
+ * `v2-asset-redrawn` — the audit reviewed a v2 raster asset and issued a
+ * verdict, but produced no vector. The released asset is a fresh drawing of
+ * that concept to the v3 spec. Carries the audit row it answers.
+ * `v3-audit-roadmap` — a concept the audit's expansion roadmap named as a gap
+ * and never drew at all. There is no prior asset, so there is no source file.
+ */
+export const provenanceSchema = z
+  .object({
+    source: z.enum(['v3-audit-drawing', 'v2-asset-redrawn', 'v3-audit-roadmap']),
+    /** Present for `v3-audit-drawing` and `v2-asset-redrawn`. */
+    auditSourceFile: z.string().min(1).optional(),
+    auditVerdict: auditVerdictSchema.optional(),
+    /** Present only for `v3-audit-roadmap`: the roadmap entry that named the gap. */
+    roadmapEntry: z.string().min(1).optional(),
+    referentConfirmed: z.boolean(),
+    /**
+     * True when the released asset was drawn after ingestion and supersedes the
+     * v3 drawing. The ingest script must not overwrite these.
+     */
+    redrawnSinceIngest: z.boolean().default(false),
+  })
+  .refine(
+    (value) =>
+      value.source === 'v3-audit-roadmap'
+        ? Boolean(value.roadmapEntry)
+        : Boolean(value.auditSourceFile && value.auditVerdict),
+    { message: 'provenance must carry the fields its source implies' },
+  );
+export type Provenance = z.infer<typeof provenanceSchema>;
+
+/* ------------------------------------------------------------------ *
  * Icons
  * ------------------------------------------------------------------ */
 
@@ -134,12 +174,8 @@ export const iconSchema = z.object({
   /** Library version in which the icon first shipped. */
   addedIn: z.string().regex(/^\d+\.\d+\.\d+$/, 'addedIn must be a semver version'),
   culturalReview: culturalReviewSchema,
-  /** Traceability back to the v3 audit source file this drawing descends from. */
-  provenance: z.object({
-    auditSourceFile: z.string().min(1),
-    auditVerdict: auditVerdictSchema,
-    referentConfirmed: z.boolean(),
-  }),
+  /** Where the concept and the drawing came from. See docs/audit-provenance.md. */
+  provenance: provenanceSchema,
 });
 export type Icon = z.infer<typeof iconSchema>;
 
@@ -192,7 +228,12 @@ export const auditFileSchema = z.object({
 export const pipelineSummarySchema = z.object({
   auditRecords: z.number().int().nonnegative(),
   drawingsIngested: z.number().int().nonnegative(),
+  /** Icons released, counted from the released set — not from audit dispositions. */
   released: z.number().int().nonnegative(),
+  /** Released icons that descend from a drawing the audit produced. */
+  releasedFromAuditDrawings: z.number().int().nonnegative(),
+  /** Released icons drawn for this release from a roadmap gap the audit named. */
+  releasedFromRoadmap: z.number().int().nonnegative(),
   heldForCulturalReview: z.number().int().nonnegative(),
   heldForIconDesign: z.number().int().nonnegative(),
   backlogConcepts: z.number().int().nonnegative(),

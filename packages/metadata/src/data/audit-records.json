@@ -286,12 +286,8 @@
       "auditTier": "icon",
       "verdict": "redraw",
       "note": "Excellent glyph candidate — near-hero.",
-      "disposition": "held",
-      "publicIconId": null,
-      "hold": {
-        "blocker": "icon-design",
-        "reason": "Geometry leaves the 2-unit live area required by the drawing spec (x [4.599, 19.401], y [3.65, 22.193]). Needs a redraw that fits the safe padding, not a rescale."
-      }
+      "disposition": "released",
+      "publicIconId": "clay-pot"
     },
     {
       "sourceFile": "Group-19.png",

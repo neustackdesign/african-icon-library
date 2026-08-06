@@ -1277,7 +1277,7 @@ export const pipeline: PipelineSummary = {
   "releasedFromRoadmap": 9,
   "heldForCulturalReview": 1,
   "heldForIconDesign": 0,
-  "backlogConcepts": 61,
+  "backlogConcepts": 55,
   "mergedByAudit": 3,
   "droppedByAudit": 4,
   "weightsShipped": [

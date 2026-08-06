@@ -1,0 +1,73 @@
+date,phase,channel,asset,owner,depends_on,status
+2026-08-06,0-preflight,repository,"npm ci && npm run check green from a clean clone",engineering,,not-started
+2026-08-06,0-preflight,repository,"Compute released and category counts from repo state; substitute launch tokens",maintainer,clean-clone-check,not-started
+2026-08-07,0-preflight,email,"Create or confirm icons@neustackstudio.com and confirm a human monitors it",maintainer,,not-started
+2026-08-10,0-preflight,github,"Decide public vs private on neustackdesign/african-icon-library",maintainer,,not-started
+2026-08-10,0-preflight,internal,"Read every launch/platform-copy file against the repository and kill stale claims",comms,clean-clone-check,not-started
+2026-08-11,0-preflight,internal,"npm run preview; check previews/proof-strip-24.svg reads at 16px",design,clean-clone-check,not-started
+2026-08-13,0-preflight,media-kit,"Build launch images per media-kit/asset-manifest.md",design,proof-strip-check,not-started
+2026-08-13,0-preflight,website,"Implement analytics events per tracking/analytics-events.md",engineering,,not-started
+2026-08-14,0-preflight,internal,"Draft cultural-review recruitment post; reviewed by a Yoruba speaker before sending",community,,not-started
+2026-08-17,0-preflight,outreach,"De-duplicate outreach-list.csv; open and confirm every URL is live",community,,not-started
+2026-08-18,0-preflight,figma,"Dry-run plugin locally: empty file, inside frame, locked selection, no-result search",design,clean-clone-check,not-started
+2026-08-20,0-preflight,tracking,"Build and verify all UTM links per tracking/utm-conventions.md",comms,,not-started
+2026-08-21,0-preflight,internal,"PHASE 0 GATE REVIEW - go/no-go for technical preview",maintainer,all-phase-0,not-started
+2026-08-24,1-technical-preview,github,"Push main; enable branch protection requiring the check job",engineering,gate-0,not-started
+2026-08-25,1-technical-preview,github,"Tag v0.2.0 and publish the release with release/* attached",engineering,push-main,not-started
+2026-08-25,1-technical-preview,github,"platform-copy/github-release-notes.md",comms,tag-release,not-started
+2026-08-25,1-technical-preview,npm,"Publish metadata, then icons, then react - in that order",engineering,tag-release,not-started
+2026-08-25,1-technical-preview,repository,"Update README line that says packages are not on npm - after publishing, not before",maintainer,npm-publish,not-started
+2026-08-26,1-technical-preview,linkedin,"platform-copy/linkedin-launch-post.md - technical preview variant",comms,npm-publish,not-started
+2026-08-26,1-technical-preview,x,"platform-copy/x-launch-thread.md - technical preview variant",comms,npm-publish,not-started
+2026-08-26,1-technical-preview,direct,"10-15 messages from outreach/direct-outreach-messages.md, segment A",community,npm-publish,not-started
+2026-08-27,1-technical-preview,community,"platform-copy/cultural-review-recruitment.md to language projects",community,npm-publish,not-started
+2026-08-27,1-technical-preview,github,"platform-copy/community-contribution-announcement.md as a pinned issue",community,push-main,not-started
+2026-08-31,1-technical-preview,iconify,"Submit icon set to Iconify for inclusion",engineering,npm-publish,not-started
+2026-09-01,1-technical-preview,neustack-site,"platform-copy/neustack-project-page.md",comms,npm-publish,not-started
+2026-09-03,1-technical-preview,direct,"Second direct wave - design-systems practitioners",community,direct-wave-1,not-started
+2026-09-07,1-technical-preview,github,"Triage every issue opened so far; cultural reports labelled first",maintainer,,not-started
+2026-09-11,1-technical-preview,internal,"PHASE 1 REVIEW and gate 1 go/no-go",maintainer,all-phase-1,not-started
+2026-09-14,2-website-community,vercel,"Deploy to icons.neustackstudio.com; point DNS CNAME",engineering,gate-1,not-started
+2026-09-15,2-website-community,website,"platform-copy/website-launch-copy.md live",comms,vercel-deploy,not-started
+2026-09-15,2-website-community,website,"Verify all seven analytics events fire with correct properties",engineering,vercel-deploy,not-started
+2026-09-16,2-website-community,linkedin,"platform-copy/linkedin-launch-post.md - website variant",comms,vercel-deploy,not-started
+2026-09-16,2-website-community,x,"platform-copy/x-short-posts.md - site-live post",comms,vercel-deploy,not-started
+2026-09-17,2-website-community,figma,"Build the Community file to docs/figma-community-file-spec.md; run pre-publish checklist",design,vercel-deploy,not-started
+2026-09-22,2-website-community,figma,"Publish Community file with platform-copy/figma-community-listing.md",design,community-file-built,not-started
+2026-09-22,2-website-community,repository,"Add Community link to README and website - after publication only",maintainer,community-file-live,not-started
+2026-09-23,2-website-community,instagram,"platform-copy/instagram-carousel-scripts.md carousel 1",comms,community-file-live,not-started
+2026-09-24,2-website-community,community,"Post to African design communities - outreach segment B wave 1",community,community-file-live,not-started
+2026-09-28,2-website-community,newsletter,"platform-copy/newsletter-announcement.md to our own list",comms,community-file-live,not-started
+2026-09-29,2-website-community,outreach,"outreach/newsletter-pitch.md to priority 1 design newsletters",community,community-file-live,not-started
+2026-10-01,2-website-community,instagram,"platform-copy/instagram-reel-scripts.md reel 1 - the 24px proof",comms,assets-built,not-started
+2026-10-05,2-website-community,community,"platform-copy/designer-testimonial-request.md to early adopters",community,two-weeks-site-live,not-started
+2026-10-09,2-website-community,internal,"PHASE 2 REVIEW and gate 2 go/no-go",maintainer,all-phase-2,not-started
+2026-09-28,3-plugin,figma,"npm run build -w @african-icon-library/figma-plugin; import from manifest",engineering,gate-2,not-started
+2026-09-29,3-plugin,figma,"Manual test pass across every document state and all four insert sizes",design,plugin-build,not-started
+2026-10-01,3-plugin,figma,"Cover and carousel per docs/figma-plugin-publishing.md; frames 3 and 5 mandatory",design,plugin-test-pass,not-started
+2026-10-05,3-plugin,figma,"Submit for review with platform-copy/figma-plugin-listing.md",design,plugin-assets,not-started
+2026-10-13,3-plugin,figma,"On approval: replace REPLACE_WITH_FIGMA_ASSIGNED_PLUGIN_ID in manifest and commit",engineering,figma-approval,not-started
+2026-10-13,3-plugin,website,"Update the plugin section that says the plugin is not published",engineering,figma-approval,not-started
+2026-10-14,3-plugin,linkedin,"platform-copy/linkedin-launch-post.md - plugin variant",comms,figma-approval,not-started
+2026-10-14,3-plugin,x,"platform-copy/x-short-posts.md - plugin post and offline-claim post",comms,figma-approval,not-started
+2026-10-15,3-plugin,instagram,"platform-copy/instagram-reel-scripts.md reel 2 - plugin insertion",comms,figma-approval,not-started
+2026-10-15,3-plugin,community,"Plugin announcement to Figma community chapters",community,figma-approval,not-started
+2026-10-23,3-plugin,internal,"PHASE 3 REVIEW and gate 3 go/no-go",maintainer,all-phase-3,not-started
+2026-10-19,4-broader-campaign,repository,"Tag and release v0.2.0 with the expanded set",engineering,gate-3,not-started
+2026-10-19,4-broader-campaign,github,"platform-copy/github-release-notes.md - v0.2.0 variant",comms,v020-tag,not-started
+2026-10-20,4-broader-campaign,press,"press-release.md and media-factsheet.md under embargo to outreach segment C",comms,v020-release,not-started
+2026-10-20,4-broader-campaign,media-kit,"Publish launch/media-kit as a downloadable folder",design,launch-assets,not-started
+2026-10-21,4-broader-campaign,linkedin,"platform-copy/linkedin-founder-essay.md",maintainer,v020-release,not-started
+2026-10-22,4-broader-campaign,x,"platform-copy/x-launch-thread.md - full variant",comms,v020-release,not-started
+2026-10-22,4-broader-campaign,instagram,"platform-copy/instagram-carousel-scripts.md carousel 2",comms,v020-release,not-started
+2026-10-26,4-broader-campaign,outreach,"outreach/press-pitch.md to segment C, individually written",comms,embargo-lift,not-started
+2026-10-26,4-broader-campaign,outreach,"outreach/community-admin-pitch.md to segment B wave 2",community,v020-release,not-started
+2026-10-27,4-broader-campaign,linkedin,"platform-copy/linkedin-carousel-script.md",comms,v020-release,not-started
+2026-10-29,4-broader-campaign,outreach,"outreach/newsletter-pitch.md to priority 2 newsletters",community,priority-1-responses,not-started
+2026-11-02,4-broader-campaign,community,"Cultural-review recruitment, second push",community,,not-started
+2026-11-05,4-broader-campaign,instagram,"Reel 3 - a danfo from photograph to glyph",comms,launch-assets,not-started
+2026-11-09,4-broader-campaign,outreach,"Follow-ups - one per contact, never two",community,ten-working-days,not-started
+2026-11-13,4-broader-campaign,community,"DevFest Lagos week - developer-framed post, not a repeat of the design one",comms,,not-started
+2026-11-16,4-broader-campaign,internal,"One-month metrics review per tracking/launch-metrics.md",maintainer,phase-4-start,not-started
+2026-12-07,4-broader-campaign,internal,"PHASE 4 CLOSE - decide what the next release is for",maintainer,all-phase-4,not-started
+2027-02-04,4-broader-campaign,internal,"Three-month metrics review per tracking/launch-metrics.md",maintainer,phase-4-close,not-started

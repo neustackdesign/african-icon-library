@@ -165,9 +165,20 @@ describe('pipeline summary', () => {
     }, {});
     const total = Object.values(dispositions).reduce((sum, count) => sum + count, 0);
     expect(total).toBe(pipeline.auditRecords);
-    expect(pipeline.backlogConcepts).toBe(dispositions.backlog ?? 0);
     expect(pipeline.mergedByAudit).toBe(dispositions.merged ?? 0);
     expect(pipeline.droppedByAudit).toBe(dispositions.dropped ?? 0);
+  });
+
+  it('excludes released concepts from the backlog count', () => {
+    // An audit row stays 'backlog' — the audit produced no drawing for it —
+    // even after a later release drew the concept. Reporting the raw
+    // disposition count would overstate what is left to do.
+    const releasedIds = new Set(icons.map((icon) => icon.id));
+    const rawBacklog = auditRecords.filter((record) => record.disposition === 'backlog');
+    const stillOutstanding = rawBacklog.filter((record) => !releasedIds.has(record.proposedId));
+
+    expect(pipeline.backlogConcepts).toBe(stillOutstanding.length);
+    expect(pipeline.backlogConcepts).toBeLessThan(rawBacklog.length);
   });
 
   it('splits the released set by where each icon actually came from', () => {

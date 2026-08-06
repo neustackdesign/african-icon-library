@@ -70,6 +70,7 @@ export function buildPipelineSummary(
 
   const bySource = (source: string) =>
     icons.filter((icon) => icon.provenance.source === source).length;
+  const releasedIds = new Set(icons.map((icon) => icon.id));
 
   return {
     auditRecords: records.length,
@@ -84,7 +85,12 @@ export function buildPipelineSummary(
     heldForCulturalReview: held.filter((record) => record.hold?.blocker === 'cultural-review')
       .length,
     heldForIconDesign: held.filter((record) => record.hold?.blocker === 'icon-design').length,
-    backlogConcepts: records.filter((record) => record.disposition === 'backlog').length,
+    // An audit row stays 'backlog' — the audit produced no drawing for it — even
+    // after this release drew the concept. Subtracting the ones now released is
+    // the difference between "still to do" and "the audit's own bookkeeping".
+    backlogConcepts: records.filter(
+      (record) => record.disposition === 'backlog' && !releasedIds.has(record.proposedId),
+    ).length,
     mergedByAudit: records.filter((record) => record.disposition === 'merged').length,
     droppedByAudit: records.filter((record) => record.disposition === 'dropped').length,
     weightsShipped: WEIGHTS.filter((weight) => shipped.has(weight)),

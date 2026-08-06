@@ -1,0 +1,123 @@
+name: Release
+
+# Publishes the three packages to npm and attaches the release artefacts.
+#
+# This exists so publishing never depends on a token passing through a person's
+# hands. Two routes are supported, in order of preference:
+#
+#   1. Trusted publishing (OIDC). No secret at all: npm verifies the workflow's
+#      identity directly. Configure it per package on npmjs.com under
+#      Settings -> Trusted publishers, pointing at this repository and this
+#      workflow file. npm requires the package to exist before a trusted
+#      publisher can be attached, so this route is available from the second
+#      publish onward.
+#
+#   2. A granular access token in the NPM_TOKEN repository secret. Needed for
+#      the very first publish of a brand-new package name. Set it in
+#      Settings -> Secrets and variables -> Actions. It never leaves GitHub.
+#
+# The workflow picks route 1 whenever NPM_TOKEN is absent, so deleting the
+# secret after the first release is the intended end state.
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Pack and validate without publishing'
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  id-token: write # required for npm trusted publishing
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Publish packages
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          registry-url: https://registry.npmjs.org
+
+      # Trusted publishing needs npm >= 11.5.1; Node 22 still ships npm 10.
+      - name: Use an npm that supports trusted publishing
+        run: |
+          npm install -g npm@latest
+          echo "npm $(npm -v)"
+
+      - name: Install
+        run: npm ci
+
+      # The same gate as CI. A tag must never publish something that would have
+      # failed on main.
+      - name: Full check
+        run: npm run check
+
+      - name: Verify publishable packages
+        run: npm run verify:packages
+
+      # The tag and the package versions must agree, or the release notes and
+      # the registry disagree forever after.
+      - name: Verify tag matches package versions
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          for pkg in metadata icons react; do
+            version=$(node -p "require('./packages/$pkg/package.json').version")
+            if [ "$version" != "$tag" ]; then
+              echo "::error::packages/$pkg is $version but the tag is $tag"
+              exit 1
+            fi
+          done
+          echo "all three packages are $tag"
+
+      - name: Publish
+        if: ${{ github.event_name == 'push' || !inputs.dry_run }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [ -z "$NODE_AUTH_TOKEN" ]; then
+            echo "No NPM_TOKEN set — publishing via trusted publishing (OIDC)."
+          else
+            echo "NPM_TOKEN present — publishing with the granular token."
+          fi
+          # Dependency order: icons depends on metadata by exact version, and
+          # react depends on both. Publishing out of order leaves a window where
+          # an installed package cannot resolve its own dependency.
+          for pkg in metadata icons react; do
+            echo "::group::publish @african-icon-library/$pkg"
+            npm publish -w "@african-icon-library/$pkg" --access public --provenance
+            echo "::endgroup::"
+          done
+
+      - name: Pack only (dry run)
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+        run: |
+          for pkg in metadata icons react; do
+            npm pack -w "@african-icon-library/$pkg" --pack-destination /tmp
+          done
+          ls -l /tmp/*.tgz
+
+      - name: Upload release artefacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ github.ref_name }}
+          path: |
+            release/
+            media/
+            qa/
+          if-no-files-found: error
+          retention-days: 90

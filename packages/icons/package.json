@@ -13,6 +13,7 @@
     "url": "git+https://github.com/neustackdesign/african-icon-library.git",
     "directory": "packages/icons"
   },
+  "homepage": "https://icons.neustackstudio.com",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {

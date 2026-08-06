@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "type": "module",
-  "description": "Monorepo for the African Icon Library \u2014 SVG assets, metadata, React exports, Figma plugin and website.",
+  "description": "Monorepo for the African Icon Library — SVG assets, metadata, React exports, Figma plugin and website.",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -16,6 +16,7 @@
   "engines": {
     "node": ">=20.11.0"
   },
+  "packageManager": "npm@10.9.7",
   "workspaces": [
     "packages/*",
     "apps/*"

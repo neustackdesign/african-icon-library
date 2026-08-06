@@ -11,7 +11,6 @@ export { BeadedCrown } from '../icons/BeadedCrown.js';
 export { Broom } from '../icons/Broom.js';
 export { Calabash } from '../icons/Calabash.js';
 export { Canoe } from '../icons/Canoe.js';
-export { ChinChinPack } from '../icons/ChinChinPack.js';
 export { ClayPot } from '../icons/ClayPot.js';
 export { CocoaPod } from '../icons/CocoaPod.js';
 export { CoralBeads } from '../icons/CoralBeads.js';
@@ -21,7 +20,6 @@ export { FootballJersey } from '../icons/FootballJersey.js';
 export { JerryCan } from '../icons/JerryCan.js';
 export { JollofRice } from '../icons/JollofRice.js';
 export { KeroseneLantern } from '../icons/KeroseneLantern.js';
-export { Ludo } from '../icons/Ludo.js';
 export { MarketUmbrella } from '../icons/MarketUmbrella.js';
 export { NairaNote } from '../icons/NairaNote.js';
 export { NairaSign } from '../icons/NairaSign.js';
@@ -45,7 +43,6 @@ export const iconComponentNames: readonly string[] = [
   "Broom",
   "Calabash",
   "Canoe",
-  "ChinChinPack",
   "ClayPot",
   "CocoaPod",
   "CoralBeads",
@@ -55,7 +52,6 @@ export const iconComponentNames: readonly string[] = [
   "JerryCan",
   "JollofRice",
   "KeroseneLantern",
-  "Ludo",
   "MarketUmbrella",
   "NairaNote",
   "NairaSign",

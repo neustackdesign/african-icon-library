@@ -1,0 +1,482 @@
+{
+  "agogo": {
+    "category": "music-art-play",
+    "bounds": {
+      "minX": 5.4,
+      "minY": 3.921,
+      "maxX": 18.5,
+      "maxY": 16.55
+    },
+    "width": 13.1,
+    "height": 12.629,
+    "opticalCentre": {
+      "x": 11.95,
+      "y": 10.236
+    },
+    "inkCoveragePercent": 13.93
+  },
+  "akara": {
+    "category": "food-drink",
+    "bounds": {
+      "minX": 3.5,
+      "minY": 4.75,
+      "maxX": 20.5,
+      "maxY": 19.25
+    },
+    "width": 17,
+    "height": 14.5,
+    "opticalCentre": {
+      "x": 12,
+      "y": 12
+    },
+    "inkCoveragePercent": 20.85
+  },
+  "aso-oke-fabric": {
+    "category": "fashion-textiles",
+    "bounds": {
+      "minX": 3.75,
+      "minY": 5.5,
+      "maxX": 20,
+      "maxY": 18.5
+    },
+    "width": 16.25,
+    "height": 13,
+    "opticalCentre": {
+      "x": 11.875,
+      "y": 12
+    },
+    "inkCoveragePercent": 22.82
+  },
+  "ata-rodo": {
+    "category": "food-drink",
+    "bounds": {
+      "minX": 5.1,
+      "minY": 3.5,
+      "maxX": 18.9,
+      "maxY": 20.25
+    },
+    "width": 13.8,
+    "height": 16.75,
+    "opticalCentre": {
+      "x": 12,
+      "y": 11.875
+    },
+    "inkCoveragePercent": 16.72
+  },
+  "beaded-crown": {
+    "category": "culture-people",
+    "bounds": {
+      "minX": 5.25,
+      "minY": 2.2,
+      "maxX": 18.75,
+      "maxY": 20.5
+    },
+    "width": 13.5,
+    "height": 18.3,
+    "opticalCentre": {
+      "x": 12,
+      "y": 11.35
+    },
+    "inkCoveragePercent": 19.93
+  },
+  "broom": {
+    "category": "culture-people",
+    "bounds": {
+      "minX": 5.75,
+      "minY": 3.5,
+      "maxX": 18.25,
+      "maxY": 20.75
+    },
+    "width": 12.5,
+    "height": 17.25,
+    "opticalCentre": {
+      "x": 12,
+      "y": 12.125
+    },
+    "inkCoveragePercent": 20.42
+  },
+  "calabash": {
+    "category": "culture-people",
+    "bounds": {
+      "minX": 5.75,
+      "minY": 3.5,
+      "maxX": 18.25,
+      "maxY": 20
+    },
+    "width": 12.5,
+    "height": 16.5,
+    "opticalCentre": {
+      "x": 12,
+      "y": 11.75
+    },
+    "inkCoveragePercent": 15.36
+  },
+  "canoe": {
+    "category": "transport",
+    "bounds": {
+      "minX": 2.75,
+      "minY": 3.75,
+      "maxX": 21.25,
+      "maxY": 17.35
+    },
+    "width": 18.5,
+    "height": 13.6,
+    "opticalCentre": {
+      "x": 12,
+      "y": 10.55
+    },
+    "inkCoveragePercent": 13.43
+  },
+  "clay-pot": {
+    "category": "culture-people",
+    "bounds": {
+      "minX": 5.15,
+      "minY": 3.65,
+      "maxX": 18.85,
+      "maxY": 20.724
+    },
+    "width": 13.7,
+    "height": 17.074,
+    "opticalCentre": {
+      "x": 12,
+      "y": 12.187
+    },
+    "inkCoveragePercent": 17.47
+  },
+  "cocoa-pod": {
+    "category": "food-drink",
+    "bounds": {
+      "minX": 6.4,
+      "minY": 3.25,
+      "maxX": 17.6,
+      "maxY": 20.55
+    },
+    "width": 11.2,
+    "height": 17.3,
+    "opticalCentre": {
+      "x": 12,
+      "y": 11.9
+    },
+    "inkCoveragePercent": 15.04
+  },
+  "coral-beads": {
+    "category": "fashion-textiles",
+    "bounds": {
+      "minX": 2.71,
+      "minY": 7.29,
+      "maxX": 21.29,
+      "maxY": 19.2
+    },
+    "width": 18.58,
+    "height": 11.91,
+    "opticalCentre": {
+      "x": 12,
+      "y": 13.245
+    },
+    "inkCoveragePercent": 15.38
+  },
+  "danfo": {
+    "category": "transport",
+    "bounds": {
+      "minX": 2.5,
+      "minY": 6.5,
+      "maxX": 21.5,
+      "maxY": 19.6
+    },
+    "width": 19,
+    "height": 13.1,
+    "opticalCentre": {
+      "x": 12,
+      "y": 13.05
+    },
+    "inkCoveragePercent": 24.62
+  },
+  "film-clapper": {
+    "category": "music-art-play",
+    "bounds": {
+      "minX": 3,
+      "minY": 3.6,
+      "maxX": 21.25,
+      "maxY": 19.5
+    },
+    "width": 18.25,
+    "height": 15.9,
+    "opticalCentre": {
+      "x": 12.125,
+      "y": 11.55
+    },
+    "inkCoveragePercent": 23.5
+  },
+  "football-jersey": {
+    "category": "identity-state",
+    "bounds": {
+      "minX": 3.75,
+      "minY": 4.5,
+      "maxX": 20.25,
+      "maxY": 19.75
+    },
+    "width": 16.5,
+    "height": 15.25,
+    "opticalCentre": {
+      "x": 12,
+      "y": 12.125
+    },
+    "inkCoveragePercent": 16.21
+  },
+  "jerry-can": {
+    "category": "commerce-industry",
+    "bounds": {
+      "minX": 5,
+      "minY": 4.5,
+      "maxX": 19.5,
+      "maxY": 20.75
+    },
+    "width": 14.5,
+    "height": 16.25,
+    "opticalCentre": {
+      "x": 12.25,
+      "y": 12.625
+    },
+    "inkCoveragePercent": 21.28
+  },
+  "jollof-rice": {
+    "category": "food-drink",
+    "bounds": {
+      "minX": 3.25,
+      "minY": 9,
+      "maxX": 20.75,
+      "maxY": 16.801
+    },
+    "width": 17.5,
+    "height": 7.801,
+    "opticalCentre": {
+      "x": 12,
+      "y": 12.9
+    },
+    "inkCoveragePercent": 13.23
+  },
+  "kerosene-lantern": {
+    "category": "culture-people",
+    "bounds": {
+      "minX": 6.75,
+      "minY": 2.5,
+      "maxX": 17.25,
+      "maxY": 20.5
+    },
+    "width": 10.5,
+    "height": 18,
+    "opticalCentre": {
+      "x": 12,
+      "y": 11.5
+    },
+    "inkCoveragePercent": 18.76
+  },
+  "market-umbrella": {
+    "category": "commerce-industry",
+    "bounds": {
+      "minX": 2.75,
+      "minY": 4.5,
+      "maxX": 21.25,
+      "maxY": 20.5
+    },
+    "width": 18.5,
+    "height": 16,
+    "opticalCentre": {
+      "x": 12,
+      "y": 12.5
+    },
+    "inkCoveragePercent": 19.12
+  },
+  "naira-note": {
+    "category": "commerce-industry",
+    "bounds": {
+      "minX": 2.75,
+      "minY": 5.75,
+      "maxX": 21.25,
+      "maxY": 18.25
+    },
+    "width": 18.5,
+    "height": 12.5,
+    "opticalCentre": {
+      "x": 12,
+      "y": 12
+    },
+    "inkCoveragePercent": 24.06
+  },
+  "naira-sign": {
+    "category": "commerce-industry",
+    "bounds": {
+      "minX": 3.5,
+      "minY": 5.5,
+      "maxX": 20.5,
+      "maxY": 18.5
+    },
+    "width": 17,
+    "height": 13,
+    "opticalCentre": {
+      "x": 12,
+      "y": 12
+    },
+    "inkCoveragePercent": 18.13
+  },
+  "nigeria-flag": {
+    "category": "identity-state",
+    "bounds": {
+      "minX": 2.75,
+      "minY": 5.25,
+      "maxX": 21.25,
+      "maxY": 18.75
+    },
+    "width": 18.5,
+    "height": 13.5,
+    "opticalCentre": {
+      "x": 12,
+      "y": 12
+    },
+    "inkCoveragePercent": 22.25
+  },
+  "oil-pumpjack": {
+    "category": "commerce-industry",
+    "bounds": {
+      "minX": 3.5,
+      "minY": 6.9,
+      "maxX": 20,
+      "maxY": 20.25
+    },
+    "width": 16.5,
+    "height": 13.35,
+    "opticalCentre": {
+      "x": 11.75,
+      "y": 13.575
+    },
+    "inkCoveragePercent": 17.17
+  },
+  "okada": {
+    "category": "transport",
+    "bounds": {
+      "minX": 2.3,
+      "minY": 7,
+      "maxX": 21.7,
+      "maxY": 19.85
+    },
+    "width": 19.4,
+    "height": 12.85,
+    "opticalCentre": {
+      "x": 12,
+      "y": 13.425
+    },
+    "inkCoveragePercent": 18.08
+  },
+  "passport": {
+    "category": "identity-state",
+    "bounds": {
+      "minX": 4.75,
+      "minY": 2.75,
+      "maxX": 19.25,
+      "maxY": 21.25
+    },
+    "width": 14.5,
+    "height": 18.5,
+    "opticalCentre": {
+      "x": 12,
+      "y": 12
+    },
+    "inkCoveragePercent": 28.15
+  },
+  "pepper-soup": {
+    "category": "food-drink",
+    "bounds": {
+      "minX": 3.75,
+      "minY": 4,
+      "maxX": 20.25,
+      "maxY": 19.25
+    },
+    "width": 16.5,
+    "height": 15.25,
+    "opticalCentre": {
+      "x": 12,
+      "y": 11.625
+    },
+    "inkCoveragePercent": 13.38
+  },
+  "pos-terminal": {
+    "category": "commerce-industry",
+    "bounds": {
+      "minX": 6.25,
+      "minY": 2.25,
+      "maxX": 17.75,
+      "maxY": 20.5
+    },
+    "width": 11.5,
+    "height": 18.25,
+    "opticalCentre": {
+      "x": 12,
+      "y": 11.375
+    },
+    "inkCoveragePercent": 27.01
+  },
+  "shekere": {
+    "category": "music-art-play",
+    "bounds": {
+      "minX": 5.4,
+      "minY": 3.5,
+      "maxX": 18.6,
+      "maxY": 20.5
+    },
+    "width": 13.2,
+    "height": 17,
+    "opticalCentre": {
+      "x": 12,
+      "y": 12
+    },
+    "inkCoveragePercent": 24.91
+  },
+  "suya": {
+    "category": "food-drink",
+    "bounds": {
+      "minX": 8.75,
+      "minY": 2.5,
+      "maxX": 15.25,
+      "maxY": 21.5
+    },
+    "width": 6.5,
+    "height": 19,
+    "opticalCentre": {
+      "x": 12,
+      "y": 12
+    },
+    "inkCoveragePercent": 15.04
+  },
+  "talking-drum": {
+    "category": "music-art-play",
+    "bounds": {
+      "minX": 6.5,
+      "minY": 3.75,
+      "maxX": 17.5,
+      "maxY": 20.25
+    },
+    "width": 11,
+    "height": 16.5,
+    "opticalCentre": {
+      "x": 12,
+      "y": 12
+    },
+    "inkCoveragePercent": 23.49
+  },
+  "train-ticket": {
+    "category": "transport",
+    "bounds": {
+      "minX": 3,
+      "minY": 5.5,
+      "maxX": 21,
+      "maxY": 18.5
+    },
+    "width": 18,
+    "height": 13,
+    "opticalCentre": {
+      "x": 12,
+      "y": 12
+    },
+    "inkCoveragePercent": 18.46
+  }
+}

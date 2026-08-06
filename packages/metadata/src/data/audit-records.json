@@ -586,9 +586,13 @@
       "categoryId": "food-drink",
       "auditTier": "icon",
       "verdict": "generic",
-      "note": "Third text-locked wrapper. One shared wrapper construction; differentiate by visible contents, not lettering.",
-      "disposition": "released",
-      "publicIconId": "chin-chin-pack"
+      "note": "Third text-locked wrapper. One shared wrapper construction; differentiate by visible contents, not lettering. Withdrawn from 0.2.0 after visual QA, which reached the same conclusion this audit row did: the interior collapses into noise at 16 and 20 px, so the contents cannot differentiate the wrapper.",
+      "disposition": "held",
+      "publicIconId": null,
+      "hold": {
+        "blocker": "icon-design",
+        "reason": "Visual QA reached the same conclusion this audit row did: the interior collapses into noise at 16 and 20 px, so the contents cannot differentiate the wrapper. Needs a redraw that puts the chin chin outside the pack, or drops the pack entirely."
+      }
     },
     {
       "sourceFile": "Group.png",
@@ -707,9 +711,13 @@
       "categoryId": "music-art-play",
       "auditTier": "icon",
       "verdict": "redraw",
-      "note": "Hero — see exemplar.",
-      "disposition": "released",
-      "publicIconId": "ludo"
+      "note": "Hero — see exemplar. Withdrawn from 0.2.0 after visual QA: 2.04x the set median ink coverage and illegible at 16 and 20 px. A ludo board is defined by its cell grid, which is exactly what a 16-pixel raster cannot hold.",
+      "disposition": "held",
+      "publicIconId": null,
+      "hold": {
+        "blocker": "icon-design",
+        "reason": "Visual QA measured 39.10% ink coverage — 2.04x the set median — and the board is illegible at 16 and 20 px, reading as a solid panel. A ludo board is defined by its cell grid, which is exactly what a 16-pixel raster cannot hold, so no simplification keeps it both legible and ludo. Needs a different way into the concept, or removal from the roadmap."
+      }
     },
     {
       "sourceFile": "Naira Line.png",

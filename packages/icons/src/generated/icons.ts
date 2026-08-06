@@ -36,9 +36,6 @@ export const iconBodies: Readonly<Record<string, Partial<Record<Weight, string>>
   "canoe": {
     regular: "<path d=\"M2.75 10.75c2.4 4.4 5.9 6.6 9.25 6.6s6.85-2.2 9.25-6.6\"/><path d=\"M2.75 10.75c3 1.35 6.1 2 9.25 2s6.25-.65 9.25-2\"/><path d=\"M16.25 3.75 9.75 13\"/>",
   },
-  "chin-chin-pack": {
-    regular: "<path d=\"m4.5 7.25 2.5-2 2.5 2 2.5-2 2.5 2 2.5-2 2.5 2v9.5l-2.5 2-2.5-2-2.5 2-2.5-2-2.5 2-2.5-2Z\"/><rect width=\"2.4\" height=\"2.4\" x=\"8.9\" y=\"10\" rx=\".5\"/><rect width=\"2.4\" height=\"2.4\" x=\"12.7\" y=\"11.6\" rx=\".5\"/>",
-  },
   "clay-pot": {
     regular: "<ellipse cx=\"12\" cy=\"4.75\" rx=\"3.25\" ry=\"1.1\"/><path d=\"M8.75 5.5c.5 1.1.2 2-.8 2.85a6.85 6.85 0 1 0 8.1 0c-1-.85-1.3-1.75-.8-2.85\"/><path d=\"M6.6 13c1.8 1.25 3.6-1.25 5.4 0s3.6 1.25 5.4 0\"/>",
   },
@@ -65,9 +62,6 @@ export const iconBodies: Readonly<Record<string, Partial<Record<Weight, string>>
   },
   "kerosene-lantern": {
     regular: "<path d=\"M9 6.5V5.25a3 2.75 0 0 1 6 0V6.5\"/><path d=\"M7.75 6.5h8.5l-1 2.25h-6.5Z\"/><path d=\"M8.75 8.75c-1.5 2.25-1.5 6 0 8.25h6.5c1.5-2.25 1.5-6 0-8.25Z\"/><path d=\"M6.75 17h10.5v3.5H6.75Z\"/>",
-  },
-  "ludo": {
-    regular: "<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2.5\"/><path d=\"M9.75 3v18m4.5-18v18M3 9.75h6.75M3 14.25h6.75m4.5-4.5H21m-6.75 4.5H21\"/><circle cx=\"6.4\" cy=\"6.4\" r=\"1.1\"/><circle cx=\"17.6\" cy=\"6.4\" r=\"1.1\"/><circle cx=\"6.4\" cy=\"17.6\" r=\"1.1\"/><circle cx=\"17.6\" cy=\"17.6\" r=\"1.1\"/>",
   },
   "market-umbrella": {
     regular: "<path d=\"M2.75 11.5a9.25 7 0 0 1 18.5 0Z\"/><path d=\"M12 4.5v7M7 5.75l1.75 5.75M17 5.75l-1.75 5.75\"/><path d=\"M12 11.5v9\"/><path d=\"M9 20.5h6\"/>",
@@ -119,7 +113,6 @@ export const iconIds: readonly string[] = [
   "broom",
   "calabash",
   "canoe",
-  "chin-chin-pack",
   "clay-pot",
   "cocoa-pod",
   "coral-beads",
@@ -129,7 +122,6 @@ export const iconIds: readonly string[] = [
   "jerry-can",
   "jollof-rice",
   "kerosene-lantern",
-  "ludo",
   "market-umbrella",
   "naira-note",
   "naira-sign",

@@ -301,42 +301,6 @@ export const icons: readonly Icon[] = [
     }
   },
   {
-    "id": "chin-chin-pack",
-    "name": "Chin chin pack",
-    "description": "A crimped snack wrapper with the contents visible through the window.",
-    "category": "food-drink",
-    "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "snack",
-      "wrapper",
-      "packet",
-      "sachet",
-      "biscuit",
-      "street food"
-    ],
-    "localNames": [],
-    "status": "released",
-    "addedIn": "0.1.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "The v3 audit flagged the v2 drawing for baked-in brand lettering. The redraw carries no lettering and no trade dress."
-    },
-    "provenance": {
-      "source": "v3-audit-drawing",
-      "auditSourceFile": "Group-9.png",
-      "auditVerdict": "generic",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": false
-    }
-  },
-  {
     "id": "clay-pot",
     "name": "Clay pot",
     "description": "A round-bellied clay water pot with a flared rim and a banded waist.",
@@ -665,42 +629,6 @@ export const icons: readonly Icon[] = [
     "provenance": {
       "source": "v3-audit-roadmap",
       "roadmapEntry": "Everyday Life — kerosene-lantern",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": false
-    }
-  },
-  {
-    "id": "ludo",
-    "name": "Ludo board",
-    "description": "A ludo board with four home corners and one token in each.",
-    "category": "music-art-play",
-    "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "ludo",
-      "board game",
-      "game",
-      "play",
-      "dice",
-      "counters"
-    ],
-    "localNames": [],
-    "status": "released",
-    "addedIn": "0.1.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "Board name in common English use; the v3 audit raised no naming question."
-    },
-    "provenance": {
-      "source": "v3-audit-drawing",
-      "auditSourceFile": "Ludo Game Line.png",
-      "auditVerdict": "redraw",
       "referentConfirmed": true,
       "redrawnSinceIngest": false
     }
@@ -1272,11 +1200,11 @@ export const regions: readonly Region[] = [
 export const pipeline: PipelineSummary = {
   "auditRecords": 86,
   "drawingsIngested": 18,
-  "released": 32,
-  "releasedFromAuditDrawings": 23,
+  "released": 30,
+  "releasedFromAuditDrawings": 21,
   "releasedFromRoadmap": 9,
   "heldForCulturalReview": 1,
-  "heldForIconDesign": 0,
+  "heldForIconDesign": 2,
   "backlogConcepts": 55,
   "mergedByAudit": 3,
   "droppedByAudit": 4,

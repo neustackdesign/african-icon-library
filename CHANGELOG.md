@@ -13,15 +13,22 @@ Nothing yet.
 
 ## [0.2.0] — 2026-08-06
 
-The set doubles, and the provenance model grows up to describe how.
+The set nearly doubles, a visual review takes two drawings back out, and the provenance model grows
+up to describe both.
 
 ### Added
 
-- **16 new released icons**, taking the library from 16 to **32**. Each was drawn on the 24-unit
-  grid, measured against the 2-unit live area, and reviewed at 16, 20, 24, 32 and 48 px before
-  release: `naira-sign`, `coral-beads`, `aso-oke-fabric`, `calabash`, `broom`, `beaded-crown`,
+- **16 new released icons**, taking the library from 16 to 32 before the visual review withdrew two
+  of the originals — a released set of **30**. Each new drawing was made on the 24-unit grid,
+  measured against the 2-unit live area, and reviewed at 16, 20, 24, 32 and 48 px before release:
+  `naira-sign`, `coral-beads`, `aso-oke-fabric`, `calabash`, `broom`, `beaded-crown`,
   `kerosene-lantern`, `market-umbrella`, `pos-terminal`, `jerry-can`, `okada`, `shekere`,
   `passport`, `akara`, `ata-rodo`, `clay-pot`.
+- **A visual QA record** in `reviews/visual-qa/` — the whole set at five sizes on paper and ink, per
+  category, an optical-scale board carrying bounds, optical centre and measured ink mass, and a
+  per-icon verdict in `findings.md`. Ink coverage is measured by rasterising each drawing and
+  integrating darkness per pixel, so "this one is heavier than its neighbours" became a number
+  rather than an impression.
 - **Two previously empty categories are now populated.** `fashion-textiles` gains 2 icons and
   `culture-people` gains 5, taking categories in use from 5 to 7.
 - **Category download packs.** One zip per category that actually contains released icons, with
@@ -46,6 +53,21 @@ The set doubles, and the provenance model grows up to describe how.
   `v3-audit-roadmap` (a gap the audit named and never drew).
 - **Pipeline counts come from the released set**, not from audit dispositions. Dispositions
   describe what happened to the audit's own assets; they never described the size of the library.
+
+### Withdrawn
+
+Two icons that shipped in 0.1.0 are withdrawn after the visual review, moved to
+`packages/icons/staging/` and recorded with a `hold` on their audit rows:
+
+- **`ludo`** — 39.10% ink coverage against a set median of 19.12%, and illegible at 16 and 20 px.
+  A ludo board is defined by its cell grid, which is exactly what a 16-pixel raster cannot hold, so
+  there is no simplification that is both legible and still ludo. It was also the set's weakest
+  cultural claim: ludo is played worldwide and descends from pachisi.
+- **`chin-chin-pack`** — the interior collapses into noise at 16 and 20 px. The audit row had
+  already said it: differentiate the wrapper by visible contents, not lettering. The contents are
+  what fail.
+
+Both concepts stay on the roadmap. Neither ships until it is drawn again and passes at 16 px.
 
 ### Rejected
 

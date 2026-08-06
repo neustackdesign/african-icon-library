@@ -102,7 +102,7 @@
     },
     "provenance": {
       "source": "v3-audit-roadmap",
-      "roadmapEntry": "Food & Drink \u2014 ata-rodo pepper",
+      "roadmapEntry": "Food & Drink — ata-rodo pepper",
       "referentConfirmed": true,
       "redrawnSinceIngest": false
     }
@@ -151,7 +151,7 @@
     },
     "provenance": {
       "source": "v3-audit-roadmap",
-      "roadmapEntry": "Everyday Life \u2014 broom (igbale)",
+      "roadmapEntry": "Everyday Life — broom (igbale)",
       "referentConfirmed": true,
       "redrawnSinceIngest": false
     }
@@ -175,7 +175,7 @@
     },
     "provenance": {
       "source": "v3-audit-roadmap",
-      "roadmapEntry": "Culture & People \u2014 calabash",
+      "roadmapEntry": "Culture & People — calabash",
       "referentConfirmed": true,
       "redrawnSinceIngest": false
     }
@@ -201,31 +201,6 @@
       "source": "v3-audit-drawing",
       "auditSourceFile": "Group-16.png",
       "auditVerdict": "redraw",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": false
-    }
-  },
-  {
-    "id": "chin-chin-pack",
-    "name": "Chin chin pack",
-    "description": "A crimped snack wrapper with the contents visible through the window.",
-    "category": "food-drink",
-    "tier": "icon",
-    "regions": ["NG"],
-    "weights": ["regular"],
-    "keywords": ["snack", "wrapper", "packet", "sachet", "biscuit", "street food"],
-    "localNames": [],
-    "status": "released",
-    "addedIn": "0.1.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "The v3 audit flagged the v2 drawing for baked-in brand lettering. The redraw carries no lettering and no trade dress."
-    },
-    "provenance": {
-      "source": "v3-audit-drawing",
-      "auditSourceFile": "Group-9.png",
-      "auditVerdict": "generic",
       "referentConfirmed": true,
       "redrawnSinceIngest": false
     }
@@ -408,7 +383,7 @@
     },
     "provenance": {
       "source": "v3-audit-roadmap",
-      "roadmapEntry": "Transport \u2014 fuel-queue jerry-can",
+      "roadmapEntry": "Transport — fuel-queue jerry-can",
       "referentConfirmed": true,
       "redrawnSinceIngest": false
     }
@@ -457,32 +432,7 @@
     },
     "provenance": {
       "source": "v3-audit-roadmap",
-      "roadmapEntry": "Everyday Life \u2014 kerosene-lantern",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": false
-    }
-  },
-  {
-    "id": "ludo",
-    "name": "Ludo board",
-    "description": "A ludo board with four home corners and one token in each.",
-    "category": "music-art-play",
-    "tier": "icon",
-    "regions": ["NG"],
-    "weights": ["regular"],
-    "keywords": ["ludo", "board game", "game", "play", "dice", "counters"],
-    "localNames": [],
-    "status": "released",
-    "addedIn": "0.1.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "Board name in common English use; the v3 audit raised no naming question."
-    },
-    "provenance": {
-      "source": "v3-audit-drawing",
-      "auditSourceFile": "Ludo Game Line.png",
-      "auditVerdict": "redraw",
+      "roadmapEntry": "Everyday Life — kerosene-lantern",
       "referentConfirmed": true,
       "redrawnSinceIngest": false
     }
@@ -506,7 +456,7 @@
     },
     "provenance": {
       "source": "v3-audit-roadmap",
-      "roadmapEntry": "Commerce & Industry \u2014 market-umbrella",
+      "roadmapEntry": "Commerce & Industry — market-umbrella",
       "referentConfirmed": true,
       "redrawnSinceIngest": false
     }
@@ -555,7 +505,7 @@
     },
     "provenance": {
       "source": "v3-audit-roadmap",
-      "roadmapEntry": "Identity & State \u2014 naira-sign",
+      "roadmapEntry": "Identity & State — naira-sign",
       "referentConfirmed": true,
       "redrawnSinceIngest": false
     }
@@ -713,7 +663,7 @@
     },
     "provenance": {
       "source": "v3-audit-roadmap",
-      "roadmapEntry": "Commerce & Industry \u2014 pos-terminal",
+      "roadmapEntry": "Commerce & Industry — pos-terminal",
       "referentConfirmed": true,
       "redrawnSinceIngest": false
     }
@@ -746,7 +696,7 @@
     },
     "provenance": {
       "source": "v3-audit-roadmap",
-      "roadmapEntry": "Music, Art & Play \u2014 shekere",
+      "roadmapEntry": "Music, Art & Play — shekere",
       "referentConfirmed": true,
       "redrawnSinceIngest": false
     }
@@ -793,7 +743,7 @@
       },
       {
         "language": "yo",
-        "value": "d\u00f9nd\u00fan",
+        "value": "dùndún",
         "review": "pending"
       }
     ],

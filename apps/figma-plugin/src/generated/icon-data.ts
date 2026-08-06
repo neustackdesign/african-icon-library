@@ -301,42 +301,6 @@ export const PLUGIN_ICONS: Icon[] = [
     }
   },
   {
-    "id": "chin-chin-pack",
-    "name": "Chin chin pack",
-    "description": "A crimped snack wrapper with the contents visible through the window.",
-    "category": "food-drink",
-    "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "snack",
-      "wrapper",
-      "packet",
-      "sachet",
-      "biscuit",
-      "street food"
-    ],
-    "localNames": [],
-    "status": "released",
-    "addedIn": "0.1.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "The v3 audit flagged the v2 drawing for baked-in brand lettering. The redraw carries no lettering and no trade dress."
-    },
-    "provenance": {
-      "source": "v3-audit-drawing",
-      "auditSourceFile": "Group-9.png",
-      "auditVerdict": "generic",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": false
-    }
-  },
-  {
     "id": "clay-pot",
     "name": "Clay pot",
     "description": "A round-bellied clay water pot with a flared rim and a banded waist.",
@@ -665,42 +629,6 @@ export const PLUGIN_ICONS: Icon[] = [
     "provenance": {
       "source": "v3-audit-roadmap",
       "roadmapEntry": "Everyday Life — kerosene-lantern",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": false
-    }
-  },
-  {
-    "id": "ludo",
-    "name": "Ludo board",
-    "description": "A ludo board with four home corners and one token in each.",
-    "category": "music-art-play",
-    "tier": "icon",
-    "regions": [
-      "NG"
-    ],
-    "weights": [
-      "regular"
-    ],
-    "keywords": [
-      "ludo",
-      "board game",
-      "game",
-      "play",
-      "dice",
-      "counters"
-    ],
-    "localNames": [],
-    "status": "released",
-    "addedIn": "0.1.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "Board name in common English use; the v3 audit raised no naming question."
-    },
-    "provenance": {
-      "source": "v3-audit-drawing",
-      "auditSourceFile": "Ludo Game Line.png",
-      "auditVerdict": "redraw",
       "referentConfirmed": true,
       "redrawnSinceIngest": false
     }
@@ -1224,9 +1152,6 @@ export const PLUGIN_SVG: Record<string, Record<string, string | undefined>> = {
   "canoe": {
     "regular": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M2.75 10.75c2.4 4.4 5.9 6.6 9.25 6.6s6.85-2.2 9.25-6.6\"/>\n  <path d=\"M2.75 10.75c3 1.35 6.1 2 9.25 2s6.25-.65 9.25-2\"/>\n  <path d=\"M16.25 3.75 9.75 13\"/>\n</svg>"
   },
-  "chin-chin-pack": {
-    "regular": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"m4.5 7.25 2.5-2 2.5 2 2.5-2 2.5 2 2.5-2 2.5 2v9.5l-2.5 2-2.5-2-2.5 2-2.5-2-2.5 2-2.5-2Z\"/>\n  <rect width=\"2.4\" height=\"2.4\" x=\"8.9\" y=\"10\" rx=\".5\"/>\n  <rect width=\"2.4\" height=\"2.4\" x=\"12.7\" y=\"11.6\" rx=\".5\"/>\n</svg>"
-  },
   "clay-pot": {
     "regular": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <ellipse cx=\"12\" cy=\"4.75\" rx=\"3.25\" ry=\"1.1\"/>\n  <path d=\"M8.75 5.5c.5 1.1.2 2-.8 2.85a6.85 6.85 0 1 0 8.1 0c-1-.85-1.3-1.75-.8-2.85\"/>\n  <path d=\"M6.6 13c1.8 1.25 3.6-1.25 5.4 0s3.6 1.25 5.4 0\"/>\n</svg>"
   },
@@ -1253,9 +1178,6 @@ export const PLUGIN_SVG: Record<string, Record<string, string | undefined>> = {
   },
   "kerosene-lantern": {
     "regular": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M9 6.5V5.25a3 2.75 0 0 1 6 0V6.5\"/>\n  <path d=\"M7.75 6.5h8.5l-1 2.25h-6.5Z\"/>\n  <path d=\"M8.75 8.75c-1.5 2.25-1.5 6 0 8.25h6.5c1.5-2.25 1.5-6 0-8.25Z\"/>\n  <path d=\"M6.75 17h10.5v3.5H6.75Z\"/>\n</svg>"
-  },
-  "ludo": {
-    "regular": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2.5\"/>\n  <path d=\"M9.75 3v18m4.5-18v18M3 9.75h6.75M3 14.25h6.75m4.5-4.5H21m-6.75 4.5H21\"/>\n  <circle cx=\"6.4\" cy=\"6.4\" r=\"1.1\"/>\n  <circle cx=\"17.6\" cy=\"6.4\" r=\"1.1\"/>\n  <circle cx=\"6.4\" cy=\"17.6\" r=\"1.1\"/>\n  <circle cx=\"17.6\" cy=\"17.6\" r=\"1.1\"/>\n</svg>"
   },
   "market-umbrella": {
     "regular": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M2.75 11.5a9.25 7 0 0 1 18.5 0Z\"/>\n  <path d=\"M12 4.5v7M7 5.75l1.75 5.75M17 5.75l-1.75 5.75\"/>\n  <path d=\"M12 11.5v9\"/>\n  <path d=\"M9 20.5h6\"/>\n</svg>"

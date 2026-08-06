@@ -1,0 +1,214 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="856" height="786" viewBox="0 0 856 786"><rect width="856" height="786" fill="#FAF9F6"/><text x="32" y="34" font-family="ui-sans-serif,system-ui,sans-serif" font-size="17" fill="#16150F">Optical scale, bounds and visual mass</text>
+<text x="32" y="52" font-family="ui-sans-serif,system-ui,sans-serif" font-size="11" fill="#56524A">Dashed = 2-unit live area. Solid = true geometric bounds. Cross = optical centre of the drawing.</text>
+<text x="32" y="66" font-family="ui-sans-serif,system-ui,sans-serif" font-size="11" fill="#56524A">Percentage = ink coverage measured by rasterising at 48 px. Median across the set is 18.8%; a figure far from it reads heavier or lighter than its neighbours.</text>
+<line x1="32" y1="76" x2="824" y2="76" stroke="#E2DED3"/>
+<rect x="56" y="94" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="63" y="101" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(56 94) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 6.75 5.4 13.4a2.15.85 0 0 0 4.2 0Z"/><path d="M15.5 4.75 12.6 15.4a2.95 1.15 0 0 0 5.9 0Z"/><path d="M7.5 6.75c1-2.35 6-3.85 8-2"/></g>
+<rect x="74.9" y="107.7235" width="45.85" height="44.2015" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M93.82499999999999 129.82425H101.82499999999999M97.82499999999999 125.82425V133.82425" stroke="#B4531F" stroke-width="1"/>
+<text x="98" y="192" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">agogo</text>
+<text x="98" y="203" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#56524A" text-anchor="middle">13.9%</text>
+<rect x="188" y="94" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="195" y="101" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(188 94) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 11.75a8.5 7.5 0 0 0 17 0Z"/><circle cx="7.9" cy="9.6" r="1.75"/><circle cx="12" cy="9.9" r="1.75"/><circle cx="16.1" cy="9.6" r="1.75"/><circle cx="9.9" cy="6.5" r="1.75"/><circle cx="14.1" cy="6.5" r="1.75"/></g>
+<rect x="200.25" y="110.625" width="59.5" height="50.75" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M226 136H234M230 132V140" stroke="#B4531F" stroke-width="1"/>
+<text x="230" y="192" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">akara</text>
+<text x="230" y="203" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#56524A" text-anchor="middle">20.9%</text>
+<rect x="320" y="94" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="327" y="101" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(320 94) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="6" cy="12" rx="2.25" ry="6.5"/><path d="M6 5.5h11.75a2.25 6.5 0 0 1 0 13H6"/><path d="M10 5.75v12.5m4-12.5v12.5"/></g>
+<rect x="333.125" y="113.25" width="56.875" height="45.5" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M357.5625 136H365.5625M361.5625 132V140" stroke="#B4531F" stroke-width="1"/>
+<text x="362" y="192" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">aso-oke-fabric</text>
+<text x="362" y="203" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#56524A" text-anchor="middle">22.8%</text>
+<rect x="452" y="94" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="459" y="101" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(452 94) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8c-3.9 0-6.9 2.5-6.9 5.9 0 3.75 3.1 6.35 6.9 6.35s6.9-2.6 6.9-6.35c0-3.4-3-5.9-6.9-5.9"/><path d="M8.6 12.9c-.15 2.75 1.05 4.9 3.4 6.35m3.4-6.35c.15 2.75-1.05 4.9-3.4 6.35"/><path d="M12 8V6.4c0-1.6 1.2-2.9 2.8-2.9h1.6"/></g>
+<rect x="469.85" y="106.25" width="48.3" height="58.625" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M490 135.5625H498M494 131.5625V139.5625" stroke="#B4531F" stroke-width="1"/>
+<text x="494" y="192" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">ata-rodo</text>
+<text x="494" y="203" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#56524A" text-anchor="middle">16.7%</text>
+<rect x="584" y="94" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="591" y="101" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(584 94) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="3.1" r=".9"/><path d="m12 4-5.5 9h11Z"/><path d="M5.25 13h13.5v2.75H5.25Z"/><path d="M7.5 15.75v3.5m2.5-3.5V20m2-4.25v4.75m2-4.75V20m2.5-4.25v3.5"/></g>
+<rect x="602.375" y="101.7" width="47.25" height="64.05" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M622 133.725H630M626 129.725V137.725" stroke="#B4531F" stroke-width="1"/>
+<text x="626" y="192" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">beaded-crown</text>
+<text x="626" y="203" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#56524A" text-anchor="middle">19.9%</text>
+<rect x="716" y="94" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="723" y="101" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(716 94) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.25 3.5h5.5v3.25h-5.5Z"/><path d="M9.25 5.25h5.5"/><path d="m9.9 6.75-4.15 14m5.55-14-1.8 14m3.2-14 1.8 14m-.4-14 4.15 14"/></g>
+<rect x="736.125" y="106.25" width="43.75" height="60.375" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M754 136.4375H762M758 132.4375V140.4375" stroke="#B4531F" stroke-width="1"/>
+<text x="758" y="192" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">broom</text>
+<text x="758" y="203" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#56524A" text-anchor="middle">20.4%</text>
+<rect x="56" y="226" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="63" y="233" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(56 226) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="14.25" rx="6.25" ry="5.75"/><path d="M10.6 3.5h2.8"/><path d="M10.6 3.5c0 1.5.5 2.4.5 3.6 0 1.1-.75 1.85-1.35 2.6m3.65-6.2c0 1.5-.5 2.4-.5 3.6 0 1.1.75 1.85 1.35 2.6"/><path d="M7 17.5c1.65 1.15 3.35 1.15 5 0s3.35-1.15 5 0"/></g>
+<rect x="76.125" y="238.25" width="43.75" height="57.75" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M94 267.125H102M98 263.125V271.125" stroke="#B4531F" stroke-width="1"/>
+<text x="98" y="324" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">calabash</text>
+<text x="98" y="335" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#56524A" text-anchor="middle">15.4%</text>
+<rect x="188" y="226" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="195" y="233" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(188 226) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.75 10.75c2.4 4.4 5.9 6.6 9.25 6.6s6.85-2.2 9.25-6.6"/><path d="M2.75 10.75c3 1.35 6.1 2 9.25 2s6.25-.65 9.25-2"/><path d="M16.25 3.75 9.75 13"/></g>
+<rect x="197.625" y="239.125" width="64.75" height="47.60000000000001" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M226 262.925H234M230 258.925V266.925" stroke="#B4531F" stroke-width="1"/>
+<text x="230" y="324" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">canoe</text>
+<text x="230" y="335" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#56524A" text-anchor="middle">13.4%</text>
+<rect x="320" y="226" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="327" y="233" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(320 226) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="4.75" rx="3.25" ry="1.1"/><path d="M8.75 5.5c.5 1.1.2 2-.8 2.85a6.85 6.85 0 1 0 8.1 0c-1-.85-1.3-1.75-.8-2.85"/><path d="M6.6 13c1.8 1.25 3.6-1.25 5.4 0s3.6 1.25 5.4 0"/></g>
+<rect x="338.025" y="238.775" width="47.95" height="59.75900000000001" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M358 268.6545H366M362 264.6545V272.6545" stroke="#B4531F" stroke-width="1"/>
+<text x="362" y="324" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">clay-pot</text>
+<text x="362" y="335" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#56524A" text-anchor="middle">17.5%</text>
+<rect x="452" y="226" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="459" y="233" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(452 226) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.25c3.6 2.3 5.6 6.1 5.6 9.6 0 4.1-2.5 7.2-5.6 7.7-3.1-.5-5.6-3.6-5.6-7.7 0-3.5 2-7.3 5.6-9.6"/><path d="M12 4.5v15"/></g>
+<rect x="474.4" y="237.375" width="39.2" height="60.550000000000004" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M490 267.65H498M494 263.65V271.65" stroke="#B4531F" stroke-width="1"/>
+<text x="494" y="324" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">cocoa-pod</text>
+<text x="494" y="335" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#56524A" text-anchor="middle">15.0%</text>
+<rect x="584" y="226" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="591" y="233" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(584 226) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.01 8.59a9.75 9.75 0 0 0 15.98 0"/><circle cx="4.01" cy="8.59" r="1.3"/><circle cx="7.88" cy="11.84" r="1.3"/><circle cx="12" cy="12.75" r="1.3"/><circle cx="16.12" cy="11.84" r="1.3"/><circle cx="19.99" cy="8.59" r="1.3"/><ellipse cx="12" cy="16.9" rx="1.6" ry="2.3"/></g>
+<rect x="593.485" y="251.515" width="65.03" height="41.685" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M622 272.3575H630M626 268.3575V276.3575" stroke="#B4531F" stroke-width="1"/>
+<text x="626" y="324" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">coral-beads</text>
+<text x="626" y="335" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#56524A" text-anchor="middle">15.4%</text>
+<rect x="716" y="226" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="723" y="233" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(716 226) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="19" height="9.75" x="2.5" y="6.5" rx="1.75"/><path d="M2.5 11.5h19M8 6.5v5m7.5-5v5"/><circle cx="7" cy="17.75" r="1.85"/><circle cx="17" cy="17.75" r="1.85"/></g>
+<rect x="724.75" y="248.75" width="66.5" height="45.85000000000001" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M754 271.675H762M758 267.675V275.675" stroke="#B4531F" stroke-width="1"/>
+<text x="758" y="324" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">danfo</text>
+<text x="758" y="335" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#56524A" text-anchor="middle">24.6%</text>
+<rect x="56" y="358" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="63" y="365" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(56 358) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="9.25" x="3" y="10.25" rx="1.5"/><path d="m3.4 9.1 17-5.5.85 2.6-17 5.5Z"/><path d="m8.35 7.5.7 2.2m3.8-3.65.7 2.2m3.8-3.65.7 2.2"/></g>
+<rect x="66.5" y="370.6" width="63.875" height="55.65" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M94.4375 398.425H102.4375M98.4375 394.425V402.425" stroke="#B4531F" stroke-width="1"/>
+<text x="98" y="456" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">film-clapper</text>
+<text x="98" y="467" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#56524A" text-anchor="middle">23.5%</text>
+<rect x="188" y="358" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="195" y="365" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(188 358) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.75 4.5H7L3.75 7.75l2 2.25 1.5-1.3v10.05a1 1 0 0 0 1 1h7.5a1 1 0 0 0 1-1V8.7l1.5 1.3 2-2.25L17 4.5h-1.75a3.25 3.25 0 0 1-6.5 0"/></g>
+<rect x="201.125" y="373.75" width="57.75" height="53.375" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M226 400.4375H234M230 396.4375V404.4375" stroke="#B4531F" stroke-width="1"/>
+<text x="230" y="456" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">football-jersey</text>
+<text x="230" y="467" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#56524A" text-anchor="middle">16.2%</text>
+<rect x="320" y="358" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="327" y="365" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(320 358) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="11" height="14.5" x="5" y="6.25" rx="1.25"/><path d="M8 6.25V4.5h5v1.75"/><path d="M16 9.75h2.25c.7 0 1.25.55 1.25 1.25v1.5"/><path d="m7.75 9.75 5.5 7.5m0-7.5-5.5 7.5"/></g>
+<rect x="337.5" y="373.75" width="50.75" height="56.875" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M358.875 402.1875H366.875M362.875 398.1875V406.1875" stroke="#B4531F" stroke-width="1"/>
+<text x="362" y="456" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">jerry-can</text>
+<text x="362" y="467" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#56524A" text-anchor="middle">21.3%</text>
+<rect x="452" y="358" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="459" y="365" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(452 358) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 15.5a6.5 6.5 0 0 1 13 0"/><path d="M3.25 15.5h17.5"/><path d="M6 15.5a6.75 2.4 0 0 0 12 0"/><path d="m9.3 12.3 1 .4m3.4-1.7 1 .4m-3.4-1.8 1 .4"/></g>
+<rect x="463.375" y="389.5" width="61.25" height="27.303499999999993" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M490 403.15175H498M494 399.15175V407.15175" stroke="#B4531F" stroke-width="1"/>
+<text x="494" y="456" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">jollof-rice</text>
+<text x="494" y="467" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#56524A" text-anchor="middle">13.2%</text>
+<rect x="584" y="358" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="591" y="365" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(584 358) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6.5V5.25a3 2.75 0 0 1 6 0V6.5"/><path d="M7.75 6.5h8.5l-1 2.25h-6.5Z"/><path d="M8.75 8.75c-1.5 2.25-1.5 6 0 8.25h6.5c1.5-2.25 1.5-6 0-8.25Z"/><path d="M6.75 17h10.5v3.5H6.75Z"/></g>
+<rect x="607.625" y="366.75" width="36.75" height="63" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M622 398.25H630M626 394.25V402.25" stroke="#B4531F" stroke-width="1"/>
+<text x="626" y="456" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">kerosene-lantern</text>
+<text x="626" y="467" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#56524A" text-anchor="middle">18.8%</text>
+<rect x="716" y="358" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="723" y="365" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(716 358) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.75 11.5a9.25 7 0 0 1 18.5 0Z"/><path d="M12 4.5v7M7 5.75l1.75 5.75M17 5.75l-1.75 5.75"/><path d="M12 11.5v9"/><path d="M9 20.5h6"/></g>
+<rect x="725.625" y="373.75" width="64.75" height="56" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M754 401.75H762M758 397.75V405.75" stroke="#B4531F" stroke-width="1"/>
+<text x="758" y="456" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">market-umbrella</text>
+<text x="758" y="467" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#56524A" text-anchor="middle">19.1%</text>
+<rect x="56" y="490" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="63" y="497" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(56 490) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18.5" height="12.5" x="2.75" y="5.75" rx="1.5"/><path d="M9.5 15.5v-7l5 7v-7"/><path d="M7.5 10.75h9m-9 2.5h9"/></g>
+<rect x="65.625" y="510.125" width="64.75" height="43.75" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M94 532H102M98 528V536" stroke="#B4531F" stroke-width="1"/>
+<text x="98" y="588" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">naira-note</text>
+<text x="98" y="599" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#56524A" text-anchor="middle">24.1%</text>
+<rect x="188" y="490" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="195" y="497" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(188 490) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6.25 18.5v-13l11.5 13v-13"/><path d="M3.5 10.25h17m-17 3.5h17"/></g>
+<rect x="200.25" y="509.25" width="59.5" height="45.5" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M226 532H234M230 528V536" stroke="#B4531F" stroke-width="1"/>
+<text x="230" y="588" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">naira-sign</text>
+<text x="230" y="599" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#56524A" text-anchor="middle">18.1%</text>
+<rect x="320" y="490" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="327" y="497" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(320 490) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18.5" height="13.5" x="2.75" y="5.25" rx="1.5"/><path d="M8.92 5.25v13.5m6.16-13.5v13.5"/></g>
+<rect x="329.625" y="508.375" width="64.75" height="47.25" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M358 532H366M362 528V536" stroke="#B4531F" stroke-width="1"/>
+<text x="362" y="588" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">nigeria-flag</text>
+<text x="362" y="599" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#56524A" text-anchor="middle">22.3%</text>
+<rect x="452" y="490" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="459" y="497" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(452 490) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20.25h16"/><path d="M7 20.25 10.1 9.4l3.1 10.85"/><path d="m4.6 11.6 11.5-4.7"/><path d="M16.1 6.9a3.1 3.1 0 0 1 2.5 3.6"/><path d="M18.6 10.5v3"/><circle cx="5.1" cy="13.5" r="1.6"/></g>
+<rect x="464.25" y="514.15" width="57.75" height="46.725" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M489.125 537.5125H497.125M493.125 533.5125V541.5125" stroke="#B4531F" stroke-width="1"/>
+<text x="494" y="588" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">oil-pumpjack</text>
+<text x="494" y="599" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#56524A" text-anchor="middle">17.2%</text>
+<rect x="584" y="490" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="591" y="497" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(584 490) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.9" cy="16.25" r="3.6"/><circle cx="18.1" cy="16.25" r="3.6"/><path d="m5.9 16.25 4.35-6h4.25l3.6 6"/><path d="M8.5 10.25H15"/><path d="M14.5 10.25 16.25 7h2.25"/></g>
+<rect x="592.05" y="514.5" width="67.89999999999999" height="44.97500000000001" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M622 536.9875H630M626 532.9875V540.9875" stroke="#B4531F" stroke-width="1"/>
+<text x="626" y="588" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">okada</text>
+<text x="626" y="599" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#56524A" text-anchor="middle">18.1%</text>
+<rect x="716" y="490" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="723" y="497" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(716 490) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="14.5" height="18.5" x="4.75" y="2.75" rx="2"/><circle cx="12" cy="10.5" r="3.75"/><path d="M12 6.75c-2 2.2-2 5.3 0 7.5m0-7.5c2 2.2 2 5.3 0 7.5M8.25 10.5h7.5"/><path d="M8.5 17.5h7"/></g>
+<rect x="732.625" y="499.625" width="50.75" height="64.75" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M754 532H762M758 528V536" stroke="#B4531F" stroke-width="1"/>
+<text x="758" y="588" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">passport</text>
+<text x="758" y="599" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#B4531F" text-anchor="middle">28.1%</text>
+<rect x="56" y="622" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="63" y="629" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(56 622) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.75 10.75h16.5a8.25 7.25 0 0 1-5.5 6.85v1.65h-5.5V17.6a8.25 7.25 0 0 1-5.5-6.85"/><path d="M9.75 4c-.6 1.1.6 1.7 0 2.8m4.5-2.8c-.6 1.1.6 1.7 0 2.8"/></g>
+<rect x="69.125" y="636" width="57.75" height="53.375" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M94 662.6875H102M98 658.6875V666.6875" stroke="#B4531F" stroke-width="1"/>
+<text x="98" y="720" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">pepper-soup</text>
+<text x="98" y="731" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#56524A" text-anchor="middle">13.4%</text>
+<rect x="188" y="622" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="195" y="629" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(188 622) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.75 3.5V2.25h6.5V3.5"/><rect width="11.5" height="17" x="6.25" y="3.5" rx="2"/><rect width="7" height="4" x="8.5" y="6" rx=".75"/><circle cx="9.5" cy="13.25" r=".6"/><circle cx="12" cy="13.25" r=".6"/><circle cx="14.5" cy="13.25" r=".6"/><circle cx="9.5" cy="16.5" r=".6"/><circle cx="12" cy="16.5" r=".6"/><circle cx="14.5" cy="16.5" r=".6"/></g>
+<rect x="209.875" y="629.875" width="40.25" height="63.875" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M226 661.8125H234M230 657.8125V665.8125" stroke="#B4531F" stroke-width="1"/>
+<text x="230" y="720" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">pos-terminal</text>
+<text x="230" y="731" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#56524A" text-anchor="middle">27.0%</text>
+<rect x="320" y="622" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="327" y="629" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(320 622) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.75 3.5h4.5m-4.5 0v3.6m4.5-3.6v3.6m-4.5-1.7h4.5"/><ellipse cx="12" cy="13.6" rx="6.6" ry="6.9"/><path d="M12 6.75v13.7M5.4 13.6h13.2"/><path d="m7.35 8.95 9.3 9.3m0-9.3-9.3 9.3"/></g>
+<rect x="338.9" y="634.25" width="46.2" height="59.5" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M358 664H366M362 660V668" stroke="#B4531F" stroke-width="1"/>
+<text x="362" y="720" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">shekere</text>
+<text x="362" y="731" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#56524A" text-anchor="middle">24.9%</text>
+<rect x="452" y="622" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="459" y="629" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(452 622) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5v2m0 14v3"/><rect width="6.5" height="3.6" x="8.75" y="4.5" rx="1.3"/><rect width="6.5" height="3.6" x="8.75" y="9.2" rx="1.3"/><rect width="6.5" height="3.6" x="8.75" y="13.9" rx="1.3"/></g>
+<rect x="482.625" y="630.75" width="22.75" height="66.5" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M490 664H498M494 660V668" stroke="#B4531F" stroke-width="1"/>
+<text x="494" y="720" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">suya</text>
+<text x="494" y="731" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#56524A" text-anchor="middle">15.0%</text>
+<rect x="584" y="622" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="591" y="629" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(584 622) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="5.5" ry="1.75"/><path d="M6.5 5.5c1.4 4 1.4 9 0 13m11-13c-1.4 4-1.4 9 0 13"/><path d="M6.5 18.5a5.5 1.75 0 0 0 11 0"/><path d="m9.3 7 1.3 10m4.1-10-1.3 10M12 7.25V17"/></g>
+<rect x="606.75" y="635.125" width="38.5" height="57.75" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M622 664H630M626 660V668" stroke="#B4531F" stroke-width="1"/>
+<text x="626" y="720" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">talking-drum</text>
+<text x="626" y="731" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#56524A" text-anchor="middle">23.5%</text>
+<rect x="716" y="622" width="84" height="84" fill="none" stroke="#E2DED3"/>
+<rect x="723" y="629" width="70" height="70" fill="none" stroke="#E2DED3" stroke-dasharray="2 2"/>
+<g transform="translate(716 622) scale(3.5)" fill="none" stroke="#16150F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7.25c0-.97.78-1.75 1.75-1.75h14.5c.97 0 1.75.78 1.75 1.75v2.5a2.25 2.25 0 0 0 0 4.5v2.5c0 .97-.78 1.75-1.75 1.75H4.75A1.75 1.75 0 0 1 3 16.75v-2.5a2.25 2.25 0 0 0 0-4.5Z"/><path d="M15.5 7.75v1.5m0 2v1.5m0 2v1.5"/></g>
+<rect x="726.5" y="641.25" width="63" height="45.5" fill="none" stroke="#B4531F" stroke-opacity="0.55"/>
+<path d="M754 664H762M758 660V668" stroke="#B4531F" stroke-width="1"/>
+<text x="758" y="720" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="7" fill="#56524A" text-anchor="middle">train-ticket</text>
+<text x="758" y="731" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="6.5" fill="#56524A" text-anchor="middle">18.5%</text></svg>

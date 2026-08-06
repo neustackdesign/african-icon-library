@@ -43,7 +43,12 @@
     "verify:packages": "tsx scripts/verify-packages.ts",
     "package:plugins": "tsx scripts/package-plugin.ts",
     "media": "tsx scripts/generate-media.ts",
-    "launch:tokens": "tsx scripts/substitute-launch-tokens.ts"
+    "launch:tokens": "tsx scripts/substitute-launch-tokens.ts",
+    "review:boards": "tsx scripts/generate-review-boards.ts",
+    "review:coverage": "node scripts/measure-ink-coverage.mjs packages/icons/svg/regular reviews/visual-qa/coverage.json",
+    "review:pixels": "node scripts/render-pixel-truth.mjs packages/icons/svg/regular reviews/visual-qa/pixel-truth-16.png 16",
+    "launch:assets": "tsx scripts/generate-launch-assets.ts",
+    "launch:export": "node scripts/export-launch-assets.mjs launch-assets/linkedin launch-assets/linkedin 1 && node scripts/export-launch-assets.mjs launch-assets/instagram launch-assets/instagram 1 && node scripts/export-launch-assets.mjs launch-assets/x launch-assets/x 1 && node scripts/export-launch-assets.mjs launch-assets/github launch-assets/github 1 && node scripts/export-launch-assets.mjs launch-assets/press launch-assets/press 1 && node scripts/export-launch-assets.mjs launch-assets/figma launch-assets/figma 1 && node scripts/export-carousel-pdf.mjs launch-assets/linkedin launch-assets/linkedin/launch-carousel.pdf"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",

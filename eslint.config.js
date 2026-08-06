@@ -6,6 +6,13 @@ import tseslint from 'typescript-eslint';
 export default tseslint.config(
   {
     ignores: [
+      // Browser-context exporters run by hand with a local Chromium; they use DOM
+      // globals and print to stdout by design, and CI never executes them.
+      'scripts/export-launch-assets.mjs',
+      'scripts/export-carousel-pdf.mjs',
+      'scripts/measure-ink-coverage.mjs',
+      'scripts/render-pixel-truth.mjs',
+
       '**/node_modules/**',
       '**/dist/**',
       '**/.next/**',

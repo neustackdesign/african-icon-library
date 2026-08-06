@@ -24,9 +24,10 @@
     "./package.json": "./package.json"
   },
   "files": [
+    "LICENSE",
+    "README.md",
     "dist",
-    "svg",
-    "README.md"
+    "svg"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.build.json",

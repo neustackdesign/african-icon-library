@@ -38,7 +38,8 @@
     "build": "npm run build -w @african-icon-library/metadata && npm run build -w @african-icon-library/icons && npm run build -w @african-icon-library/react && npm run build -w @african-icon-library/figma-plugin && npm run release:build && npm run build -w @african-icon-library/web",
     "dev:web": "npm run dev -w @african-icon-library/web",
     "dev:plugin": "npm run dev -w @african-icon-library/figma-plugin",
-    "check": "npm run lint && npm run format:check && npm run validate && npm run qa && npm run verify:generated && npm run typecheck && npm run test && npm run build"
+    "check": "npm run lint && npm run format:check && npm run validate && npm run qa && npm run verify:generated && npm run typecheck && npm run test && npm run build",
+    "verify:packages": "tsx scripts/verify-packages.ts"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",

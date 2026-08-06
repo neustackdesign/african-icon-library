@@ -11,9 +11,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@african-icon-library/icons": "0.2.0",
-    "@african-icon-library/metadata": "0.2.0",
-    "@african-icon-library/react": "0.2.0",
+    "@african-icon-library/icons": "*",
+    "@african-icon-library/metadata": "*",
+    "@african-icon-library/react": "*",
     "next": "16.2.12",
     "react": "19.2.4",
     "react-dom": "19.2.4"

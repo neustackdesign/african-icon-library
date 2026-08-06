@@ -1,6 +1,6 @@
 {
   "name": "@african-icon-library/figma-community-builder",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Internal Figma plugin that builds the African Icon Library Community file in one action.",
   "license": "MIT",
@@ -17,6 +17,6 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@african-icon-library/metadata": "0.1.0"
+    "@african-icon-library/metadata": "*"
   }
 }

@@ -58,6 +58,12 @@ jobs:
       - name: Build
         run: npm run build
 
+      # Packs the publishable packages and installs them into a throwaway
+      # consumer. `files`, `exports` and type resolution all look correct in the
+      # repository and break the moment someone installs the tarball.
+      - name: Verify publishable packages
+        run: npm run verify:packages
+
       - name: Upload release artefacts
         uses: actions/upload-artifact@v4
         with:

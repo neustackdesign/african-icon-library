@@ -186,10 +186,26 @@ should not hold.
 
 ### 4.1 GitHub
 
-- [ ] Create `neustackdesign/african-icon-library` and push `main`.
-- [ ] Decide public vs private. The repository contains no secrets and is written to be public.
-- [ ] Enable branch protection on `main` requiring the `check` job.
-- [ ] Tag `v0.1.0` and create the release, attaching `release/*` from the CI artefact.
+- [x] `neustackdesign/african-icon-library` exists and `main` carries the full standalone history.
+- [x] GitHub Actions runs on every push: lint, formatting, asset-optimisation drift, icon
+      validation, the QA report, generated-output drift, type-check, tests, the full build, and a
+      clean-room install of the packed packages. Green on `main`.
+- [x] CodeQL, dependency review and Dependabot are configured.
+- [ ] **Enable branch protection on `main`** requiring the `Lint, validate, test, build` check.
+      Not possible from this environment: the GitHub App backing it has no administration scope.
+- [ ] **Create the repository labels** the issue forms reference. GitHub silently drops labels that
+      do not exist, so the forms are inert until they are created. The list is in
+      `docs/governance/maintainer-guide.md`.
+- [ ] **Enable Discussions**, or delete that entry from `.github/ISSUE_TEMPLATE/config.yml` — it is
+      a 404 in the issue chooser otherwise.
+- [ ] **Enable the dependency graph**, or `dependency-review.yml` is a no-op.
+- [ ] **Set the repository description, homepage and topics.** Suggested:
+      description `Open-source icons for African life, drawn on one 24-pixel grid. Nigeria first.`,
+      homepage `https://icons.neustackstudio.com`, topics `icons`, `icon-set`, `svg`, `react`,
+      `figma-plugin`, `design-system`, `african`, `nigeria`, `open-source`.
+- [ ] **Tag `v0.2.0` and create the release**, attaching `release/*` from the CI artefact. The
+      artefacts are built deterministically, so the checksums in `release/manifest.json` are the
+      ones to publish.
 
 ### 4.2 npm
 
@@ -201,6 +217,14 @@ should not hold.
 
 ### 4.3 Figma
 
+Both plugins build, pass their offline assertions, and are packaged for submission by
+`npm run package:plugins` into `release/figma/`. Each zip contains exactly the files its manifest
+references and nothing else.
+
+- [x] The insert plugin builds and is packaged.
+- [x] The Community **file builder** is written, tested against a fake Figma runtime, and packaged.
+      It creates every page, one component per released icon, the cover and the carousel frames in
+      one action. It is data-driven, so it cannot invent a variant for an undrawn weight.
 - [ ] Build the plugin: `npm run build -w @african-icon-library/figma-plugin`.
 - [ ] Import `apps/figma-plugin/manifest.json` as a development plugin and test insertion on an
       empty file, inside a frame, and with a locked selection.
@@ -214,13 +238,21 @@ should not hold.
 
 ### 4.4 Vercel
 
-- [ ] Import the repository. Root directory: the repository root (not `apps/web`) — the build
-      needs the workspace packages.
-- [ ] Build command `npm run build`, output `apps/web/.next`, install `npm ci`. Already in
-      `vercel.json`.
-- [ ] Add `icons.neustackstudio.com` and point the DNS `CNAME` at Vercel.
-- [ ] Verify after the first deploy: `/sitemap.xml`, `/robots.txt`, `/opengraph-image`, and one
-      icon page.
+No Vercel CLI and no Vercel token exist in the build environment, so no deployment could be made
+from here. Everything that does not need account access is done: `vercel.json` is complete, the
+production build is verified on every CI run, and every route is static so a deploy cannot fail on
+a missing environment variable.
+
+The full step-by-step, the smoke test to run against the preview, and the exact DNS record are in
+[docs/vercel-deployment.md](docs/vercel-deployment.md).
+
+- [ ] Import the repository, root directory = repository root (**not** `apps/web`).
+- [ ] Deploy a preview and run the smoke test in the deployment doc.
+- [ ] Promote to production.
+- [ ] Add `icons.neustackstudio.com`, then add the DNS record:
+      `CNAME  icons  cname.vercel-dns.com`
+- [ ] Verify HTTPS, the canonical redirect, and re-run the smoke test against production.
+- [ ] Only then update any copy that says the site is not yet live.
 
 ### 4.5 Contact
 

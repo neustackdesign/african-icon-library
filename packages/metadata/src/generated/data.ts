@@ -1198,6 +1198,7 @@ export const regions: readonly Region[] = [
  * has not been named publicly, and the public surface must not imply otherwise.
  */
 export const pipeline: PipelineSummary = {
+  "version": "0.2.0",
   "auditRecords": 86,
   "drawingsIngested": 18,
   "released": 30,

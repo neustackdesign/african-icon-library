@@ -21,7 +21,10 @@ export const SITE = {
 } as const;
 
 export const LIBRARY = {
-  version: '0.1.0',
+  // Never hand-typed: the download filenames below are built from it, and a
+  // stale literal here silently points every download at a file that does not
+  // exist. It did exactly that until the deployed site was inspected.
+  version: pipeline.version,
   iconCount: icons.length,
   categoryCount: new Set(icons.map((icon) => icon.category)).size,
   weightsShipped: pipeline.weightsShipped,

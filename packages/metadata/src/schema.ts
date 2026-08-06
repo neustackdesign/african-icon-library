@@ -226,6 +226,13 @@ export const auditFileSchema = z.object({
  * ------------------------------------------------------------------ */
 
 export const pipelineSummarySchema = z.object({
+  /**
+   * The release this data describes, taken from the repository version at
+   * generation time. Download filenames are built from it, so a hand-typed copy
+   * anywhere else is a broken link waiting to happen — which is exactly what it
+   * was before this field existed.
+   */
+  version: z.string().regex(/^\d+\.\d+\.\d+$/),
   auditRecords: z.number().int().nonnegative(),
   drawingsIngested: z.number().int().nonnegative(),
   /** Icons released, counted from the released set — not from audit dispositions. */

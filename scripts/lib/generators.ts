@@ -22,6 +22,15 @@ import {
 import { regionsSchema } from '../../packages/metadata/src/schema.ts';
 import { parseSvg, serializeChildren, type SvgNode } from './svg-document.ts';
 
+/**
+ * The repository version is the release version: the release workflow refuses
+ * to publish unless the tag and all three package versions agree with it. Every
+ * generated surface reads it from here so no copy of it can drift.
+ */
+const REPO_VERSION: string = JSON.parse(
+  await readFile(new URL('../../package.json', import.meta.url), 'utf8'),
+).version;
+
 /* ------------------------------------------------------------------ *
  * Shared helpers
  * ------------------------------------------------------------------ */
@@ -73,6 +82,7 @@ export function buildPipelineSummary(
   const releasedIds = new Set(icons.map((icon) => icon.id));
 
   return {
+    version: REPO_VERSION,
     auditRecords: records.length,
     drawingsIngested: records.filter(
       (record) => record.disposition === 'released' || record.disposition === 'held',

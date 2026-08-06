@@ -68,6 +68,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: release-artefacts
-          path: release/
+          path: |
+            release/
+            media/
+            qa/
           if-no-files-found: error
-          retention-days: 14
+          retention-days: 30

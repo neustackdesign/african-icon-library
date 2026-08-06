@@ -12,7 +12,7 @@
  */
 
 import { createHash } from 'node:crypto';
-import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 import { PATHS, ROOT, listSvgAssets, loadCategories, loadIcons, relative } from './lib/repo.ts';
@@ -134,7 +134,13 @@ async function run(): Promise<number> {
     ...categoryPacks.map((pack) => ({ name: pack.name, contents: pack.contents })),
   ];
 
-  await rm(PATHS.release, { recursive: true, force: true });
+  // Clears only what this script owns. `npm run package:plugins` writes into
+  // release/figma and `npm run verify:packages` into release/packages; wiping
+  // the whole directory would delete whichever ran first.
+  for (const stale of await readdir(PATHS.release).catch(() => [])) {
+    if (stale === 'figma' || stale === 'packages') continue;
+    await rm(path.join(PATHS.release, stale), { recursive: true, force: true });
+  }
   await mkdir(PATHS.release, { recursive: true });
   await rm(WEB_DOWNLOADS, { recursive: true, force: true });
   await mkdir(WEB_DOWNLOADS, { recursive: true });

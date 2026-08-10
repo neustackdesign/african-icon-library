@@ -11,9 +11,9 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@figma/plugin-typings": "^1.132.0",
+    "@figma/plugin-typings": "^1.133.0",
     "esbuild": "^0.28.1",
-    "tsx": "^4.23.5",
+    "tsx": "^4.23.10",
     "typescript": "^5.9.3"
   },
   "dependencies": {

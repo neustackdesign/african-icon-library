@@ -96,13 +96,13 @@ export const NAMES_INTRO: Block = {
   heading: 'Names & cultural notes',
   lines: [
     'Each card records what the icon depicts and the region attached to the referent.',
-    'Local-language names are published here only when they have been confirmed; uncertain names stay out of the public file until reviewed.',
+    'Confirmed local-language names are marked CONFIRMED. Names still awaiting cultural review are visibly marked PENDING rather than presented as settled fact.',
     `If a name or cultural reference is wrong, report it at ${LINKS.issues} or write to ${LINKS.support}.`,
   ],
 };
 
-export const PENDING_BADGE = 'pending';
-export const CONFIRMED_BADGE = 'confirmed';
+export const PENDING_BADGE = 'PENDING';
+export const CONFIRMED_BADGE = 'CONFIRMED';
 
 export function licenceBlocks(): Block[] {
   return [

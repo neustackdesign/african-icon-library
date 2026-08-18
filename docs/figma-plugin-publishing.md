@@ -51,15 +51,15 @@ Neustack Design
 
 ## Privacy and permissions
 
-| Question | Answer |
-| --- | --- |
-| Network access | None — `networkAccess.allowedDomains` is `["none"]`. |
-| Personal data collection | None. |
-| Analytics | None. |
-| User account required | No. |
-| Persistent storage | None. |
-| Editor support | Figma design files. |
-| Document access | `dynamic-page`; insertion operates on the current page. |
+| Question                 | Answer                                                  |
+| ------------------------ | ------------------------------------------------------- |
+| Network access           | None — `networkAccess.allowedDomains` is `["none"]`.    |
+| Personal data collection | None.                                                   |
+| Analytics                | None.                                                   |
+| User account required    | No.                                                     |
+| Persistent storage       | None.                                                   |
+| Editor support           | Figma design files.                                     |
+| Document access          | `dynamic-page`; insertion operates on the current page. |
 
 ## Listing media
 

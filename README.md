@@ -12,16 +12,16 @@ A free, open-source SVG icon library for African everyday life — starting with
 
 ## V2 release set
 
-| Category | Icons |
-| --- | ---: |
-| Music, Art & Play | 4 |
-| Food & Drink | 6 |
-| Fashion & Textiles | 2 |
-| Culture & People | 5 |
-| Transport | 4 |
-| Identity & State | 3 |
-| Commerce & Industry | 6 |
-| **Total** | **30** |
+| Category            |  Icons |
+| ------------------- | -----: |
+| Music, Art & Play   |      4 |
+| Food & Drink        |      6 |
+| Fashion & Textiles  |      2 |
+| Culture & People    |      5 |
+| Transport           |      4 |
+| Identity & State    |      3 |
+| Commerce & Industry |      6 |
+| **Total**           | **30** |
 
 See [docs/v2-release-manifest.md](docs/v2-release-manifest.md) for the complete named list.
 

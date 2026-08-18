@@ -103,7 +103,9 @@ export default async function DownloadsPage() {
 
           <div className="prose" style={{ marginTop: '2.5rem' }}>
             <h2>Checksums</h2>
-            <p className="muted">SHA-256 values are provided for anyone who wants to verify a download.</p>
+            <p className="muted">
+              SHA-256 values are provided for anyone who wants to verify a download.
+            </p>
           </div>
 
           <div className="table-scroll" style={{ marginTop: '1rem' }}>
@@ -165,8 +167,8 @@ export default async function DownloadsPage() {
 
         <h2>Licence</h2>
         <p>
-          MIT. The licence covers the code, metadata and original drawings in the release. Third-party
-          trademarks remain the property of their owners.
+          MIT. The licence covers the code, metadata and original drawings in the release.
+          Third-party trademarks remain the property of their owners.
         </p>
       </div>
     </div>

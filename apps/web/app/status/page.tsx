@@ -14,9 +14,7 @@ export default function StatusPage() {
     <div className="section shell">
       <div className="prose">
         <p className="eyebrow">V2 release</p>
-        <h1 style={{ fontSize: 'clamp(1.9rem, 1.4rem + 2.4vw, 2.75rem)' }}>
-          The current library.
-        </h1>
+        <h1 style={{ fontSize: 'clamp(1.9rem, 1.4rem + 2.4vw, 2.75rem)' }}>The current library.</h1>
         <p className="lede">
           V2 contains {LIBRARY.iconCount} released icons across {LIBRARY.categoryCount} categories,
           drawn on a 24-pixel grid in the {LIBRARY.weightsShipped.join(', ')} weight.
@@ -31,8 +29,8 @@ export default function StatusPage() {
 
         <h2>Figma</h2>
         <p>
-          The V2 Community file and plugin are part of the release rollout and use the same canonical
-          icon set as the website and repository.
+          The V2 Community file and plugin are part of the release rollout and use the same
+          canonical icon set as the website and repository.
         </p>
 
         <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>

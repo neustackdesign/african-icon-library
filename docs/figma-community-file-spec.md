@@ -35,61 +35,48 @@ Icons
 **Creator**  
 Neustack Design
 
-## File structure
+## Generated file structure
 
-Use five pages, in this order.
+The Community builder currently creates a deliberately navigable file rather than one enormous icon page:
 
-### 1. Cover
+1. `00 — Start Here` — cover, public intro and Community listing frames.
+2. `01 — All Icons` — complete released set grouped by category.
+3. Populated category pages — Identity & State; Fashion & Textiles; Food & Drink; Music, Art & Play; Transport; Everyday Life & Commerce.
+4. `Components` — the canonical editable components used by the other pages.
+5. `Names & Cultural Notes` — public descriptions and confirmed naming context.
+6. `Licence & Contributions` — licence, corrections and contribution routes.
 
-One 1920 × 960 frame named `Cover` as the first frame in the file. Keep the thumbnail count-free so it does not become stale. Show the library name, short tagline and 6–8 distinctive released icons.
+Empty metadata categories do not get their own page. Page numbering closes automatically around whatever is actually released.
 
-### 2. Icons
-
-The complete V2 set, grouped into the seven populated categories in canonical metadata order.
+### Component rules
 
 - One component per released icon.
 - Component names: `african-icons/<category-slug>/<icon-id>`.
 - Component frame: 24 × 24, clip content off.
 - Preserve live strokes; do not outline them.
 - Use one consistent editable stroke colour in Figma.
-- Keep `Weight = Regular` as the current variant value so future deliberately drawn weights can extend the component API without replacing instances.
-
-### 3. Grid & spec
-
-Show the 24-unit canvas, live area/keylines and a small number of representative icons on-grid. Include a legibility strip at 16, 24, 32 and 48 px.
-
-### 4. Usage
-
-Keep this practical:
-
-- recolouring;
-- resizing;
-- using components in product UI;
-- link to the website for SVG downloads;
-- link to the companion plugin for search/insertion.
-
-### 5. About
-
-A concise project statement, MIT licence, contribution link and source repository. Do not publish audit diagnostics, rejected concepts, internal backlog counts, deployment state or release-operation notes here.
+- The regular weight is the V2 baseline. Add a Weight property only when a second deliberately drawn weight actually exists.
 
 ## Cover and carousel
 
-**Cover:** 1920 × 960. Use the library paper/ink visual language already established by the website. Use real released artwork only.
+**Cover:** 1920 × 960, first frame of the first page, named `Cover`. Use real released artwork only and keep the headline/count treatment simple enough to remain legible as a Community thumbnail.
 
-**Suggested carousel:**
+**Carousel:**
 
 1. Full V2 category grid.
 2. Icons at real UI size, then enlarged.
 3. One representative icon on the 24 px drawing grid.
-4. A few icons used in realistic African product-interface contexts.
-5. Website, Community file and plugin shown as three ways into the same library.
+4. A few icons used in realistic product-interface contexts.
+5. Community file, plugin, website downloads and open-source source shown as one connected library.
+
+Do not publish audit diagnostics, rejected concepts, internal backlog counts, deployment state or release-operation notes in the Community file or listing media.
 
 ## Pre-publish integrity checks
 
 - [ ] Component count matches the canonical released count.
 - [ ] Every component id exists in the repository metadata.
 - [ ] No unreleased/staging icon appears in the file, cover or carousel.
-- [ ] Component geometry matches the canonical SVG source after the user's final Figma cleanup.
+- [ ] Component geometry matches the canonical SVG source after final Figma cleanup.
 - [ ] Any geometry change or newly added icon has been promoted back to the repository source before publication.
 - [ ] All icon strokes remain live and editable.
 - [ ] Cover is the first frame on the first page and named `Cover`.

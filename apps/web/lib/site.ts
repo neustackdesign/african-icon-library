@@ -19,6 +19,8 @@ export const LIBRARY = {
   iconCount: icons.length,
   categoryCount: new Set(icons.map((icon) => icon.category)).size,
   weightsShipped: pipeline.weightsShipped,
+  // Keep this public contract for icon detail pages without exposing internal pipeline/backlog data.
+  weightsPlanned: [] as const,
 } as const;
 
 export const DOWNLOADS = {

@@ -7,9 +7,7 @@ import { DOWNLOADS, LIBRARY, SITE, plural } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Downloads',
-  description:
-    'Download every released African Icon Library SVG, the metadata JSON, and verify the ' +
-    'published checksums.',
+  description: 'Download African Icon Library V2 as SVGs, category packs or metadata.',
   alternates: { canonical: '/downloads' },
 };
 
@@ -26,8 +24,6 @@ async function readManifest(): Promise<Manifest | null> {
     const file = path.join(process.cwd(), 'public/downloads/manifest.json');
     return JSON.parse(await readFile(file, 'utf8')) as Manifest;
   } catch {
-    // The manifest is produced by `npm run release:build`. If it is missing the
-    // page says so rather than linking to files that do not exist.
     return null;
   }
 }
@@ -44,13 +40,11 @@ export default async function DownloadsPage() {
   return (
     <div className="section shell">
       <div className="prose">
-        <p className="eyebrow">Downloads</p>
+        <p className="eyebrow">Downloads · V2</p>
         <h1 style={{ fontSize: 'clamp(1.9rem, 1.4rem + 2.4vw, 2.75rem)' }}>Take the files.</h1>
         <p className="lede">
-          {plural(LIBRARY.iconCount, 'icon')} in the{' '}
-          <code>{LIBRARY.weightsShipped.join(', ')}</code> weight, plus the metadata that describes
-          them. MIT licensed — commercial use included, no attribution required (though it is
-          welcome).
+          {plural(LIBRARY.iconCount, 'icon')} in the {LIBRARY.weightsShipped.join(', ')} weight,
+          ready as SVGs. MIT licensed for personal and commercial work.
         </p>
       </div>
 
@@ -65,8 +59,11 @@ export default async function DownloadsPage() {
               target_="icons-zip"
               surface="downloads"
             >
-              SVG bundle (.zip)
+              Download all SVGs (.zip)
             </TrackedLink>
+            <a className="button button--ghost" href={SITE.repository} rel="noreferrer noopener">
+              View source on GitHub
+            </a>
             <TrackedLink
               className="button button--ghost"
               href={DOWNLOADS.metadata}
@@ -81,10 +78,7 @@ export default async function DownloadsPage() {
 
           <div className="prose" style={{ marginTop: '2.5rem' }}>
             <h2>Category packs</h2>
-            <p className="muted">
-              Only the categories that actually contain released icons are offered. An empty pack
-              would be a download that promises something it cannot give.
-            </p>
+            <p className="muted">Download only the part of the library you need.</p>
           </div>
 
           <ul className="card-grid" style={{ listStyle: 'none', margin: '1rem 0 0', padding: 0 }}>
@@ -109,6 +103,9 @@ export default async function DownloadsPage() {
 
           <div className="prose" style={{ marginTop: '2.5rem' }}>
             <h2>Checksums</h2>
+            <p className="muted">
+              SHA-256 values are provided for anyone who wants to verify a download.
+            </p>
           </div>
 
           <div className="table-scroll" style={{ marginTop: '1rem' }}>
@@ -147,8 +144,12 @@ export default async function DownloadsPage() {
         </>
       ) : (
         <div className="empty-state" style={{ marginTop: '1.5rem' }}>
-          <p>The download artefacts have not been built for this deployment.</p>
-          <p className="mono">Run `npm run release:build` before building the site.</p>
+          <p>Direct downloads are temporarily unavailable on this build.</p>
+          <p>
+            <a href={SITE.repository} rel="noreferrer noopener">
+              Get the source files from GitHub →
+            </a>
+          </p>
         </div>
       )}
 
@@ -158,37 +159,16 @@ export default async function DownloadsPage() {
           <code>
             {`african-icon-library-${LIBRARY.version}/
   svg/regular/*.svg     ${LIBRARY.iconCount} icons, 24 x 24, currentColor
-  metadata.json         names, categories, keywords, provenance
+  metadata.json         names, categories and keywords
   LICENSE               MIT
   README.txt`}
           </code>
         </pre>
 
-        <h2>Verify the download</h2>
-        <pre className="code-block">
-          <code>{`shasum -a 256 african-icon-library-icons-${LIBRARY.version}.zip`}</code>
-        </pre>
-        <p className="muted">
-          The archive is built deterministically, so the same source tree always produces the same
-          checksum.
-        </p>
-
-        <h2>Not on npm yet</h2>
-        <p>
-          <code>@african-icon-library/icons</code>, <code>/metadata</code> and <code>/react</code>{' '}
-          build and test in CI but have not been published. Publishing needs an npm account action
-          that has not been taken. Until then, build them from{' '}
-          <a href={SITE.repository} rel="noreferrer noopener">
-            the repository
-          </a>
-          .
-        </p>
-
         <h2>Licence</h2>
         <p>
-          MIT. It covers the code, the metadata and the drawings. It does not grant rights in
-          third-party trademarks or regulated national symbols — no released icon reproduces either,
-          and none may be added.
+          MIT. The licence covers the code, metadata and original drawings in the release.
+          Third-party trademarks remain the property of their owners.
         </p>
       </div>
     </div>

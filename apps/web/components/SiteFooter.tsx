@@ -8,15 +8,14 @@ const COLUMNS = [
     heading: 'Library',
     links: [
       { href: '/', label: 'Browse icons' },
-      { href: '/spec', label: 'Drawing spec' },
       { href: '/downloads', label: 'Downloads' },
-      { href: '/status', label: 'Status' },
+      { href: '/spec', label: 'Drawing spec' },
     ],
   },
   {
     heading: 'Project',
     links: [
-      { href: '/changelog', label: 'Changelog' },
+      { href: '/changelog', label: 'Releases' },
       { href: '/contributing', label: 'Contributing' },
       { href: '/licence', label: 'Licence' },
     ],
@@ -56,7 +55,7 @@ export function SiteFooter() {
               </li>
               <li>
                 <a href={SITE.issues} rel="noreferrer noopener">
-                  Report an issue
+                  Suggest an icon or report an issue
                 </a>
               </li>
               <li>
@@ -69,8 +68,8 @@ export function SiteFooter() {
         <hr style={{ margin: '1.75rem 0 1.25rem' }} />
 
         <p className="mono">
-          {SITE.name} v{LIBRARY.version} · MIT licensed · maintained by {SITE.maintainer} · Nigeria
-          first, the continent next.
+          {SITE.name} v{LIBRARY.version} · {LIBRARY.iconCount} icons · MIT licensed · maintained by{' '}
+          {SITE.maintainer}.
         </p>
       </div>
     </footer>

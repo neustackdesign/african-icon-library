@@ -1,11 +1,6 @@
 import { icons, pipeline } from '@african-icon-library/metadata';
 
-/**
- * Every claim the site makes about size, weights or availability is derived
- * from the data, never typed by hand. If a number appears in copy, it comes
- * from here.
- */
-
+/** Public release facts derived from the canonical library data. */
 export const SITE = {
   name: 'African Icon Library',
   shortName: 'African Icons',
@@ -15,27 +10,17 @@ export const SITE = {
   maintainer: 'Neustack Design',
   contact: 'icons@neustackstudio.com',
   description:
-    'Open-source icons for African life, drawn on one 24-pixel grid. Nigeria first, ' +
-    'the continent next.',
+    'A free, open-source SVG icon library for African everyday life — starting with Nigeria.',
   locale: 'en_NG',
 } as const;
 
 export const LIBRARY = {
-  // Never hand-typed: the download filenames below are built from it, and a
-  // stale literal here silently points every download at a file that does not
-  // exist. It did exactly that until the deployed site was inspected.
   version: pipeline.version,
   iconCount: icons.length,
   categoryCount: new Set(icons.map((icon) => icon.category)).size,
   weightsShipped: pipeline.weightsShipped,
-  weightsPlanned: pipeline.weightsPlanned,
-  auditRecords: pipeline.auditRecords,
-  drawingsIngested: pipeline.drawingsIngested,
-  heldForCulturalReview: pipeline.heldForCulturalReview,
-  heldForIconDesign: pipeline.heldForIconDesign,
-  backlogConcepts: pipeline.backlogConcepts,
-  mergedByAudit: pipeline.mergedByAudit,
-  droppedByAudit: pipeline.droppedByAudit,
+  // Keep this public contract for icon detail pages without exposing internal pipeline/backlog data.
+  weightsPlanned: [] as const,
 } as const;
 
 export const DOWNLOADS = {
@@ -46,10 +31,9 @@ export const DOWNLOADS = {
 
 export const NAV = [
   { href: '/', label: 'Icons' },
-  { href: '/spec', label: 'Spec' },
   { href: '/downloads', label: 'Downloads' },
-  { href: '/status', label: 'Status' },
-  { href: '/changelog', label: 'Changelog' },
+  { href: '/spec', label: 'Spec' },
+  { href: '/changelog', label: 'Releases' },
 ] as const;
 
 /** Grammatical helper so copy reads correctly when the set is tiny or large. */

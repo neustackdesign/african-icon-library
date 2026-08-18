@@ -1,176 +1,86 @@
-# Figma Community file — specification
+# Figma Community file — V2 specification
 
-The Community file is the showroom; the plugin is the distribution. This document specifies the
-file so it can be built once, correctly, by whoever has the Figma account.
-
-Nothing here has been published. Publishing is item 4.3 in
-[RELEASE_CHECKLIST.md](../RELEASE_CHECKLIST.md).
-
----
+The Community file is the design-facing home of the African Icon Library. It must contain the same released set as the website, downloads and plugin — never a separate Figma-only version.
 
 ## Publishing metadata
 
-**File name**
-`African Icon Library — 32 icons for African life`
+**File name**  
+`African Icon Library — V2`
 
-**Tagline** (under 100 characters)
-`Open-source icons for African life, on one 24px grid. Nigeria first.`
+**Tagline**  
+`Open-source icons for African everyday life, built on one 24px system.`
 
 **Description**
 
-> 32 icons for things global libraries have never drawn — a danfo, a suya skewer, a talking
-> drum, a naira note, an agogo, a ludo board.
+> A free, open-source icon library for African everyday life — starting with Nigeria.
 >
-> Every icon is drawn on one 24-pixel grid with a 1.5 stroke, round caps and joins, and a 2-unit
-> live area, so they sit level beside one another and beside the rest of your system. Nothing
-> carries baked-in type, a brand mark, or a hard-coded colour: every glyph paints with
-> `currentColor` and takes your text colour with no edits.
+> V2 contains 30 icons across seven categories, including food, transport, culture, commerce,
+> identity, fashion and play. Every icon follows the same 24-pixel drawing system and is provided
+> as an editable Figma component.
 >
-> This set is small on purpose. It follows an audit of an earlier 86-drawing library that found no
-> shared grid, no stroke logic, and type and trademarks baked into the artwork. Rather than
-> re-ship that, this release contains only what passes every automated check — viewBox, bounds,
-> prohibited text, hard-coded colour, element allow-list, metadata completeness and weight
-> completeness — and says plainly what has not been drawn yet.
+> Use the Community file as a library, download the SVGs from icons.neustackstudio.com, or use the
+> companion Figma plugin to search and place icons directly on your canvas.
 >
-> **What you get:** 32 icons in the regular weight, as components. The `Weight` property carries
-> a single value today, because a single weight is drawn.
+> MIT licensed. Free for personal and commercial use.
 >
-> **What you do not get, yet:** the thin, bold and fill weights are specified but not drawn. They
-> will not be faked by changing a stroke width — a real weight redistributes mass and re-solves
-> counters, and that is drawing work. The illustration tier has no pieces yet.
->
-> MIT licensed. Free for commercial use, no attribution required.
->
-> Source, roadmap and the full audit trail:
-> github.com/neustackdesign/african-icon-library
+> Source: github.com/neustackdesign/african-icon-library
 
-**Tags** (Figma allows up to 12)
-`icons`, `icon set`, `african`, `nigeria`, `lagos`, `culture`, `open source`, `design system`,
-`ui icons`, `svg`, `24px`, `components`
+**Tags**  
+`icons`, `icon set`, `african`, `nigeria`, `culture`, `open source`, `design system`, `ui icons`,
+`svg`, `24px`, `components`, `vector`
 
-**Category**
+**Category**  
 Icons
 
-**Creator**
+**Creator**  
 Neustack Design
 
-**Support / contact**
-`icons@neustackstudio.com`
+## Generated file structure
 
-**Licence shown on the file**
-MIT — link to `github.com/neustackdesign/african-icon-library/blob/main/LICENSE`
+The Community builder currently creates a deliberately navigable file rather than one enormous icon page:
 
----
+1. `00 — Start Here` — cover, public intro and Community listing frames.
+2. `01 — All Icons` — complete released set grouped by category.
+3. Populated category pages — Identity & State; Fashion & Textiles; Food & Drink; Music, Art & Play; Transport; Everyday Life & Commerce.
+4. `Components` — the canonical editable components used by the other pages.
+5. `Names & Cultural Notes` — public descriptions and confirmed naming context.
+6. `Licence & Contributions` — licence, corrections and contribution routes.
 
-## File structure
+Empty metadata categories do not get their own page. Page numbering closes automatically around whatever is actually released.
 
-One Figma file, five pages, in this order.
+### Component rules
 
-### Page 1 — `Cover`
+- One component per released icon.
+- Component names: `african-icons/<category-slug>/<icon-id>`.
+- Component frame: 24 × 24, clip content off.
+- Preserve live strokes; do not outline them.
+- Use one consistent editable stroke colour in Figma.
+- The regular weight is the V2 baseline. Add a Weight property only when a second deliberately drawn weight actually exists.
 
-Not published as a page; it exists to hold the thumbnail frame. See "Cover requirements" below.
+## Cover and carousel
 
-### Page 2 — `Icons`
+**Cover:** 1920 × 960, first frame of the first page, named `Cover`. Use real released artwork only and keep the headline/count treatment simple enough to remain legible as a Community thumbnail.
 
-The set itself.
+**Carousel:**
 
-- One component per icon, named exactly `african-icons/<category-slug>/<icon-id>` so Figma's
-  asset panel nests them by category — for example `african-icons/food-drink/jollof-rice`.
-- Each component is a 24 × 24 frame containing the vectors, with `Clip content` **off** and
-  constraints set to `Scale` on both axes.
-- Strokes: 1.5, round cap, round join, centre alignment. **Do not outline the strokes.** A user
-  who wants a different weight needs live strokes to work with.
-- Colour: a single solid black stroke. Figma has no `currentColor`; black is the honest
-  substitute, and the component's stroke is the one thing users will restyle first.
-- A `Weight` variant property with a single value, `Regular`. One value looks odd until you
-  realise it is what lets `thin`, `bold` and `fill` be added later without every user re-placing
-  every instance.
+1. Full V2 category grid.
+2. Icons at real UI size, then enlarged.
+3. One representative icon on the 24 px drawing grid.
+4. A few icons used in realistic product-interface contexts.
+5. Community file, plugin, website downloads and open-source source shown as one connected library.
 
-Layout: an auto-layout grid, 8 columns, 64 px gutters, grouped by category with a section label
-above each group. Categories in the order they appear in `packages/metadata/src/data/categories.json`.
+Do not publish audit diagnostics, rejected concepts, internal backlog counts, deployment state or release-operation notes in the Community file or listing media.
 
-### Page 3 — `Grid & spec`
+## Pre-publish integrity checks
 
-The drawing rules, shown rather than described.
+- [ ] Component count matches the canonical released count.
+- [ ] Every component id exists in the repository metadata.
+- [ ] No unreleased/staging icon appears in the file, cover or carousel.
+- [ ] Component geometry matches the canonical SVG source after final Figma cleanup.
+- [ ] Any geometry change or newly added icon has been promoted back to the repository source before publication.
+- [ ] All icon strokes remain live and editable.
+- [ ] Cover is the first frame on the first page and named `Cover`.
+- [ ] Website and GitHub links are correct.
+- [ ] Support email is `icons@neustackstudio.com`.
 
-- The 24-unit canvas with the 2-unit live area marked.
-- The three keylines: 18 square, 20 circle, 16 × 20 portrait.
-- One icon shown on the grid — `talking-drum` — with its anchors visible.
-- A row of every icon at 16, 24, 32 and 48 px. This is the legibility proof; it is the single most
-  useful page in the file for anyone deciding whether to adopt the set.
-- A short note that the file is generated from the repository and that the spec is enforced in CI,
-  with the link.
-
-### Page 4 — `Usage`
-
-- Recolouring: select the instance, change the stroke colour. That is the whole story.
-- Sizing: 16, 24, 32, 48. A note that the drawings are optimised for 24 and hold to 16.
-- What not to do: do not outline strokes, do not rescale non-uniformly, do not add text inside an
-  icon frame.
-- Pointer to the plugin for search and insertion.
-
-### Page 5 — `About & roadmap`
-
-- Where the set came from: the August 2026 audit, in four sentences.
-- The counts, stated exactly: 32 released, 1 held for cultural review, 55 audited concepts still
-  in backlog, 3 merged, 4 cut.
-- What is not drawn: three weights, the illustration tier.
-- How to contribute, and the specific ask for local-name reviewers.
-- Licence.
-
----
-
-## Cover requirements
-
-Figma renders the file thumbnail from a frame named `Cover` — the frame must be the first frame on
-the first page.
-
-- **Size:** 1920 × 960 (Figma's 2:1 Community thumbnail ratio). Exported at 2×.
-- **Safe area:** keep all text within 120 px of every edge; Community crops the card at several
-  aspect ratios.
-- **Background:** `#FAF9F6` (the library's paper). Not white — white reads as a default template.
-- **Ink:** `#16150F`. Accent `#2E7D4F` used once, not as a wash.
-- **Content, in this order of visual weight:**
-  1. Six to eight real icons at large scale — `talking-drum`, `danfo`, `suya`, `naira-note`,
-     `ludo`, `agogo` — in a single row. Real drawings, not a mock-up.
-  2. The name, `African Icon Library`, set large.
-  3. One line of subtitle: `32 icons · 24px grid · MIT`.
-- **Do not** put a count on the cover that will go stale silently. `16` is fine as long as
-  re-publishing updates it; if that feels fragile, drop the number.
-- **Do not** show icons that are not in the file. The cover is the first place a false claim would
-  land.
-
-Source material: `npm run preview` produces `previews/proof-strip-24.svg`, which is the real
-drawings at real proportions and can be pasted straight into Figma.
-
----
-
-## Carousel plan
-
-Community allows up to five carousel images at 1920 × 960. Order matters — most people see the
-first two only.
-
-| #   | Frame                | Content                                                                                                           | Point it makes                                            |
-| --- | -------------------- | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
-| 1   | `Carousel/01-set`    | The full 32-icon grid on paper, category labels visible                                                           | This is what you get, all of it, no scrolling required    |
-| 2   | `Carousel/02-24px`   | Every icon at 24 px on one row, then the same row at 400%                                                         | They actually read at UI size — the audit's decisive test |
-| 3   | `Carousel/03-grid`   | `talking-drum` on the 24-unit grid with live area and keylines marked                                             | There is a system here, not a folder of drawings          |
-| 4   | `Carousel/04-in-use` | Three realistic UI fragments — a nav bar, a food-delivery list row, a payment sheet — using the icons at 20–24 px | Proof they work in a real interface, not just on a grid   |
-| 5   | `Carousel/05-honest` | The counts and the roadmap, typeset plainly: released / held / backlog / weights not drawn                        | Sets expectations before download rather than after       |
-
-Frame 5 is unusual for a Community listing and it is deliberate. The alternative is a user
-discovering the limits after adopting the set.
-
----
-
-## Before publishing
-
-- [ ] Every component name matches an id in `packages/metadata/src/data/icons.json`. A mismatch
-      breaks the correspondence between the file, the plugin and the npm package.
-- [ ] Component count equals the released count. If they differ, the file is stale.
-- [ ] No text layers inside any icon frame.
-- [ ] No icon from `packages/icons/staging/` is present.
-- [ ] Every stroke is live, 1.5, round cap and join.
-- [ ] The cover frame is first on the first page and named `Cover`.
-- [ ] The description's counts match the repository.
-- [ ] The support email exists and is monitored.
+The decisive rule: **Figma is a publishing surface, not a competing source of truth.** Final visual cleanup may happen there, but the repository must receive those final vectors before V2 is considered released.

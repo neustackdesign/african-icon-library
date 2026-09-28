@@ -6,7 +6,7 @@ A free, open-source SVG icon library for African everyday life — starting with
 
 - **Website** — [icons.neustackstudio.com](https://icons.neustackstudio.com)
 - **Downloads** — complete SVG bundle, category packs and metadata from the website
-- **Figma** — Community file and plugin use the same canonical release set
+- **Figma** — Community file and plugin are generated from the same canonical release set; publication is pending
 - **Source SVGs** — `packages/icons/svg/regular`
 - **Metadata** — `packages/metadata`
 
@@ -69,7 +69,7 @@ The regular weight is the V2 baseline. Additional weights should be deliberately
 
 ## Figma
 
-The Community file and plugin are generated from the same canonical released set as the website. This avoids maintaining separate copies of the library in Figma, on the web and in source control.
+The Community file and plugin are generated from the same canonical released set as the website. Figma publication is still pending; the repository remains the source of truth so there is no separate Figma-only fork of V2.
 
 Publishing guidance lives in:
 

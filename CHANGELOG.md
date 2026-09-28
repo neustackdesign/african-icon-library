@@ -25,10 +25,5 @@ V2 rebuilds the African Icon Library around one consistent 24-pixel icon system.
 - Tightened naming, metadata and contribution rules so additions can extend the set without creating a second visual system.
 - Refined the release set after visual QA rather than carrying every legacy asset into V2 automatically.
 
-## [0.1.0] — 2026-08-04
-
-The first release of the rebuilt library established the canonical SVG, metadata and validation architecture used by V2.
-
 [Unreleased]: https://github.com/neustackdesign/african-icon-library/compare/v0.2.0...HEAD
-[0.2.0]: https://github.com/neustackdesign/african-icon-library/compare/v0.1.0...v0.2.0
-[0.1.0]: https://github.com/neustackdesign/african-icon-library/releases/tag/v0.1.0
+[0.2.0]: https://github.com/neustackdesign/african-icon-library/releases/tag/v0.2.0

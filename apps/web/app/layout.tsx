@@ -8,6 +8,8 @@ import { LIBRARY, SITE, plural } from '@/lib/site';
 
 import './globals.css';
 
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim();
+
 const sans = Schibsted_Grotesk({
   subsets: ['latin'],
   display: 'swap',
@@ -92,6 +94,25 @@ const structuredData = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${sans.variable} ${mono.variable}`}>
+      <head>
+        {GA_MEASUREMENT_ID ? (
+          <>
+            <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`} />
+            <script
+              id="ail-ga4-init"
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  window.gtag = window.gtag || gtag;
+                  gtag('js', new Date());
+                  gtag('config', '${GA_MEASUREMENT_ID}');
+                `,
+              }}
+            />
+          </>
+        ) : null}
+      </head>
       <body>
         <a className="skip-link" href="#main">
           Skip to content

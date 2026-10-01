@@ -40,6 +40,7 @@ interface AnalyticsGlobal {
 declare global {
   interface Window {
     ail?: AnalyticsGlobal;
+    gtag?: (...args: unknown[]) => void;
   }
 }
 
@@ -70,8 +71,10 @@ export function campaignProperties(): Record<string, string> {
  */
 export function track(event: AnalyticsEvent, properties: AnalyticsProperties = {}): void {
   if (typeof window === 'undefined') return;
+  const payload = { ...properties, ...campaignProperties() };
   try {
-    window.ail?.track?.(event, { ...properties, ...campaignProperties() });
+    window.ail?.track?.(event, payload);
+    window.gtag?.('event', event, payload);
   } catch {
     /* analytics must never be load-bearing */
   }

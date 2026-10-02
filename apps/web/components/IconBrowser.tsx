@@ -1,46 +1,77 @@
 'use client';
 
 import Link from 'next/link';
-import { useCallback, useDeferredValue, useEffect, useMemo, useState } from 'react';
+import {
+  useDeferredValue,
+  useEffect,
+  useMemo,
+  useRef,
+  type CSSProperties,
+  type KeyboardEvent as ReactKeyboardEvent,
+} from 'react';
 
-import { searchIcons, type Category, type Icon } from '@african-icon-library/metadata';
+import type { Category } from '@african-icon-library/metadata';
 
 import { track } from '@/lib/analytics';
+import { categoryColour } from '@/lib/brand';
+import { copyLabel, filterEntries } from '@/lib/browser';
+import type { BrowserIcon } from '@/lib/icons';
 
-export interface BrowserIcon {
-  icon: Icon;
-  /** Inner markup for the regular weight. Injected as SVG, never as HTML. */
-  body: string;
-  /** The complete, copyable SVG document. */
-  svg: string;
-}
+import { IconGlyph } from './IconGlyph';
+import { PREVIEW_SIZES, useBrowser } from './landing/LibraryProvider';
 
 interface Props {
-  entries: BrowserIcon[];
   categories: Category[];
   weightsShipped: readonly string[];
-  weightsPlanned: readonly string[];
+  /** Where new concepts are proposed when a search comes up empty. */
+  proposeHref: string;
 }
 
-const SIZES = [16, 24, 32, 48] as const;
+function isTyping(target: EventTarget | null): boolean {
+  if (!(target instanceof HTMLElement)) return false;
+  return (
+    target.tagName === 'INPUT' ||
+    target.tagName === 'TEXTAREA' ||
+    target.tagName === 'SELECT' ||
+    target.isContentEditable
+  );
+}
 
-export function IconBrowser({ entries, categories, weightsShipped, weightsPlanned }: Props) {
-  const [query, setQuery] = useState('');
-  const [category, setCategory] = useState('all');
-  const [size, setSize] = useState<number>(32);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [copied, setCopied] = useState<string | null>(null);
+export function IconBrowser({ categories, weightsShipped, proposeHref }: Props) {
+  const {
+    entries,
+    byId,
+    query,
+    setQuery,
+    category,
+    setCategory,
+    size,
+    setSize,
+    selectedId,
+    panelOpen,
+    isWide,
+    toggle,
+    closePanel,
+    copy,
+    copied,
+  } = useBrowser();
 
+  const searchRef = useRef<HTMLInputElement>(null);
+  const panelRef = useRef<HTMLElement>(null);
   const deferredQuery = useDeferredValue(query);
 
-  const byId = useMemo(() => new Map(entries.map((entry) => [entry.icon.id, entry])), [entries]);
+  const results = useMemo(
+    () => filterEntries(entries, deferredQuery, category),
+    [entries, deferredQuery, category],
+  );
 
-  const results = useMemo(() => {
-    const icons = entries.map((entry) => entry.icon);
-    return searchIcons(icons, deferredQuery, {
-      category: category === 'all' ? null : category,
-    }).map((result) => byId.get(result.icon.id)!);
-  }, [entries, byId, deferredQuery, category]);
+  const counts = useMemo(() => {
+    const map = new Map<string, number>();
+    for (const entry of entries) {
+      map.set(entry.icon.category, (map.get(entry.icon.category) ?? 0) + 1);
+    }
+    return map;
+  }, [entries]);
 
   useEffect(() => {
     // The query itself is never sent; the result count answers "is search
@@ -49,206 +80,282 @@ export function IconBrowser({ entries, categories, weightsShipped, weightsPlanne
     track('search', { results: results.length, surface: 'browser' });
   }, [deferredQuery, results.length]);
 
-  const selected = selectedId ? (byId.get(selectedId) ?? null) : null;
+  // "/" focuses search from anywhere on the page; Escape closes the sheet.
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === '/' && !event.metaKey && !event.ctrlKey && !event.altKey) {
+        if (isTyping(event.target)) return;
+        event.preventDefault();
+        searchRef.current?.focus();
+        return;
+      }
+      if (event.key === 'Escape' && !isWide && panelOpen) {
+        closePanel();
+        if (selectedId) {
+          document.querySelector<HTMLElement>(`[data-icon-id="${selectedId}"]`)?.focus();
+        }
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isWide, panelOpen, closePanel, selectedId]);
 
-  const copy = useCallback(async (id: string, text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      track('icon_copy', { target: id, surface: 'browser' });
-      setCopied(id);
-      window.setTimeout(() => setCopied((current) => (current === id ? null : current)), 2000);
-    } catch {
-      // Clipboard access can be refused (permissions, insecure context). Say so
-      // rather than pretending the copy worked.
-      setCopied('__failed__');
-      window.setTimeout(() => setCopied(null), 3000);
+  // On tablet the panel sits above the grid, so a tile picked further down
+  // would open it out of view. (On narrow it is a fixed sheet and needs nothing.)
+  useEffect(() => {
+    const panel = panelRef.current;
+    if (isWide || !panelOpen || !panel || getComputedStyle(panel).position === 'fixed') return;
+    panel.scrollIntoView({ block: 'nearest' });
+  }, [isWide, panelOpen, selectedId]);
+
+  const selected = selectedId ? (byId.get(selectedId) ?? null) : null;
+  const showPanel = isWide || panelOpen;
+  const pressedId = showPanel ? selectedId : null;
+  const countLabel = `${results.length} of ${entries.length} icons`;
+
+  const onSearchKey = (event: ReactKeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Escape' && query) {
+      event.stopPropagation();
+      setQuery('');
     }
-  }, []);
+  };
 
   return (
-    <div>
-      <div className="browser__controls">
-        <label className="visually-hidden" htmlFor="icon-search">
-          Search icons
-        </label>
-        <input
-          id="icon-search"
-          className="input"
-          type="search"
-          value={query}
-          placeholder="Search jollof, danfo, drum…"
-          autoComplete="off"
-          onChange={(event) => setQuery(event.target.value)}
-        />
+    <div className="browser">
+      <div className="browser__toolbar">
+        <div className="search">
+          <label className="visually-hidden" htmlFor="icon-search">
+            Search icons
+          </label>
+          <input
+            ref={searchRef}
+            id="icon-search"
+            className="search__input"
+            type="search"
+            value={query}
+            placeholder="Search jollof, danfo, drum…"
+            autoComplete="off"
+            spellCheck={false}
+            aria-describedby="icon-search-count"
+            onChange={(event) => setQuery(event.target.value)}
+            onKeyDown={onSearchKey}
+          />
+          <span className="search__meta">
+            <span id="icon-search-count" aria-live="polite">
+              {countLabel}
+            </span>
+            {query ? null : (
+              <kbd className="kbd" title="Press / to search">
+                /
+              </kbd>
+            )}
+          </span>
+        </div>
 
-        <label className="visually-hidden" htmlFor="icon-category">
-          Category
-        </label>
-        <select
-          id="icon-category"
-          className="select"
-          value={category}
-          onChange={(event) => setCategory(event.target.value)}
-        >
-          <option value="all">All categories</option>
-          {categories.map((entry) => (
-            <option key={entry.id} value={entry.id}>
-              {entry.label}
-            </option>
+        <div className="segmented" role="group" aria-label="Preview size">
+          {PREVIEW_SIZES.map((value) => (
+            <button
+              key={value}
+              type="button"
+              aria-pressed={value === size}
+              onClick={() => setSize(value)}
+            >
+              {value}px
+            </button>
           ))}
-        </select>
-
-        <label className="visually-hidden" htmlFor="icon-size">
-          Preview size
-        </label>
-        <select
-          id="icon-size"
-          className="select"
-          value={size}
-          onChange={(event) => setSize(Number(event.target.value))}
-        >
-          {SIZES.map((value) => (
-            <option key={value} value={value}>
-              Preview at {value} px
-            </option>
-          ))}
-        </select>
+        </div>
       </div>
 
-      <div className="browser__meta">
-        <span aria-live="polite">
-          {results.length} of {entries.length} icons
-        </span>
-        <span>
-          weight: {weightsShipped.join(', ')}
-          {weightsPlanned.length > 0 ? ` · not drawn yet: ${weightsPlanned.join(', ')}` : ''}
-        </span>
+      <div className="chips" role="group" aria-label="Filter by category">
+        <button
+          type="button"
+          className="chip"
+          aria-pressed={category === 'all'}
+          onClick={() => setCategory('all')}
+        >
+          <span className="chip__key chip__key--all" aria-hidden="true" />
+          All
+          <span className="chip__count">{entries.length}</span>
+        </button>
+        {categories.map((entry) => (
+          <button
+            key={entry.id}
+            type="button"
+            className="chip"
+            aria-pressed={category === entry.id}
+            onClick={() => setCategory(entry.id)}
+            style={{ '--cat': categoryColour(entry.id) } as CSSProperties}
+          >
+            <span className="chip__key" aria-hidden="true" />
+            {entry.label}
+            <span className="chip__count">{counts.get(entry.id) ?? 0}</span>
+          </button>
+        ))}
       </div>
 
-      {selected ? (
-        <div className="detail-panel">
-          <div className="detail-panel__preview">
-            <IconMark body={selected.body} size={48} label={selected.icon.name} />
-          </div>
-
-          <div>
-            <h3 style={{ fontFamily: 'var(--font-mono)', fontSize: '1rem' }}>{selected.icon.id}</h3>
-            <p className="muted" style={{ marginTop: '0.25rem' }}>
-              {selected.icon.description}
-            </p>
-            <ul className="tag-row">
-              <li className="tag">{categoryLabel(categories, selected.icon.category)}</li>
-              {selected.icon.regions.map((region) => (
-                <li className="tag" key={region}>
-                  {region}
-                </li>
-              ))}
-              {selected.icon.weights.map((weight) => (
-                <li className="tag" key={weight}>
-                  {weight}
-                </li>
-              ))}
-              {weightsPlanned.map((weight) => (
-                <li className="tag tag--muted" key={weight} title="Not drawn yet">
-                  {weight} — not drawn
+      <div className="browser__body">
+        <div className="browser__results">
+          {results.length > 0 ? (
+            <ul className="icon-grid" data-size={size} aria-label="Icons">
+              {results.map((entry) => (
+                <li key={entry.icon.id}>
+                  <button
+                    type="button"
+                    className="tile"
+                    data-icon-id={entry.icon.id}
+                    aria-pressed={entry.icon.id === pressedId}
+                    title={entry.icon.description}
+                    onClick={() => toggle(entry.icon.id)}
+                    style={{ '--cat': categoryColour(entry.icon.category) } as CSSProperties}
+                  >
+                    <IconGlyph body={entry.body} size={size} label={entry.icon.name} />
+                    <span className="tile__label" aria-hidden="true">
+                      {entry.icon.id}
+                    </span>
+                  </button>
                 </li>
               ))}
             </ul>
-          </div>
-
-          <div className="detail-panel__actions">
-            <button
-              type="button"
-              className="button"
-              onClick={() => void copy(selected.icon.id, selected.svg)}
-            >
-              {copied === selected.icon.id
-                ? 'Copied'
-                : copied === '__failed__'
-                  ? 'Copy blocked'
-                  : 'Copy SVG'}
-            </button>
-            <a
-              className="button button--ghost"
-              href={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(selected.svg)}`}
-              download={`${selected.icon.id}.svg`}
-              onClick={() =>
-                track('icon_download', { target: selected.icon.id, surface: 'browser' })
-              }
-            >
-              Download SVG
-            </a>
-            <Link className="button button--ghost" href={`/icons/${selected.icon.id}`}>
-              Details
-            </Link>
-            <button
-              type="button"
-              className="button button--ghost"
-              onClick={() => setSelectedId(null)}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      ) : null}
-
-      {results.length > 0 ? (
-        <ul className="icon-grid">
-          {results.map((entry) => (
-            <li key={entry.icon.id}>
-              <button
-                type="button"
-                className="icon-tile"
-                aria-pressed={entry.icon.id === selectedId}
-                onClick={() => setSelectedId(entry.icon.id === selectedId ? null : entry.icon.id)}
-                title={entry.icon.description}
-              >
-                <IconMark body={entry.body} size={size} label={entry.icon.name} />
-                <span className="icon-tile__label">{entry.icon.id}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <div className="empty-state">
-          <p>{query ? `Nothing matches “${query}” yet.` : 'No icons match these filters.'}</p>
-          <p className="mono">
-            The library ships {entries.length} icons today. If the concept you need is missing, open
-            an issue — the roadmap is public.
+          ) : (
+            <div className="empty">
+              <p className="empty__title">
+                {query ? `Nothing matches “${query}” yet.` : 'No icons match these filters.'}
+              </p>
+              <p className="empty__body">
+                The library ships {entries.length} icons today. If the concept you need is missing,
+                open an issue — the roadmap is public.
+              </p>
+              <div className="actions empty__actions">
+                {query ? (
+                  <button type="button" className="btn btn--secondary" onClick={() => setQuery('')}>
+                    Clear the search
+                  </button>
+                ) : null}
+                <a className="btn btn--text" href={proposeHref} rel="noreferrer noopener">
+                  Suggest an icon →
+                </a>
+              </div>
+            </div>
+          )}
+          <p className="browser__foot">
+            <span>
+              {countLabel} · weight: {weightsShipped.join(', ')}
+            </span>
+            <span>Select an icon to copy or download</span>
           </p>
-          {query ? (
-            <button type="button" className="button button--ghost" onClick={() => setQuery('')}>
-              Clear the search
-            </button>
-          ) : null}
         </div>
-      )}
+
+        <aside
+          ref={panelRef}
+          className="panel"
+          aria-label="Selected icon"
+          data-open={!isWide && panelOpen ? '' : undefined}
+        >
+          {selected && showPanel ? (
+            <DetailPanel
+              entry={selected}
+              categories={categories}
+              weightsShipped={weightsShipped}
+              closable={!isWide}
+              onClose={closePanel}
+              onCopy={() => copy(selected.icon.id, 'browser')}
+              copyState={
+                copied?.id === selected.icon.id ? (copied.ok ? 'copied' : 'failed') : 'idle'
+              }
+            />
+          ) : (
+            <div className="panel__inner">
+              <div className="panel__empty">
+                <p>Select an icon</p>
+                <p>Copy the SVG, download the file, or open its detail page.</p>
+              </div>
+            </div>
+          )}
+        </aside>
+      </div>
     </div>
   );
 }
 
-function categoryLabel(categories: Category[], id: string): string {
-  return categories.find((category) => category.id === id)?.label ?? id;
+interface DetailProps {
+  entry: BrowserIcon;
+  categories: Category[];
+  weightsShipped: readonly string[];
+  closable: boolean;
+  onClose: () => void;
+  onCopy: () => void;
+  copyState: 'idle' | 'copied' | 'failed';
 }
 
-function IconMark({ body, size, label }: { body: string; size: number; label: string }) {
+function DetailPanel({
+  entry,
+  categories,
+  weightsShipped,
+  closable,
+  onClose,
+  onCopy,
+  copyState,
+}: DetailProps) {
+  const { icon, body, svg } = entry;
+  const categoryLabel =
+    categories.find((item) => item.id === icon.category)?.label ?? icon.category;
+
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      role="img"
-      aria-label={label}
-      focusable="false"
-      // The markup is compiled into the bundle from validated assets: no
-      // element outside the allow-list survives `npm run validate`, and none of
-      // it comes from user input or a network response.
-      dangerouslySetInnerHTML={{ __html: body }}
-    />
+    <div className="panel__inner">
+      <div className="panel__head">
+        <div
+          className="panel__preview field"
+          style={{ '--cat': categoryColour(icon.category) } as CSSProperties}
+        >
+          <span className="grid-overlay" aria-hidden="true" />
+          <IconGlyph body={body} size="45%" className="panel__glyph" label={icon.name} />
+        </div>
+        <div className="panel__summary">
+          <div className="panel__title-row">
+            <h3 className="panel__title">{icon.id}</h3>
+            {closable ? (
+              <button type="button" className="panel__close" onClick={onClose}>
+                Close
+              </button>
+            ) : null}
+          </div>
+          <p className="panel__description">{icon.description}</p>
+        </div>
+      </div>
+
+      <dl className="meta-list">
+        <dt>category</dt>
+        <dd>{categoryLabel}</dd>
+        <dt>region</dt>
+        <dd>{icon.regions.join(', ')}</dd>
+        <dt>weight</dt>
+        <dd>{weightsShipped.join(', ')} · 1.5 stroke</dd>
+        <dt>keywords</dt>
+        <dd className="muted">{icon.keywords.slice(0, 5).join(', ')}</dd>
+      </dl>
+
+      <div className="panel__actions">
+        <button
+          type="button"
+          className="btn btn--primary"
+          data-state={copyState === 'copied' ? 'copied' : undefined}
+          onClick={onCopy}
+        >
+          {copyLabel(copyState)}
+        </button>
+        <a
+          className="btn btn--secondary"
+          href={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`}
+          download={`${icon.id}.svg`}
+          onClick={() => track('icon_download', { target: icon.id, surface: 'browser' })}
+        >
+          Download SVG
+        </a>
+      </div>
+
+      <Link className="mono-link" href={`/icons/${icon.id}`}>
+        Icon details →
+      </Link>
+    </div>
   );
 }

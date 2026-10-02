@@ -1,26 +1,31 @@
 import type { Metadata, Viewport } from 'next';
-import { IBM_Plex_Mono, Schibsted_Grotesk } from 'next/font/google';
+import { Geist, Geist_Mono } from 'next/font/google';
 
 import { Analytics } from '@/components/Analytics';
 import { SiteFooter } from '@/components/SiteFooter';
 import { SiteHeader } from '@/components/SiteHeader';
+import { DARK } from '@/lib/brand';
 import { LIBRARY, SITE, plural } from '@/lib/site';
 
 import './globals.css';
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim();
 
-const sans = Schibsted_Grotesk({
+// Design System v3: Geist at 400/500 for everything, Geist Mono for facts.
+// Self-hosted at build time by next/font, with metric-matched fallbacks so the
+// swap causes no layout shift.
+const sans = Geist({
   subsets: ['latin'],
+  weight: ['400', '500'],
   display: 'swap',
-  variable: '--font-sans-loaded',
+  variable: '--font-geist',
 });
 
-const mono = IBM_Plex_Mono({
+const mono = Geist_Mono({
   subsets: ['latin'],
-  weight: ['400', '500', '600'],
+  weight: ['400', '500'],
   display: 'swap',
-  variable: '--font-mono-loaded',
+  variable: '--font-geist-mono',
 });
 
 export const metadata: Metadata = {
@@ -66,10 +71,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#faf9f6' },
-    { media: '(prefers-color-scheme: dark)', color: '#12110d' },
-  ],
+  themeColor: DARK.canvas,
+  colorScheme: 'dark',
   width: 'device-width',
   initialScale: 1,
 };
@@ -97,7 +100,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         {GA_MEASUREMENT_ID ? (
           <>
-            <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`} />
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+            />
             <script
               id="ail-ga4-init"
               dangerouslySetInnerHTML={{

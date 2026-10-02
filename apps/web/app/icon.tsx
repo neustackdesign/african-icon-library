@@ -2,6 +2,8 @@ import { ImageResponse } from 'next/og';
 
 import { getIconBody } from '@african-icon-library/icons';
 
+import { DARK } from '@/lib/brand';
+
 export const size = { width: 32, height: 32 };
 export const contentType = 'image/png';
 
@@ -20,7 +22,7 @@ export default function Icon() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: '#16150F',
+        background: DARK.canvas,
       }}
     >
       {/*
@@ -32,7 +34,7 @@ export default function Icon() {
         height={22}
         alt=""
         src={`data:image/svg+xml;base64,${Buffer.from(
-          `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FAF9F6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`,
+          `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="${DARK.text}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`,
           'utf8',
         ).toString('base64')}`}
       />

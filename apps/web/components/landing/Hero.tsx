@@ -1,4 +1,5 @@
 import { TrackedLink } from '../TrackedLink';
+import { HEADLINE } from '@/lib/compositions';
 import { DOWNLOADS, SITE } from '@/lib/site';
 
 import { Specimen } from './Specimen';
@@ -8,7 +9,7 @@ export function Hero({ categoryLabels }: { categoryLabels: Record<string, string
     <section className="hero shell section-grid" aria-labelledby="hero-title">
       <p className="section-label">V2 · Open source</p>
       <div className="hero__body">
-        <h1 id="hero-title">Icons for the things African products actually need.</h1>
+        <h1 id="hero-title">{HEADLINE}</h1>
         <div className="hero__row">
           <div className="hero__copy">
             <p className="lead">

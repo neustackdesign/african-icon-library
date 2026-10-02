@@ -3,6 +3,7 @@ import { ImageResponse } from 'next/og';
 import { getIconBody } from '@african-icon-library/icons';
 
 import { DARK, categoryColour, oklchToHex, ribbonHeight } from './brand';
+import { HEADLINE } from './compositions';
 import { browserEntries } from './icons';
 import { LIBRARY, SITE } from './site';
 
@@ -86,7 +87,7 @@ export function renderOpenGraphImage(): ImageResponse {
             maxWidth: 980,
           }}
         >
-          Icons for the things African products actually need.
+          {HEADLINE}
         </div>
       </div>
       {/*

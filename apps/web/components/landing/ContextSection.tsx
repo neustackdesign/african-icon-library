@@ -3,45 +3,11 @@ import type { CSSProperties } from 'react';
 import { getIcon } from '@african-icon-library/metadata';
 
 import { categoryColour } from '@/lib/brand';
+import { ROUTE, ROUTE_FRAME, routePoints } from '@/lib/compositions';
 
 import { Icon } from '../Icon';
 
-/**
- * "An ordinary day": five released icons on a dashed orthogonal route.
- * Coordinates are the approved 1120 × 340 composition; the route scales with
- * its container and turns into a vertical timeline below 760px.
- */
-export const ROUTE = [
-  { id: 'akara', tag: '07:30 · Breakfast', x: 0, y: 166 },
-  { id: 'danfo', tag: '08:10 · Commute', x: 252, y: 26 },
-  { id: 'market-umbrella', tag: '09:00 · Market', x: 504, y: 166 },
-  { id: 'pos-terminal', tag: '13:00 · Payment', x: 756, y: 26 },
-  { id: 'pepper-soup', tag: '19:00 · Dinner', x: 1008, y: 166 },
-] as const;
-
-const ROUTE_W = 1120;
-const ROUTE_H = 340;
-const STOP = 112;
-/** Height of a stop's tag plus its gap, in composition units. */
-const TAG = 46;
-
-/** Orthogonal polyline through each stop's square centre. */
-export function routePoints(stops: ReadonlyArray<{ x: number; y: number }> = ROUTE): string {
-  const points: string[] = [];
-  stops.forEach((stop, index) => {
-    const cx = stop.x + STOP / 2;
-    const cy = stop.y + TAG + STOP / 2;
-    const previous = stops[index - 1];
-    if (previous) {
-      const px = previous.x + STOP / 2;
-      const py = previous.y + TAG + STOP / 2;
-      const mid = (px + cx) / 2;
-      points.push(`${mid},${py}`, `${mid},${cy}`);
-    }
-    points.push(`${cx},${cy}`);
-  });
-  return points.join(' ');
-}
+const { width: ROUTE_W, height: ROUTE_H, tag: TAG } = ROUTE_FRAME;
 
 function routeCategories(): number {
   return new Set(ROUTE.map((stop) => getIcon(stop.id)?.category)).size;

@@ -2,20 +2,11 @@ import Link from 'next/link';
 import { Fragment, type CSSProperties } from 'react';
 
 import { categoryColour } from '@/lib/brand';
+import { SPEC_ROWS, UI_SIZES } from '@/lib/compositions';
 import { iconBody } from '@/lib/icons';
 
 import { Icon } from '../Icon';
 
-/** The released drawing rules, as enforced by `npm run validate` (docs/icon-spec.md). */
-export const SPEC_ROWS = [
-  ['canvas', '24 × 24 · live area 2–22'],
-  ['stroke', '1.5 · round caps and joins'],
-  ['paint', 'currentColor · fill none'],
-  ['geometry', 'live strokes · no transforms · no type'],
-  ['source', 'validated SVG + typed metadata'],
-] as const;
-
-const SCALE = [16, 20, 24, 32, 48] as const;
 const SPECIMEN = 'danfo';
 
 export function SystemSpecimen() {
@@ -82,7 +73,7 @@ export function SystemSpecimen() {
               <span className="plate__label plate__label--size">24 × 24</span>
             </figure>
             <ul className="scale" aria-label="Danfo at 16, 20, 24, 32 and 48 pixels">
-              {SCALE.map((size) => (
+              {UI_SIZES.map((size) => (
                 <li key={size}>
                   <Icon id={SPECIMEN} size={size} />
                   {size}

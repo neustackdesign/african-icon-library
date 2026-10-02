@@ -1,0 +1,105 @@
+{
+  "version": "0.2.0",
+  "icons": 30,
+  "assets": [
+    {
+      "file": "figma-community-cover-1920x960.svg",
+      "name": "Figma Community cover",
+      "width": 1920,
+      "height": 960,
+      "use": "Figma Community file cover",
+      "alt": "African Icon Library wordmark above the 30 released icons as a rising ribbon of category-coloured bars.",
+      "png": "png/figma-community-cover-1920x960.png"
+    },
+    {
+      "file": "carousel-01-overview-1920x960.svg",
+      "name": "Community carousel 01 — Overview",
+      "width": 1920,
+      "height": 960,
+      "use": "Figma Community carousel, slide 1",
+      "alt": "“Icons for the things African products actually need.” above the 30 released icons as a rising ribbon of category-coloured bars.",
+      "png": "png/carousel-01-overview-1920x960.png"
+    },
+    {
+      "file": "carousel-02-library-1920x960.svg",
+      "name": "Community carousel 02 — Library",
+      "width": 1920,
+      "height": 960,
+      "use": "Figma Community carousel, slide 2",
+      "alt": "“30 icons for African everyday life.” beside a grid of every released icon with its id, jollof-rice selected.",
+      "png": "png/carousel-02-library-1920x960.png"
+    },
+    {
+      "file": "carousel-03-system-1920x960.svg",
+      "name": "Community carousel 03 — System",
+      "width": 1920,
+      "height": 960,
+      "use": "Figma Community carousel, slide 3",
+      "alt": "“A smaller, stronger system.” with the drawing rules and the danfo icon on its 24 × 24 construction grid.",
+      "png": "png/carousel-03-system-1920x960.png"
+    },
+    {
+      "file": "carousel-04-context-1920x960.svg",
+      "name": "Community carousel 04 — Context",
+      "width": 1920,
+      "height": 960,
+      "use": "Figma Community carousel, slide 4",
+      "alt": "“Drawn for real product surfaces.” above an illustrative ordinary-day route: breakfast, commute, market, payment and dinner, each a released icon on its category colour.",
+      "png": "png/carousel-04-context-1920x960.png"
+    },
+    {
+      "file": "carousel-05-one-library-1920x960.svg",
+      "name": "Community carousel 05 — One library",
+      "width": 1920,
+      "height": 960,
+      "use": "Figma Community carousel, slide 5",
+      "alt": "“Web, Figma or source.” with the canonical release in the repository branching to web SVG downloads, Figma and React source.",
+      "png": "png/carousel-05-one-library-1920x960.png"
+    },
+    {
+      "file": "social-landscape-1200x628.svg",
+      "name": "Social landscape",
+      "width": 1200,
+      "height": 628,
+      "use": "Open Graph, X, LinkedIn",
+      "alt": "African Icon Library — “Icons for the things African products actually need.” above the 30 released icons as a rising ribbon of category-coloured bars.",
+      "png": "png/social-landscape-1200x628.png"
+    },
+    {
+      "file": "social-square-1080x1080.svg",
+      "name": "Social square",
+      "width": 1080,
+      "height": 1080,
+      "use": "Instagram, LinkedIn",
+      "alt": "“Icons for the things African products actually need.” above the 30 released icons as a rising ribbon of category-coloured bars.",
+      "png": "png/social-square-1080x1080.png"
+    },
+    {
+      "file": "social-portrait-1080x1350.svg",
+      "name": "Social portrait",
+      "width": 1080,
+      "height": 1350,
+      "use": "Instagram feed",
+      "alt": "“Icons for the things African products actually need.” with the release facts, above the 30 released icons as a rising ribbon of category-coloured bars.",
+      "png": "png/social-portrait-1080x1350.png"
+    },
+    {
+      "file": "hero-poster-1920x1080.svg",
+      "name": "Hero / video poster",
+      "width": 1920,
+      "height": 1080,
+      "use": "Slides, video poster",
+      "alt": "“Icons for the things African products actually need.” beside the Jollof rice specimen on its construction grid, above the 30 released icons as a rising ribbon of category-coloured bars.",
+      "png": "png/hero-poster-1920x1080.png"
+    },
+    {
+      "file": "github-social-1280x640.svg",
+      "name": "GitHub social preview",
+      "width": 1280,
+      "height": 640,
+      "use": "GitHub repository social preview",
+      "alt": "African Icon Library — “Icons for the things African products actually need.” above the 30 released icons as a rising ribbon of category-coloured bars.",
+      "png": "png/github-social-1280x640.png"
+    }
+  ]
+}

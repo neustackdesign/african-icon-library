@@ -94,12 +94,14 @@ All listing frames are `1920 × 960` and must remain legible at thumbnail size.
 Dark AIL canvas. Use a split composition rather than a centred icon parade.
 
 Left:
+
 - small `AFRICAN ICON LIBRARY · V2` eyebrow;
 - headline: `Icons for African everyday life.`;
 - supporting line: `Starting with Nigeria · 30 icons · 7 categories · 24px system`;
 - small Neustack/Open source attribution.
 
 Right:
+
 - one large light “library browser” panel containing real released icons;
 - seven category-colour markers used as navigation/metadata, not abstract blobs;
 - no fake product features.
@@ -111,10 +113,12 @@ The result should have the confidence of the dark Ruri reference while remaining
 Light editorial ground.
 
 Left third:
+
 - oversized headline;
 - one short sentence.
 
 Right two thirds:
+
 - the complete released set in a clean browser/grid;
 - category labels and category-colour markers;
 - no invented counts.
@@ -124,10 +128,12 @@ Right two thirds:
 Light editorial ground.
 
 Left:
+
 - `Figma Plugin` as the large feature heading;
 - short copy: `Search the released set, filter by category, choose a size and place an editable icon without leaving the canvas.`
 
 Right:
+
 - a faithful mockup of the actual V3 plugin UI;
 - visible search, category chips, 5-column grid, size control and selected-icon insert bar;
 - use real icons and real category names.
@@ -137,10 +143,12 @@ Right:
 Light editorial ground.
 
 Left:
+
 - large headline;
 - `1.5 stroke · round caps · round joins · live editable vectors`.
 
 Right:
+
 - one representative icon enlarged over the real 24-unit construction grid;
 - small row showing the same icon at 16 / 24 / 32 / 48.
 
@@ -149,10 +157,12 @@ Right:
 Light editorial ground.
 
 Left:
+
 - large headline;
 - short copy explaining that name, description, region and review state are part of the library rather than hidden metadata.
 
 Right:
+
 - 3–4 real cultural-note cards generated from released metadata;
 - use `CONFIRMED` / `PENDING` exactly as the file does;
 - never invent a translation or local name.
@@ -162,6 +172,7 @@ Right:
 Dark or light ground, whichever gives the sequence better rhythm.
 
 Show four access surfaces as one system:
+
 - Figma Community components;
 - Figma plugin;
 - website + SVG downloads;

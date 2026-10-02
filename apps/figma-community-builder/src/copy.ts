@@ -161,7 +161,8 @@ export const CAROUSEL_COPY: readonly SlideCopy[] = [
   {
     number: '01',
     title: '30 icons. 7 categories. One system.',
-    subtitle: 'Food, transport, culture, commerce, identity, fashion and play — drawn from the same source and rules.',
+    subtitle:
+      'Food, transport, culture, commerce, identity, fashion and play — drawn from the same source and rules.',
   },
   {
     number: '02',
@@ -176,12 +177,14 @@ export const CAROUSEL_COPY: readonly SlideCopy[] = [
   {
     number: '04',
     title: 'Context travels with the icon.',
-    subtitle: 'Names, regions and cultural notes stay visible instead of being flattened into generic labels.',
+    subtitle:
+      'Names, regions and cultural notes stay visible instead of being flattened into generic labels.',
   },
   {
     number: '05',
     title: 'One library. Several ways in.',
-    subtitle: 'Community file, plugin, website downloads and open-source source stay generated from the same released data.',
+    subtitle:
+      'Community file, plugin, website downloads and open-source source stay generated from the same released data.',
   },
 ];
 

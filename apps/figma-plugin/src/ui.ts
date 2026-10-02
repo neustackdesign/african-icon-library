@@ -280,7 +280,8 @@ window.addEventListener('message', (event: MessageEvent) => {
   const message = (event.data as { pluginMessage?: PluginMessage } | null)?.pluginMessage;
   if (!message) return;
   if (message.type === 'status') setStatus(message.text, message.level);
-  if (message.type === 'context') contextBar.textContent = `Insert destination: ${message.destination}.`;
+  if (message.type === 'context')
+    contextBar.textContent = `Insert destination: ${message.destination}.`;
 });
 
 render();

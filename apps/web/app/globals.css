@@ -27,6 +27,12 @@
   --text: #f2f0e9;
   --text-2: #a9a395;
   --text-3: #7f796c;
+  /*
+   * Small meta text. --text-3 is 4.37:1 on canvas and 4.07:1 on surface, just
+   * under WCAG AA for 11-12px mono, so text uses this lift (5.2:1 / 4.9:1) and
+   * --text-3 stays for rules, dashes and other non-text marks.
+   */
+  --text-meta: #8c8679;
   --accent: #79c79a;
   --accent-hover: #a3ddbb;
   --system: oklch(0.38 0.075 155);
@@ -44,7 +50,7 @@
   --ground: var(--canvas);
   --fg: var(--text);
   --fg-2: var(--text-2);
-  --fg-3: var(--text-3);
+  --fg-3: var(--text-meta);
   --rule: var(--line);
   --rule-strong: var(--line-strong);
   --hover: var(--surface);
@@ -706,7 +712,7 @@ button {
   max-width: 64px;
   aspect-ratio: 1;
   border-right: 1px solid var(--line);
-  color: var(--text-3);
+  color: var(--fg-3);
 }
 
 .band__cell[data-hero] {
@@ -742,7 +748,7 @@ button {
   line-height: 1.4;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--text-3);
+  color: var(--fg-3);
 }
 
 .site-footer__col a {
@@ -861,7 +867,7 @@ button {
   font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--text-3);
+  color: var(--fg-3);
   white-space: nowrap;
 }
 
@@ -888,7 +894,7 @@ button {
 .specimen__spec {
   font-family: var(--font-mono);
   font-size: 11px;
-  color: var(--text-3);
+  color: var(--fg-3);
   white-space: nowrap;
 }
 
@@ -1061,7 +1067,7 @@ button {
   font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--text-3);
+  color: var(--fg-3);
 }
 
 .proof dd {
@@ -1142,7 +1148,7 @@ button {
 }
 
 .search__input::placeholder {
-  color: var(--text-3);
+  color: var(--fg-3);
 }
 
 .search__input:focus {
@@ -1161,7 +1167,7 @@ button {
   gap: 12px;
   font-family: var(--font-mono);
   font-size: 11px;
-  color: var(--text-3);
+  color: var(--fg-3);
   pointer-events: none;
 }
 
@@ -1193,7 +1199,7 @@ button {
   border: 0;
   border-radius: 0;
   background: transparent;
-  color: var(--text-3);
+  color: var(--fg-3);
   font-family: var(--font-mono);
   font-size: 12px;
   cursor: pointer;
@@ -1313,7 +1319,7 @@ button {
   padding: 0;
   list-style: none;
   border-bottom: 1px solid var(--line);
-  background: var(--line);
+  background: var(--canvas);
 }
 
 .icon-grid[data-size='16'] {
@@ -1348,6 +1354,8 @@ button {
 
 .icon-grid > li {
   display: flex;
+  /* Hairlines per tile, so a short last row leaves canvas rather than a grey block. */
+  outline: 1px solid var(--line);
 }
 
 .tile {
@@ -1387,7 +1395,7 @@ button {
   font-family: var(--font-mono);
   font-size: 11px;
   line-height: 1.3;
-  color: var(--text-3);
+  color: var(--fg-3);
   text-align: center;
   overflow-wrap: anywhere;
   -webkit-box-orient: vertical;
@@ -1406,7 +1414,7 @@ button {
   padding: 16px 24px;
   font-family: var(--font-mono);
   font-size: 11px;
-  color: var(--text-3);
+  color: var(--fg-3);
 }
 
 .empty {
@@ -1431,7 +1439,7 @@ button {
   max-width: 44ch;
   font-size: 14px;
   line-height: 1.6;
-  color: var(--text-3);
+  color: var(--fg-3);
 }
 
 /* Detail panel: persistent column on wide, inline row on tablet, bottom sheet on narrow. */
@@ -1487,7 +1495,7 @@ button {
   padding: 4px;
   border: 0;
   background: transparent;
-  color: var(--text-3);
+  color: var(--fg-3);
   font-size: 14px;
   cursor: pointer;
 }
@@ -1520,7 +1528,7 @@ button {
 }
 
 .meta-list dt {
-  color: var(--text-3);
+  color: var(--fg-3);
 }
 
 .meta-list dd {
@@ -1551,7 +1559,7 @@ button {
   padding: 24px 0;
   font-size: 14px;
   line-height: 1.55;
-  color: var(--text-3);
+  color: var(--fg-3);
 }
 
 .panel__empty p:first-child {
@@ -1802,7 +1810,7 @@ button {
   font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--text-3);
+  color: var(--fg-3);
 }
 
 /* Wide and tablet: a fixed 1120 × 340 composition, scaled by percentage. */
@@ -2421,7 +2429,7 @@ button {
 
 .routes__body {
   font-size: 14px;
-  color: var(--text-3);
+  color: var(--fg-3);
 }
 
 /* ---------------- secondary pages ---------------- */
@@ -2630,7 +2638,7 @@ th[scope='row'] {
 
 thead th {
   background: var(--surface);
-  color: var(--text-3);
+  color: var(--fg-3);
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 400;
@@ -2674,7 +2682,7 @@ tbody tr:last-child td {
   font-size: 12px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--text-3);
+  color: var(--fg-3);
 }
 
 .icon-hero {
@@ -2718,7 +2726,7 @@ tbody tr:last-child td {
   gap: 12px;
   font-family: var(--font-mono);
   font-size: 11px;
-  color: var(--text-3);
+  color: var(--fg-3);
 }
 
 /* ---------------- motion ---------------- */

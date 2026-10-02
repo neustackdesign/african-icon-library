@@ -294,21 +294,21 @@ export function specimenCard(
     constructionField(icon, x, y, field) +
     text('Specimen', bx, y + pad + mono, {
       size: mono,
-      fill: DARK.text3,
+      fill: DARK.textMeta,
       mono: true,
       tracking: 0.06,
       upper: true,
     }) +
     text(position, x + width - pad, y + pad + mono, {
       size: mono,
-      fill: DARK.text3,
+      fill: DARK.textMeta,
       mono: true,
       tracking: 0.06,
       anchor: 'end',
     }) +
     text(icon.id, bx, y + field * 0.52, { size: field * 0.1, fill: DARK.text, mono: true }) +
     text(categoryLabel, bx, y + field * 0.66, { size: field * 0.078, fill: DARK.text2 }) +
-    text('24px · 1.5 stroke', bx, y + field * 0.79, { size: mono, fill: DARK.text3, mono: true })
+    text('24px · 1.5 stroke', bx, y + field * 0.79, { size: mono, fill: DARK.textMeta, mono: true })
   );
 }
 
@@ -370,7 +370,7 @@ export function tileGrid(
       glyph(icon.body, cx + (cell - size) / 2, cy + cell * 0.26, size, ink),
       text(icon.id, cx + cell / 2, cy + cell * 0.78, {
         size: Math.min(cell * 0.085, (cell * 0.9) / (icon.id.length * MONO_ADVANCE)),
-        fill: selected ? DARK.canvas : DARK.text3,
+        fill: selected ? DARK.canvas : DARK.textMeta,
         mono: true,
         anchor: 'middle',
       }),
@@ -488,7 +488,7 @@ export function buildReleaseAssets(input: AssetInput): ReleaseAsset[] {
         92,
         DARK.text,
       ),
-      facts(factLine, 1800, 150, 18, DARK.text3, 'end'),
+      facts(factLine, 1800, 150, 18, DARK.textMeta, 'end'),
       ribbon(icons, 0, 600, 1920, 360, { iconSize: 30 }),
     ],
   );
@@ -506,7 +506,7 @@ export function buildReleaseAssets(input: AssetInput): ReleaseAsset[] {
     [
       sectionLabel('Library', 120, 150, 18, DARK.text2, DARK.accent),
       headline([`${count} icons for`, 'African', 'everyday life.'], 120, 196, 96, DARK.text),
-      facts([`${categoryCount} categories`, 'regular · 1.5 stroke'], 120, 840, 18, DARK.text3),
+      facts([`${categoryCount} categories`, 'regular · 1.5 stroke'], 120, 840, 18, DARK.textMeta),
       tileGrid(icons, 960, 120, 6, 140, lead.id),
     ],
   );
@@ -556,7 +556,7 @@ export function buildReleaseAssets(input: AssetInput): ReleaseAsset[] {
         120,
         360,
         16,
-        DARK.text3,
+        DARK.textMeta,
       ),
       route(byId, 120, 420, 1680 / ROUTE_FRAME.width, DARK.text3),
     ],
@@ -654,7 +654,7 @@ export function buildReleaseAssets(input: AssetInput): ReleaseAsset[] {
     },
     [
       wordmark(72, 60, 22, DARK.text, byId),
-      facts([`v${input.version}`, `${count} icons`, 'MIT'], 1128, 84, 15, DARK.text3, 'end'),
+      facts([`v${input.version}`, `${count} icons`, 'MIT'], 1128, 84, 15, DARK.textMeta, 'end'),
       headline(['Icons for the things African', 'products actually need.'], 72, 140, 60, DARK.text),
       ribbon(icons, 0, 368, 1200, 260, { iconSize: 22 }),
     ],
@@ -702,7 +702,7 @@ export function buildReleaseAssets(input: AssetInput): ReleaseAsset[] {
         104,
         DARK.text,
       ),
-      facts(factLine, 84, 640, 18, DARK.text3),
+      facts(factLine, 84, 640, 18, DARK.textMeta),
       ribbon(icons, 0, 790, 1080, 560, { iconSize: 24 }),
     ],
   );
@@ -743,7 +743,7 @@ export function buildReleaseAssets(input: AssetInput): ReleaseAsset[] {
     },
     [
       wordmark(80, 72, 22, DARK.text, byId),
-      facts([`v${input.version}`, `${count} icons`, 'MIT'], 1200, 96, 15, DARK.text3, 'end'),
+      facts([`v${input.version}`, `${count} icons`, 'MIT'], 1200, 96, 15, DARK.textMeta, 'end'),
       headline(['Icons for the things African', 'products actually need.'], 80, 148, 64, DARK.text),
       ribbon(icons, 0, 390, 1280, 250, { iconSize: 22 }),
     ],

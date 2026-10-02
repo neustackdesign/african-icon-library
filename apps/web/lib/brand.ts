@@ -20,6 +20,8 @@ export const DARK = {
   text: '#f2f0e9',
   text2: '#a9a395',
   text3: '#7f796c',
+  /** Small meta text: --text-3 lifted to clear WCAG AA (5.2:1 on canvas). */
+  textMeta: '#8c8679',
   accent: '#79c79a',
   accentHover: '#a3ddbb',
 } as const;

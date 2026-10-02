@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import localFont from 'next/font/local';
 
 import { Analytics } from '@/components/Analytics';
 import { SiteFooter } from '@/components/SiteFooter';
@@ -12,20 +12,27 @@ import './globals.css';
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim();
 
 // Design System v3: Geist at 400/500 for everything, Geist Mono for facts.
-// Self-hosted at build time by next/font, with metric-matched fallbacks so the
-// swap causes no layout shift.
-const sans = Geist({
-  subsets: ['latin'],
-  weight: ['400', '500'],
+// Self-hosted from app/fonts (OFL-1.1, see app/fonts/README.md) rather than
+// fetched from Google at build time, so a build never depends on the network.
+// next/font still generates metric-matched fallbacks, so the swap causes no
+// layout shift.
+const sans = localFont({
+  src: './fonts/Geist-400-500.woff2',
+  weight: '400 500',
   display: 'swap',
   variable: '--font-geist',
+  fallback: ['ui-sans-serif', 'system-ui', 'Arial'],
 });
 
-const mono = Geist_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500'],
+const mono = localFont({
+  src: './fonts/GeistMono-400-500.woff2',
+  weight: '400 500',
   display: 'swap',
   variable: '--font-geist-mono',
+  fallback: ['ui-monospace', 'Menlo', 'monospace'],
+  // next/font can only size-adjust Arial or Times as a fallback. For a mono
+  // face the system monospace is the closer stand-in during the swap.
+  adjustFontFallback: false,
 });
 
 export const metadata: Metadata = {

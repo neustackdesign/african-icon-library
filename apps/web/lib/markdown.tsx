@@ -118,8 +118,14 @@ export function renderMarkdown(source: string): ReactNode[] {
     if (/^\s*[-*]\s+/.test(line)) {
       const items: string[] = [];
       while (cursor < lines.length && /^\s*[-*]\s+/.test(lines[cursor])) {
-        items.push(lines[cursor].replace(/^\s*[-*]\s+/, ''));
+        let item = lines[cursor].replace(/^\s*[-*]\s+/, '');
         cursor += 1;
+        // An indented line that is not a new item continues the one above.
+        while (cursor < lines.length && isContinuation(lines[cursor])) {
+          item += ` ${lines[cursor].trim()}`;
+          cursor += 1;
+        }
+        items.push(item);
       }
       blocks.push(
         <ul key={nextKey()}>
@@ -134,8 +140,14 @@ export function renderMarkdown(source: string): ReactNode[] {
     if (/^\s*\d+\.\s+/.test(line)) {
       const items: string[] = [];
       while (cursor < lines.length && /^\s*\d+\.\s+/.test(lines[cursor])) {
-        items.push(lines[cursor].replace(/^\s*\d+\.\s+/, ''));
+        let item = lines[cursor].replace(/^\s*\d+\.\s+/, '');
         cursor += 1;
+        // An indented line that is not a new item continues the one above.
+        while (cursor < lines.length && isContinuation(lines[cursor])) {
+          item += ` ${lines[cursor].trim()}`;
+          cursor += 1;
+        }
+        items.push(item);
       }
       blocks.push(
         <ol key={nextKey()}>
@@ -164,6 +176,10 @@ export function renderMarkdown(source: string): ReactNode[] {
   }
 
   return blocks;
+}
+
+function isContinuation(line: string): boolean {
+  return /^\s+\S/.test(line) && !/^\s*[-*]\s+/.test(line) && !/^\s*\d+\.\s+/.test(line);
 }
 
 interface DocumentPageProps {

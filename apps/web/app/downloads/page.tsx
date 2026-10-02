@@ -2,7 +2,11 @@ import type { Metadata } from 'next';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 
+import type { CSSProperties } from 'react';
+
+import { PageHead } from '@/components/PageHead';
 import { TrackedLink } from '@/components/TrackedLink';
+import { categoryColour, categoryRank } from '@/lib/brand';
 import { DOWNLOADS, LIBRARY, SITE, plural } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -38,21 +42,17 @@ export default async function DownloadsPage() {
   const manifest = await readManifest();
 
   return (
-    <div className="section shell">
-      <div className="prose">
-        <p className="eyebrow">Downloads · V2</p>
-        <h1 style={{ fontSize: 'clamp(1.9rem, 1.4rem + 2.4vw, 2.75rem)' }}>Take the files.</h1>
-        <p className="lede">
-          {plural(LIBRARY.iconCount, 'icon')} in the {LIBRARY.weightsShipped.join(', ')} weight,
-          ready as SVGs. MIT licensed for personal and commercial work.
-        </p>
-      </div>
+    <div className="page shell">
+      <PageHead label="Downloads · V2" title="Take the files.">
+        {plural(LIBRARY.iconCount, 'icon')} in the {LIBRARY.weightsShipped.join(', ')} weight, ready
+        as SVGs. MIT licensed for personal and commercial work.
+      </PageHead>
 
       {manifest ? (
         <>
-          <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', marginTop: '1.5rem' }}>
+          <div className="actions">
             <TrackedLink
-              className="button"
+              className="btn btn--primary"
               href={DOWNLOADS.icons}
               download
               event="release_download"
@@ -61,11 +61,11 @@ export default async function DownloadsPage() {
             >
               Download all SVGs (.zip)
             </TrackedLink>
-            <a className="button button--ghost" href={SITE.repository} rel="noreferrer noopener">
+            <a className="btn btn--secondary" href={SITE.repository} rel="noreferrer noopener">
               View source on GitHub
             </a>
             <TrackedLink
-              className="button button--ghost"
+              className="btn btn--secondary"
               href={DOWNLOADS.metadata}
               download
               event="release_download"
@@ -76,39 +76,47 @@ export default async function DownloadsPage() {
             </TrackedLink>
           </div>
 
-          <div className="prose" style={{ marginTop: '2.5rem' }}>
-            <h2>Category packs</h2>
+          <div className="page-block">
+            <h2 className="subhead">Category packs</h2>
             <p className="muted">Download only the part of the library you need.</p>
           </div>
 
-          <ul className="card-grid" style={{ listStyle: 'none', margin: '1rem 0 0', padding: 0 }}>
-            {(manifest.categories ?? []).map((category) => (
-              <li className="card" key={category.id}>
-                <h3>{category.label}</h3>
-                <p className="muted">{plural(category.icons, 'icon')}</p>
-                <p>
-                  <TrackedLink
-                    href={`/downloads/${category.file}`}
-                    download
-                    event="category_download"
-                    target_={category.id}
-                    surface="downloads"
-                  >
-                    Download pack →
-                  </TrackedLink>
-                </p>
-              </li>
-            ))}
+          <ul className="card-grid">
+            {[...(manifest.categories ?? [])]
+              .sort((a, b) => categoryRank(a.id) - categoryRank(b.id))
+              .map((category) => (
+                <li
+                  className="card"
+                  key={category.id}
+                  style={{ '--cat': categoryColour(category.id) } as CSSProperties}
+                >
+                  <span className="card__key" aria-hidden="true" />
+                  <h3>{category.label}</h3>
+                  <p className="muted">{plural(category.icons, 'icon')}</p>
+                  <p>
+                    <TrackedLink
+                      className="mono-link"
+                      href={`/downloads/${category.file}`}
+                      download
+                      event="category_download"
+                      target_={category.id}
+                      surface="downloads"
+                    >
+                      Download pack →
+                    </TrackedLink>
+                  </p>
+                </li>
+              ))}
           </ul>
 
-          <div className="prose" style={{ marginTop: '2.5rem' }}>
-            <h2>Checksums</h2>
+          <div className="page-block">
+            <h2 className="subhead">Checksums</h2>
             <p className="muted">
               SHA-256 values are provided for anyone who wants to verify a download.
             </p>
           </div>
 
-          <div className="table-scroll" style={{ marginTop: '1rem' }}>
+          <div className="table-scroll">
             <table>
               <caption className="visually-hidden">Published artefacts and their checksums</caption>
               <thead>
@@ -121,21 +129,13 @@ export default async function DownloadsPage() {
               <tbody>
                 {manifest.artefacts.map((artefact) => (
                   <tr key={artefact.name}>
-                    <th scope="row" style={{ fontFamily: 'var(--font-mono)', fontWeight: 400 }}>
+                    <th scope="row">
                       <a href={`/downloads/${artefact.name}`} download>
                         {artefact.name}
                       </a>
                     </th>
-                    <td style={{ whiteSpace: 'nowrap' }}>{formatBytes(artefact.bytes)}</td>
-                    <td
-                      style={{
-                        fontFamily: 'var(--font-mono)',
-                        fontSize: '0.75rem',
-                        wordBreak: 'break-all',
-                      }}
-                    >
-                      {artefact.sha256}
-                    </td>
+                    <td className="nowrap">{formatBytes(artefact.bytes)}</td>
+                    <td className="checksum">{artefact.sha256}</td>
                   </tr>
                 ))}
               </tbody>
@@ -143,7 +143,7 @@ export default async function DownloadsPage() {
           </div>
         </>
       ) : (
-        <div className="empty-state" style={{ marginTop: '1.5rem' }}>
+        <div className="empty-state">
           <p>Direct downloads are temporarily unavailable on this build.</p>
           <p>
             <a href={SITE.repository} rel="noreferrer noopener">
@@ -153,7 +153,7 @@ export default async function DownloadsPage() {
         </div>
       )}
 
-      <div className="prose" style={{ marginTop: '2.5rem' }}>
+      <div className="prose page-block">
         <h2>What is in the zip</h2>
         <pre className="code-block">
           <code>

@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
-import { LIBRARY, SITE } from '@/lib/site';
+import { PageHead } from '@/components/PageHead';
+import { FIGMA, LIBRARY, SITE } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'V2 release',
@@ -11,15 +12,13 @@ export const metadata: Metadata = {
 
 export default function StatusPage() {
   return (
-    <div className="section shell">
-      <div className="prose">
-        <p className="eyebrow">V2 release</p>
-        <h1 style={{ fontSize: 'clamp(1.9rem, 1.4rem + 2.4vw, 2.75rem)' }}>The current library.</h1>
-        <p className="lede">
-          V2 contains {LIBRARY.iconCount} released icons across {LIBRARY.categoryCount} categories,
-          drawn on a 24-pixel grid in the {LIBRARY.weightsShipped.join(', ')} weight.
-        </p>
+    <div className="page shell">
+      <PageHead label="V2 release" title="The current library.">
+        V2 contains {LIBRARY.iconCount} released icons across {LIBRARY.categoryCount} categories,
+        drawn on a 24-pixel grid in the {LIBRARY.weightsShipped.join(', ')} weight.
+      </PageHead>
 
+      <div className="prose">
         <h2>Available now</h2>
         <ul>
           <li>Browse and copy SVGs on the website.</li>
@@ -28,19 +27,29 @@ export default function StatusPage() {
         </ul>
 
         <h2>Figma</h2>
-        <p>
-          The V2 Community file and plugin are part of the release rollout and use the same
-          canonical icon set as the website and repository.
-        </p>
+        {FIGMA.published && FIGMA.url ? (
+          <p>
+            The V2 Community file uses the same canonical icon set as the website and repository.{' '}
+            <a href={FIGMA.url} rel="noreferrer noopener">
+              Open it in Figma
+            </a>
+            .
+          </p>
+        ) : (
+          <p>
+            The V2 Community file and plugin are generated from the same canonical icon set as the
+            website and repository. Community publication is pending.
+          </p>
+        )}
+      </div>
 
-        <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
-          <Link className="button" href="/downloads">
-            Download V2
-          </Link>
-          <a className="button button--ghost" href={SITE.repository} rel="noreferrer noopener">
-            View GitHub
-          </a>
-        </div>
+      <div className="actions page-actions">
+        <Link className="btn btn--primary" href="/downloads">
+          Download V2
+        </Link>
+        <a className="btn btn--secondary" href={SITE.repository} rel="noreferrer noopener">
+          View GitHub
+        </a>
       </div>
     </div>
   );

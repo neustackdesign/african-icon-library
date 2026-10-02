@@ -1,47 +1,55 @@
 import { ImageResponse } from 'next/og';
 
 import { getIconBody } from '@african-icon-library/icons';
-import { icons } from '@african-icon-library/metadata';
 
+import { DARK, categoryColour, oklchToHex, ribbonHeight } from './brand';
+import { HEADLINE } from './compositions';
+import { browserEntries } from './icons';
 import { LIBRARY, SITE } from './site';
 
 export const OG_SIZE = { width: 1200, height: 630 } as const;
 export const OG_CONTENT_TYPE = 'image/png';
 export const OG_ALT = `${SITE.name} — ${LIBRARY.iconCount} open-source icons for African life`;
 
-const PAPER = '#FAF9F6';
-const INK = '#16150F';
-const ACCENT = '#2E7D4F';
-const MUTED = '#56524A';
-
 /**
- * Builds the icon strip as one SVG, embedded as a data URI.
+ * The released-icon ribbon as one SVG document, embedded as a data URI.
  *
  * The image generator only understands a subset of SVG when written as JSX, so
- * the strip is handed over as a finished document instead — which also means the
- * card shows the real released drawings, not an illustration of them.
+ * the ribbon is handed over finished — which also means the card shows the
+ * real released drawings in their category fields, not an illustration of them.
  */
-function iconStripDataUri(count: number): string {
-  const chosen = icons.slice(0, count);
-  const cell = 96;
-  const width = chosen.length * cell;
+function ribbonDataUri(width: number, height: number): string {
+  const entries = browserEntries();
+  const bar = width / entries.length;
+  const icon = Math.min(24, bar * 0.6);
 
-  const glyphs = chosen
-    .map((icon, index) => {
-      const body = getIconBody(icon.id) ?? '';
-      return `<g transform="translate(${index * cell + (cell - 48) / 2} 0) scale(2)">${body}</g>`;
+  const bars = entries
+    .map(({ icon: meta }, index) => {
+      const h = (ribbonHeight(index, entries.length) / 100) * height;
+      const x = index * bar;
+      const y = height - h;
+      const body = getIconBody(meta.id) ?? '';
+      const scale = icon / 24;
+      return (
+        `<rect x="${x}" y="${y}" width="${bar}" height="${h}" fill="${oklchToHex(categoryColour(meta.category))}"/>` +
+        `<line x1="${x + bar}" y1="0" x2="${x + bar}" y2="${height}" stroke="${DARK.line}" stroke-width="1"/>` +
+        `<g transform="translate(${x + (bar - icon) / 2} ${y + 12}) scale(${scale})" fill="none" ` +
+        `stroke="${DARK.canvas}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${body}</g>`
+      );
     })
     .join('');
 
   const svg =
-    `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="48" viewBox="0 0 ${width} 48" ` +
-    `fill="none" stroke="${INK}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">` +
-    `${glyphs}</svg>`;
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" ` +
+    `viewBox="0 0 ${width} ${height}">${bars}</svg>`;
 
   return `data:image/svg+xml;base64,${Buffer.from(svg, 'utf8').toString('base64')}`;
 }
 
+/** The social card: wordmark, approved headline and the ribbon. Facts only, no claims. */
 export function renderOpenGraphImage(): ImageResponse {
+  const ribbonHeightPx = 250;
+
   return new ImageResponse(
     <div
       style={{
@@ -50,53 +58,48 @@ export function renderOpenGraphImage(): ImageResponse {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        background: PAPER,
-        color: INK,
-        padding: '72px 80px',
-        fontFamily: 'sans-serif',
+        background: DARK.canvas,
+        color: DARK.text,
       }}
     >
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', padding: '64px 72px 0', gap: 28 }}>
         <div
           style={{
             display: 'flex',
-            fontSize: 22,
-            letterSpacing: 4,
+            justifyContent: 'space-between',
+            fontSize: 20,
+            letterSpacing: 1.5,
             textTransform: 'uppercase',
-            color: ACCENT,
+            color: DARK.text2,
           }}
         >
-          Open source · MIT
+          <span>{SITE.name}</span>
+          <span>
+            v{LIBRARY.version} · {LIBRARY.iconCount} icons · MIT
+          </span>
         </div>
         <div
           style={{
             display: 'flex',
-            fontSize: 76,
-            fontWeight: 800,
-            letterSpacing: -2,
-            lineHeight: 1.05,
+            fontSize: 68,
+            lineHeight: 1.0,
+            letterSpacing: -3,
+            maxWidth: 980,
           }}
         >
-          {SITE.name}
-        </div>
-        <div
-          style={{ display: 'flex', fontSize: 32, color: MUTED, maxWidth: 900, lineHeight: 1.35 }}
-        >
-          {LIBRARY.iconCount} icons for African life, drawn on one 24-pixel grid. Nigeria first; the
-          continent next.
+          {HEADLINE}
         </div>
       </div>
-
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
-        {/*
-          A plain <img> on purpose: this tree is rendered into a PNG by Satori,
-          not by a browser, so there is nothing for next/image to optimise.
-        */}
-        <img src={iconStripDataUri(10)} width={960} height={48} alt="" />
-        <div style={{ display: 'flex', fontSize: 24, color: MUTED }}>
-          icons.neustackstudio.com · v{LIBRARY.version} · {LIBRARY.weightsShipped.join(', ')} weight
-        </div>
-      </div>
+      {/*
+        A plain <img> on purpose: this tree is rendered into a PNG by Satori,
+        not by a browser, so there is nothing for next/image to optimise.
+      */}
+      <img
+        src={ribbonDataUri(OG_SIZE.width, ribbonHeightPx)}
+        width={OG_SIZE.width}
+        height={ribbonHeightPx}
+        alt=""
+      />
     </div>,
     { ...OG_SIZE },
   );

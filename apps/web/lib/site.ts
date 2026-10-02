@@ -7,6 +7,7 @@ export const SITE = {
   url: 'https://icons.neustackstudio.com',
   repository: 'https://github.com/neustackdesign/african-icon-library',
   issues: 'https://github.com/neustackdesign/african-icon-library/issues',
+  newIssue: 'https://github.com/neustackdesign/african-icon-library/issues/new/choose',
   maintainer: 'Neustack Design',
   contact: 'icons@neustackstudio.com',
   description:
@@ -30,11 +31,30 @@ export const DOWNLOADS = {
 } as const;
 
 export const NAV = [
-  { href: '/', label: 'Icons' },
+  { href: '/#browse', label: 'Icons' },
   { href: '/downloads', label: 'Downloads' },
   { href: '/spec', label: 'Spec' },
   { href: '/changelog', label: 'Releases' },
 ] as const;
+
+/** Issue forms in `.github/ISSUE_TEMPLATE`, linked directly so each route lands on its form. */
+export const ISSUE_FORMS = {
+  iconProposal: `${SITE.repository}/issues/new?template=icon-proposal.yml`,
+  localName: `${SITE.repository}/issues/new?template=local-name-contribution.yml`,
+  culturalCorrection: `${SITE.repository}/issues/new?template=cultural-correction.yml`,
+} as const;
+
+/**
+ * Figma Community publication state.
+ *
+ * The only place the site decides what to say about Figma. When the Community
+ * file is live, set `published: true` and `url` to its Community link: the
+ * distribution tree then links to it instead of showing the pending tag.
+ */
+export const FIGMA: { published: boolean; url: string | null } = {
+  published: false,
+  url: null,
+};
 
 /** Grammatical helper so copy reads correctly when the set is tiny or large. */
 export function plural(count: number, singular: string, pluralForm = `${singular}s`): string {

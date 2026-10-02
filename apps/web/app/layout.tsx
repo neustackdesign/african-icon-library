@@ -1,26 +1,38 @@
 import type { Metadata, Viewport } from 'next';
-import { IBM_Plex_Mono, Schibsted_Grotesk } from 'next/font/google';
+import localFont from 'next/font/local';
 
 import { Analytics } from '@/components/Analytics';
 import { SiteFooter } from '@/components/SiteFooter';
 import { SiteHeader } from '@/components/SiteHeader';
+import { DARK } from '@/lib/brand';
 import { LIBRARY, SITE, plural } from '@/lib/site';
 
 import './globals.css';
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim();
 
-const sans = Schibsted_Grotesk({
-  subsets: ['latin'],
+// Design System v3: Geist at 400/500 for everything, Geist Mono for facts.
+// Self-hosted from app/fonts (OFL-1.1, see app/fonts/README.md) rather than
+// fetched from Google at build time, so a build never depends on the network.
+// next/font still generates metric-matched fallbacks, so the swap causes no
+// layout shift.
+const sans = localFont({
+  src: './fonts/Geist-400-500.woff2',
+  weight: '400 500',
   display: 'swap',
-  variable: '--font-sans-loaded',
+  variable: '--font-geist',
+  fallback: ['ui-sans-serif', 'system-ui', 'Arial'],
 });
 
-const mono = IBM_Plex_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
+const mono = localFont({
+  src: './fonts/GeistMono-400-500.woff2',
+  weight: '400 500',
   display: 'swap',
-  variable: '--font-mono-loaded',
+  variable: '--font-geist-mono',
+  fallback: ['ui-monospace', 'Menlo', 'monospace'],
+  // next/font can only size-adjust Arial or Times as a fallback. For a mono
+  // face the system monospace is the closer stand-in during the swap.
+  adjustFontFallback: false,
 });
 
 export const metadata: Metadata = {
@@ -66,10 +78,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#faf9f6' },
-    { media: '(prefers-color-scheme: dark)', color: '#12110d' },
-  ],
+  themeColor: DARK.canvas,
+  colorScheme: 'dark',
   width: 'device-width',
   initialScale: 1,
 };
@@ -97,7 +107,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         {GA_MEASUREMENT_ID ? (
           <>
-            <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`} />
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+            />
             <script
               id="ail-ga4-init"
               dangerouslySetInnerHTML={{

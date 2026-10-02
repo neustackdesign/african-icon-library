@@ -7,28 +7,39 @@
  * `packages/icons/svg/regular`, so a card can never show an icon the library
  * does not ship.
  *
- * PNG export, when a platform demands one:
- *   npx --yes svgexport media/og-social.svg media/og-social.png 1200:630
- * or open the SVG in any browser and screenshot at 2x.
+ * The V3 release formats (Figma Community cover and carousel, social cards,
+ * hero poster, GitHub preview) are composed in `lib/release-assets.ts` from
+ * the website's design tokens and written to `media/release-assets/`. PNG exports of
+ * those masters come from `npm run media:export`.
+ *
+ * The supporting sheets below (collection, 24 px proof, grid explainer,
+ * category cards) use the same tokens on the ivory ground.
  */
 
 import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
+import { pipeline } from '@african-icon-library/metadata';
+
+import { FONT_STACK, LIGHT } from '../apps/web/lib/brand.ts';
+import { FIGMA } from '../apps/web/lib/site.ts';
 import { PATHS, ROOT, listSvgAssets, loadCategories, loadIcons, relative } from './lib/repo.ts';
 import { iconBody } from './lib/generators.ts';
+import { buildReleaseAssets, releaseAssetReadme } from './lib/release-assets.ts';
 
 const MEDIA_DIR = path.join(ROOT, 'media');
 
-const PAPER = '#FAF9F6';
-const INK = '#16150F';
-const MUTED = '#56524A';
-const ACCENT = '#2E7D4F';
-const LINE = '#E2DED3';
+const RELEASE_DIR = path.join(MEDIA_DIR, 'release-assets');
 
-const FONT =
-  "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Schibsted Grotesk', Roboto, Helvetica, Arial, sans-serif";
-const MONO = "ui-monospace, SFMono-Regular, Menlo, 'IBM Plex Mono', monospace";
+// Design System v3, ivory ground.
+const PAPER = LIGHT.canvas;
+const INK = LIGHT.ink;
+const MUTED = LIGHT.ink2;
+const ACCENT = LIGHT.accentInk;
+const LINE = LIGHT.line;
+
+const FONT = FONT_STACK.sans;
+const MONO = FONT_STACK.mono;
 
 function escapeXml(value: string): string {
   return value
@@ -101,76 +112,6 @@ async function main(): Promise<number> {
     written.push(name);
   };
 
-  /** A row of hero icons, evenly spaced and centred. */
-  const heroRow = (ids: string[], y: number, size: number, width: number, stroke = INK) => {
-    const gap = size * 0.55;
-    const total = ids.length * size + (ids.length - 1) * gap;
-    const startX = (width - total) / 2;
-    return ids
-      .map((id, index) =>
-        glyph(bodies.get(id) ?? '', {
-          x: startX + index * (size + gap),
-          y,
-          size,
-          stroke,
-          strokeWidth: 1.4,
-        }),
-      )
-      .join('');
-  };
-
-  const HERO = ['talking-drum', 'danfo', 'suya', 'naira-sign', 'agogo', 'jerry-can', 'shekere'];
-
-  /* ---------------- social / Open Graph, 1200 x 630 ---------------- */
-
-  await write(
-    'og-social.svg',
-    document_(
-      1200,
-      630,
-      [
-        text('OPEN SOURCE · MIT', 80, 110, { size: 20, weight: 600, fill: ACCENT }),
-        text('African Icon Library', 80, 200, { size: 68, weight: 800 }),
-        text(`${count} icons for African life, drawn on one 24-pixel grid.`, 80, 258, {
-          size: 30,
-          fill: MUTED,
-        }),
-        text('Nigeria first; the continent next.', 80, 300, { size: 30, fill: MUTED }),
-        heroRow(HERO, 400, 96, 1200),
-        `<line x1="80" y1="548" x2="1120" y2="548" stroke="${LINE}" stroke-width="2"/>`,
-        text('icons.neustackstudio.com', 80, 585, { size: 22, fill: MUTED, font: MONO }),
-        text(`${categoryCount} categories · regular weight`, 1120, 585, {
-          size: 22,
-          fill: MUTED,
-          font: MONO,
-          anchor: 'end',
-        }),
-      ].join(''),
-    ),
-  );
-
-  /* ---------------- GitHub social preview, 1280 x 640 ---------------- */
-
-  await write(
-    'github-social.svg',
-    document_(
-      1280,
-      640,
-      [
-        text('african-icon-library', 80, 130, { size: 26, weight: 500, fill: MUTED, font: MONO }),
-        text('The icons global', 80, 230, { size: 72, weight: 800 }),
-        text('libraries never drew.', 80, 310, { size: 72, weight: 800 }),
-        heroRow(HERO, 410, 92, 1280),
-        text(`${count} icons · MIT · one 24-pixel grid`, 640, 580, {
-          size: 24,
-          fill: MUTED,
-          font: MONO,
-          anchor: 'middle',
-        }),
-      ].join(''),
-    ),
-  );
-
   /* ---------------- full collection sheet ---------------- */
 
   {
@@ -203,7 +144,7 @@ async function main(): Promise<number> {
         width,
         height,
         [
-          text('African Icon Library', 80, 100, { size: 44, weight: 800 }),
+          text('African Icon Library', 80, 100, { size: 44, weight: 400 }),
           text(
             `Every released icon — ${count} across ${categoryCount} categories, regular weight.`,
             80,
@@ -246,7 +187,7 @@ async function main(): Promise<number> {
         width,
         height,
         [
-          text('The 24-pixel test', 120, 130, { size: 52, weight: 800 }),
+          text('The 24-pixel test', 120, 130, { size: 52, weight: 400 }),
           text('If a glyph does not read at UI size, it is not an icon.', 120, 180, {
             size: 24,
             fill: MUTED,
@@ -299,7 +240,7 @@ async function main(): Promise<number> {
         width,
         height,
         [
-          text('One grid, every icon', 140, 130, { size: 52, weight: 800 }),
+          text('One grid, every icon', 140, 130, { size: 52, weight: 400 }),
           text('24-unit canvas · 2-unit live area · 1.5 stroke · round caps and joins', 140, 178, {
             size: 24,
             fill: MUTED,
@@ -357,8 +298,8 @@ async function main(): Promise<number> {
         width,
         height,
         [
-          text(category.label.toUpperCase(), 80, 100, { size: 20, weight: 600, fill: ACCENT }),
-          text(`${members.length} icons`, 80, 150, { size: 40, weight: 800 }),
+          text(category.label.toUpperCase(), 80, 100, { size: 20, fill: MUTED, font: MONO }),
+          text(`${members.length} icons`, 80, 150, { size: 40, weight: 400 }),
           members
             .map((icon, index) =>
               glyph(bodies.get(icon.id) ?? '', {
@@ -402,8 +343,8 @@ async function main(): Promise<number> {
         1200,
         630,
         [
-          text('REDRAWN', 80, 90, { size: 20, weight: 600, fill: ACCENT }),
-          text(id, 80, 150, { size: 44, weight: 800, font: MONO }),
+          text('REDRAWN', 80, 90, { size: 20, fill: MUTED, font: MONO }),
+          text(id, 80, 150, { size: 44, weight: 400, font: MONO }),
           text(icon?.description ?? 'Redrawn to fit the live area.', 80, 195, {
             size: 22,
             fill: MUTED,
@@ -424,6 +365,47 @@ async function main(): Promise<number> {
     );
   }
 
+  /* ---------------- V3 release formats ---------------- */
+
+  const releaseAssets = buildReleaseAssets({
+    icons: icons.map((icon) => ({
+      id: icon.id,
+      name: icon.name,
+      category: icon.category,
+      body: bodies.get(icon.id) ?? '',
+    })),
+    categoryLabels: Object.fromEntries(categories.map((category) => [category.id, category.label])),
+    version: pipeline.version,
+    figmaPublished: FIGMA.published,
+  });
+  await mkdir(RELEASE_DIR, { recursive: true });
+  for (const asset of releaseAssets) {
+    await writeFile(path.join(RELEASE_DIR, asset.file), asset.svg, 'utf8');
+    written.push(`release-assets/${asset.file}`);
+  }
+  await writeFile(
+    path.join(RELEASE_DIR, 'manifest.json'),
+    JSON.stringify(
+      {
+        version: pipeline.version,
+        icons: count,
+        assets: releaseAssets.map(({ svg: _svg, ...asset }) => ({
+          ...asset,
+          png: `png/${asset.file.replace(/\.svg$/, '.png')}`,
+        })),
+      },
+      null,
+      2,
+    ) + '\n',
+    'utf8',
+  );
+  await writeFile(
+    path.join(RELEASE_DIR, 'README.md'),
+    releaseAssetReadme(releaseAssets, pipeline.version, count),
+    'utf8',
+  );
+  written.push('release-assets/manifest.json', 'release-assets/README.md');
+
   /* ---------------- manifest ---------------- */
 
   await write(
@@ -436,10 +418,11 @@ async function main(): Promise<number> {
       '',
       'Regenerate after any change to the icon set; do not edit these by hand.',
       '',
+      'The V3 release formats — Figma Community cover and carousel, social cards, hero poster and',
+      'GitHub preview — are in [`release-assets/`](release-assets/README.md). The sheets below support them.',
+      '',
       '| File | Size | Use |',
       '| --- | --- | --- |',
-      '| `og-social.svg` | 1200 × 630 | Open Graph / Twitter card |',
-      '| `github-social.svg` | 1280 × 640 | GitHub repository social preview |',
       '| `collection-sheet.svg` | fits the set | The whole collection on one sheet |',
       '| `proof-24px.svg` | 1600 × 900 | The 24-pixel legibility proof |',
       '| `grid-explainer.svg` | 1600 × 900 | The drawing system, shown |',
@@ -456,14 +439,9 @@ async function main(): Promise<number> {
       '',
       '## PNG export',
       '',
-      'Platforms that insist on a raster file:',
-      '',
-      '```',
-      'npx --yes svgexport media/og-social.svg media/og-social.png 1200:630',
-      '```',
-      '',
-      'Or open the SVG in a browser and screenshot at 2×. The website also serves a rendered PNG',
-      'card at `/opengraph-image`, built from the same drawings.',
+      '`npm run media:export` renders every release master to `release-assets/png/` with Geist and',
+      'Geist Mono. The website also serves a rendered PNG card at `/opengraph-image`, built from',
+      'the same tokens and drawings.',
       '',
       '## Licence',
       '',

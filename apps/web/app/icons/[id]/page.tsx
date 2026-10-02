@@ -1,10 +1,14 @@
 import type { Metadata } from 'next';
+import type { CSSProperties } from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import { getIconBody, renderIconSvg } from '@african-icon-library/icons';
 import { getCategory, getIcon, icons } from '@african-icon-library/metadata';
 
+import { IconGlyph } from '@/components/IconGlyph';
+import { TrackedLink } from '@/components/TrackedLink';
+import { categoryColour } from '@/lib/brand';
 import { LIBRARY, SITE } from '@/lib/site';
 
 interface Params {
@@ -56,24 +60,38 @@ export default async function IconPage({ params }: Params) {
   };
 
   return (
-    <article className="section shell">
-      <p className="mono" style={{ marginBottom: '1rem' }}>
-        <Link href="/">Icons</Link> / {icon.id}
+    <article className="page shell">
+      <p className="crumbs">
+        <Link href="/#browse">Icons</Link> / {category?.label ?? icon.category} / {icon.id}
       </p>
 
-      <div
-        style={{
-          display: 'grid',
-          gap: '1.5rem',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-          alignItems: 'start',
-        }}
-      >
+      <div className="icon-page">
         <div className="stack">
-          <h1 style={{ fontSize: 'clamp(1.75rem, 1.3rem + 2vw, 2.5rem)' }}>{icon.name}</h1>
-          <p className="lede">{icon.description}</p>
+          <div
+            className="icon-hero field"
+            style={{ '--cat': categoryColour(icon.category) } as CSSProperties}
+          >
+            <span className="grid-overlay" aria-hidden="true" />
+            <span className="live-area" aria-hidden="true" />
+            <IconGlyph body={body} size="45%" label={icon.name} />
+          </div>
 
-          <ul className="tag-row" style={{ marginTop: 0 }}>
+          <h2 className="subhead">At real sizes</h2>
+          <ul className="sizes">
+            {SIZES.map((size) => (
+              <li key={size}>
+                <IconGlyph body={body} size={size} label={`${icon.name} at ${size} pixels`} />
+                {size}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="stack">
+          <h1 className="page-title">{icon.name}</h1>
+          <p className="lead">{icon.description}</p>
+
+          <ul className="tag-row">
             <li className="tag">{icon.id}</li>
             {category ? <li className="tag">{category.label}</li> : null}
             {icon.regions.map((region) => (
@@ -84,43 +102,29 @@ export default async function IconPage({ params }: Params) {
             <li className="tag">added in v{icon.addedIn}</li>
           </ul>
 
-          <h2 style={{ fontSize: '1.125rem', marginTop: '1rem' }}>At real sizes</h2>
-          <div
-            style={{
-              display: 'flex',
-              gap: '1.25rem',
-              alignItems: 'flex-end',
-              flexWrap: 'wrap',
-              border: '1px solid var(--line)',
-              borderRadius: 'var(--radius)',
-              background: 'var(--paper-raised)',
-              padding: '1.25rem',
-            }}
-          >
-            {SIZES.map((size) => (
-              <div key={size} style={{ textAlign: 'center' }}>
-                <svg
-                  width={size}
-                  height={size}
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={1.5}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  role="img"
-                  aria-label={`${icon.name} at ${size} pixels`}
-                  dangerouslySetInnerHTML={{ __html: body }}
-                />
-                <div className="mono" style={{ marginTop: '0.4rem' }}>
-                  {size}
-                </div>
-              </div>
-            ))}
+          <div className="actions">
+            <TrackedLink
+              className="btn btn--primary"
+              href={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`}
+              download={`${icon.id}.svg`}
+              event="icon_download"
+              target_={icon.id}
+              surface="icon-page"
+            >
+              Download SVG
+            </TrackedLink>
+            <Link className="btn btn--secondary" href="/#browse">
+              Browse all icons
+            </Link>
           </div>
 
-          <h2 style={{ fontSize: '1.125rem', marginTop: '1rem' }}>Search terms</h2>
-          <ul className="tag-row" style={{ marginTop: 0 }}>
+          <h2 className="subhead">SVG source</h2>
+          <pre className="code-block code-block--wrap">
+            <code>{svg}</code>
+          </pre>
+
+          <h2 className="subhead">Search terms</h2>
+          <ul className="tag-row">
             {icon.keywords.map((keyword) => (
               <li className="tag" key={keyword}>
                 {keyword}
@@ -135,11 +139,9 @@ export default async function IconPage({ params }: Params) {
               are not shown here as authoritative. They do work as search terms.
             </p>
           ) : null}
-        </div>
 
-        <div className="stack">
-          <h2 style={{ fontSize: '1.125rem' }}>Weights</h2>
-          <ul className="tag-row" style={{ marginTop: 0 }}>
+          <h2 className="subhead">Weights</h2>
+          <ul className="tag-row">
             {icon.weights.map((weight) => (
               <li className="tag" key={weight}>
                 {weight} — drawn
@@ -152,13 +154,8 @@ export default async function IconPage({ params }: Params) {
             ))}
           </ul>
 
-          <h2 style={{ fontSize: '1.125rem', marginTop: '1rem' }}>SVG source</h2>
-          <pre className="code-block code-block--wrap">
-            <code>{svg}</code>
-          </pre>
-
-          <h2 style={{ fontSize: '1.125rem', marginTop: '1rem' }}>Provenance</h2>
-          <p className="muted" style={{ fontSize: '0.9375rem' }}>
+          <h2 className="subhead">Provenance</h2>
+          <p className="muted">
             Redrawn from <code>{icon.provenance.auditSourceFile}</code> in the August 2026 audit,
             whose verdict for that file was <code>{icon.provenance.auditVerdict}</code>.
           </p>

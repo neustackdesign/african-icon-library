@@ -1,6 +1,6 @@
 # Figma plugin — publishing pack
 
-Ready-to-use listing copy and the final pre-publication checks for the African Icon Library plugin.
+Ready-to-use listing copy and the publication record for the African Icon Library plugin.
 
 ## Listing copy
 
@@ -38,7 +38,7 @@ Ready-to-use listing copy and the final pre-publication checks for the African I
 `design system`, `ui`, `offline`, `insert`
 
 **Category**  
-Icons
+Icon Packs
 
 **Creator**  
 Neustack Design
@@ -48,6 +48,19 @@ Neustack Design
 
 **Website**  
 `https://icons.neustackstudio.com`
+
+## Published identifiers
+
+**Plugin ID**  
+`1687997071772751842`
+
+**Plugin URL**  
+`https://www.figma.com/community/plugin/1687997071772751842`
+
+**Community file URL**  
+`https://www.figma.com/community/file/1688005719745631513`
+
+The Community file is public. The plugin has been submitted successfully and its canonical URL is assigned, but the listing remains private while Figma review is in progress.
 
 ## Privacy and permissions
 
@@ -63,25 +76,31 @@ Neustack Design
 
 ## Listing media
 
-**Cover:** 1920 × 960. Use real released icons and a real plugin screenshot. Keep the composition simple: library name, one-line value proposition, 4–6 distinctive icons, plugin panel.
+The release uses the completed 1920 × 960 Community listing system:
 
-**Suggested carousel:**
-
-1. Plugin open beside a real canvas with search results visible.
-2. An icon inserted as editable vector layers.
-3. Category filtering across several distinctive V2 icons.
-4. The same icons shown in a realistic interface at 20–24 px.
-5. Website + Community file + plugin as the three ways to use the same library.
+1. Cover — Icons for African everyday life.
+2. Released set — 30 icons. 7 categories. One system.
+3. Figma Plugin — Search. Filter. Insert.
+4. System — One 24px system.
+5. Context — Context travels with the icon.
+6. Distribution — One library. Several ways in.
 
 Do not show unreleased icons, unsupported weights or mock functionality.
 
 ## Publish sequence
 
-1. Run `npm run build -w @african-icon-library/figma-plugin`.
-2. Import `apps/figma-plugin/manifest.json` as a development plugin in Figma Desktop.
+Completed:
+
+1. Build the plugin.
+2. Import `apps/figma-plugin/manifest.json` in Figma Desktop.
 3. Test search, category filtering and insertion at 16, 24, 32 and 48 px with nothing selected, a frame selected and a locked layer selected.
-4. Publish from Figma Desktop.
-5. Replace the placeholder `id` in `apps/figma-plugin/manifest.json` with the Figma-assigned plugin id and commit it.
-6. Add the published Community URL to the website and README.
+4. Generate and commit the permanent Figma plugin ID.
+5. Submit the plugin for Figma review.
+6. Publish the V2 Community file.
+
+Remaining:
+
+1. Wait for Figma to approve the plugin so the listing becomes public.
+2. Flip any public-site plugin state that depends on review completion.
 
 The repository is the source of truth. If the Figma file is edited or new icons are added during final cleanup, those changes must be promoted back into the canonical SVG/metadata source and regenerated before publication; do not let the Community file become a separate fork of V2.

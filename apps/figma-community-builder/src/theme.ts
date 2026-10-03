@@ -1,28 +1,51 @@
 /**
- * The one place the Community file's visual constants live.
+ * Visual constants for the generated Figma Community file.
  *
- * The palette is fixed by docs/figma-community-file-spec.md — paper rather than
- * white, one accent used sparingly — so it is stated once here rather than
- * repeated at every call site where a drift would be invisible.
+ * These mirror the public V3 site rather than inventing a Figma-only identity.
+ * Dark is the launch/cover ground; ivory is the editorial/documentation ground;
+ * category colour is used as information, never as generic decoration.
  */
 
-/** Library paper. Deliberately not `#FFFFFF`: white reads as a default template. */
-export const PAPER = '#FAF9F6';
-export const INK = '#16150F';
-export const ACCENT = '#2E7D4F';
+/** Primary V3 grounds. */
+export const DARK = '#12110D';
+export const DARK_SUNKEN = '#0C0B08';
+export const DARK_SURFACE = '#1A1915';
+export const DARK_RAISED = '#23211B';
+export const DARK_LINE = '#3A372F';
+export const DARK_TEXT = '#F2F0E9';
+export const DARK_MUTED = '#A9A395';
+export const ACCENT_LIGHT = '#79C79A';
 
-/** Ink at reading weight for secondary copy, and the hairline used for rules. */
-export const INK_MUTED = '#6E6A5E';
-export const RULE = '#E3DFD4';
-/** Background for a card sitting on paper. */
-export const CARD = '#F2F0E9';
+/** Editorial/light surfaces. */
+export const PAPER = '#EFEDE6';
+export const INK = '#12110D';
+export const ACCENT = '#2E7D4F';
+export const INK_MUTED = '#55514A';
+export const RULE = '#D6D2C5';
+export const CARD = '#F8F7F2';
 /** Used only to mark an unconfirmed local name, never as decoration. */
 export const WARN = '#8A5A1B';
 
+/** Hex counterparts of the website's seven equal-lightness category fields. */
+export const CATEGORY_COLOURS = {
+  'food-drink': '#F39762',
+  transport: '#E5C95E',
+  'commerce-industry': '#47C7C7',
+  'culture-people': '#EE939B',
+  'music-art-play': '#B093E5',
+  'fashion-textiles': '#69A1E8',
+  'identity-state': '#76C788',
+} as const;
+
+export function categoryColour(id: string): string {
+  return CATEGORY_COLOURS[id as keyof typeof CATEGORY_COLOURS] ?? RULE;
+}
+
 /**
- * Figma ships Inter, so it is the only family the builder asks for. Every style
- * used anywhere in the file is listed here because `figma.loadFontAsync` has to
- * be awaited for each one *before* any text node is created.
+ * Inter ships with Figma and therefore remains the builder font. The web uses
+ * Geist, but requiring a local Geist installation would make a Community build
+ * fragile. The visual hierarchy, spacing and mono-like metadata treatment carry
+ * the V3 system without turning font availability into a release blocker.
  */
 export const FONT_FAMILY = 'Inter';
 

@@ -36,9 +36,8 @@ function send(message: UiMessage): void {
 }
 
 /**
- * Looks up an element the UI shell guarantees exists. The `_tag` argument names
- * the expected type at each call site; a missing node is a mistake in
- * `ui.html`, not a runtime condition worth recovering from.
+ * Looks up an element the UI shell guarantees exists. A missing node is a build
+ * error in `ui.html`, not a runtime state worth silently recovering from.
  */
 function element<K extends keyof HTMLElementTagNameMap>(
   id: string,
@@ -50,18 +49,21 @@ function element<K extends keyof HTMLElementTagNameMap>(
 }
 
 const searchInput = element('search', 'input');
-const categorySelect = element('category', 'select');
+const categoryRow = element('categories', 'div');
+const weightControl = element('weight-control', 'div');
 const weightRow = element('weights', 'div');
-const sizeSelect = element('size', 'select');
+const sizeRow = element('sizes', 'div');
 const grid = element('grid', 'div');
 const emptyState = element('empty', 'div');
-const detail = element('detail', 'div');
+const detail = element('detail', 'section');
+const detailPreview = element('detail-preview', 'div');
 const detailName = element('detail-name', 'div');
 const detailMeta = element('detail-meta', 'div');
 const insertButton = element('insert', 'button');
 const statusBar = element('status', 'div');
 const contextBar = element('context', 'div');
-const countLabel = element('count', 'div');
+const countLabel = element('count', 'span');
+const libraryMeta = element('library-meta', 'span');
 
 /* ------------------------------------------------------------------ *
  * Rendering
@@ -73,22 +75,19 @@ function svgFor(id: string, weight: string): string {
 }
 
 /**
- * Builds the preview thumbnail.
- *
- * The bundled markup is trusted — it is compiled into this file from validated
- * assets and never comes from user input or the network — but it is still
- * parsed rather than assigned as HTML, so a malformed asset produces an empty
- * cell instead of anything executable.
+ * Builds a preview thumbnail from a bundled, validated SVG. The markup is
+ * parsed rather than assigned as HTML so a malformed build produces no preview
+ * instead of executable DOM.
  */
-function thumbnail(id: string, weight: string): SVGSVGElement | null {
+function thumbnail(id: string, weight: string, size = 24): SVGSVGElement | null {
   const source = svgFor(id, weight);
   if (!source) return null;
   const parsed = new DOMParser().parseFromString(source, 'image/svg+xml');
   const root = parsed.documentElement;
   if (root.nodeName !== 'svg' || parsed.getElementsByTagName('parsererror').length > 0) return null;
   const imported = document.importNode(root, true) as unknown as SVGSVGElement;
-  imported.setAttribute('width', '24');
-  imported.setAttribute('height', '24');
+  imported.setAttribute('width', String(size));
+  imported.setAttribute('height', String(size));
   imported.setAttribute('aria-hidden', 'true');
   imported.setAttribute('focusable', 'false');
   return imported;
@@ -101,33 +100,62 @@ function results(): Icon[] {
   }).map((result) => result.icon);
 }
 
+function pressable(
+  label: string,
+  pressed: boolean,
+  className: string,
+  onPress: () => void,
+): HTMLButtonElement {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = className;
+  button.textContent = label;
+  button.setAttribute('aria-pressed', String(pressed));
+  button.addEventListener('click', onPress);
+  return button;
+}
+
+function renderCategories(): void {
+  categoryRow.replaceChildren();
+  const choices = [{ id: 'all', label: 'All' }, ...PLUGIN_CATEGORIES];
+  for (const category of choices) {
+    categoryRow.appendChild(
+      pressable(category.label, state.category === category.id, 'chip', () => {
+        state.category = category.id;
+        state.selectedId = null;
+        render();
+      }),
+    );
+  }
+}
+
+function renderSizes(): void {
+  sizeRow.replaceChildren();
+  for (const size of SIZES) {
+    sizeRow.appendChild(
+      pressable(String(size), state.size === size, 'segment', () => {
+        state.size = size;
+        renderSizes();
+      }),
+    );
+  }
+}
+
 function renderWeights(): void {
   weightRow.replaceChildren();
+  const hasChoice = PLUGIN_WEIGHTS.length > 1;
+  weightControl.hidden = !hasChoice;
+  if (!hasChoice) return;
 
   for (const weight of PLUGIN_WEIGHTS) {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'chip';
-    button.textContent = weight;
-    button.setAttribute('aria-pressed', String(weight === state.weight));
-    button.addEventListener('click', () => {
-      state.weight = weight;
-      render();
-    });
-    weightRow.append(button);
-  }
-
-  // Weights the library has not drawn are shown as unavailable rather than
-  // hidden, so the plugin never implies a weight exists when it does not.
-  const undrawn = (['thin', 'regular', 'bold', 'fill'] as const).filter(
-    (weight) => !PLUGIN_WEIGHTS.includes(weight),
-  );
-  for (const weight of undrawn) {
-    const chip = document.createElement('span');
-    chip.className = 'chip chip--unavailable';
-    chip.textContent = weight;
-    chip.title = `The ${weight} weight has not been drawn yet.`;
-    weightRow.append(chip);
+    const label = weight.charAt(0).toUpperCase() + weight.slice(1);
+    weightRow.appendChild(
+      pressable(label, weight === state.weight, 'segment', () => {
+        state.weight = weight;
+        state.selectedId = null;
+        render();
+      }),
+    );
   }
 }
 
@@ -137,6 +165,7 @@ function renderDetail(icons: Icon[]): void {
     state.selectedId = null;
     detail.hidden = true;
     insertButton.disabled = true;
+    detailPreview.replaceChildren();
     return;
   }
 
@@ -145,15 +174,21 @@ function renderDetail(icons: Icon[]): void {
   detailName.textContent = icon.name;
 
   const category = PLUGIN_CATEGORIES.find((entry) => entry.id === icon.category);
-  detailMeta.textContent = [icon.id, category?.label, icon.regions.join(', ')]
+  detailMeta.textContent = [category?.label, icon.regions.join(', '), `${state.size}px`]
     .filter(Boolean)
     .join(' · ');
+
+  detailPreview.replaceChildren();
+  const preview = thumbnail(icon.id, state.weight, 28);
+  if (preview) detailPreview.appendChild(preview);
 }
 
 function render(): void {
   const icons = results();
 
+  renderCategories();
   renderWeights();
+  renderSizes();
 
   grid.replaceChildren();
   for (const icon of icons) {
@@ -161,6 +196,7 @@ function render(): void {
     cell.type = 'button';
     cell.className = 'cell';
     cell.dataset.id = icon.id;
+    cell.dataset.category = icon.category;
     cell.title = `${icon.name} — ${icon.description}`;
     cell.setAttribute('aria-label', icon.name);
     cell.setAttribute('aria-pressed', String(icon.id === state.selectedId));
@@ -170,7 +206,7 @@ function render(): void {
 
     const label = document.createElement('span');
     label.className = 'cell__label';
-    label.textContent = icon.id;
+    label.textContent = icon.name;
     cell.append(label);
 
     cell.addEventListener('click', () => {
@@ -190,11 +226,12 @@ function render(): void {
   emptyState.hidden = hasResults;
   if (!hasResults) {
     emptyState.textContent = state.query
-      ? `No icon matches "${state.query}". The library ships ${PLUGIN_ICONS.length} icons so far.`
+      ? `No icon matches “${state.query}”. Try a broader term or another category.`
       : 'No icons match these filters.';
   }
 
-  countLabel.textContent = `${icons.length} of ${PLUGIN_ICONS.length} icons`;
+  countLabel.textContent = `${icons.length} / ${PLUGIN_ICONS.length}`;
+  libraryMeta.textContent = `${PLUGIN_ICONS.length} icons · 24px system · starting with Nigeria`;
 
   renderDetail(icons);
   reportHeight();
@@ -222,45 +259,19 @@ function setStatus(text: string, level: 'info' | 'error'): void {
  * Wiring
  * ------------------------------------------------------------------ */
 
-for (const category of [{ id: 'all', label: 'All categories' }, ...PLUGIN_CATEGORIES]) {
-  const option = document.createElement('option');
-  option.value = category.id;
-  option.textContent = category.label;
-  categorySelect.append(option);
-}
-
-for (const size of SIZES) {
-  const option = document.createElement('option');
-  option.value = String(size);
-  option.textContent = `${size} px`;
-  option.selected = size === state.size;
-  sizeSelect.append(option);
-}
-
 searchInput.addEventListener('input', () => {
   state.query = searchInput.value;
+  state.selectedId = null;
   render();
 });
 
 searchInput.addEventListener('keydown', (event) => {
-  if (event.key === 'Enter') {
-    const first = results()[0];
-    if (first) {
-      state.selectedId = first.id;
-      render();
-      requestInsert();
-    }
-  }
-});
-
-categorySelect.addEventListener('change', () => {
-  state.category = categorySelect.value;
+  if (event.key !== 'Enter') return;
+  const first = results()[0];
+  if (!first) return;
+  state.selectedId = first.id;
   render();
-});
-
-sizeSelect.addEventListener('change', () => {
-  const parsed = Number(sizeSelect.value);
-  state.size = Number.isFinite(parsed) && parsed > 0 ? parsed : 24;
+  requestInsert();
 });
 
 insertButton.addEventListener('click', requestInsert);
@@ -270,7 +281,7 @@ window.addEventListener('message', (event: MessageEvent) => {
   if (!message) return;
   if (message.type === 'status') setStatus(message.text, message.level);
   if (message.type === 'context')
-    contextBar.textContent = `Next insert lands ${message.destination}.`;
+    contextBar.textContent = `Insert destination: ${message.destination}.`;
 });
 
 render();

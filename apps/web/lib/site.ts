@@ -47,14 +47,15 @@ export const ISSUE_FORMS = {
 /**
  * Figma Community publication state.
  *
- * The only place the site decides what to say about Figma. When the Community
- * file is live, set `published: true` and `url` to its Community link: the
- * distribution tree then links to it instead of showing the pending tag.
+ * The Community file is public. The conventional plugin has its permanent
+ * Community URL but remains private while Figma review is in progress.
  */
-export const FIGMA: { published: boolean; url: string | null } = {
-  published: false,
-  url: null,
-};
+export const FIGMA = {
+  published: true,
+  url: 'https://www.figma.com/community/file/1688005719745631513',
+  pluginUrl: 'https://www.figma.com/community/plugin/1687997071772751842',
+  pluginPublic: false,
+} as const;
 
 /** Grammatical helper so copy reads correctly when the set is tiny or large. */
 export function plural(count: number, singular: string, pluralForm = `${singular}s`): string {

@@ -32,11 +32,12 @@ function plural(count: number, one: string, many = `${one}s`): string {
 }
 
 export function coverSubtitle(icons: readonly Icon[] = releasedIcons): string {
-  return `${icons.length} ${plural(icons.length, 'icon')} · 24px grid · MIT`;
+  const categoryCount = new Set(icons.map((icon) => icon.category)).size;
+  return `${icons.length} ${plural(icons.length, 'icon')} · ${categoryCount} categories · 24px system · MIT`;
 }
 
 export function tagline(): string {
-  return 'Open-source icons for African everyday life — starting with Nigeria.';
+  return 'Icons for African everyday life — starting with Nigeria.';
 }
 
 export function startHereBlocks(icons: readonly Icon[] = releasedIcons): Block[] {
@@ -44,33 +45,33 @@ export function startHereBlocks(icons: readonly Icon[] = releasedIcons): Block[]
     {
       heading: 'What this file is',
       lines: [
-        'The Figma home of the African Icon Library V2: every released icon as an editable component, generated from the same source as the website, downloads and plugin.',
-        'The repository is the canonical source. A released icon should match everywhere the library appears.',
+        'The design-facing home of African Icon Library V2: every released icon as an editable Figma component, generated from the same source as the website, downloads and plugin.',
+        'The repository remains canonical. Figma is a publishing surface, not a separate version of the library.',
       ],
     },
     {
       heading: 'What is included',
       lines: [
-        `${icons.length} released ${plural(icons.length, 'icon')} across African everyday life, with Nigeria as the starting point.`,
+        `${icons.length} released ${plural(icons.length, 'icon')} for African everyday life, with Nigeria as the starting point.`,
         `Released ${plural(PLUGIN_WEIGHTS.length, 'weight')}: ${list(PLUGIN_WEIGHTS)}.`,
-        'Every icon uses a 24 × 24 component frame with live, editable strokes and consistent cap and join treatment.',
+        'Every icon uses a 24 × 24 component frame, live editable strokes and the same cap, join and keyline rules.',
       ],
     },
     {
       heading: 'How to use it',
       lines: [
-        'Use the components directly from this file, or use the companion plugin to search and insert an icon onto another canvas.',
-        'Change stroke colour on the instance to match your interface. Resize proportionally; keep the strokes live rather than outlining them.',
-        'The icons are drawn for 24 px, hold at 16 px and scale comfortably to 32 and 48 px.',
+        'Use the components directly from this file, or use the companion plugin to search, filter and insert without leaving your canvas.',
+        'Change colour on the instance to match your interface. Resize proportionally; keep the strokes live rather than outlining them.',
+        'The set is drawn for 24px, holds at 16px and scales comfortably to 32px and 48px.',
       ],
     },
     {
-      heading: 'Get the files',
+      heading: 'Get the library',
       lines: [
         `Website and SVG downloads — ${LINKS.website}`,
         `Open-source repository — ${LINKS.github}`,
         `Figma plugin — ${LINKS.plugin}`,
-        `Support — ${LINKS.support}`,
+        `Corrections and support — ${LINKS.support}`,
       ],
     },
   ];
@@ -159,28 +160,31 @@ export interface SlideCopy {
 export const CAROUSEL_COPY: readonly SlideCopy[] = [
   {
     number: '01',
-    title: 'The V2 set',
-    subtitle: 'The released library, grouped by category.',
+    title: '30 icons. 7 categories. One system.',
+    subtitle:
+      'Food, transport, culture, commerce, identity, fashion and play — drawn from the same source and rules.',
   },
   {
     number: '02',
-    title: 'Made for interface scale',
-    subtitle: 'The same icons at UI size and enlarged so the construction stays visible.',
+    title: 'Search. Filter. Insert.',
+    subtitle: 'The companion Figma plugin keeps the whole released library inside your canvas.',
   },
   {
     number: '03',
-    title: 'One 24px system',
-    subtitle: 'A shared canvas, live area, keylines and stroke treatment.',
+    title: 'One 24px system.',
+    subtitle: 'Shared keylines, live strokes and predictable sizing from 16px through 48px.',
   },
   {
     number: '04',
-    title: 'Use them in real products',
-    subtitle: 'Editable components shown in familiar interface patterns at 20–24px.',
+    title: 'Context travels with the icon.',
+    subtitle:
+      'Names, regions and cultural notes stay visible instead of being flattened into generic labels.',
   },
   {
     number: '05',
-    title: 'One library, several ways in',
-    subtitle: 'Community file, plugin, website downloads and open-source files stay in sync.',
+    title: 'One library. Several ways in.',
+    subtitle:
+      'Community file, plugin, website downloads and open-source source stay generated from the same released data.',
   },
 ];
 

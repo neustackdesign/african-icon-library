@@ -326,7 +326,7 @@ describe('figma plugin — insertion', () => {
     harness.send({ type: 'resize', height: 10_000 });
     expect(harness.figma.ui).toBeDefined();
     expect((harness.figma.ui as { resize: ReturnType<typeof vi.fn> }).resize).toHaveBeenCalledWith(
-      380,
+      420,
       720,
     );
   });

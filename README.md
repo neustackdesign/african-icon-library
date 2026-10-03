@@ -6,7 +6,8 @@ A free, open-source SVG icon library for African everyday life — starting with
 
 - **Website** — [icons.neustackstudio.com](https://icons.neustackstudio.com)
 - **Downloads** — complete SVG bundle, category packs and metadata from the website
-- **Figma** — Community file and plugin are generated from the same canonical release set; publication is pending
+- **Figma Community file** — [African Icon Library — V2](https://www.figma.com/community/file/1688005719745631513)
+- **Figma plugin** — [African Icon Library](https://www.figma.com/community/plugin/1687997071772751842) · submitted and currently under Figma review
 - **Source SVGs** — `packages/icons/svg/regular`
 - **Metadata** — `packages/metadata`
 
@@ -27,7 +28,7 @@ See [docs/v2-release-manifest.md](docs/v2-release-manifest.md) for the complete 
 
 ## Use the icons
 
-The easiest route is the website: browse, copy individual SVGs, or download the complete ZIP.
+The easiest route is the website: browse, copy individual SVGs, download the complete ZIP, or use the published Community file in Figma.
 
 To work from source:
 
@@ -69,7 +70,7 @@ The regular weight is the V2 baseline. Additional weights should be deliberately
 
 ## Figma
 
-The Community file and plugin are generated from the same canonical released set as the website. Figma publication is still pending; the repository remains the source of truth so there is no separate Figma-only fork of V2.
+The [V2 Community file](https://www.figma.com/community/file/1688005719745631513) is live and generated from the same canonical released set as the website. The [conventional plugin](https://www.figma.com/community/plugin/1687997071772751842) uses the same generated data and has been submitted to Figma; its listing remains private while review is in progress. The repository remains the source of truth so there is no separate Figma-only fork of V2.
 
 Publishing guidance lives in:
 

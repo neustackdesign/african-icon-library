@@ -8,47 +8,71 @@
     </style>
   </head>
   <body>
-    <header class="bar">
-      <label class="visually-hidden" for="search">Search icons</label>
-      <input
-        id="search"
-        type="search"
-        placeholder="Search jollof, danfo, drum…"
-        autocomplete="off"
-      />
-    </header>
+    <div class="plugin-shell">
+      <header class="masthead">
+        <div class="brand-lockup">
+          <div class="brand-mark" aria-hidden="true">AIL</div>
+          <div class="brand-copy">
+            <strong>African Icon Library</strong>
+            <span id="library-meta">Open-source icons for African everyday life</span>
+          </div>
+        </div>
+        <span class="release-chip">V2</span>
+      </header>
 
-    <div class="bar bar--filters">
-      <label class="visually-hidden" for="category">Category</label>
-      <select id="category"></select>
-      <label class="visually-hidden" for="size">Insert size</label>
-      <select id="size"></select>
+      <section class="search-wrap" aria-label="Search the library">
+        <label class="visually-hidden" for="search">Search icons</label>
+        <span class="search-glyph" aria-hidden="true">⌕</span>
+        <input
+          id="search"
+          type="search"
+          placeholder="Search jollof, danfo, drum…"
+          autocomplete="off"
+        />
+        <kbd>↵</kbd>
+      </section>
+
+      <section class="library-controls" aria-label="Library filters">
+        <div class="control-block control-block--categories">
+          <div class="control-head">
+            <span>Category</span>
+            <span id="count" class="count" aria-live="polite"></span>
+          </div>
+          <div id="categories" class="chips chips--scroll" role="group" aria-label="Category"></div>
+        </div>
+
+        <div class="compact-controls">
+          <div class="control-block">
+            <span class="control-label">Size</span>
+            <div id="sizes" class="segmented" role="group" aria-label="Insert size"></div>
+          </div>
+          <div id="weight-control" class="control-block" hidden>
+            <span class="control-label">Weight</span>
+            <div id="weights" class="segmented" role="group" aria-label="Weight"></div>
+          </div>
+        </div>
+      </section>
+
+      <main class="browser" aria-label="Icon browser">
+        <div id="grid" class="grid"></div>
+        <div id="empty" class="empty" hidden></div>
+      </main>
+
+      <section id="detail" class="detail" hidden aria-label="Selected icon">
+        <div id="detail-preview" class="detail__preview" aria-hidden="true"></div>
+        <div class="detail__copy">
+          <div id="detail-name" class="detail__name"></div>
+          <div id="detail-meta" class="detail__meta"></div>
+        </div>
+        <button id="insert" type="button" class="primary" disabled>Insert icon</button>
+      </section>
+
+      <footer>
+        <div id="context" class="context"></div>
+        <div id="status" class="status" role="status" aria-live="polite"></div>
+        <div class="footer-meta">24px system · MIT · no account · no network</div>
+      </footer>
     </div>
-
-    <div class="bar bar--weights">
-      <span class="bar__label" id="weights-label">Weight</span>
-      <div id="weights" class="chips" role="group" aria-labelledby="weights-label"></div>
-    </div>
-
-    <div id="count" class="count" aria-live="polite"></div>
-
-    <main>
-      <div id="grid" class="grid"></div>
-      <div id="empty" class="empty" hidden></div>
-    </main>
-
-    <section id="detail" class="detail" hidden>
-      <div>
-        <div id="detail-name" class="detail__name"></div>
-        <div id="detail-meta" class="detail__meta"></div>
-      </div>
-      <button id="insert" type="button" class="primary" disabled>Insert</button>
-    </section>
-
-    <footer>
-      <div id="context" class="context"></div>
-      <div id="status" class="status" role="status" aria-live="polite"></div>
-    </footer>
 
     <script>
       /* __SCRIPT__ */

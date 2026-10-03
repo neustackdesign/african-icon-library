@@ -14,8 +14,8 @@ import {
   type PluginMessage,
 } from './messages';
 
-const UI_WIDTH = 380;
-const UI_MIN_HEIGHT = 420;
+const UI_WIDTH = 420;
+const UI_MIN_HEIGHT = 520;
 const UI_MAX_HEIGHT = 720;
 
 const iconsById = new Map(PLUGIN_ICONS.map((icon) => [icon.id, icon]));

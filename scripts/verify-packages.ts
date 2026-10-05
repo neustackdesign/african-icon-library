@@ -13,7 +13,12 @@ import path from 'node:path';
 
 import { ROOT, loadIcons, relative } from './lib/repo.ts';
 
-const PACKAGES = ['packages/metadata', 'packages/icons', 'packages/react'] as const;
+const PACKAGES = [
+  'packages/metadata',
+  'packages/icons',
+  'packages/maps',
+  'packages/react',
+] as const;
 
 function run(command: string, args: string[], cwd: string): string {
   return execFileSync(command, args, { cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });

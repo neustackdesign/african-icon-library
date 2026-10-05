@@ -1,6 +1,6 @@
 import { TrackedLink } from '../TrackedLink';
 import { HEADLINE } from '@/lib/compositions';
-import { DOWNLOADS, SITE } from '@/lib/site';
+import { DOWNLOADS, LIBRARY, SITE } from '@/lib/site';
 
 import { Specimen } from './Specimen';
 
@@ -15,7 +15,8 @@ export function Hero({ categoryLabels }: { categoryLabels: Record<string, string
             <p className="lead">
               A free SVG icon library for African everyday life — starting with Nigeria. Built on a
               consistent 24-pixel system for product interfaces, brand systems, presentations and
-              whatever you are making next.
+              whatever you are making next. Now with outline maps of {LIBRARY.mapCount} African
+              countries, drawn in the same line.
             </p>
             <div className="actions">
               <a className="btn btn--primary" href="#browse">

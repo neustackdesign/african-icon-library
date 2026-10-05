@@ -13,6 +13,7 @@ const COLUMNS = [
     heading: 'Library',
     links: [
       { href: '/#browse', label: 'Browse icons' },
+      { href: '/#maps', label: 'Country maps' },
       { href: '/downloads', label: 'Downloads' },
       { href: '/spec', label: 'Drawing spec' },
     ],
@@ -83,8 +84,8 @@ export function SiteFooter() {
         </div>
 
         <p className="mono">
-          {SITE.name} v{LIBRARY.version} · {LIBRARY.iconCount} icons · MIT licensed · maintained by{' '}
-          {SITE.maintainer}.
+          {SITE.name} v{LIBRARY.version} · {LIBRARY.iconCount} icons · {LIBRARY.mapCount} country
+          maps · MIT licensed · maintained by {SITE.maintainer}.
         </p>
       </div>
     </footer>

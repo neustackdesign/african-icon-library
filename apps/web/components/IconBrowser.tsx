@@ -25,6 +25,8 @@ interface Props {
   weightsShipped: readonly string[];
   /** Where new concepts are proposed when a search comes up empty. */
   proposeHref: string;
+  /** False while the browser shows maps, so "/" and Escape act on the visible view only. */
+  active?: boolean;
 }
 
 function isTyping(target: EventTarget | null): boolean {
@@ -37,7 +39,7 @@ function isTyping(target: EventTarget | null): boolean {
   );
 }
 
-export function IconBrowser({ categories, weightsShipped, proposeHref }: Props) {
+export function IconBrowser({ categories, weightsShipped, proposeHref, active = true }: Props) {
   const {
     entries,
     byId,
@@ -82,6 +84,7 @@ export function IconBrowser({ categories, weightsShipped, proposeHref }: Props) 
 
   // "/" focuses search from anywhere on the page; Escape closes the sheet.
   useEffect(() => {
+    if (!active) return;
     const onKey = (event: KeyboardEvent) => {
       if (event.key === '/' && !event.metaKey && !event.ctrlKey && !event.altKey) {
         if (isTyping(event.target)) return;
@@ -98,7 +101,7 @@ export function IconBrowser({ categories, weightsShipped, proposeHref }: Props) 
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [isWide, panelOpen, closePanel, selectedId]);
+  }, [active, isWide, panelOpen, closePanel, selectedId]);
 
   // On tablet the panel sits above the grid, so a tile picked further down
   // would open it out of view. (On narrow it is a fixed sheet and needs nothing.)

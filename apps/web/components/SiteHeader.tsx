@@ -13,7 +13,9 @@ export function SiteHeader() {
           <Icon id="talking-drum" size={22} />
           <span>{SITE.name}</span>
         </Link>
-        <SiteNav badge={`v${LIBRARY.version} · ${LIBRARY.iconCount} icons`} />
+        <SiteNav
+          badge={`v${LIBRARY.version} · ${LIBRARY.iconCount} icons · ${LIBRARY.mapCount} maps`}
+        />
       </div>
     </header>
   );

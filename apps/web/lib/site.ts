@@ -1,4 +1,4 @@
-import { icons, pipeline } from '@african-icon-library/metadata';
+import { icons, maps, pipeline } from '@african-icon-library/metadata';
 
 /** Public release facts derived from the canonical library data. */
 export const SITE = {
@@ -11,7 +11,8 @@ export const SITE = {
   maintainer: 'Neustack Design',
   contact: 'icons@neustackstudio.com',
   description:
-    'A free, open-source SVG icon library for African everyday life — starting with Nigeria.',
+    'A free, open-source SVG icon library for African everyday life — starting with Nigeria — ' +
+    `with outline maps of ${maps.length} African countries.`,
   locale: 'en_NG',
 } as const;
 
@@ -20,18 +21,23 @@ export const LIBRARY = {
   iconCount: icons.length,
   categoryCount: new Set(icons.map((icon) => icon.category)).size,
   weightsShipped: pipeline.weightsShipped,
+  mapCount: maps.length,
+  mapRegionCount: new Set(maps.map((map) => map.region)).size,
   // Keep this public contract for icon detail pages without exposing internal pipeline/backlog data.
   weightsPlanned: [] as const,
 } as const;
 
 export const DOWNLOADS = {
   icons: `/downloads/african-icon-library-icons-${LIBRARY.version}.zip`,
+  maps: `/downloads/african-icon-library-maps-${LIBRARY.version}.zip`,
+  complete: `/downloads/african-icon-library-complete-${LIBRARY.version}.zip`,
   metadata: `/downloads/african-icon-library-metadata-${LIBRARY.version}.json`,
   manifest: '/downloads/manifest.json',
 } as const;
 
 export const NAV = [
   { href: '/#browse', label: 'Icons' },
+  { href: '/#maps', label: 'Maps' },
   { href: '/downloads', label: 'Downloads' },
   { href: '/spec', label: 'Spec' },
   { href: '/changelog', label: 'Releases' },

@@ -37,11 +37,19 @@ function useMediaQuery(query: string, serverValue: boolean): boolean {
 /* ---------------- browser state ---------------- */
 
 interface CopyState {
+  /** `id` for an icon, `map:<id>` for a map — so the two never collide. */
   id: string;
+  /** File name the toast reports. */
+  file: string;
   ok: boolean;
 }
 
+export type AssetMode = 'icons' | 'maps';
+
 interface BrowserState {
+  /** Which asset type the browser is showing. */
+  mode: AssetMode;
+  setMode: (mode: AssetMode) => void;
   entries: BrowserIcon[];
   byId: Map<string, BrowserIcon>;
   query: string;
@@ -63,6 +71,8 @@ interface BrowserState {
   /** Category index: filter the browser to one category and bring it into view. */
   showCategory: (categoryId: string) => void;
   copy: (id: string, surface: string) => void;
+  /** Copies any SVG document; used by the map view. */
+  copyText: (key: string, file: string, text: string, onCopied: () => void) => void;
   copied: CopyState | null;
 }
 
@@ -119,6 +129,31 @@ export function LibraryProvider({ entries, defaultSelection, children }: Provide
   );
   const [panelOpen, setPanelOpen] = useState(false);
   const [copied, setCopied] = useState<CopyState | null>(null);
+  const [mode, setModeState] = useState<AssetMode>('icons');
+
+  const setMode = useCallback((next: AssetMode) => {
+    setModeState(next);
+    // Keep the URL shareable: /#maps opens the browser in map mode.
+    try {
+      const hash = next === 'maps' ? '#maps' : '#browse';
+      if (window.location.hash !== hash) window.history.replaceState(null, '', hash);
+    } catch {
+      /* history can be unavailable in sandboxed previews */
+    }
+  }, []);
+
+  // `/#maps` (from the header, footer or a map page) opens map mode directly.
+  useEffect(() => {
+    const sync = () => {
+      if (window.location.hash === '#maps') {
+        setModeState('maps');
+        scrollToBrowser();
+      }
+    };
+    sync();
+    window.addEventListener('hashchange', sync);
+    return () => window.removeEventListener('hashchange', sync);
+  }, []);
   const copyTimer = useRef<number | undefined>(undefined);
 
   // Server-rendered as wide, so the desktop layout arrives complete; narrower
@@ -145,6 +180,7 @@ export function LibraryProvider({ entries, defaultSelection, children }: Provide
   const closePanel = useCallback(() => setPanelOpen(false), []);
 
   const openInBrowser = useCallback((id: string) => {
+    setModeState('icons');
     setQuery('');
     setCategory('all');
     setSelectedId(id);
@@ -153,40 +189,48 @@ export function LibraryProvider({ entries, defaultSelection, children }: Provide
   }, []);
 
   const showCategory = useCallback((categoryId: string) => {
+    setModeState('icons');
     setQuery('');
     setCategory(categoryId);
     scrollToBrowser();
   }, []);
 
+  const copyText = useCallback((key: string, file: string, text: string, onCopied: () => void) => {
+    const settle = (ok: boolean) => {
+      setCopied({ id: key, file, ok });
+      window.clearTimeout(copyTimer.current);
+      copyTimer.current = window.setTimeout(() => setCopied(null), ok ? 2000 : 3000);
+    };
+    if (!text || !navigator.clipboard) {
+      settle(false);
+      return;
+    }
+    // Clipboard access can be refused (permissions, insecure context). Say so
+    // rather than pretending the copy worked.
+    navigator.clipboard.writeText(text).then(
+      () => {
+        onCopied();
+        settle(true);
+      },
+      () => settle(false),
+    );
+  }, []);
+
   const copy = useCallback(
     (id: string, surface: string) => {
-      const entry = byId.get(id);
-      const settle = (ok: boolean) => {
-        setCopied({ id, ok });
-        window.clearTimeout(copyTimer.current);
-        copyTimer.current = window.setTimeout(() => setCopied(null), ok ? 2000 : 3000);
-      };
-      if (!entry || !navigator.clipboard) {
-        settle(false);
-        return;
-      }
-      // Clipboard access can be refused (permissions, insecure context). Say so
-      // rather than pretending the copy worked.
-      navigator.clipboard.writeText(entry.svg).then(
-        () => {
-          track('icon_copy', { target: id, surface });
-          settle(true);
-        },
-        () => settle(false),
+      copyText(id, `${id}.svg`, byId.get(id)?.svg ?? '', () =>
+        track('icon_copy', { target: id, surface }),
       );
     },
-    [byId],
+    [byId, copyText],
   );
 
   useEffect(() => () => window.clearTimeout(copyTimer.current), []);
 
   const browser = useMemo<BrowserState>(
     () => ({
+      mode,
+      setMode,
       entries,
       byId,
       query,
@@ -203,9 +247,13 @@ export function LibraryProvider({ entries, defaultSelection, children }: Provide
       openInBrowser,
       showCategory,
       copy,
+      copyText,
       copied,
     }),
     [
+      mode,
+      setMode,
+      copyText,
       entries,
       byId,
       query,
@@ -256,7 +304,7 @@ function CopyToast({ copied }: { copied: CopyState | null }) {
       {copied ? (
         <p className="toast label-tag" data-tone={copied.ok ? 'ok' : 'error'}>
           <span className="toast__key" aria-hidden="true" />
-          {copied.ok ? `Copied ${copied.id}.svg` : 'Clipboard blocked — use Download'}
+          {copied.ok ? `Copied ${copied.file}` : 'Clipboard blocked — use Download'}
         </p>
       ) : null}
     </div>

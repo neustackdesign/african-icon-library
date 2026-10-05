@@ -16,6 +16,8 @@ export const ANALYTICS_EVENTS = [
   'search',
   'icon_copy',
   'icon_download',
+  'map_copy',
+  'map_download',
   'category_download',
   'release_download',
   'figma_click',

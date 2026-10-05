@@ -1,4 +1,4 @@
-import { searchIcons } from '@african-icon-library/metadata';
+import { searchIcons, searchMaps } from '@african-icon-library/metadata';
 
 import type { BrowserIcon } from './icons';
 
@@ -32,4 +32,19 @@ export function copyLabel(state: 'idle' | 'copied' | 'failed'): string {
   if (state === 'copied') return 'Copied';
   if (state === 'failed') return 'Copy blocked';
   return 'Copy SVG';
+}
+
+/** Filters maps with the canonical map search (names, aliases, ISO codes, region). */
+export function filterMaps<T extends { map: Parameters<typeof searchMaps>[0][number] }>(
+  entries: readonly T[],
+  query: string,
+  region: string,
+  regionLabels: Readonly<Record<string, string>>,
+): T[] {
+  const byId = new Map(entries.map((entry) => [entry.map.id, entry]));
+  return searchMaps(
+    entries.map((entry) => entry.map),
+    query,
+    { region: region === 'all' ? null : region, regionLabels },
+  ).map((result) => byId.get(result.map.id)!);
 }

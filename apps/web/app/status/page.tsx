@@ -15,14 +15,16 @@ export default function StatusPage() {
     <div className="page shell">
       <PageHead label="V2 release" title="The current library.">
         V2 contains {LIBRARY.iconCount} released icons across {LIBRARY.categoryCount} categories,
-        drawn on a 24-pixel grid in the {LIBRARY.weightsShipped.join(', ')} weight.
+        drawn on a 24-pixel grid in the {LIBRARY.weightsShipped.join(', ')} weight, and outline maps
+        of {LIBRARY.mapCount} African countries.
       </PageHead>
 
       <div className="prose">
         <h2>Available now</h2>
         <ul>
           <li>Browse and copy SVGs on the website.</li>
-          <li>Download the complete SVG bundle or individual category packs.</li>
+          <li>Browse, copy and download the country maps, one SVG per country.</li>
+          <li>Download the icons, the maps, or the complete library in one archive.</li>
           <li>Use or contribute to the open-source repository on GitHub.</li>
         </ul>
 

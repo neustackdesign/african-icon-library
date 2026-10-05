@@ -157,6 +157,9 @@ describe('canonical facts are derived, not typed', () => {
       (file) => `components/landing/${file}`,
     ),
     'components/IconBrowser.tsx',
+    'components/MapBrowser.tsx',
+    'components/LibraryBrowser.tsx',
+    'app/maps/[id]/page.tsx',
     'components/SiteHeader.tsx',
     'components/SiteFooter.tsx',
   ];
@@ -165,6 +168,19 @@ describe('canonical facts are derived, not typed', () => {
     const source = readFileSync(path.join(WEB, file), 'utf8');
     expect(source).not.toMatch(new RegExp(`\\b${icons.length}\\s+(icons?|components)\\b`, 'i'));
     expect(source).not.toMatch(/\b(?:30|thirty)\s+icons\b/i);
-    expect(source).not.toMatch(/['"`]v?0\.2\.0['"`]/);
+    expect(source).not.toMatch(/\b(?:54|fifty-four)\s+(?:country\s+)?maps\b/i);
+    expect(source).not.toMatch(/['"`]v?0\.[23]\.0['"`]/);
+  });
+});
+
+describe('map routes', () => {
+  it('generates the map pages from canonical data and lists them in the sitemap', () => {
+    const page = readFileSync(path.join(WEB, 'app/maps/[id]/page.tsx'), 'utf8');
+    expect(page).toMatch(
+      /generateStaticParams[\s\S]*maps\.map\(\(map\) => \(\{ id: map\.id \}\)\)/,
+    );
+    expect(page).toContain('dynamicParams = false');
+    const sitemap = readFileSync(path.join(WEB, 'app/sitemap.ts'), 'utf8');
+    expect(sitemap).toMatch(/\/maps\//);
   });
 });

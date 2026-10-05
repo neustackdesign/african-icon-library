@@ -313,8 +313,9 @@ describe('figma community builder — the produced document', () => {
       group.categoryIds.some((id) => present.has(id)),
     );
 
-    // 00 Start Here, 01 All Icons, then the groups, then Components, Names, Licence.
-    expect(harness.pages()).toHaveLength(2 + expectedGroups.length + 3);
+    // 00 Start Here, 01 All Icons, the groups, Country Maps, Components — Icons,
+    // Components — Maps, Names, Licence.
+    expect(harness.pages()).toHaveLength(2 + expectedGroups.length + 5);
   });
 
   it('numbers the pages contiguously and in the documented order', async () => {
@@ -328,7 +329,9 @@ describe('figma community builder — the produced document', () => {
       'Start Here',
       'All Icons',
       ...groups.map((group) => group.title),
-      'Components',
+      'Country Maps',
+      'Components — Icons',
+      'Components — Maps',
       'Names & Cultural Notes',
       'Licence & Contributions',
     ].map((title, index) => `${String(index).padStart(2, '0')} — ${title}`);
@@ -409,12 +412,9 @@ describe('figma community builder — the produced document', () => {
     for (const instance of instances) expect(instance.mainComponent).toBeDefined();
 
     // Nothing outside the components page may be a loose component.
-    const componentsPage = harness
-      .pages()
-      .find((page) => page.name.endsWith('Components')) as FakeNode;
     const strays = harness
       .pages()
-      .filter((page) => page !== componentsPage)
+      .filter((page) => !page.name.includes('Components'))
       .flatMap((page) => {
         const out: FakeNode[] = [];
         const walk = (node: FakeNode): void => {
@@ -438,7 +438,11 @@ describe('figma community builder — the produced document', () => {
 
   it('shows only real icons on the cover', async () => {
     const { PLUGIN_ICONS } = await loadPlan();
-    const known = new Set(PLUGIN_ICONS.map((icon) => icon.id));
+    const { PLUGIN_MAPS } = await import('../apps/figma-plugin/src/generated/map-data.ts');
+    const known = new Set([
+      ...PLUGIN_ICONS.map((icon) => icon.id),
+      ...PLUGIN_MAPS.map((m) => m.id),
+    ]);
     const cover = harness.pages()[0].children.find((child) => child.name === 'Cover') as FakeNode;
 
     const instances: FakeNode[] = [];
@@ -498,8 +502,33 @@ describe('figma community builder — the produced document', () => {
     const summary = messagesOfType(harness, 'summary').at(-1);
     expect(summary).toBeDefined();
     expect(summary?.pages).toBe(harness.pages().length);
-    expect(summary?.components).toBe(PLUGIN_ICONS.length);
+    const { PLUGIN_MAPS } = await import('../apps/figma-plugin/src/generated/map-data.ts');
+    expect(summary?.components).toBe(PLUGIN_ICONS.length + PLUGIN_MAPS.length);
     expect(Number(summary?.instances)).toBeGreaterThan(PLUGIN_ICONS.length);
+  });
+
+  it('makes one ail/maps/<id> component per released map, on its own page, with no text', async () => {
+    const { PLUGIN_MAPS } = await import('../apps/figma-plugin/src/generated/map-data.ts');
+    const maps = harness
+      .allNodes()
+      .filter((node) => node.type === 'COMPONENT' && node.name.startsWith('ail/maps/'));
+    expect(PLUGIN_MAPS).toHaveLength(54);
+    expect(maps.map((node) => node.name).sort()).toEqual(
+      PLUGIN_MAPS.map((map) => `ail/maps/${map.id}`).sort(),
+    );
+    const page = harness.pages().find((p) => p.name.endsWith('Components — Maps')) as FakeNode;
+    for (const component of maps) {
+      expect(component.clipsContent).toBe(false);
+      expect(Math.max(component.width, component.height)).toBeCloseTo(24, 5);
+      const walk = (node: FakeNode): void => {
+        expect(node.type).not.toBe('TEXT');
+        node.children.forEach(walk);
+      };
+      walk(component);
+      let parent: FakeNode | undefined = component;
+      while (parent && parent.type !== 'PAGE') parent = parent.parent as FakeNode | undefined;
+      if (parent) expect(parent).toBe(page);
+    }
   });
 
   it('records a marker on the document root', () => {

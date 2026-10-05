@@ -1,0 +1,7 @@
+[
+  { "id": "north-africa", "label": "North Africa" },
+  { "id": "west-africa", "label": "West Africa" },
+  { "id": "central-africa", "label": "Central Africa" },
+  { "id": "east-africa", "label": "East Africa" },
+  { "id": "southern-africa", "label": "Southern Africa" }
+]

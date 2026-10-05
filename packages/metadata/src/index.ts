@@ -11,10 +11,13 @@ export type {
   AuditRecord,
   AuditVerdict,
   Category,
+  CountryMap,
   CulturalReview,
   Icon,
   IconStatus,
   LocalName,
+  MapRegion,
+  MapStatus,
   MetadataConsistencyIssue,
   PipelineSummary,
   Tier,
@@ -39,6 +42,11 @@ export {
   iconStatusSchema,
   iconsSchema,
   localNameSchema,
+  MAP_STATUSES,
+  mapRegionSchema,
+  mapRegionsSchema,
+  mapSchema,
+  mapsSchema,
   pipelineSummarySchema,
   regionSchema,
   releasedIconSchema,
@@ -46,13 +54,31 @@ export {
   weightSchema,
 } from './schema.js';
 
-export type { SearchOptions, SearchResult } from './search.js';
-export { searchIcons } from './search.js';
+export type { MapSearchOptions, MapSearchResult, SearchOptions, SearchResult } from './search.js';
+export { searchIcons, searchMaps } from './search.js';
 
-import type { Category, Icon } from './schema.js';
-import { categories, icons, pipeline, regions } from './generated/data.js';
+import type { Category, CountryMap, Icon, MapRegion } from './schema.js';
+import { categories, icons, mapRegions, maps, pipeline, regions } from './generated/data.js';
 
-export { categories, icons, pipeline, regions };
+export { categories, icons, mapRegions, maps, pipeline, regions };
+
+const mapsById = new Map<string, CountryMap>(maps.map((map) => [map.id, map]));
+const mapRegionsById = new Map<string, MapRegion>(mapRegions.map((region) => [region.id, region]));
+
+/** Returns the country map with this id, or `undefined`. */
+export function getMap(id: string): CountryMap | undefined {
+  return mapsById.get(id);
+}
+
+/** Returns an AIL map region by id, or `undefined`. */
+export function getMapRegion(id: string): MapRegion | undefined {
+  return mapRegionsById.get(id);
+}
+
+/** `{ 'west-africa': 'West Africa', … }`, for search and labels. */
+export function mapRegionLabels(): Record<string, string> {
+  return Object.fromEntries(mapRegions.map((region) => [region.id, region.label]));
+}
 
 const iconsById = new Map<string, Icon>(icons.map((icon) => [icon.id, icon]));
 const categoriesById = new Map<string, Category>(

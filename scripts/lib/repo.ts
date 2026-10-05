@@ -5,9 +5,13 @@ import { fileURLToPath } from 'node:url';
 import {
   auditFileSchema,
   categoriesSchema,
+  mapRegionsSchema,
+  mapsSchema,
   iconsSchema,
   type AuditRecord,
   type Category,
+  type CountryMap,
+  type MapRegion,
   type Icon,
   type Weight,
 } from '../../packages/metadata/src/schema.ts';
@@ -20,6 +24,12 @@ export const PATHS = {
   auditRecords: path.join(ROOT, 'packages/metadata/src/data/audit-records.json'),
   metadataGenerated: path.join(ROOT, 'packages/metadata/src/generated/data.ts'),
   iconsSvgRoot: path.join(ROOT, 'packages/icons/svg'),
+  maps: path.join(ROOT, 'packages/metadata/src/data/maps.json'),
+  mapRegions: path.join(ROOT, 'packages/metadata/src/data/map-regions.json'),
+  mapsMaster: path.join(ROOT, 'packages/maps/source/african-country-maps-4x-master.svg'),
+  mapsSvgRoot: path.join(ROOT, 'packages/maps/svg'),
+  mapsGenerated: path.join(ROOT, 'packages/maps/src/generated/maps.ts'),
+  pluginMapsGenerated: path.join(ROOT, 'apps/figma-plugin/src/generated/map-data.ts'),
   iconsStagingRoot: path.join(ROOT, 'packages/icons/staging'),
   iconsGenerated: path.join(ROOT, 'packages/icons/src/generated/icons.ts'),
   iconsOptimized: path.join(ROOT, 'packages/icons/optimized'),
@@ -50,6 +60,37 @@ export async function loadCategories(): Promise<Category[]> {
 export async function loadIcons(): Promise<Icon[]> {
   const parsed = iconsSchema.parse(await readJson(PATHS.icons));
   return [...parsed].sort((a, b) => a.id.localeCompare(b.id));
+}
+
+/** Country maps in master order: region band, then reading order within it. */
+export async function loadMaps(): Promise<CountryMap[]> {
+  return mapsSchema.parse(await readJson(PATHS.maps));
+}
+
+export async function loadMapRegions(): Promise<MapRegion[]> {
+  return mapRegionsSchema.parse(await readJson(PATHS.mapRegions));
+}
+
+export interface MapAsset {
+  id: string;
+  file: string;
+  source: string;
+}
+
+export async function listMapAssets(root = PATHS.mapsSvgRoot): Promise<MapAsset[]> {
+  let files: string[];
+  try {
+    files = (await readdir(root)).filter((file) => file.endsWith('.svg')).sort();
+  } catch {
+    return [];
+  }
+  return Promise.all(
+    files.map(async (file) => ({
+      id: path.basename(file, '.svg'),
+      file: path.join(root, file),
+      source: await readFile(path.join(root, file), 'utf8'),
+    })),
+  );
 }
 
 export async function loadAuditRecords(): Promise<AuditRecord[]> {

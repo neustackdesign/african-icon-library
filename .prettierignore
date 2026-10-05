@@ -10,6 +10,9 @@ packages/icons/staging
 packages/react/src/icons
 packages/react/src/generated
 packages/icons/src/generated
+packages/maps/src/generated
+packages/maps/svg
+packages/maps/source
 packages/metadata/src/generated
 apps/figma-plugin/src/generated
 apps/figma-plugin/dist

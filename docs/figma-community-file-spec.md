@@ -42,9 +42,11 @@ The Community builder currently creates a deliberately navigable file rather tha
 1. `00 — Start Here` — cover, public intro and Community listing frames.
 2. `01 — All Icons` — complete released set grouped by category.
 3. Populated category pages — Identity & State; Fashion & Textiles; Food & Drink; Music, Art & Play; Transport; Everyday Life & Commerce.
-4. `Components` — the canonical editable components used by the other pages.
-5. `Names & Cultural Notes` — public descriptions and confirmed naming context.
-6. `Licence & Contributions` — licence, corrections and contribution routes.
+4. `Country Maps` — every country map, in sections by AIL regional grouping.
+5. `Components — Icons` — the canonical editable icon components used by the other pages.
+6. `Components — Maps` — one `ail/maps/<id>` component per country map.
+7. `Names & Cultural Notes` — public descriptions and confirmed naming context.
+8. `Licence & Contributions` — licence, corrections and contribution routes.
 
 Empty metadata categories do not get their own page. Page numbering closes automatically around whatever is actually released.
 
@@ -56,6 +58,13 @@ Empty metadata categories do not get their own page. Page numbering closes autom
 - Preserve live strokes; do not outline them.
 - Use one consistent editable stroke colour in Figma.
 - The regular weight is the V2 baseline. Add a Weight property only when a second deliberately drawn weight actually exists.
+
+### Map component rules
+
+- One component per released map, named `ail/maps/<id>`; no text inside the component.
+- Longest side 24, the other side at the map's real proportion — geography is never stretched to a square.
+- Clip content off; vector constraints SCALE; 1.5 live stroke.
+- Map counts on the cover, carousel and Start Here page are computed from the generated data.
 
 ## Cover and carousel
 

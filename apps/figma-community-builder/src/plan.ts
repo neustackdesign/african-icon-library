@@ -17,9 +17,22 @@ import {
   PLUGIN_SVG,
   PLUGIN_WEIGHTS,
 } from '../../figma-plugin/src/generated/icon-data';
-import { categories, pipeline, regions, type Icon } from '@african-icon-library/metadata';
+import {
+  PLUGIN_MAPS,
+  PLUGIN_MAP_BOXES,
+  PLUGIN_MAP_REGIONS,
+  PLUGIN_MAP_SVG,
+} from '../../figma-plugin/src/generated/map-data';
+import {
+  categories,
+  pipeline,
+  regions,
+  type CountryMap,
+  type Icon,
+} from '@african-icon-library/metadata';
 
 export { PLUGIN_CATEGORIES, PLUGIN_ICONS, PLUGIN_SVG, PLUGIN_WEIGHTS };
+export { PLUGIN_MAPS, PLUGIN_MAP_BOXES, PLUGIN_MAP_REGIONS, PLUGIN_MAP_SVG };
 
 export const LIBRARY_NAME = 'African Icon Library';
 
@@ -30,6 +43,13 @@ export const LIBRARY_NAME = 'African Icon Library';
  * reordering the shared array in place.
  */
 export const releasedIcons: readonly Icon[] = [...PLUGIN_ICONS];
+
+/**
+ * Every released country map, in the master's regional order. Maps are a
+ * second asset type, never an icon category: they get their own pages and
+ * their own component namespace.
+ */
+export const releasedMaps: readonly CountryMap[] = [...PLUGIN_MAPS];
 
 /* ------------------------------------------------------------------ *
  * Weights
@@ -79,11 +99,49 @@ export function componentName(icon: Icon): string {
   return `african-icons/${icon.category}/${icon.id}`;
 }
 
-/** Highest `addedIn` across the released set — the version this file represents. */
-export function libraryVersion(icons: readonly Icon[] = releasedIcons): string {
+/** Map components live under their own namespace, apart from the icons. */
+export function mapComponentName(map: CountryMap): string {
+  return `ail/maps/${map.id}`;
+}
+
+/** Map components are fitted so their longest side matches the icons' 24 px frame. */
+export const MAP_COMPONENT_SIZE = 24;
+
+/** Fits a map into a `size` box by its longest side, keeping its proportions. */
+export function mapFrame(map: CountryMap, size: number): { width: number; height: number } {
+  const [width, height] = PLUGIN_MAP_BOXES[map.id] ?? [size, size];
+  const scale = size / Math.max(width, height);
+  const round = (value: number) => Math.round(value * 100) / 100;
+  return { width: round(width * scale), height: round(height * scale) };
+}
+
+/** A labelled run of maps: one AIL region. */
+export interface MapSection {
+  regionId: string;
+  label: string;
+  maps: CountryMap[];
+}
+
+/** Regions that contain a map, in AIL's order, each with its maps. */
+export function mapSections(maps: readonly CountryMap[] = releasedMaps): MapSection[] {
+  return PLUGIN_MAP_REGIONS.map((region) => ({
+    regionId: region.id,
+    label: region.label,
+    maps: maps.filter((map) => map.region === region.id),
+  })).filter((section) => section.maps.length > 0);
+}
+
+/**
+ * Highest `addedIn` across the released icons and maps — the version this
+ * file represents.
+ */
+export function libraryVersion(
+  icons: readonly Icon[] = releasedIcons,
+  maps: readonly { addedIn: string }[] = releasedMaps,
+): string {
   const parse = (value: string): number[] => value.split('.').map((part) => Number(part) || 0);
   let best = '0.0.0';
-  for (const icon of icons) {
+  for (const icon of [...icons, ...maps]) {
     const [aMajor, aMinor, aPatch] = parse(icon.addedIn);
     const [bMajor, bMinor, bPatch] = parse(best);
     if (
@@ -179,7 +237,8 @@ export interface Section {
   icons: Icon[];
 }
 
-export type PageKind = 'start' | 'all' | 'category' | 'components' | 'names' | 'licence';
+export type PageKind =
+  'start' | 'all' | 'category' | 'maps' | 'components' | 'map-components' | 'names' | 'licence';
 
 export interface PlannedPage {
   /** Page name including its number, e.g. `03 — Food & Drink`. */
@@ -189,6 +248,8 @@ export interface PlannedPage {
   spec?: CategoryPageSpec;
   /** Populated for `category` and `all` pages. */
   sections?: Section[];
+  /** Populated for the `maps` page. */
+  mapSections?: MapSection[];
 }
 
 function iconsIn(categoryId: string, icons: readonly Icon[]): Icon[] {
@@ -235,7 +296,10 @@ function numbered(index: number, title: string): string {
  * the numbers close up behind a category that is empty — so `08 — Components`
  * is only `08` while all six category pages are populated.
  */
-export function planPages(icons: readonly Icon[] = releasedIcons): PlannedPage[] {
+export function planPages(
+  icons: readonly Icon[] = releasedIcons,
+  maps: readonly CountryMap[] = releasedMaps,
+): PlannedPage[] {
   const pages: PlannedPage[] = [];
   const push = (kind: PageKind, title: string, extra: Partial<PlannedPage> = {}): void => {
     pages.push({ name: numbered(pages.length, title), kind, ...extra });
@@ -252,7 +316,13 @@ export function planPages(icons: readonly Icon[] = releasedIcons): PlannedPage[]
     push('category', spec.title, { spec, sections });
   }
 
-  push('components', 'Components');
+  const regionsWithMaps = mapSections(maps);
+  if (regionsWithMaps.length > 0) {
+    push('maps', 'Country Maps', { mapSections: regionsWithMaps });
+  }
+
+  push('components', regionsWithMaps.length > 0 ? 'Components — Icons' : 'Components');
+  if (regionsWithMaps.length > 0) push('map-components', 'Components — Maps');
   push('names', 'Names & Cultural Notes');
   push('licence', 'Licence & Contributions');
 

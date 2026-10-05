@@ -1,0 +1,1195 @@
+// AUTO-GENERATED FILE — DO NOT EDIT BY HAND.
+// Run `npm run generate` after changing the SVG assets or the metadata JSON.
+// `npm run verify:generated` fails the build if this file has drifted.
+
+import type { CountryMap } from '@african-icon-library/metadata';
+
+/** Released country maps, in the master's regional order. */
+export const PLUGIN_MAPS: CountryMap[] = [
+  {
+    "id": "morocco",
+    "name": "Morocco",
+    "officialName": "Kingdom of Morocco",
+    "iso2": "MA",
+    "iso3": "MAR",
+    "region": "north-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "algeria",
+    "name": "Algeria",
+    "officialName": "People’s Democratic Republic of Algeria",
+    "iso2": "DZ",
+    "iso3": "DZA",
+    "region": "north-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "tunisia",
+    "name": "Tunisia",
+    "officialName": "Republic of Tunisia",
+    "iso2": "TN",
+    "iso3": "TUN",
+    "region": "north-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "libya",
+    "name": "Libya",
+    "officialName": "State of Libya",
+    "iso2": "LY",
+    "iso3": "LBY",
+    "region": "north-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "egypt",
+    "name": "Egypt",
+    "officialName": "Arab Republic of Egypt",
+    "iso2": "EG",
+    "iso3": "EGY",
+    "region": "north-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "sudan",
+    "name": "Sudan",
+    "officialName": "Republic of the Sudan",
+    "iso2": "SD",
+    "iso3": "SDN",
+    "region": "north-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "mauritania",
+    "name": "Mauritania",
+    "officialName": "Islamic Republic of Mauritania",
+    "iso2": "MR",
+    "iso3": "MRT",
+    "region": "north-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "senegal",
+    "name": "Senegal",
+    "officialName": "Republic of Senegal",
+    "iso2": "SN",
+    "iso3": "SEN",
+    "region": "west-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "gambia",
+    "name": "The Gambia",
+    "officialName": "Republic of The Gambia",
+    "iso2": "GM",
+    "iso3": "GMB",
+    "region": "west-africa",
+    "aliases": [
+      "Gambia"
+    ],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "guinea-bissau",
+    "name": "Guinea-Bissau",
+    "officialName": "Republic of Guinea-Bissau",
+    "iso2": "GW",
+    "iso3": "GNB",
+    "region": "west-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "guinea",
+    "name": "Guinea",
+    "officialName": "Republic of Guinea",
+    "iso2": "GN",
+    "iso3": "GIN",
+    "region": "west-africa",
+    "aliases": [
+      "Guinea-Conakry"
+    ],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "sierra-leone",
+    "name": "Sierra Leone",
+    "officialName": "Republic of Sierra Leone",
+    "iso2": "SL",
+    "iso3": "SLE",
+    "region": "west-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "burkina-faso",
+    "name": "Burkina Faso",
+    "iso2": "BF",
+    "iso3": "BFA",
+    "region": "west-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "liberia",
+    "name": "Liberia",
+    "officialName": "Republic of Liberia",
+    "iso2": "LR",
+    "iso3": "LBR",
+    "region": "west-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "mali",
+    "name": "Mali",
+    "officialName": "Republic of Mali",
+    "iso2": "ML",
+    "iso3": "MLI",
+    "region": "west-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "cote-d-ivoire",
+    "name": "Côte d’Ivoire",
+    "officialName": "Republic of Côte d’Ivoire",
+    "iso2": "CI",
+    "iso3": "CIV",
+    "region": "west-africa",
+    "aliases": [
+      "Cote d'Ivoire",
+      "Ivory Coast"
+    ],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "ghana",
+    "name": "Ghana",
+    "officialName": "Republic of Ghana",
+    "iso2": "GH",
+    "iso3": "GHA",
+    "region": "west-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "niger",
+    "name": "Niger",
+    "officialName": "Republic of the Niger",
+    "iso2": "NE",
+    "iso3": "NER",
+    "region": "west-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "nigeria",
+    "name": "Nigeria",
+    "officialName": "Federal Republic of Nigeria",
+    "iso2": "NG",
+    "iso3": "NGA",
+    "region": "west-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "togo",
+    "name": "Togo",
+    "officialName": "Togolese Republic",
+    "iso2": "TG",
+    "iso3": "TGO",
+    "region": "west-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "benin",
+    "name": "Benin",
+    "officialName": "Republic of Benin",
+    "iso2": "BJ",
+    "iso3": "BEN",
+    "region": "west-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "cabo-verde",
+    "name": "Cabo Verde",
+    "officialName": "Republic of Cabo Verde",
+    "iso2": "CV",
+    "iso3": "CPV",
+    "region": "west-africa",
+    "aliases": [
+      "Cape Verde"
+    ],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "cameroon",
+    "name": "Cameroon",
+    "officialName": "Republic of Cameroon",
+    "iso2": "CM",
+    "iso3": "CMR",
+    "region": "central-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "chad",
+    "name": "Chad",
+    "officialName": "Republic of Chad",
+    "iso2": "TD",
+    "iso3": "TCD",
+    "region": "central-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "central-african-republic",
+    "name": "Central African Republic",
+    "iso2": "CF",
+    "iso3": "CAF",
+    "region": "central-africa",
+    "aliases": [
+      "CAR"
+    ],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "equatorial-guinea",
+    "name": "Equatorial Guinea",
+    "officialName": "Republic of Equatorial Guinea",
+    "iso2": "GQ",
+    "iso3": "GNQ",
+    "region": "central-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "gabon",
+    "name": "Gabon",
+    "officialName": "Gabonese Republic",
+    "iso2": "GA",
+    "iso3": "GAB",
+    "region": "central-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "congo-brazzaville",
+    "name": "Republic of the Congo",
+    "iso2": "CG",
+    "iso3": "COG",
+    "region": "central-africa",
+    "aliases": [
+      "Congo-Brazzaville",
+      "Congo",
+      "Republic of Congo"
+    ],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "sao-tome-and-principe",
+    "name": "São Tomé and Príncipe",
+    "officialName": "Democratic Republic of São Tomé and Príncipe",
+    "iso2": "ST",
+    "iso3": "STP",
+    "region": "central-africa",
+    "aliases": [
+      "Sao Tome and Principe",
+      "Sao Tome"
+    ],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "congo-kinshasa",
+    "name": "Democratic Republic of the Congo",
+    "iso2": "CD",
+    "iso3": "COD",
+    "region": "central-africa",
+    "aliases": [
+      "DRC",
+      "DR Congo",
+      "Congo-Kinshasa"
+    ],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "eritrea",
+    "name": "Eritrea",
+    "officialName": "State of Eritrea",
+    "iso2": "ER",
+    "iso3": "ERI",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "djibouti",
+    "name": "Djibouti",
+    "officialName": "Republic of Djibouti",
+    "iso2": "DJ",
+    "iso3": "DJI",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "ethiopia",
+    "name": "Ethiopia",
+    "officialName": "Federal Democratic Republic of Ethiopia",
+    "iso2": "ET",
+    "iso3": "ETH",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "somalia",
+    "name": "Somalia",
+    "officialName": "Federal Republic of Somalia",
+    "iso2": "SO",
+    "iso3": "SOM",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "south-sudan",
+    "name": "South Sudan",
+    "officialName": "Republic of South Sudan",
+    "iso2": "SS",
+    "iso3": "SSD",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "kenya",
+    "name": "Kenya",
+    "officialName": "Republic of Kenya",
+    "iso2": "KE",
+    "iso3": "KEN",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "uganda",
+    "name": "Uganda",
+    "officialName": "Republic of Uganda",
+    "iso2": "UG",
+    "iso3": "UGA",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "rwanda",
+    "name": "Rwanda",
+    "officialName": "Republic of Rwanda",
+    "iso2": "RW",
+    "iso3": "RWA",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "tanzania",
+    "name": "Tanzania",
+    "officialName": "United Republic of Tanzania",
+    "iso2": "TZ",
+    "iso3": "TZA",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "malawi",
+    "name": "Malawi",
+    "officialName": "Republic of Malawi",
+    "iso2": "MW",
+    "iso3": "MWI",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "madagascar",
+    "name": "Madagascar",
+    "officialName": "Republic of Madagascar",
+    "iso2": "MG",
+    "iso3": "MDG",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "comoros",
+    "name": "Comoros",
+    "officialName": "Union of the Comoros",
+    "iso2": "KM",
+    "iso3": "COM",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "seychelles",
+    "name": "Seychelles",
+    "officialName": "Republic of Seychelles",
+    "iso2": "SC",
+    "iso3": "SYC",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "mauritius",
+    "name": "Mauritius",
+    "officialName": "Republic of Mauritius",
+    "iso2": "MU",
+    "iso3": "MUS",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "burundi",
+    "name": "Burundi",
+    "officialName": "Republic of Burundi",
+    "iso2": "BI",
+    "iso3": "BDI",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "mozambique",
+    "name": "Mozambique",
+    "officialName": "Republic of Mozambique",
+    "iso2": "MZ",
+    "iso3": "MOZ",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "angola",
+    "name": "Angola",
+    "officialName": "Republic of Angola",
+    "iso2": "AO",
+    "iso3": "AGO",
+    "region": "southern-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "zambia",
+    "name": "Zambia",
+    "officialName": "Republic of Zambia",
+    "iso2": "ZM",
+    "iso3": "ZMB",
+    "region": "southern-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "namibia",
+    "name": "Namibia",
+    "officialName": "Republic of Namibia",
+    "iso2": "NA",
+    "iso3": "NAM",
+    "region": "southern-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "botswana",
+    "name": "Botswana",
+    "officialName": "Republic of Botswana",
+    "iso2": "BW",
+    "iso3": "BWA",
+    "region": "southern-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "zimbabwe",
+    "name": "Zimbabwe",
+    "officialName": "Republic of Zimbabwe",
+    "iso2": "ZW",
+    "iso3": "ZWE",
+    "region": "southern-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "south-africa",
+    "name": "South Africa",
+    "officialName": "Republic of South Africa",
+    "iso2": "ZA",
+    "iso3": "ZAF",
+    "region": "southern-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "eswatini",
+    "name": "Eswatini",
+    "officialName": "Kingdom of Eswatini",
+    "iso2": "SZ",
+    "iso3": "SWZ",
+    "region": "southern-africa",
+    "aliases": [
+      "Swaziland"
+    ],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "lesotho",
+    "name": "Lesotho",
+    "officialName": "Kingdom of Lesotho",
+    "iso2": "LS",
+    "iso3": "LSO",
+    "region": "southern-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  }
+];
+
+/** Standalone SVG documents, keyed by map id. */
+export const PLUGIN_MAP_SVG: Record<string, string> = {
+  "morocco": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20.5 21.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M18.55 1.65L18.95 2.55L19.05 3.45L19.45 4.95L19.75 5.25L19.55 5.75L17.95 6.05L17.45 6.55L16.75 6.65L16.65 7.75L15.25 8.25L14.85 8.95L13.85 9.35L12.65 9.55L10.75 10.55L10.75 12.15L10.55 12.15L10.55 12.85L9.85 12.95L9.45 13.25L8.95 13.25L8.45 13.05L7.45 13.15L7.05 14.25L6.75 14.35L6.15 15.95L4.45 17.45L4.05 19.25L3.65 19.75L3.45 20.25L0.75 20.35L0.85 19.75L1.25 19.45L1.65 18.75L1.55 18.25L1.95 17.35L2.65 16.55L3.05 16.35L3.35 15.55L3.45 14.85L3.85 14.05L4.65 13.55L5.35 12.15L5.45 12.15L6.05 11.65L7.15 11.45L8.05 10.55L8.65 10.15L9.65 9.05L9.35 7.35L9.85 6.15L9.95 5.35L10.75 4.45L11.95 3.75L12.85 3.15L13.65 1.65L14.05 0.75L14.85 0.75L15.65 1.35L16.75 1.25L17.95 1.65L18.55 1.65Z\"/>\n</svg>",
+  "algeria": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 21.1 21.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M0.75 11.75L0.75 11.45L0.75 10.15L2.25 9.35L3.25 9.15L4.05 8.85L4.35 8.35L5.45 7.95L5.55 7.05L6.05 6.95L6.55 6.55L7.75 6.35L7.95 5.95L7.65 5.75L7.35 4.55L7.25 3.85L6.95 3.05L7.85 2.45L8.85 2.25L9.45 1.75L10.35 1.35L11.95 1.15L13.55 1.05L14.05 1.25L14.95 0.75L15.95 0.75L16.35 1.05L16.95 0.95L16.75 1.55L16.95 2.75L16.65 3.65L16.15 4.35L16.15 5.15L16.95 5.85L16.95 6.15L17.55 6.55L17.95 8.55L18.25 9.55L18.35 10.05L18.15 10.95L18.25 11.35L18.15 11.95L18.15 12.65L17.85 13.05L18.35 13.85L18.45 14.35L18.75 14.85L19.15 14.65L19.95 15.15L20.35 15.85L17.15 17.75L14.35 19.75L13.05 20.25L11.95 20.35L11.95 19.65L11.55 19.55L10.95 19.25L10.75 18.75L7.55 16.55L4.35 14.25L0.75 11.75Z\"/>\n</svg>",
+  "tunisia": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 10.7 21.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M5.25 20.35L4.35 15.55L2.85 14.45L2.85 13.75L0.95 12.05L0.75 10.05L2.15 8.45L2.75 6.15L2.35 3.35L2.85 1.95L5.35 0.75L6.95 1.05L6.95 2.55L8.85 1.55L9.05 2.05L7.85 3.45L7.85 4.75L8.65 5.45L8.35 7.95L6.85 9.35L7.25 10.85L8.45 10.95L9.05 12.25L9.95 12.65L9.75 14.75L8.65 15.55L7.95 16.45L6.35 17.45L6.65 18.55L6.45 19.75L5.25 20.35Z\"/>\n</svg>",
+  "libya": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 21.1 20.3\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M20.15 16.35L20.15 18.95L18.75 18.95L18.75 19.55L13.75 17.05L8.85 14.45L7.55 15.15L6.75 15.65L6.05 14.95L4.05 14.35L3.55 13.55L2.55 12.85L1.95 13.15L1.55 12.35L1.45 11.75L0.75 10.75L1.25 10.25L1.15 9.35L1.25 8.55L1.15 7.95L1.45 6.75L1.35 6.15L0.95 4.85L1.55 4.55L1.65 3.95L1.55 3.35L2.35 2.75L2.75 2.35L3.35 1.85L3.45 0.75L4.85 1.25L5.45 1.15L6.45 1.35L8.05 2.05L8.65 3.35L9.75 3.65L11.55 4.25L12.85 4.95L13.45 4.55L14.05 3.95L13.75 2.75L14.15 2.05L15.05 1.35L15.85 1.15L17.55 1.45L17.95 2.15L18.45 2.15L18.85 2.45L20.05 2.55L20.35 3.05L19.95 3.75L20.05 4.35L19.75 5.25L20.15 6.45L20.15 11.35L20.15 16.35Z\"/>\n</svg>",
+  "egypt": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 21.1 18.9\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M20.35 18.15L13.95 18.15L7.75 18.15L1.25 18.15L1.25 11.65L1.25 5.15L0.75 3.65L1.15 2.55L0.95 1.75L1.45 0.85L3.65 0.75L5.15 1.25L6.75 1.85L7.55 2.15L8.75 1.55L9.45 0.95L10.85 0.85L12.05 1.05L12.45 2.05L12.85 1.35L14.15 1.85L15.35 1.95L16.15 1.45L17.05 4.25L17.25 4.65L16.75 5.45L16.45 6.85L15.95 7.75L15.65 8.05L15.05 7.45L14.35 6.65L13.15 4.05L13.05 4.25L13.65 6.15L14.65 7.95L15.95 10.85L16.45 11.75L17.05 12.75L18.45 14.75L18.15 15.05L18.15 16.15L20.05 17.75L20.35 18.15Z\"/>\n</svg>",
+  "sudan": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 21.1 18.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M3.85 17.75L2.95 17.25L2.55 16.85L2.45 16.55L2.65 16.05L2.65 15.55L1.95 14.75L1.85 14.25L1.85 13.95L1.45 13.55L1.45 12.85L1.15 12.45L0.75 12.45L0.85 12.05L1.15 11.55L1.05 11.05L1.45 10.65L1.15 10.35L1.55 9.55L2.05 8.65L3.05 8.75L3.05 3.85L3.05 3.25L4.35 3.25L4.35 0.75L9.15 0.75L13.75 0.75L18.55 0.75L18.85 1.95L18.65 2.25L18.85 3.55L19.25 5.05L19.65 5.35L20.35 5.85L19.75 6.55L18.85 6.75L18.45 7.15L18.35 7.95L17.85 9.75L17.95 10.25L17.85 11.25L17.35 12.45L16.65 13.15L16.05 14.05L15.95 14.55L15.45 14.85L15.05 16.15L15.05 17.25L15.05 16.25L14.85 16.25L14.95 15.65L14.75 15.25L14.15 14.75L14.05 13.85L14.15 12.95L13.65 12.95L13.55 13.15L12.85 13.25L13.05 13.55L13.15 14.35L12.55 14.95L11.95 15.85L11.35 15.95L10.35 15.25L9.85 15.55L9.75 15.85L9.15 16.15L9.15 16.35L7.95 16.35L7.75 16.15L6.95 16.05L6.45 16.25L6.15 16.15L5.55 15.45L5.35 15.15L4.45 15.25L4.15 15.85L3.85 16.95L3.45 17.15L3.05 17.25L3.85 17.75Z\"/>\n</svg>",
+  "mauritania": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 18.9 21.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M0.75 10.75L1.05 10.25L6.65 10.25L6.45 8.05L6.75 7.25L8.15 7.15L8.05 3.05L12.75 3.15L12.75 0.75L18.15 4.65L15.95 4.65L16.65 11.35L17.35 17.85L17.55 18.05L17.25 19.05L11.55 19.05L11.25 19.35L10.75 19.25L9.95 19.55L8.95 19.15L8.45 19.25L8.25 20.05L7.75 20.35L6.85 19.35L5.95 18.25L5.05 17.85L4.35 17.45L3.55 17.45L2.85 17.75L2.15 17.65L1.65 18.15L1.55 17.35L1.95 16.55L2.05 15.15L1.95 13.65L1.75 12.95L1.95 12.15L1.55 11.45L0.75 10.75Z\"/>\n</svg>",
+  "senegal": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 21.1 15.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M3.65 10.65L2.35 8.05L0.75 6.95L2.15 6.25L3.65 3.95L4.45 2.25L5.55 1.25L7.15 1.45L8.65 0.75L10.45 0.75L11.95 1.75L14.05 2.55L16.05 5.05L18.15 7.25L18.25 9.35L18.85 11.25L20.05 12.15L20.35 13.35L20.25 14.45L19.75 14.55L18.05 14.35L17.75 14.65L17.05 14.75L14.75 13.95L13.25 13.95L7.35 13.75L6.55 14.15L5.45 14.05L3.75 14.55L3.25 12.05L6.15 12.15L6.95 11.75L7.45 11.65L8.65 10.95L10.05 11.65L11.45 11.65L12.75 10.95L12.15 9.95L11.05 10.55L10.15 10.55L8.85 9.75L7.85 9.75L7.15 10.55L3.65 10.65Z\"/>\n</svg>",
+  "gambia": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 21.1 6.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M2.45 2.25L4.15 2.15L6.15 2.25L8.35 2.25L9.35 2.25L9.85 1.35L10.95 0.85L11.95 0.75L12.55 0.75L13.15 0.95L14.25 1.65L14.85 1.85L15.45 2.05L15.95 2.45L16.55 2.85L17.05 2.95L17.35 2.85L17.95 2.75L18.25 2.55L19.35 2.55L20.15 2.95L20.35 3.45L20.25 3.95L19.15 4.25L17.55 4.65L16.35 4.35L14.85 3.85L13.95 3.45L13.55 3.25L13.05 3.05L12.55 2.75L12.05 2.55L11.65 2.45L11.45 2.65L11.25 2.95L11.05 3.35L10.75 3.55L9.55 3.65L8.35 3.85L7.75 3.95L7.35 4.05L7.25 5.15L5.95 5.15L4.65 5.15L3.35 5.15L1.95 5.15L1.55 5.35L1.15 5.75L1.15 5.15L0.75 3.85L1.25 3.35L1.75 3.05L2.15 3.25L2.25 3.75L2.55 4.15L3.45 4.35L4.35 4.25L4.95 4.25L4.95 4.05L5.15 3.65L6.25 3.45L7.45 3.35L8.65 3.15L9.55 3.15L9.85 3.05L9.85 2.95L8.95 2.85L7.15 3.15L5.25 3.15L3.85 3.85L3.25 3.85L2.65 3.15L2.45 2.25Z\"/>\n</svg>",
+  "guinea-bissau": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 21.1 12.9\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M0.75 2.85L1.15 2.85L1.95 2.95L2.65 2.75L3.15 2.55L3.75 2.25L4.45 2.15L6.35 2.35L8.05 1.95L9.35 1.35L10.55 0.75L12.05 0.75L13.65 0.75L16.05 0.75L17.85 0.75L20.05 0.75L19.95 1.25L20.35 2.05L20.35 2.65L20.15 3.15L20.05 3.35L19.75 3.45L19.25 3.45L18.95 3.55L18.55 3.75L18.55 4.05L18.85 4.25L19.15 4.55L19.45 4.85L19.95 5.15L19.95 5.45L20.05 6.25L19.95 6.95L18.55 7.45L17.45 7.55L16.55 7.45L16.15 7.65L15.35 8.15L14.35 8.45L13.85 8.45L13.65 8.65L13.25 9.15L12.15 11.35L11.85 11.85L11.55 12.15L11.25 11.75L11.45 10.85L11.15 10.85L10.65 11.55L10.35 11.55L10.45 10.75L10.15 10.75L9.75 10.75L9.25 10.35L9.25 10.05L9.25 9.55L9.55 9.35L9.55 9.15L9.25 9.15L8.95 9.25L8.75 9.15L9.05 8.55L10.15 8.05L10.75 7.95L11.35 7.85L11.05 7.45L10.35 7.25L9.75 7.35L9.45 7.65L9.15 7.75L8.55 7.05L8.55 6.65L8.75 6.25L9.15 6.05L10.45 6.05L10.95 5.85L11.15 5.75L11.35 5.55L11.25 5.45L11.05 5.45L10.55 5.65L8.95 5.55L8.45 5.75L7.65 6.45L6.55 6.75L5.75 6.65L5.95 5.75L5.85 5.65L5.65 5.45L4.45 5.75L3.55 5.35L3.25 4.85L3.35 4.25L3.65 3.85L3.75 3.65L3.35 3.65L2.55 3.85L0.75 2.85Z\"/>\n</svg>",
+  "guinea": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 21.1 15.9\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M4.55 0.75L5.85 0.75L7.85 1.45L8.45 1.35L8.65 1.05L10.05 1.35L10.45 1.15L10.65 2.15L11.05 2.15L11.75 1.75L12.15 1.85L12.95 2.55L14.05 2.75L14.85 2.15L15.65 1.85L16.35 1.45L16.85 1.55L17.45 2.15L17.75 2.85L18.85 4.05L18.35 4.75L18.25 5.65L18.85 5.35L19.15 5.65L18.95 6.45L19.85 7.25L19.25 7.45L19.05 8.45L19.65 9.55L20.35 11.75L19.35 12.05L19.05 12.45L19.35 12.95L19.15 14.15L18.75 14.15L17.95 14.05L17.45 15.15L16.65 15.15L16.15 14.55L16.35 13.45L15.15 11.85L14.45 12.15L13.95 12.15L13.15 12.35L13.15 11.35L12.75 10.65L12.85 9.85L12.25 8.65L11.55 7.75L9.35 7.75L8.75 8.25L8.05 8.25L7.55 8.85L7.25 9.65L5.85 10.85L4.65 9.25L3.55 8.15L2.85 7.75L2.25 7.25L1.95 6.05L1.55 5.45L0.75 4.95L1.95 3.65L2.75 3.75L3.45 3.25L4.05 3.25L4.45 2.85L4.25 1.95L4.55 1.65L4.55 0.75Z\"/>\n</svg>",
+  "sierra-leone": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20.3 21.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M19.55 10.35L19.55 10.55L19.35 11.45L19.15 12.25L18.95 12.45L18.15 12.65L17.75 12.95L17.45 14.05L17.35 14.95L17.05 15.15L15.85 16.35L15.05 16.85L14.55 17.25L14.05 17.75L13.45 18.25L12.75 19.15L12.25 20.05L11.95 20.35L11.65 20.05L10.45 19.15L9.25 18.55L6.65 17.55L5.75 17.35L5.85 16.95L6.15 16.35L5.65 15.55L5.85 14.95L5.65 14.95L5.25 15.35L4.45 15.25L3.95 14.75L3.45 14.55L3.25 14.35L3.05 13.05L2.85 12.55L2.45 12.15L1.65 12.05L1.25 11.35L0.85 10.75L0.95 10.35L1.25 10.35L1.55 10.65L2.05 10.75L2.55 10.05L3.15 9.75L3.25 9.45L3.15 9.25L2.85 9.55L1.95 9.45L1.75 9.75L1.45 9.75L1.15 9.05L1.15 8.55L1.25 8.05L2.15 8.05L2.15 7.85L1.55 7.75L0.85 7.15L0.75 6.75L1.05 6.65L1.45 6.75L1.75 6.75L2.05 6.65L2.35 6.45L2.55 6.15L2.85 5.45L3.65 5.15L4.05 4.75L4.55 4.05L4.75 3.55L4.95 3.25L5.05 3.05L5.15 2.85L5.35 2.65L5.55 2.05L5.65 1.65L6.15 1.35L7.05 1.15L7.95 1.55L9.35 1.25L9.35 0.75L10.65 0.75L12.15 0.75L13.35 0.75L13.85 0.85L13.95 1.25L14.35 1.75L14.85 2.05L15.35 2.85L15.95 3.85L16.65 4.65L17.05 5.05L17.05 5.25L17.05 5.45L16.85 5.85L16.65 6.35L16.65 6.45L16.85 6.55L17.55 6.75L17.55 7.25L17.55 7.95L17.85 8.55L18.25 9.05L18.25 9.25L17.45 10.05L17.15 10.85L16.95 11.15L16.95 11.35L17.05 11.35L17.25 11.35L17.55 11.45L17.85 11.45L18.25 11.15L18.85 10.35L19.15 10.25L19.55 10.35Z\"/>\n</svg>",
+  "burkina-faso": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 21.1 15.9\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M0.95 13.15L0.75 11.65L1.45 10.55L1.35 9.65L3.45 7.55L3.85 5.75L4.55 5.05L5.75 5.45L6.85 4.85L7.15 4.25L9.15 3.05L9.65 2.25L12.05 1.15L13.45 0.75L14.05 1.25L15.75 1.25L15.55 2.55L15.85 3.75L17.35 5.45L17.35 6.75L20.35 7.35L20.25 9.15L19.75 9.85L18.45 10.15L17.95 11.25L17.05 11.55L14.85 11.55L13.65 11.25L12.85 11.75L11.65 11.55L7.25 11.65L7.15 13.15L7.55 15.05L5.75 14.45L4.55 14.55L3.65 15.15L2.55 14.65L2.05 13.75L0.95 13.15Z\"/>\n</svg>",
+  "liberia": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20.7 21.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M0.75 8.45L1.05 8.15L1.45 7.55L1.95 6.85L2.35 6.45L2.75 6.15L3.15 5.75L3.75 5.45L4.55 4.55L4.85 4.45L4.95 3.75L5.15 2.95L5.45 2.65L6.05 2.55L6.15 2.35L6.35 1.85L6.45 1.15L6.45 1.05L6.75 0.95L7.15 0.85L7.35 0.95L7.45 1.05L7.55 1.25L8.75 0.85L8.85 0.75L9.05 1.15L9.15 1.15L9.25 1.05L9.35 1.05L9.45 1.25L9.65 1.35L9.85 1.55L10.05 1.65L10.05 2.05L10.05 2.45L10.25 2.55L10.25 2.75L10.25 3.05L10.35 3.15L10.45 3.45L10.35 3.75L10.45 3.95L10.65 4.25L10.75 4.65L10.75 4.95L10.65 5.25L10.55 5.55L10.35 5.85L10.35 6.05L10.45 6.15L10.65 6.15L10.85 6.05L11.25 6.25L11.45 6.45L11.65 6.65L11.85 6.75L11.95 6.95L12.25 6.95L12.55 6.75L12.65 6.65L12.75 6.75L12.95 6.75L13.15 6.45L13.25 6.15L13.55 5.75L13.65 5.65L13.75 5.45L13.75 5.15L13.85 4.85L14.05 4.75L14.25 4.75L14.45 4.75L14.45 5.05L14.65 5.25L14.85 5.35L14.95 5.45L15.05 5.55L15.25 6.05L15.75 7.65L15.65 8.05L15.55 8.35L15.55 8.65L15.55 8.85L15.25 9.35L14.35 10.25L14.35 10.35L14.55 10.45L14.85 10.55L15.05 10.45L15.25 10.75L15.55 11.05L15.75 11.15L16.15 11.25L16.55 11.35L16.75 11.25L17.15 11.35L17.65 11.55L17.75 11.95L17.85 12.25L18.05 12.45L18.05 12.75L18.35 13.05L18.75 13.05L19.35 13.35L19.55 13.35L19.65 13.35L19.75 14.25L19.95 14.75L19.85 14.95L19.75 15.05L19.75 15.85L19.45 16.25L19.45 16.65L19.35 16.85L19.15 16.95L19.15 17.25L19.05 17.75L19.05 18.15L19.05 19.35L19.05 20.15L19.25 20.35L18.65 20.25L17.15 19.65L15.95 19.25L11.85 17.05L10.75 16.15L9.45 14.85L6.55 12.25L5.85 11.85L5.05 11.65L4.55 11.45L4.15 11.15L3.85 10.45L3.15 10.05L1.85 9.45L0.75 8.45Z\"/>\n</svg>",
+  "mali": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 21.1 20.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M1.55 16.55L1.55 16.15L1.45 15.65L1.05 15.35L0.85 14.65L0.75 13.85L1.15 13.65L1.35 12.95L1.75 12.85L2.55 13.25L3.25 12.95L3.65 13.05L3.85 12.75L8.65 12.75L8.95 11.95L8.75 11.75L8.15 6.35L7.55 0.75L9.35 0.75L13.45 3.55L17.45 6.35L17.75 6.95L18.45 7.35L19.05 7.55L19.05 8.35L20.35 8.25L20.35 11.05L19.65 11.95L19.55 12.65L18.55 12.85L16.95 12.95L16.45 13.45L15.75 13.45L14.95 13.45L14.65 13.25L13.95 13.45L12.85 13.95L12.65 14.35L11.75 14.85L11.55 15.15L11.05 15.45L10.45 15.25L10.15 15.55L9.95 16.45L9.05 17.45L9.05 17.85L8.75 18.35L8.85 19.05L8.35 19.25L8.05 19.35L7.85 18.85L7.55 18.95L7.35 18.95L7.05 19.35L6.15 19.35L5.85 19.15L5.65 19.25L5.35 18.95L5.35 18.55L5.25 18.35L4.95 18.55L5.05 18.15L5.25 17.85L4.75 17.25L4.65 16.95L4.35 16.65L4.15 16.65L3.85 16.85L3.45 16.95L3.15 17.25L2.65 17.15L2.25 16.85L2.15 16.85L1.75 16.95L1.55 16.95L1.55 16.55Z\"/>\n</svg>",
+  "cote-d-ivoire": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20.5 21.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M2.55 1.75L2.95 1.45L3.85 1.95L6.25 1.95L6.85 1.05L7.35 1.15L8.25 0.75L8.75 2.15L9.55 1.75L10.85 1.25L12.25 1.95L12.75 2.95L14.15 3.65L15.25 2.85L16.75 2.75L18.85 3.55L19.75 8.05L18.45 10.75L17.55 14.35L18.95 17.05L18.85 18.25L17.35 18.35L15.15 17.65L13.15 17.75L9.45 18.25L7.25 19.15L4.15 20.35L3.55 20.25L3.85 17.65L4.05 17.25L4.05 16.05L2.65 14.75L1.65 14.45L0.75 13.65L1.45 12.25L1.15 10.75L1.25 9.75L1.75 9.75L1.95 8.35L1.75 7.75L2.05 7.35L3.15 6.95L2.45 4.45L1.65 3.05L1.95 2.05L2.55 1.75Z\"/>\n</svg>",
+  "ghana": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 14.5 21.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M10.65 0.95L10.45 1.95L11.65 3.55L11.65 5.75L11.95 8.25L12.75 9.35L12.05 12.05L12.35 13.65L13.15 15.55L13.75 16.65L9.05 18.45L7.35 19.45L4.65 20.35L1.85 19.45L2.05 18.25L0.75 15.65L1.55 12.15L2.75 9.65L1.95 5.25L1.55 2.95L1.65 1.15L6.95 1.05L8.25 1.25L9.25 0.75L10.65 0.95Z\"/>\n</svg>",
+  "niger": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 21.1 17.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M19.05 1.55L19.35 3.65L19.85 4.05L19.85 4.45L20.35 4.95L20.05 5.55L19.55 8.25L19.55 9.95L17.95 11.15L17.35 12.85L17.95 13.35L17.95 14.15L18.75 14.15L18.55 14.85L18.25 14.85L18.15 15.25L17.95 15.35L17.15 13.95L16.85 13.85L15.85 14.55L14.85 14.15L14.15 14.15L13.85 14.35L13.05 14.25L12.35 14.85L11.75 14.85L10.15 14.15L9.55 14.45L8.95 14.45L8.45 13.95L7.25 13.55L5.85 13.65L5.55 13.95L5.35 14.65L5.05 15.15L4.95 16.35L3.95 15.65L3.55 15.65L3.05 15.95L3.15 15.15L1.65 14.85L1.65 14.15L0.95 13.35L0.75 12.75L0.85 12.15L1.65 12.05L2.15 11.65L3.85 11.55L4.95 11.25L5.05 10.45L5.75 9.65L5.75 6.55L7.55 5.95L11.15 3.35L15.45 0.75L17.45 1.35L18.15 2.05L19.05 1.55Z\"/>\n</svg>",
+  "nigeria": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 21.1 17.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M0.75 13.45L0.85 10.75L0.85 9.75L1.15 8.65L1.65 8.15L2.45 7.15L2.25 6.65L2.55 5.95L2.25 4.95L2.25 4.45L2.35 2.95L2.85 2.25L3.05 1.25L3.55 0.95L5.25 0.75L6.95 1.35L7.55 1.95L8.45 2.05L9.15 1.55L11.15 2.45L12.05 2.45L12.95 1.75L13.95 1.75L14.45 1.55L15.35 1.65L16.55 2.15L17.85 1.15L18.25 1.25L19.35 3.05L19.65 3.05L20.35 3.75L20.15 4.05L20.05 4.55L18.65 5.85L18.25 6.95L18.05 7.85L17.65 8.15L17.35 9.35L16.45 10.05L16.25 10.85L15.85 11.55L15.65 12.25L14.55 12.85L13.65 12.15L12.95 12.15L12.05 13.15L11.55 13.15L10.75 14.75L10.35 15.95L8.65 16.55L7.95 16.45L7.35 16.75L6.05 16.75L5.15 15.75L4.65 14.55L3.45 13.45L2.25 13.45L0.75 13.45Z\"/>\n</svg>",
+  "togo": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 8.7 21.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M4.55 1.25L4.45 1.65L4.25 2.15L4.15 2.35L4.05 3.65L4.15 3.75L4.85 4.15L5.65 4.75L6.25 5.15L6.25 5.25L6.25 6.15L6.25 6.85L6.45 7.25L6.45 7.65L6.55 7.95L7.15 8.45L7.25 8.85L7.25 9.95L7.25 10.75L7.35 11.85L7.35 12.85L7.35 13.95L7.35 15.35L7.35 16.85L7.05 16.85L7.25 17.25L7.25 17.65L7.25 17.85L7.15 18.05L7.25 18.35L7.45 18.45L7.85 19.05L7.95 19.55L7.35 19.75L7.35 19.85L6.15 20.15L5.65 20.35L5.65 20.15L5.45 20.05L5.25 20.05L5.15 19.95L4.95 19.65L4.85 19.45L4.65 19.45L4.25 19.15L3.95 18.95L3.85 18.65L3.85 18.55L3.85 18.45L3.65 18.35L3.45 17.85L3.25 17.55L3.15 17.35L3.15 17.25L3.15 17.05L3.15 16.85L3.35 16.85L3.35 16.65L3.45 16.45L3.45 15.95L3.55 15.45L3.35 15.35L3.15 15.25L3.05 15.15L3.05 14.85L3.05 14.65L3.45 13.95L3.35 12.35L3.45 12.15L3.55 11.95L3.75 11.75L3.75 11.55L3.45 11.05L2.95 10.65L2.75 10.35L2.55 10.15L2.55 9.95L2.85 9.75L2.95 9.65L3.05 9.45L2.85 9.15L2.95 8.55L3.05 8.15L3.15 7.65L3.15 7.45L2.85 7.15L2.65 7.15L2.55 7.15L2.25 7.35L2.15 7.35L2.05 7.35L1.95 7.25L2.15 7.15L2.05 6.95L2.15 6.85L2.35 6.75L2.45 6.65L2.15 6.65L2.15 6.55L2.15 6.45L2.25 6.45L2.35 6.45L2.35 6.35L2.35 5.85L2.45 5.75L2.45 5.45L2.45 4.25L2.55 4.05L2.55 3.95L2.35 3.95L1.95 3.55L1.65 3.35L1.45 3.05L1.25 2.95L0.85 2.65L0.75 2.45L0.75 2.35L0.85 1.95L1.05 1.65L1.15 1.15L1.05 0.95L0.85 0.75L1.75 0.95L2.95 1.25L2.95 1.35L3.25 1.35L3.55 1.25L4.55 1.25Z\"/>\n</svg>",
+  "benin": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 11.1 21.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M3.45 20.35L3.35 20.25L3.95 20.15L3.85 19.65L3.45 19.15L3.35 19.15L3.25 18.85L3.35 18.75L3.35 18.55L3.25 18.25L3.15 17.95L3.45 17.85L3.45 16.75L3.45 15.55L3.45 14.65L3.45 13.85L3.35 12.95L3.35 12.25L3.35 11.35L3.25 11.15L2.85 10.65L2.65 10.35L2.65 10.05L2.55 9.75L2.55 9.15L2.55 8.45L2.55 8.35L2.05 8.05L1.35 7.65L0.85 7.25L0.75 7.25L0.75 7.15L0.85 6.15L0.95 5.95L1.05 5.55L1.15 5.25L1.25 5.25L1.35 5.05L1.45 4.95L1.55 4.95L1.65 4.95L1.75 4.95L1.75 4.85L1.75 4.65L1.85 4.65L1.95 4.55L1.95 4.35L2.05 4.35L2.25 4.35L2.35 4.35L2.45 4.25L2.65 3.95L2.75 3.85L2.85 3.75L3.05 3.75L3.25 3.75L3.35 3.85L4.15 3.75L4.55 3.85L5.35 3.15L5.55 2.95L5.75 2.45L5.85 2.35L5.95 1.95L5.75 1.35L5.75 1.25L6.05 1.15L6.45 1.05L6.65 1.05L6.75 0.95L6.85 0.85L7.15 0.75L7.25 0.75L7.35 0.85L8.25 1.65L8.55 2.05L8.65 2.25L8.85 2.35L9.15 2.45L9.45 2.65L9.65 2.95L9.45 3.15L9.25 3.55L9.25 3.95L9.75 4.65L9.95 4.75L9.95 4.95L10.05 5.25L10.05 5.65L10.15 5.95L10.35 6.25L10.35 6.45L10.25 6.95L10.15 7.05L9.85 7.05L9.75 7.05L9.65 7.25L9.55 7.45L9.55 7.55L9.75 7.85L9.65 8.35L9.45 8.65L9.25 8.85L9.05 8.85L8.85 8.95L8.75 9.05L8.75 9.45L8.45 9.75L8.25 9.95L8.15 10.15L8.25 10.55L8.05 10.95L7.85 11.25L7.45 11.35L7.05 11.35L6.95 12.25L6.95 12.75L6.85 13.35L6.85 13.55L6.85 13.85L6.85 14.55L6.75 15.15L6.85 15.25L6.85 15.55L6.85 15.95L6.95 16.15L7.05 16.35L7.05 16.45L7.05 16.55L6.95 16.65L6.95 17.45L6.95 17.65L6.95 17.85L6.85 17.95L6.85 18.35L6.95 18.65L7.05 18.75L6.95 18.95L6.95 19.15L6.85 19.65L6.85 19.85L5.55 19.95L4.05 20.25L3.45 20.35Z\"/>\n</svg>",
+  "cabo-verde": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 21.1 19.7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M2.05 2.65L1.35 2.85L0.95 2.75L0.95 2.15L0.75 1.75L0.75 1.55L2.45 0.75L3.05 0.85L3.45 1.55L3.15 1.85L2.05 2.65ZM14.75 17.55L14.25 18.25L13.35 18.15L12.85 17.85L12.25 16.95L12.25 16.25L12.45 15.75L12.45 15.15L12.45 15.05L12.75 15.15L12.85 15.45L13.75 16.35L14.05 16.55L14.75 17.55ZM4.05 3.65L3.55 3.85L3.15 3.85L2.55 3.55L2.75 3.25L3.35 2.95L3.75 2.85L4.05 3.45L4.05 3.65ZM18.65 8.15L19.25 8.25L19.45 8.15L19.85 8.25L20.25 8.65L20.35 9.05L20.15 9.55L19.35 10.05L18.85 9.95L18.35 9.55L18.65 8.75L18.65 8.15ZM8.35 18.65L7.85 18.95L7.45 18.85L7.05 18.55L6.85 18.05L6.95 17.75L7.75 17.25L8.25 17.45L8.45 18.05L8.35 18.65ZM10.05 5.15L10.25 5.35L10.45 5.55L9.95 5.65L8.85 5.35L8.55 5.55L8.25 6.15L7.65 5.15L7.75 4.85L7.85 4.75L8.65 4.95L10.05 5.15ZM18.85 4.85L18.65 5.25L18.35 4.65L18.15 4.55L18.05 3.75L18.45 3.45L18.75 3.45L18.75 4.25L18.85 4.85ZM16.65 16.55L16.45 16.55L16.15 16.25L16.25 15.75L16.15 15.65L16.45 15.05L16.95 15.15L17.15 15.55L17.15 16.25L16.65 16.55Z\"/>\n</svg>",
+  "cameroon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 14.7 21.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M11.25 0.75L11.95 1.85L12.05 3.05L12.05 4.25L12.95 5.85L11.95 5.85L11.45 5.95L10.75 5.75L10.35 6.65L11.35 7.65L12.15 7.95L12.35 8.65L12.95 9.95L12.65 10.35L11.75 12.15L11.35 12.45L11.25 13.85L11.35 14.55L11.25 15.15L12.05 16.05L12.25 16.65L12.85 17.55L13.65 18.15L13.75 18.95L13.95 19.45L13.75 20.35L12.45 19.95L10.95 19.45L8.75 19.45L8.55 19.35L7.55 19.55L6.45 19.35L5.65 19.45L2.85 19.35L3.05 18.05L2.35 16.85L1.55 16.55L1.25 15.75L0.75 15.55L0.85 15.05L1.25 13.75L2.05 12.15L2.55 12.05L3.65 11.05L4.25 11.05L5.25 11.75L6.45 11.15L6.65 10.45L7.05 9.75L7.25 8.85L8.25 8.15L8.55 6.85L8.95 6.45L9.15 5.55L9.65 4.45L11.15 3.05L11.25 2.45L11.45 2.15L10.75 1.45L10.75 0.85L11.25 0.75Z\"/>\n</svg>",
+  "chad": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 13.7 21.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M12.85 5.55L12.95 10.55L11.95 10.45L11.35 11.35L11.05 12.05L11.35 12.35L10.95 12.75L11.05 13.25L10.75 13.75L10.65 14.15L11.05 14.15L11.35 14.55L11.35 15.25L11.75 15.65L11.75 15.95L10.95 16.15L10.35 16.65L9.55 17.95L8.45 18.45L7.25 18.35L6.95 18.45L7.05 18.95L6.45 19.35L5.95 19.75L4.45 20.25L4.15 19.95L3.95 19.95L3.75 20.25L2.85 20.35L2.95 20.05L2.65 19.25L2.45 18.75L1.95 18.55L1.25 17.85L1.55 17.25L2.05 17.35L2.35 17.25L3.05 17.35L2.35 16.25L2.45 15.45L2.35 14.65L1.85 13.85L2.05 13.25L1.25 13.25L1.25 12.45L0.75 12.05L1.25 10.45L2.75 9.25L2.85 7.65L3.25 5.15L3.55 4.55L3.05 4.15L3.05 3.75L2.55 3.45L2.35 1.45L3.45 0.75L8.15 3.15L12.85 5.55Z\"/>\n</svg>",
+  "central-african-republic": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 21.1 15.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M20.35 9.85L19.85 9.95L18.85 9.95L17.75 9.75L17.15 9.95L16.95 10.25L16.45 10.35L15.85 10.05L14.15 10.75L13.45 10.65L13.25 10.75L12.85 11.65L11.65 11.35L10.55 11.25L9.65 10.65L8.35 10.15L7.55 10.65L6.95 11.35L6.85 12.45L5.85 12.35L4.85 12.15L3.95 12.95L3.15 14.35L2.95 13.85L2.85 13.25L2.15 12.75L1.65 11.95L1.45 11.35L0.75 10.55L0.95 10.15L0.75 9.45L0.85 8.35L1.25 8.05L1.95 6.45L3.25 6.35L3.55 5.95L3.75 6.05L4.15 6.35L6.05 5.75L6.75 5.15L7.55 4.65L7.35 4.05L7.75 3.95L9.25 4.05L10.65 3.35L11.75 1.65L12.55 1.05L13.55 0.75L13.65 1.45L14.55 2.35L14.55 3.05L14.35 3.65L14.45 4.15L14.95 4.55L16.05 5.25L16.95 5.85L16.95 6.35L17.95 7.15L18.55 7.85L18.95 8.75L20.15 9.35L20.35 9.85Z\"/>\n</svg>",
+  "equatorial-guinea": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 21.1 20.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M2.75 0.75L2.95 0.85L3.95 0.85L4.25 1.15L4.25 1.65L3.15 3.25L2.95 3.85L2.55 4.45L2.25 4.45L1.05 4.15L0.85 3.95L0.75 3.65L0.85 3.05L0.95 2.85L1.55 2.75L1.75 2.65L2.05 2.05L2.15 1.45L2.35 0.95L2.75 0.75ZM20.35 11.55L20.35 13.15L20.35 14.45L20.35 15.85L20.35 17.35L20.35 18.65L20.35 19.45L18.95 19.45L17.15 19.45L15.25 19.45L13.45 19.45L12.55 19.45L11.55 19.45L11.25 19.45L10.95 19.65L10.65 19.75L10.35 19.55L10.05 19.45L9.95 19.25L9.75 18.95L9.35 18.95L9.15 18.95L8.85 19.15L8.55 19.25L8.65 19.05L8.05 18.65L7.55 18.65L7.15 18.55L7.55 17.45L7.95 16.55L8.55 15.75L8.85 15.65L8.95 15.25L9.45 14.15L10.05 13.15L9.85 12.25L9.95 10.65L10.15 10.65L10.15 10.85L10.25 11.05L10.45 11.25L11.25 11.55L13.45 11.55L14.75 11.55L16.65 11.55L18.75 11.55L20.35 11.55Z\"/>\n</svg>",
+  "gabon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 18.9 21.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M8.45 0.95L9.85 0.75L11.75 1.15L13.65 0.75L14.05 0.95L13.75 2.25L14.65 3.85L16.95 3.65L17.75 4.25L16.35 7.85L17.85 9.65L18.15 12.15L17.75 14.15L16.85 15.65L14.15 15.55L12.45 14.05L12.15 15.45L10.05 15.75L9.05 16.55L10.25 18.65L7.85 20.35L4.65 17.25L2.55 14.65L0.75 11.45L0.85 10.45L1.45 9.45L2.25 7.15L2.85 4.85L3.95 4.65L8.45 4.65L8.45 0.95Z\"/>\n</svg>",
+  "congo-brazzaville": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 17.9 21.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M17.15 1.25L17.05 2.65L16.35 3.75L15.95 5.15L15.65 7.15L15.75 8.45L15.45 9.25L15.35 10.05L15.05 10.75L13.65 11.85L12.65 12.95L11.65 15.15L11.75 16.95L11.15 17.65L9.85 18.75L8.55 20.15L7.65 19.85L7.55 19.15L6.35 19.15L5.55 20.05L4.95 19.75L4.15 19.05L3.45 19.35L2.55 20.35L0.75 17.95L2.45 16.75L1.55 15.25L2.35 14.65L3.85 14.45L4.05 13.45L5.25 14.55L7.25 14.65L7.85 13.55L8.15 12.05L7.95 10.35L6.85 8.95L7.85 6.45L7.25 5.95L5.65 6.15L4.95 4.95L5.15 4.05L7.95 4.15L9.75 4.65L11.55 5.25L11.75 4.05L12.85 1.95L14.25 0.75L15.75 1.15L17.15 1.25Z\"/>\n</svg>",
+  "sao-tome-and-principe": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 13.3 21.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M12.15 2.25L11.65 2.65L11.15 2.35L11.05 1.85L11.75 0.95L12.05 0.75L12.25 0.95L12.45 1.15L12.55 1.55L12.15 2.25ZM3.05 19.45L1.85 20.35L1.45 20.15L1.15 19.55L0.75 18.25L0.95 17.55L1.45 16.85L2.65 16.15L3.45 16.15L4.15 17.05L4.15 18.05L3.05 19.45Z\"/>\n</svg>",
+  "congo-kinshasa": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 21.1 20.7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M18.45 10.85L18.65 11.75L18.55 12.35L18.75 12.95L19.35 13.45L19.95 14.85L19.45 14.65L18.15 14.85L17.85 14.95L17.55 15.65L17.75 16.15L17.55 17.35L17.45 18.45L17.75 18.65L18.45 19.05L18.75 18.85L18.85 19.95L18.05 19.95L17.65 19.35L17.25 18.95L16.45 18.75L16.25 18.25L15.55 18.55L14.75 18.45L14.45 17.95L13.75 17.85L13.25 17.85L13.25 17.55L12.85 17.55L12.35 17.45L11.75 17.65L11.25 17.55L11.05 17.65L11.15 16.45L10.75 16.05L10.65 15.35L10.85 14.75L10.65 14.35L10.65 13.75L9.35 13.75L9.45 13.35L8.95 13.35L8.85 13.55L8.25 13.55L7.95 14.15L7.85 14.45L7.25 14.25L6.85 14.45L6.25 14.55L5.85 13.95L5.55 13.65L5.25 13.05L5.05 12.25L1.95 12.25L1.65 12.35L1.35 12.35L0.85 12.45L0.75 12.15L1.05 12.05L1.05 11.55L1.25 11.35L1.55 11.15L1.85 11.25L2.25 10.85L2.75 10.85L2.85 11.15L3.25 11.25L3.85 10.65L4.45 10.15L4.65 9.85L4.65 8.95L5.15 7.95L5.55 7.45L6.25 6.95L6.35 6.65L6.45 6.25L6.55 5.85L6.55 5.25L6.65 4.35L6.85 3.75L7.15 3.15L7.25 2.55L7.35 1.85L7.75 1.25L8.25 0.95L9.15 1.35L9.75 1.65L10.55 1.85L11.35 2.05L11.65 1.35L11.75 1.25L12.25 1.45L13.35 0.85L13.75 1.15L14.15 1.05L14.25 0.85L14.65 0.75L15.45 0.85L16.05 0.85L16.45 0.75L17.05 1.65L17.55 1.75L17.75 1.55L18.25 1.65L18.85 1.45L19.05 1.85L19.95 2.55L19.95 3.75L20.35 3.85L20.05 4.25L19.65 4.55L19.25 5.05L19.05 5.55L18.95 6.35L18.75 6.75L18.75 7.55L18.45 7.85L18.35 8.45L18.25 8.55L18.15 9.05L18.35 9.55L18.45 10.85Z\"/>\n</svg>",
+  "eritrea": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 21.1 18.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M1.05 11.55L0.75 10.35L2.05 5.85L2.25 3.85L3.25 2.95L5.35 2.45L6.85 0.75L8.45 4.25L9.25 7.05L10.85 8.45L14.85 11.35L16.45 13.05L18.05 14.75L18.95 15.75L20.35 16.65L19.45 17.35L18.25 17.15L17.25 16.15L16.05 14.45L14.75 13.45L14.05 12.45L11.45 11.25L9.55 11.15L8.85 10.55L7.05 11.25L5.35 9.95L4.45 12.15L1.05 11.55Z\"/>\n</svg>",
+  "djibouti": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 19.3 21.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M16.75 14.15L15.85 15.65L14.65 17.55L13.25 19.65L12.45 19.75L11.75 19.65L11.35 19.25L10.35 18.85L9.35 18.75L8.35 19.15L6.65 19.65L5.05 19.75L3.85 20.05L2.75 20.35L1.85 20.15L1.05 19.95L0.95 17.65L0.75 15.15L0.75 13.15L0.95 12.15L1.25 11.65L2.75 10.25L3.25 9.55L4.85 7.15L6.35 5.05L7.35 3.45L7.75 3.15L8.15 2.85L8.45 2.95L10.55 4.45L10.95 4.35L11.55 3.95L12.25 2.25L12.65 1.65L12.85 1.75L14.15 1.25L15.35 0.75L15.55 1.25L17.35 3.45L17.95 4.55L18.55 6.55L18.25 7.55L17.75 8.35L17.05 8.95L14.65 10.55L11.95 11.55L10.25 13.45L8.95 13.35L9.15 14.15L9.55 14.25L10.35 14.05L11.85 13.45L13.15 13.25L14.55 13.15L15.85 13.45L16.75 14.15Z\"/>\n</svg>",
+  "ethiopia": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 21.1 16.9\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M20.35 10.15L16.65 14.05L14.85 14.15L13.75 15.05L12.85 15.15L12.55 15.55L11.65 15.55L11.05 15.05L9.85 15.65L9.45 16.15L8.55 16.05L8.35 15.95L7.95 15.95L7.55 15.95L5.95 14.85L4.95 14.85L4.55 14.35L4.55 13.65L3.85 13.45L3.05 11.95L2.45 11.65L2.25 11.15L1.55 10.45L0.75 10.35L1.25 9.65L1.95 9.55L2.15 9.15L2.05 7.95L2.45 6.55L3.05 6.25L3.25 5.65L3.75 4.65L4.55 3.95L5.15 2.65L5.35 1.45L6.85 1.75L7.25 0.75L8.05 1.35L8.85 1.05L9.15 1.25L10.05 1.35L11.25 1.85L11.55 2.35L12.15 2.75L12.75 3.55L13.15 4.05L12.75 4.65L12.25 5.25L12.35 5.65L12.35 6.05L13.15 6.05L13.45 5.95L13.75 6.15L13.45 6.65L13.95 7.35L14.45 8.05L14.95 8.55L19.25 10.15L20.35 10.15Z\"/>\n</svg>",
+  "somalia": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 15.9 21.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M12.05 1.65L12.55 1.65L13.15 1.35L13.95 1.25L14.55 0.75L15.15 0.75L15.15 1.15L15.05 1.95L15.05 2.75L14.75 3.25L14.35 4.85L13.65 6.45L12.75 8.25L11.55 10.35L10.35 11.95L8.65 13.85L7.25 15.05L5.15 16.45L3.85 17.55L2.25 19.25L1.95 20.05L1.55 20.35L0.75 19.15L0.75 14.05L1.95 12.35L2.35 11.95L3.25 11.95L4.55 10.95L6.35 10.85L10.45 6.55L9.25 6.55L4.55 4.85L4.05 4.35L3.55 3.65L2.95 2.85L3.25 2.35L3.85 1.55L4.25 1.85L4.55 2.45L5.15 3.05L5.85 3.05L7.25 2.65L8.75 2.55L10.05 2.05L10.75 1.95L11.25 1.65L12.05 1.65Z\"/>\n</svg>",
+  "south-sudan": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 21.1 16.7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M12.65 15.95L11.15 14.75L10.75 14.05L9.85 14.45L9.05 14.35L8.55 14.55L7.75 14.35L6.75 12.95L6.45 12.45L5.15 11.75L4.75 10.65L4.05 9.95L2.85 9.05L2.85 8.45L1.95 7.75L0.75 7.15L1.25 6.95L1.85 6.55L2.35 5.05L2.75 4.25L4.05 3.95L4.35 4.45L5.15 5.45L5.65 5.65L6.25 5.35L7.55 5.35L7.75 5.75L9.45 5.75L9.55 5.35L10.45 5.05L10.55 4.55L11.25 4.15L12.65 5.25L13.55 5.05L14.45 3.75L15.35 2.85L15.25 1.75L14.85 1.25L15.85 1.15L15.95 0.75L16.75 0.85L16.55 2.15L16.75 3.45L17.65 4.15L17.85 4.75L17.85 5.65L18.05 5.65L18.05 6.95L17.85 7.55L16.95 7.55L16.35 8.55L17.35 8.65L18.25 9.55L18.55 10.25L19.35 10.65L20.35 12.45L19.15 13.65L18.15 14.65L17.05 15.45L15.85 15.45L14.45 15.85L13.35 15.45L12.65 15.95Z\"/>\n</svg>",
+  "kenya": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16.9 21.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M11.05 20.35L8.25 18.45L8.15 17.35L1.15 13.35L0.85 13.15L0.75 11.15L1.35 10.35L2.25 9.05L2.95 7.65L2.15 5.45L1.95 4.55L1.05 3.15L2.15 2.05L3.45 0.75L4.45 1.05L4.45 2.15L5.15 2.75L6.45 2.75L8.95 4.45L9.55 4.45L9.95 4.35L10.45 4.65L11.65 4.75L12.25 3.95L14.05 3.15L14.75 3.85L16.15 3.85L14.45 5.95L14.45 12.95L15.55 14.55L14.25 15.35L13.75 16.15L13.05 16.35L12.75 17.65L12.15 18.45L11.75 19.75L11.05 20.35Z\"/>\n</svg>",
+  "uganda": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20.3 21.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M15.65 18.65L8.65 18.95L4.85 18.85L3.65 19.25L1.55 20.35L0.75 20.05L0.75 17.45L1.55 16.05L1.75 13.35L2.55 11.75L3.85 9.95L5.15 9.05L6.25 7.85L4.85 7.35L5.05 3.35L6.45 2.35L8.65 3.15L11.45 2.35L13.85 2.35L15.95 0.75L17.65 3.15L18.05 4.85L19.55 8.85L18.25 11.35L16.55 13.65L15.55 15.05L15.65 18.65Z\"/>\n</svg>",
+  "rwanda": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 21.1 18.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M7.75 3.95L8.05 3.95L10.15 3.45L10.35 3.55L10.75 4.55L10.85 4.65L11.15 4.75L11.75 4.55L12.85 3.75L13.25 3.25L13.85 2.65L14.55 1.85L14.95 1.25L15.35 0.85L15.85 0.75L16.45 0.75L16.75 0.85L16.45 0.95L16.45 1.45L16.75 2.15L17.95 3.75L18.75 4.05L19.25 4.65L19.75 5.65L19.85 6.85L19.65 8.45L19.75 9.55L20.25 10.35L20.35 11.25L20.15 12.45L19.85 13.15L19.55 13.35L19.25 13.45L18.75 13.45L18.25 13.55L17.65 13.75L17.25 13.75L16.95 13.75L16.55 13.55L15.85 12.95L14.45 13.25L14.15 13.25L13.65 13.55L13.25 13.85L12.95 13.95L12.75 13.85L11.55 13.15L11.15 13.15L10.95 15.15L10.85 16.35L10.55 16.85L9.75 17.35L8.95 17.55L8.45 17.55L6.65 17.75L5.95 17.75L5.55 17.55L5.05 16.45L4.05 15.85L3.15 15.65L2.75 15.75L2.45 16.35L2.25 16.85L1.35 16.45L1.15 16.05L1.05 15.25L0.75 14.25L0.95 13.75L1.35 13.45L2.05 12.95L3.15 12.15L3.45 11.75L3.55 11.15L3.55 9.75L3.45 8.55L3.55 8.05L4.05 7.15L4.75 6.15L5.55 5.15L6.05 5.05L6.65 4.75L7.35 4.15L7.75 3.95Z\"/>\n</svg>",
+  "tanzania": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 21.1 20.9\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M8.95 0.75L9.25 0.95L15.65 4.55L15.75 5.65L18.35 7.45L17.55 9.65L17.65 10.65L18.75 11.35L18.85 11.75L18.35 12.85L18.45 13.45L18.35 14.25L18.95 15.45L19.75 17.15L20.35 17.55L18.95 18.65L16.95 19.35L15.95 19.35L15.25 19.85L14.05 19.95L13.55 20.15L11.45 19.65L10.05 19.75L9.55 17.35L8.95 16.45L8.65 15.95L6.85 15.65L5.85 15.05L4.75 14.75L3.95 14.45L3.25 14.05L2.25 11.75L1.25 10.75L0.85 9.65L1.05 8.75L0.75 7.15L1.45 7.05L2.15 6.35L2.85 5.45L3.25 5.05L3.25 4.45L2.85 4.05L2.75 3.35L3.25 3.15L3.35 2.05L2.65 1.05L3.35 0.85L5.25 0.85L8.95 0.75Z\"/>\n</svg>",
+  "malawi": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 9.3 21.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M0.95 0.75L3.45 1.25L3.95 1.95L4.75 3.15L5.45 6.65L4.75 8.55L5.45 11.95L6.35 11.85L7.25 12.75L8.35 14.65L8.55 17.95L7.45 18.55L6.65 20.35L5.05 18.75L4.85 16.85L5.35 15.65L5.25 14.65L4.25 13.95L3.55 14.25L2.05 12.95L0.75 12.25L1.55 9.85L2.35 8.95L1.85 6.85L2.35 4.75L2.75 4.05L2.15 1.85L0.95 0.75Z\"/>\n</svg>",
+  "madagascar": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 11.3 21.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M9.35 1.35L9.65 1.95L10.05 2.85L10.25 4.55L10.55 5.25L10.45 5.95L10.25 6.35L9.75 5.45L9.45 5.95L9.75 6.95L9.65 7.55L9.25 7.85L9.15 9.15L8.65 10.75L7.95 12.75L7.15 15.55L6.55 17.65L5.95 19.35L4.85 19.75L3.65 20.35L2.85 19.95L1.75 19.45L1.45 18.65L1.35 17.35L0.85 16.15L0.75 15.05L0.95 14.05L1.55 13.75L1.65 13.25L2.25 12.15L2.35 11.25L2.05 10.55L1.85 9.65L1.65 8.35L2.15 7.55L2.35 6.65L3.05 6.55L3.75 6.25L4.25 6.05L4.85 6.05L5.65 5.25L6.75 4.35L7.25 3.65L7.05 3.05L7.55 3.15L8.35 2.25L8.35 1.35L8.85 0.75L9.35 1.35Z\"/>\n</svg>",
+  "comoros": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 21.1 16.9\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M19.55 11.75L20.35 13.85L20.35 15.45L20.05 15.95L19.35 15.65L18.05 14.35L15.75 13.15L16.85 13.05L17.45 13.15L18.15 13.05L18.55 12.35L18.65 11.85L19.25 11.55L19.55 11.75ZM9.25 15.25L10.25 16.15L7.35 15.75L6.85 14.95L6.85 14.25L7.95 14.45L9.25 15.25ZM4.35 8.95L4.05 9.15L2.75 8.25L1.85 8.05L0.75 6.65L1.15 1.75L1.55 1.05L1.85 0.85L2.45 0.75L3.25 1.35L3.05 4.55L4.05 6.65L4.75 8.35L4.35 8.95Z\"/>\n</svg>",
+  "seychelles": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 15.1 21.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M14.05 12.45L14.35 20.35L10.35 17.65L9.05 12.55L3.55 8.65L0.75 5.05L6.95 0.75L14.05 12.45Z\"/>\n</svg>",
+  "mauritius": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 18.1 21.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M12.45 19.25L7.95 20.35L2.95 19.95L1.05 17.95L0.75 17.15L2.35 16.35L2.25 13.75L3.15 9.65L4.15 8.05L6.65 6.55L7.65 3.25L9.85 1.05L12.55 0.75L15.35 4.85L17.35 9.15L17.05 13.35L14.95 14.95L14.35 17.45L12.45 19.25Z\"/>\n</svg>",
+  "burundi": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 17.9 21.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M14.85 1.55L14.65 1.75L13.85 3.45L13.65 3.75L13.75 3.95L14.05 4.25L13.85 4.75L13.75 4.95L13.65 5.45L13.75 5.85L13.85 6.05L14.45 6.25L15.25 6.45L16.25 6.85L16.85 6.85L17.05 7.15L16.95 7.65L17.15 8.05L17.15 8.85L16.95 9.55L15.95 9.85L15.45 10.25L15.35 10.35L15.45 10.55L15.55 10.85L14.55 11.55L13.65 12.45L13.45 13.05L13.25 13.75L12.95 14.15L12.15 14.85L11.45 16.15L11.15 16.95L9.25 18.95L7.65 19.95L7.15 20.35L4.25 20.25L4.05 18.95L3.65 17.05L2.65 15.35L2.55 14.65L2.55 13.25L2.55 11.35L2.55 10.35L2.55 9.55L2.65 8.25L2.65 7.55L2.05 6.65L1.25 5.65L0.75 5.15L0.75 4.85L0.75 4.45L0.85 3.95L1.25 3.35L1.55 3.35L2.45 3.55L3.35 4.05L3.85 5.15L4.15 5.25L4.85 5.25L6.55 5.15L6.95 5.15L7.75 4.85L8.55 4.45L8.75 3.95L8.95 2.85L9.05 0.95L9.45 0.95L10.55 1.65L10.85 1.65L11.05 1.65L11.45 1.35L11.85 1.05L12.25 1.05L13.45 0.75L14.15 1.35L14.55 1.45L14.85 1.55Z\"/>\n</svg>",
+  "mozambique": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 13.5 21.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M5.75 2.15L6.55 2.05L7.95 2.35L8.25 2.25L8.95 2.15L9.35 1.85L10.05 1.85L11.35 1.45L12.15 0.75L12.35 1.25L12.35 2.45L12.45 3.45L12.55 5.25L12.75 5.85L12.35 6.65L11.95 7.45L11.25 8.15L10.15 8.65L8.95 9.15L7.65 10.45L7.25 10.65L6.45 11.55L5.95 11.85L5.85 12.65L6.45 13.55L6.65 14.25L6.65 14.65L6.85 14.55L6.85 15.75L6.65 16.35L6.85 16.55L6.75 17.05L6.25 17.55L5.35 17.95L3.95 18.65L3.45 19.05L3.55 19.65L3.85 19.65L3.75 20.35L2.95 20.35L2.85 19.75L2.65 19.25L2.55 18.75L2.75 17.35L2.45 16.55L1.95 14.75L3.15 13.45L3.45 12.55L3.55 12.45L3.75 11.75L3.55 11.35L3.55 10.45L3.75 9.65L3.75 8.15L3.15 7.75L2.65 7.75L2.45 7.45L1.95 7.15L0.95 7.15L0.85 6.75L0.75 5.95L4.25 4.95L4.85 5.55L5.15 5.45L5.65 5.75L5.65 6.15L5.45 6.75L5.55 7.55L6.25 8.25L6.55 7.45L7.05 7.25L6.95 5.75L6.55 4.85L6.15 4.45L5.75 4.55L5.45 3.05L5.75 2.15Z\"/>\n</svg>",
+  "angola": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 21.1 20.9\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M1.85 1.05L2.45 0.85L2.95 0.95L3.45 0.75L8.15 0.75L8.55 1.95L8.95 2.85L9.35 3.35L9.95 4.25L10.95 4.05L11.45 3.85L12.35 4.05L12.65 3.65L13.05 2.75L13.95 2.75L14.05 2.45L14.85 2.45L14.75 2.95L16.65 2.95L16.65 3.95L16.95 4.55L16.75 5.55L16.85 6.55L17.45 7.15L17.35 9.05L17.75 8.85L18.35 8.95L19.35 8.65L20.05 8.75L20.25 9.25L20.05 10.05L20.35 10.85L20.15 11.45L20.25 11.95L16.95 11.95L16.85 17.15L17.95 18.45L18.95 19.55L16.05 20.15L12.25 19.95L11.15 19.15L4.85 19.25L4.55 19.35L3.65 18.55L2.55 18.55L1.65 18.85L0.85 19.15L0.75 18.15L0.95 16.65L1.55 15.15L1.55 14.45L2.15 13.05L2.45 12.35L3.35 11.25L3.85 10.55L4.05 9.35L3.95 8.45L3.55 7.85L3.05 6.95L2.65 5.95L2.75 5.65L3.25 4.95L2.75 3.45L2.45 2.45L1.65 1.35L1.85 1.05Z\"/>\n</svg>",
+  "zambia": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 21.1 18.3\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M15.75 0.85L16.45 1.35L17.05 1.55L18.15 1.85L19.15 2.45L19.95 3.15L20.35 4.65L20.05 5.05L19.75 6.45L20.05 7.95L19.55 8.55L18.95 10.15L19.85 10.55L14.75 12.05L14.95 13.25L13.65 13.55L12.65 14.25L12.45 14.85L11.85 14.95L10.45 16.45L9.45 17.55L8.85 17.55L8.35 17.35L6.45 17.15L6.15 17.05L6.15 16.95L5.45 16.55L4.35 16.45L2.95 16.85L1.85 15.75L0.75 14.25L0.85 8.75L4.35 8.75L4.25 8.15L4.45 7.45L4.15 6.65L4.35 5.85L4.15 5.35L4.75 5.35L4.85 5.85L5.65 5.85L6.75 6.05L7.25 6.75L8.65 7.05L9.65 6.45L10.05 7.35L11.35 7.65L11.95 8.35L12.65 9.35L13.95 9.35L13.85 7.45L13.35 7.75L12.15 7.15L11.75 6.85L11.95 5.05L12.25 3.05L11.85 2.25L12.35 1.15L12.75 0.95L15.05 0.75L15.75 0.85Z\"/>\n</svg>",
+  "namibia": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 21.1 20.9\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M12.75 13.05L12.75 19.15L11.45 20.05L10.65 20.15L9.75 19.85L9.05 19.65L8.85 18.95L8.25 18.55L7.55 19.35L6.45 18.05L5.85 16.85L5.55 15.25L5.15 14.05L4.65 11.65L4.65 9.65L4.45 8.85L3.85 8.15L3.15 6.85L2.35 4.95L2.05 4.05L0.85 2.55L0.75 1.35L1.45 1.05L2.35 0.75L3.25 0.85L4.15 1.55L4.35 1.45L10.35 1.35L11.35 2.05L14.95 2.25L17.65 1.65L18.85 1.35L19.75 1.45L20.35 1.75L20.35 1.85L19.55 2.25L19.05 2.25L18.15 2.85L17.55 2.25L15.35 2.75L14.25 2.75L14.15 8.35L12.75 8.45L12.75 13.05Z\"/>\n</svg>",
+  "botswana": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20.3 21.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M19.55 10.05L16.75 11.65L15.05 13.25L14.35 14.65L13.75 15.45L12.65 15.65L12.35 16.75L12.15 17.35L10.85 17.95L9.25 17.75L8.35 17.15L7.45 16.95L6.55 17.45L6.05 18.45L5.05 19.15L4.15 20.15L2.65 20.35L2.25 19.55L2.45 18.25L1.25 16.15L0.75 15.85L0.75 9.55L2.65 9.45L2.75 1.95L4.25 1.95L7.25 1.15L8.05 2.05L9.25 1.25L9.85 1.25L10.95 0.75L11.35 0.95L12.05 2.55L12.45 2.95L13.15 4.15L15.35 6.45L16.25 6.65L16.25 7.45L16.75 8.75L18.35 9.05L19.55 10.05Z\"/>\n</svg>",
+  "zimbabwe": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 21.1 19.9\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M16.05 19.15L14.65 18.85L13.85 19.15L12.55 18.75L11.55 18.65L9.85 17.45L7.85 17.05L7.15 15.25L7.15 14.25L6.05 13.95L3.05 10.95L2.25 9.35L1.75 8.85L0.75 6.75L3.65 7.05L4.45 7.35L5.35 7.25L6.75 5.55L9.05 3.25L9.95 3.05L10.25 2.15L11.75 1.05L13.65 0.75L13.85 1.75L16.05 1.65L17.25 2.25L17.75 2.85L19.05 3.05L20.35 3.95L20.35 7.35L19.85 9.25L19.75 11.35L20.15 12.15L19.85 13.75L19.45 13.95L18.75 15.95L16.05 19.15Z\"/>\n</svg>",
+  "south-africa": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 21.1 20.8\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M14.05 19.85L13.35 19.65L12.65 20.05L11.85 20.05L11.35 19.75L9.95 20.05L8.65 19.05L7.85 19.25L6.25 18.35L6.05 17.35L5.45 16.35L3.85 15.05L2.85 13.65L2.05 12.35L1.45 11.15L0.75 8.95L0.85 7.35L1.85 4.55L2.05 3.55L2.85 2.55L3.85 1.65L3.85 2.55L4.55 3.65L4.25 4.65L4.15 5.45L4.75 6.65L5.75 7.55L7.05 7.55L8.95 6.65L9.65 5.65L9.85 4.15L10.25 3.65L10.55 2.45L11.55 1.65L11.75 0.75L12.65 1.05L12.85 2.25L12.25 3.95L11.85 4.65L12.25 5.25L12.65 6.55L13.15 6.55L14.75 5.55L15.65 5.75L16.75 6.55L17.35 6.55L17.75 5.55L18.65 5.65L20.35 7.35L20.05 8.55L18.75 9.35L17.75 10.75L17.25 12.15L17.35 13.05L16.85 14.45L16.35 14.55L15.65 15.55L14.65 16.65L14.05 18.15L14.05 19.85ZM11.85 15.25L12.45 13.55L12.05 12.65L10.75 12.05L9.25 12.65L8.85 13.85L9.25 15.15L10.35 15.65L11.85 15.25Z\"/>\n</svg>",
+  "eswatini": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 13.7 21.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M6.55 0.75L7.65 1.45L8.75 2.95L9.75 3.85L10.55 4.75L11.55 5.65L11.75 6.65L11.65 8.25L11.95 8.85L12.45 10.05L12.95 11.55L12.75 11.95L11.75 12.65L10.75 12.85L10.15 13.05L9.65 13.95L8.35 14.75L7.55 15.95L6.75 16.85L5.75 17.65L4.35 17.95L3.15 19.05L2.55 19.95L1.95 20.35L0.75 19.85L1.15 18.75L1.75 17.35L2.75 16.35L3.25 14.75L3.65 13.25L3.95 11.65L3.75 10.75L3.35 8.85L2.95 6.95L3.25 5.05L3.75 3.85L4.75 2.65L5.55 1.55L6.55 0.75Z\"/>\n</svg>",
+  "lesotho": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 18.6 21.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M4.05 0.75L6.85 1.35L8.65 1.85L9.75 2.85L10.85 2.75L11.75 3.75L13.15 4.35L14.75 4.65L15.85 6.35L17.05 7.35L17.85 7.75L16.85 8.95L15.75 9.95L15.85 10.75L17.05 11.05L16.75 12.05L16.35 13.85L17.05 14.65L17.05 15.75L15.75 16.95L14.85 17.85L13.85 18.75L12.75 19.45L11.75 19.55L10.75 20.35L8.95 20.05L7.65 18.75L6.55 17.75L5.95 15.75L5.85 13.05L5.75 11.85L4.55 10.05L3.55 9.05L2.75 7.95L2.15 6.75L0.75 5.95L0.85 4.05L1.85 2.85L2.85 1.75L4.05 0.75Z\"/>\n</svg>"
+};
+
+/** `[width, height]` of each map's native viewBox. */
+export const PLUGIN_MAP_BOXES: Record<string, [number, number]> = {
+  "morocco": [
+    20.5,
+    21.1
+  ],
+  "algeria": [
+    21.1,
+    21.1
+  ],
+  "tunisia": [
+    10.7,
+    21.1
+  ],
+  "libya": [
+    21.1,
+    20.3
+  ],
+  "egypt": [
+    21.1,
+    18.9
+  ],
+  "sudan": [
+    21.1,
+    18.5
+  ],
+  "mauritania": [
+    18.9,
+    21.1
+  ],
+  "senegal": [
+    21.1,
+    15.5
+  ],
+  "gambia": [
+    21.1,
+    6.5
+  ],
+  "guinea-bissau": [
+    21.1,
+    12.9
+  ],
+  "guinea": [
+    21.1,
+    15.9
+  ],
+  "sierra-leone": [
+    20.3,
+    21.1
+  ],
+  "burkina-faso": [
+    21.1,
+    15.9
+  ],
+  "liberia": [
+    20.7,
+    21.1
+  ],
+  "mali": [
+    21.1,
+    20.1
+  ],
+  "cote-d-ivoire": [
+    20.5,
+    21.1
+  ],
+  "ghana": [
+    14.5,
+    21.1
+  ],
+  "niger": [
+    21.1,
+    17.1
+  ],
+  "nigeria": [
+    21.1,
+    17.5
+  ],
+  "togo": [
+    8.7,
+    21.1
+  ],
+  "benin": [
+    11.1,
+    21.1
+  ],
+  "cabo-verde": [
+    21.1,
+    19.7
+  ],
+  "cameroon": [
+    14.7,
+    21.1
+  ],
+  "chad": [
+    13.7,
+    21.1
+  ],
+  "central-african-republic": [
+    21.1,
+    15.1
+  ],
+  "equatorial-guinea": [
+    21.1,
+    20.5
+  ],
+  "gabon": [
+    18.9,
+    21.1
+  ],
+  "congo-brazzaville": [
+    17.9,
+    21.1
+  ],
+  "sao-tome-and-principe": [
+    13.3,
+    21.1
+  ],
+  "congo-kinshasa": [
+    21.1,
+    20.7
+  ],
+  "eritrea": [
+    21.1,
+    18.1
+  ],
+  "djibouti": [
+    19.3,
+    21.1
+  ],
+  "ethiopia": [
+    21.1,
+    16.9
+  ],
+  "somalia": [
+    15.9,
+    21.1
+  ],
+  "south-sudan": [
+    21.1,
+    16.7
+  ],
+  "kenya": [
+    16.9,
+    21.1
+  ],
+  "uganda": [
+    20.3,
+    21.1
+  ],
+  "rwanda": [
+    21.1,
+    18.5
+  ],
+  "tanzania": [
+    21.1,
+    20.9
+  ],
+  "malawi": [
+    9.3,
+    21.1
+  ],
+  "madagascar": [
+    11.3,
+    21.1
+  ],
+  "comoros": [
+    21.1,
+    16.9
+  ],
+  "seychelles": [
+    15.1,
+    21.1
+  ],
+  "mauritius": [
+    18.1,
+    21.1
+  ],
+  "burundi": [
+    17.9,
+    21.1
+  ],
+  "mozambique": [
+    13.5,
+    21.1
+  ],
+  "angola": [
+    21.1,
+    20.9
+  ],
+  "zambia": [
+    21.1,
+    18.3
+  ],
+  "namibia": [
+    21.1,
+    20.9
+  ],
+  "botswana": [
+    20.3,
+    21.1
+  ],
+  "zimbabwe": [
+    21.1,
+    19.9
+  ],
+  "south-africa": [
+    21.1,
+    20.8
+  ],
+  "eswatini": [
+    13.7,
+    21.1
+  ],
+  "lesotho": [
+    18.6,
+    21.1
+  ]
+};
+
+/** AIL's regional grouping, limited to regions that contain a map. */
+export const PLUGIN_MAP_REGIONS: Array<{ id: string; label: string }> = [
+  {
+    "id": "north-africa",
+    "label": "North Africa"
+  },
+  {
+    "id": "west-africa",
+    "label": "West Africa"
+  },
+  {
+    "id": "central-africa",
+    "label": "Central Africa"
+  },
+  {
+    "id": "east-africa",
+    "label": "East Africa"
+  },
+  {
+    "id": "southern-africa",
+    "label": "Southern Africa"
+  }
+];

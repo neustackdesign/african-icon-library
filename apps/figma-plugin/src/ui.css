@@ -22,6 +22,11 @@
   box-sizing: border-box;
 }
 
+/* `hidden` must win over the display rules below (e.g. `.bar { display: flex }`). */
+[hidden] {
+  display: none !important;
+}
+
 body {
   margin: 0;
   padding: 0 0 8px;
@@ -233,4 +238,43 @@ footer {
       background-color 120ms ease,
       border-color 120ms ease;
   }
+}
+
+/* Icons | Maps */
+.bar--mode {
+  gap: 2px;
+  padding-bottom: 0;
+}
+
+.mode {
+  flex: 1;
+  font: inherit;
+  font-weight: 600;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink-muted);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.mode[aria-pressed='true'] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--surface);
+}
+
+/* A map thumbnail keeps the country's proportions inside a fixed box. */
+.cell__map {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.grid--maps .cell__label {
+  white-space: normal;
+  text-align: center;
+  line-height: 1.25;
 }

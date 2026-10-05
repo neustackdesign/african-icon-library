@@ -8,8 +8,13 @@
     </style>
   </head>
   <body>
+    <div class="bar bar--mode" role="group" aria-label="Asset type">
+      <button id="mode-icons" type="button" class="mode" aria-pressed="true">Icons</button>
+      <button id="mode-maps" type="button" class="mode" aria-pressed="false">Maps</button>
+    </div>
+
     <header class="bar">
-      <label class="visually-hidden" for="search">Search icons</label>
+      <label id="search-label" class="visually-hidden" for="search">Search icons</label>
       <input
         id="search"
         type="search"
@@ -19,13 +24,13 @@
     </header>
 
     <div class="bar bar--filters">
-      <label class="visually-hidden" for="category">Category</label>
+      <label id="filter-label" class="visually-hidden" for="category">Category</label>
       <select id="category"></select>
       <label class="visually-hidden" for="size">Insert size</label>
       <select id="size"></select>
     </div>
 
-    <div class="bar bar--weights">
+    <div id="weights-bar" class="bar bar--weights">
       <span class="bar__label" id="weights-label">Weight</span>
       <div id="weights" class="chips" role="group" aria-labelledby="weights-label"></div>
     </div>

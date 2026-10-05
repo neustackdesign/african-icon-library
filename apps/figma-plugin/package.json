@@ -1,6 +1,6 @@
 {
   "name": "@african-icon-library/figma-plugin",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "description": "Offline Figma plugin for the African Icon Library.",
   "license": "MIT",

@@ -7,9 +7,13 @@
  */
 
 import { PLUGIN_ICONS, PLUGIN_SVG } from './generated/icon-data';
+import { PLUGIN_MAPS, PLUGIN_MAP_BOXES, PLUGIN_MAP_SVG } from './generated/map-data';
 import {
+  DEFAULT_MAP_SIZE,
+  fitToBox,
   isUiMessage,
   type ContextMessage,
+  type InsertMapRequest,
   type InsertRequest,
   type PluginMessage,
 } from './messages';
@@ -19,6 +23,7 @@ const UI_MIN_HEIGHT = 420;
 const UI_MAX_HEIGHT = 720;
 
 const iconsById = new Map(PLUGIN_ICONS.map((icon) => [icon.id, icon]));
+const mapsById = new Map(PLUGIN_MAPS.map((map) => [map.id, map]));
 
 function post(message: PluginMessage): void {
   figma.ui.postMessage(message);
@@ -63,7 +68,7 @@ function isLocked(node: BaseNode): boolean {
  * node, then the centre of the current viewport. Anything removed, locked or
  * unknown falls through to the page rather than failing.
  */
-function resolveDestination(size: number): Destination {
+function resolveDestination(width: number, height = width): Destination {
   const page = figma.currentPage;
   const viewportFallback: Destination = {
     parent: page,
@@ -98,8 +103,8 @@ function resolveDestination(size: number): Destination {
     return {
       parent: page,
       label: `beside "${node.name}"`,
-      x: box.x + box.width + 16 + size / 2,
-      y: box.y + size / 2,
+      x: box.x + box.width + 16 + width / 2,
+      y: box.y + height / 2,
     };
   }
 
@@ -153,7 +158,62 @@ function insert(request: InsertRequest): void {
   }
 
   const size = Number.isFinite(request.size) && request.size > 0 ? Math.round(request.size) : 24;
+  place({
+    svg,
+    name: icon.name,
+    noun: 'icon',
+    width: size,
+    height: size,
+    done: (where) => `Inserted ${icon.name} at ${size} px — ${where}.`,
+  });
+}
 
+/**
+ * Inserts a country map, fitted so its longest side is `request.size`.
+ *
+ * The frame is resized and its vectors follow with SCALE constraints. Figma
+ * does not scale `strokeWeight` when a frame is resized, so the outline keeps
+ * the live 1.5 stroke at every size — the same behaviour as an icon — and the
+ * map's own aspect ratio is never forced into a square.
+ */
+function insertMap(request: InsertMapRequest): void {
+  const map = mapsById.get(request.id);
+  const svg = map ? PLUGIN_MAP_SVG[map.id] : undefined;
+  const box = map ? PLUGIN_MAP_BOXES[map.id] : undefined;
+  if (!map || !svg || !box) {
+    post({ type: 'status', level: 'error', text: 'That map is not in this build of the plugin.' });
+    return;
+  }
+
+  const size =
+    Number.isFinite(request.size) && request.size > 0
+      ? Math.min(4096, Math.round(request.size))
+      : DEFAULT_MAP_SIZE;
+  const fitted = fitToBox(box[0], box[1], size);
+  place({
+    svg,
+    name: map.name,
+    noun: 'map',
+    width: fitted.width,
+    height: fitted.height,
+    // A stroke centred on the outline sits half outside it; never clip it.
+    unclipped: true,
+    done: (where) => `Inserted ${map.name} at ${size} px (longest side) — ${where}.`,
+  });
+}
+
+interface Placement {
+  svg: string;
+  name: string;
+  noun: 'icon' | 'map';
+  width: number;
+  height: number;
+  unclipped?: boolean;
+  done: (where: string) => string;
+}
+
+/** Imports, sizes and places one SVG. Shared by icons and maps. */
+function place({ svg, name, noun, width, height, unclipped, done }: Placement): void {
   let node: FrameNode;
   try {
     node = figma.createNodeFromSvg(paintForFigma(svg));
@@ -161,40 +221,37 @@ function insert(request: InsertRequest): void {
     post({
       type: 'status',
       level: 'error',
-      text: `Figma could not read that icon: ${(error as Error).message}`,
+      text: `Figma could not read that ${noun}: ${(error as Error).message}`,
     });
     return;
   }
 
   try {
-    node.name = icon.name;
-    node.resize(size, size);
-    // Keep the vectors scaling with the frame so a resized icon stays on-grid.
+    node.name = name;
+    node.resize(width, height);
+    if (unclipped && 'clipsContent' in node) node.clipsContent = false;
+    // Keep the vectors scaling with the frame so a resized drawing stays true.
     for (const child of node.children) {
       if ('constraints' in child) {
         child.constraints = { horizontal: 'SCALE', vertical: 'SCALE' };
       }
     }
 
-    const destination = resolveDestination(size);
+    const destination = resolveDestination(width, height);
     destination.parent.appendChild(node);
-    node.x = Math.round(destination.x - size / 2);
-    node.y = Math.round(destination.y - size / 2);
+    node.x = Math.round(destination.x - width / 2);
+    node.y = Math.round(destination.y - height / 2);
 
     // Selecting and scrolling are conveniences. If the document refuses them the
-    // icon is still correctly placed, so they must not undo a successful insert.
+    // drawing is still correctly placed, so they must not undo a successful insert.
     try {
       figma.currentPage.selection = [node];
       figma.viewport.scrollAndZoomIntoView([node]);
     } catch {
-      /* the icon is placed; the viewport just did not follow */
+      /* placed; the viewport just did not follow */
     }
 
-    post({
-      type: 'status',
-      level: 'info',
-      text: `Inserted ${icon.name} at ${size} px — ${destination.label}.`,
-    });
+    post({ type: 'status', level: 'info', text: done(destination.label) });
     post(describeContext());
   } catch (error) {
     // The node exists but could not be placed. Remove it rather than leaving an
@@ -207,7 +264,7 @@ function insert(request: InsertRequest): void {
     post({
       type: 'status',
       level: 'error',
-      text: `Could not place the icon: ${(error as Error).message}`,
+      text: `Could not place the ${noun}: ${(error as Error).message}`,
     });
   }
 }
@@ -232,6 +289,9 @@ figma.ui.onmessage = (message: unknown) => {
     }
     case 'insert':
       insert(message);
+      return;
+    case 'insert-map':
+      insertMap(message);
       return;
   }
 };

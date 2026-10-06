@@ -6,7 +6,8 @@ A free, open-source SVG icon library for African everyday life — starting with
 
 - **Website** — [icons.neustackstudio.com](https://icons.neustackstudio.com)
 - **Downloads** — complete SVG bundle, category packs and metadata from the website
-- **Figma** — Community file and plugin are generated from the same canonical release set; publication is pending
+- **Figma** — [Community file](https://www.figma.com/community/file/1688005719745631513/african-icon-library-v2) and [plugin](https://www.figma.com/community/plugin/1687997071772751842/african-icon-library), generated from the same canonical release set
+- **npm** — `@african-icon-library/react`, `icons`, `maps` and `metadata` (see [Packages](#packages))
 - **Source SVGs** — `packages/icons/svg/regular` (icons), `packages/maps/svg` (country maps)
 - **Metadata** — `packages/metadata`
 
@@ -48,6 +49,20 @@ renderMapSvg('nigeria', { size: 128, title: 'Nigeria' });
 ```
 
 Downloads: `african-icon-library-maps-<version>.zip` (maps only) and `african-icon-library-complete-<version>.zip` (icons and maps). The icon-only ZIP is unchanged.
+
+## Packages
+
+Four public packages, released together at the same version:
+
+```bash
+npm install @african-icon-library/react     # React icon components
+npm install @african-icon-library/icons     # canonical icon SVGs and render helpers
+npm install @african-icon-library/maps      # country-map SVGs and render helpers
+npm install @african-icon-library/metadata  # typed icon, category and map metadata and search
+```
+
+`@african-icon-library/react` provides icon components only; country maps are used through
+`@african-icon-library/maps`.
 
 ## Use the icons
 
@@ -94,7 +109,10 @@ The regular weight is the V2 baseline. Additional weights should be deliberately
 
 ## Figma
 
-The Community file and plugin are generated from the same canonical released set as the website. Figma publication is still pending; the repository remains the source of truth so there is no separate Figma-only fork of V2.
+- **Community file** — [African Icon Library on Figma Community](https://www.figma.com/community/file/1688005719745631513/african-icon-library-v2)
+- **Plugin** — [African Icon Library plugin](https://www.figma.com/community/plugin/1687997071772751842/african-icon-library): Icons and Maps modes, offline
+
+Both are generated from the same canonical released set as the website. The repository remains the source of truth: changes are made here and regenerated, never edited only in Figma.
 
 Publishing guidance lives in:
 

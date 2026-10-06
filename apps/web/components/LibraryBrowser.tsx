@@ -1,6 +1,6 @@
 'use client';
 
-import type { Category } from '@african-icon-library/metadata';
+import type { PublicCategory as Category } from '@/lib/public-icon';
 
 import type { BrowserMap } from '@/lib/maps';
 

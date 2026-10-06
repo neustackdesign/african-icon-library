@@ -1,6 +1,6 @@
 name: Release
 
-# Publishes the three packages to npm and attaches the release artefacts.
+# Publishes the four packages (metadata, icons, maps, react) to npm and attaches the release artefacts.
 #
 # This exists so publishing never depends on a token passing through a person's
 # hands. Two routes are supported, in order of preference:
@@ -80,7 +80,7 @@ jobs:
               exit 1
             fi
           done
-          echo "all three packages are $tag"
+          echo "all four packages are $tag"
 
       # `npm run check` already builds these, but rebuilding here makes the
       # artefacts that get attached unambiguously the ones this run produced.
@@ -173,7 +173,7 @@ jobs:
           echo "Artefacts that a tagged run would attach:"
           ls -1 release/*.zip release/*.json release/figma/*.zip | sed 's|^|  |'
           echo
-          echo "Packing the three packages:"
+          echo "Packing the four packages:"
           for pkg in metadata icons maps react; do
             npm pack -w "@african-icon-library/$pkg" --pack-destination /tmp
           done

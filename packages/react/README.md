@@ -1,8 +1,13 @@
 # @african-icon-library/react
 
-Generated React components for the [African Icon Library](https://github.com/neustackdesign/african-icon-library).
+Generated React icon components for the [African Icon Library](https://github.com/neustackdesign/african-icon-library).
 
-> **Not published to npm yet.** Build it from the repository: `npm install && npm run build`.
+This package provides **icons only**. Country maps (v0.3.0) are not React components; use
+[`@african-icon-library/maps`](../maps) (`renderMapSvg`, `fitMapSize`) to get each map as an SVG string.
+
+```bash
+npm install @african-icon-library/react
+```
 
 ## Usage
 

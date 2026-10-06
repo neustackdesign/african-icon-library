@@ -2,7 +2,9 @@
 
 Canonical, typed metadata for the [African Icon Library](https://github.com/neustackdesign/african-icon-library).
 
-> **Not published to npm yet.** Build it from the repository: `npm install && npm run build`.
+```bash
+npm install @african-icon-library/metadata
+```
 
 ## Usage
 

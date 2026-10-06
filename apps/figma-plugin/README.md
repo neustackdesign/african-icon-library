@@ -62,5 +62,6 @@ insert time. The asset on disk keeps `currentColor`.
 ## Publishing
 
 Listing copy, tags, support contact, cover requirements and the carousel plan are in
-[docs/figma-plugin-publishing.md](../../docs/figma-plugin-publishing.md). Nothing has been
-published; Figma assigns the plugin id at publish time, replacing the placeholder in the manifest.
+[docs/figma-plugin-publishing.md](../../docs/figma-plugin-publishing.md). The plugin is live as
+[African Icon Library](https://www.figma.com/community/plugin/1687997071772751842/african-icon-library)
+(id `1687997071772751842`); new releases are published as updates to it.

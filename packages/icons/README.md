@@ -2,12 +2,14 @@
 
 Canonical SVG assets for the [African Icon Library](https://github.com/neustackdesign/african-icon-library).
 
-> **Not published to npm yet.** Build it from the repository: `npm install && npm run build`.
+```bash
+npm install @african-icon-library/icons
+```
 
 ## What is in here
 
 ```
-svg/regular/*.svg    32 released drawings, 24 x 24, currentColor
+svg/regular/*.svg    30 released drawings, 24 x 24, currentColor
 staging/regular/     drawn but held from release — never exported
 superseded/regular/  v3 originals a later redraw replaced, kept for the record
 src/generated/       the drawings compiled into a module

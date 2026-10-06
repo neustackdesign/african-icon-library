@@ -58,6 +58,11 @@ jobs:
       - name: Build
         run: npm run build
 
+      # Internal icon provenance (audit filenames, verdicts, reviewer notes)
+      # must never reach a built page, RSC payload or client bundle.
+      - name: Scan the built website for internal metadata
+        run: npm run verify:public-site
+
       # Packs the publishable packages and installs them into a throwaway
       # consumer. `files`, `exports` and type resolution all look correct in the
       # repository and break the moment someone installs the tarball.

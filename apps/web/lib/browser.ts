@@ -1,4 +1,9 @@
-import { searchIcons, searchMaps } from '@african-icon-library/metadata';
+import type { Icon } from '@african-icon-library/metadata';
+
+// The search functions only, straight from their module: importing the
+// metadata package index from client code would bundle every canonical
+// record, internal provenance included, into the browser.
+import { searchIcons, searchMaps } from '../../../packages/metadata/src/search';
 
 import type { BrowserIcon } from './icons';
 
@@ -16,7 +21,8 @@ export function filterEntries(
 ): BrowserIcon[] {
   const byId = new Map(entries.map((entry) => [entry.icon.id, entry]));
   const results = searchIcons(
-    entries.map((entry) => entry.icon),
+    // Search reads only public fields (id, name, keywords, local names, description).
+    entries.map((entry) => entry.icon) as unknown as Icon[],
     query,
     { category: category === 'all' ? null : category },
   );

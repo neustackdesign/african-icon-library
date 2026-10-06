@@ -1,10 +1,12 @@
 import { getIconBody, renderIconSvg } from '@african-icon-library/icons';
-import { categories, icons, type Category, type Icon } from '@african-icon-library/metadata';
+import { categories, icons } from '@african-icon-library/metadata';
 
 import { CATEGORY_SYSTEM, categoryColour, categoryRank } from './brand';
+import { toPublicIcon, type PublicCategory, type PublicIcon } from './public-icon';
 
 export interface BrowserIcon {
-  icon: Icon;
+  /** Public fields only: internal provenance never reaches the browser. */
+  icon: PublicIcon;
   /** Inner markup for the regular weight. Injected as SVG, never as HTML. */
   body: string;
   /** The complete, copyable SVG document. */
@@ -36,17 +38,21 @@ export function browserEntries(): BrowserIcon[] {
       (a, b) => categoryRank(a.icon.category) - categoryRank(b.icon.category) || a.index - b.index,
     )
     .map(({ icon }) => ({
-      icon,
+      icon: toPublicIcon(icon),
       body: getIconBody(icon.id) ?? '',
       svg: renderIconSvg(icon.id, { title: icon.name }) ?? '',
     }));
 }
 
 /** Categories that contain at least one released icon — no empty filters — in V3 order. */
-export function populatedCategories(): Category[] {
-  return categories
-    .filter((category) => icons.some((icon) => icon.category === category.id))
-    .sort((a, b) => categoryRank(a.id) - categoryRank(b.id));
+export function populatedCategories(): PublicCategory[] {
+  return (
+    categories
+      .filter((category) => icons.some((icon) => icon.category === category.id))
+      .sort((a, b) => categoryRank(a.id) - categoryRank(b.id))
+      // Public fields only; `auditKey` is an internal audit cross-reference.
+      .map(({ id, label, description }) => ({ id, label, description }))
+  );
 }
 
 /** The category index: one row per populated category, built from canonical data. */

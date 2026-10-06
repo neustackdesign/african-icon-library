@@ -3,7 +3,9 @@
 Canonical SVG country maps for the [African Icon Library](https://github.com/neustackdesign/african-icon-library):
 one outline for each of 54 African countries, in the library's line language.
 
-> **Not published to npm yet.** Build it from the repository: `npm install && npm run build`.
+```bash
+npm install @african-icon-library/maps
+```
 
 Maps are a separate asset type from icons, not an icon category. Metadata — names, ISO 3166-1
 codes, AIL's regional grouping, aliases — lives in `@african-icon-library/metadata` as `maps`.

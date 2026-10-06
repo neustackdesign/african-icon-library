@@ -18,12 +18,14 @@ Pages, in this order, numbered contiguously:
 00 — Start Here
 01 — All Icons
 02 … NN — one page per populated category group
-NN — Components
+NN — Country Maps
+NN — Components — Icons
+NN — Components — Maps
 NN — Names & Cultural Notes
 NN — Licence & Contributions
 ```
 
-With every category group populated that is:
+For v0.3.0 (30 icons, 54 country maps), with every category group populated, that is:
 
 ```
 00 — Start Here
@@ -34,13 +36,16 @@ With every category group populated that is:
 05 — Music, Art & Play
 06 — Transport
 07 — Everyday Life & Commerce
-08 — Components
-09 — Names & Cultural Notes
-10 — Licence & Contributions
+08 — Country Maps
+09 — Components — Icons
+10 — Components — Maps
+11 — Names & Cultural Notes
+12 — Licence & Contributions
 ```
 
 A category group with no released icon gets **no page**, and the numbers close up behind it — so
-`Components` is only `08` while all six groups are populated. Nothing about the page list is
+`Country Maps` is only `08` while all six groups are populated. With no released maps, the two map
+pages are left out and the icon components page is called `Components`. Nothing about the page list is
 hard-coded; it is derived from the icons in the build every time it runs.
 
 On top of the pages it produces, on `00 — Start Here`:
@@ -79,9 +84,16 @@ The mapping lives in `src/plan.ts` (`CATEGORY_PAGE_SPECS`) and is restated indep
 `tests/figma-community-builder.test.ts`, so changing it in one place fails the test rather than
 silently making this table wrong.
 
+## Country Maps
+
+`Country Maps` shows every released country map in sections by AIL's regional grouping (North,
+West, Central, East and Southern Africa), each map at its real proportions with its name and ISO
+codes. The cover strip and a dedicated carousel slide announce the maps; their counts are read from
+the generated data.
+
 ## Components
 
-One component per released icon on the `Components` page, named
+One component per released icon on the `Components — Icons` page, named
 `african-icons/<category-id>/<icon-id>` — so Figma's asset panel nests them by category and the
 names correspond exactly to ids in `packages/metadata/src/data/icons.json`.
 
@@ -95,6 +107,11 @@ the Components page says so in as many words. A one-value `Weight=Regular` prope
 other three weights exist somewhere in the file; they do not. The builder never creates a variant
 for a weight nobody has drawn, even if the metadata claims it.
 
+One component per released map on the `Components — Maps` page, named `ail/maps/<id>` — e.g.
+`ail/maps/nigeria`. Each is fitted so its longest side is 24 and the other side follows the map's
+real proportions; geography is never stretched to a square. Clip content is off, vectors are
+constrained to `Scale`, and the component holds the outline only — no text.
+
 Every icon on `01 — All Icons`, on the category pages, on the cover, on the name cards and in the
 Community frames is an **instance** of one of these components. Nothing is a copy.
 
@@ -104,6 +121,8 @@ The builder imports:
 
 - `../../figma-plugin/src/generated/icon-data` — `PLUGIN_ICONS`, `PLUGIN_SVG`, `PLUGIN_CATEGORIES`
   and `PLUGIN_WEIGHTS`, the module `npm run generate` writes for the public plugin;
+- `../../figma-plugin/src/generated/map-data` — `PLUGIN_MAPS`, `PLUGIN_MAP_SVG`,
+  `PLUGIN_MAP_BOXES` and `PLUGIN_MAP_REGIONS`, likewise generated for the public plugin;
 - `@african-icon-library/metadata` — category descriptions, region labels and the pipeline summary.
 
 Reusing the public plugin's generated module is deliberate: a second generator would be a second
@@ -111,7 +130,7 @@ thing to keep in sync, and the first release where they disagreed would ship a C
 contradicted the plugin. There is therefore **no new generator** and nothing to add to
 `npm run generate`.
 
-Nothing in `src/` writes down an icon id, an icon count or a category list. Sixteen icons or sixty,
+Nothing in `src/` writes down an icon or map id, an icon or map count, or a category list. Sixteen icons or sixty,
 the same code produces the correct file.
 
 Before building, make sure the data is current:

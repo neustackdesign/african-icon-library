@@ -1,11 +1,15 @@
 import { icons, maps, pipeline } from '@african-icon-library/metadata';
 
+import { NAV, REPOSITORY_URL } from './nav';
+
+export { NAV };
+
 /** Public release facts derived from the canonical library data. */
 export const SITE = {
   name: 'African Icon Library',
   shortName: 'African Icons',
   url: 'https://icons.neustackstudio.com',
-  repository: 'https://github.com/neustackdesign/african-icon-library',
+  repository: REPOSITORY_URL,
   issues: 'https://github.com/neustackdesign/african-icon-library/issues',
   newIssue: 'https://github.com/neustackdesign/african-icon-library/issues/new/choose',
   maintainer: 'Neustack Design',
@@ -34,14 +38,6 @@ export const DOWNLOADS = {
   metadata: `/downloads/african-icon-library-metadata-${LIBRARY.version}.json`,
   manifest: '/downloads/manifest.json',
 } as const;
-
-export const NAV = [
-  { href: '/#browse', label: 'Icons' },
-  { href: '/#maps', label: 'Maps' },
-  { href: '/downloads', label: 'Downloads' },
-  { href: '/spec', label: 'Spec' },
-  { href: '/changelog', label: 'Releases' },
-] as const;
 
 /** Issue forms in `.github/ISSUE_TEMPLATE`, linked directly so each route lands on its form. */
 export const ISSUE_FORMS = {

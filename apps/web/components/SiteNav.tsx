@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
-import { NAV, SITE } from '@/lib/site';
+import { NAV, REPOSITORY_URL } from '@/lib/nav';
 
 import { TrackedLink } from './TrackedLink';
 
@@ -51,7 +51,7 @@ export function SiteNav({ badge }: { badge: string }) {
       ))}
       <li>
         <TrackedLink
-          href={SITE.repository}
+          href={REPOSITORY_URL}
           rel="noreferrer noopener"
           event="github_click"
           surface={surface}

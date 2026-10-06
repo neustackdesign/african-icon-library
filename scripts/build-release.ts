@@ -5,7 +5,9 @@
  * icon spec must never reach a download page. Output is deterministic, so the
  * published checksums are verifiable.
  *
- *   release/african-icon-library-icons-<version>.zip
+ *   release/african-icon-library-icons-<version>.zip      icons only, unchanged layout
+ *   release/african-icon-library-maps-<version>.zip       country maps
+ *   release/african-icon-library-complete-<version>.zip   icons + maps in one archive
  *   release/african-icon-library-metadata-<version>.json
  *   release/manifest.json
  *   apps/web/public/downloads/…   (copies the website links to)
@@ -15,8 +17,23 @@ import { createHash } from 'node:crypto';
 import { mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
-import { PATHS, ROOT, listSvgAssets, loadCategories, loadIcons, relative } from './lib/repo.ts';
-import { validateAsset, validateCollection } from './lib/validate.ts';
+import {
+  PATHS,
+  ROOT,
+  listMapAssets,
+  listSvgAssets,
+  loadCategories,
+  loadIcons,
+  loadMapRegions,
+  loadMaps,
+  relative,
+} from './lib/repo.ts';
+import {
+  validateAsset,
+  validateCollection,
+  validateMapAsset,
+  validateMapCollection,
+} from './lib/validate.ts';
 import { createZip, type ZipEntry } from './lib/zip.ts';
 
 const WEB_DOWNLOADS = path.join(ROOT, 'apps/web/public/downloads');
@@ -31,16 +48,23 @@ async function run(): Promise<number> {
   };
   const version = rootPackage.version;
 
-  const [categories, icons, assets, stagingAssets] = await Promise.all([
-    loadCategories(),
-    loadIcons(),
-    listSvgAssets(PATHS.iconsSvgRoot),
-    listSvgAssets(PATHS.iconsStagingRoot),
-  ]);
+  const [categories, icons, assets, stagingAssets, maps, mapRegions, mapAssets] = await Promise.all(
+    [
+      loadCategories(),
+      loadIcons(),
+      listSvgAssets(PATHS.iconsSvgRoot),
+      listSvgAssets(PATHS.iconsStagingRoot),
+      loadMaps(),
+      loadMapRegions(),
+      listMapAssets(),
+    ],
+  );
 
   const findings = [
     ...assets.flatMap((asset) => validateAsset(asset)),
     ...validateCollection({ icons, categories, assets, stagingAssets }),
+    ...mapAssets.flatMap((asset) => validateMapAsset(asset)),
+    ...validateMapCollection({ maps, regions: mapRegions, assets: mapAssets }),
   ].filter((finding) => finding.severity === 'error');
 
   if (findings.length > 0) {
@@ -96,7 +120,73 @@ async function run(): Promise<number> {
   ];
 
   const zip = createZip(entries);
-  const metadataJson = Buffer.from(`${JSON.stringify(metadata, null, 2)}\n`, 'utf8');
+
+  /* ---------------- country maps ---------------- */
+
+  const mapAssetsById = new Map(mapAssets.map((asset) => [asset.id, asset]));
+  const mapMetadata = { version, generatedFrom: 'packages/metadata/src/data', maps, mapRegions };
+  const mapsReadme = [
+    `African Icon Library — country maps, version ${version}`,
+    '',
+    `${maps.length} outline maps of African countries, grouped by the library's own regional grouping.`,
+    '',
+    'Every file is a standalone SVG at its own real proportions (its own viewBox, never',
+    'forced into a square), drawn with a 1.5 stroke, round caps and joins, painting with',
+    '`currentColor`. No text, no transforms, no background.',
+    '',
+    'Layout:',
+    '  svg/<country-id>.svg   the maps',
+    '  metadata.json          names, ISO 3166-1 codes, regions and aliases',
+    '  LICENSE                MIT',
+    '',
+    'Full documentation: https://icons.neustackstudio.com',
+    '',
+  ].join('\n');
+  const mapEntries = (root: string): ZipEntry[] =>
+    maps.map((map) => ({
+      path: `${root}/svg/${map.id}.svg`,
+      contents: mapAssetsById.get(map.id)?.source ?? '',
+    }));
+  const mapsRoot = `african-icon-library-maps-${version}`;
+  const mapsZip = createZip([
+    ...mapEntries(mapsRoot),
+    { path: `${mapsRoot}/metadata.json`, contents: `${JSON.stringify(mapMetadata, null, 2)}\n` },
+    { path: `${mapsRoot}/LICENSE`, contents: licence },
+    { path: `${mapsRoot}/README.txt`, contents: mapsReadme },
+  ]);
+
+  /* ---------------- complete library: icons + maps ---------------- */
+
+  const completeRoot = `african-icon-library-complete-${version}`;
+  const completeMetadata = { ...metadata, maps, mapRegions };
+  const completeZip = createZip([
+    ...assets.map((asset) => ({
+      path: `${completeRoot}/icons/svg/${asset.weight}/${asset.id}.svg`,
+      contents: asset.source,
+    })),
+    ...mapEntries(`${completeRoot}/maps`),
+    {
+      path: `${completeRoot}/metadata.json`,
+      contents: `${JSON.stringify(completeMetadata, null, 2)}\n`,
+    },
+    { path: `${completeRoot}/LICENSE`, contents: licence },
+    {
+      path: `${completeRoot}/README.txt`,
+      contents: [
+        `African Icon Library — complete library, version ${version}`,
+        '',
+        `${icons.length} icons (icons/svg/<weight>/) and ${maps.length} country maps (maps/svg/).`,
+        'metadata.json carries both. See the icons and maps archives for each on its own.',
+        '',
+      ].join('\n'),
+    },
+  ]);
+
+  // The standalone metadata file grows a `maps` key; existing keys are unchanged.
+  const metadataJson = Buffer.from(
+    `${JSON.stringify({ ...metadata, maps, mapRegions }, null, 2)}\n`,
+    'utf8',
+  );
 
   // One pack per category that actually contains released icons. A pack for an
   // empty category would be a download that promises something it cannot give.
@@ -130,6 +220,8 @@ async function run(): Promise<number> {
 
   const artefacts = [
     { name: `african-icon-library-icons-${version}.zip`, contents: zip },
+    { name: `african-icon-library-maps-${version}.zip`, contents: mapsZip },
+    { name: `african-icon-library-complete-${version}.zip`, contents: completeZip },
     { name: `african-icon-library-metadata-${version}.json`, contents: metadataJson },
     ...categoryPacks.map((pack) => ({ name: pack.name, contents: pack.contents })),
   ];
@@ -149,6 +241,14 @@ async function run(): Promise<number> {
     version,
     icons: icons.length,
     weights: [...new Set(icons.flatMap((icon) => icon.weights))].sort(),
+    maps: maps.length,
+    mapRegions: mapRegions.map((region) => ({
+      id: region.id,
+      label: region.label,
+      maps: maps.filter((map) => map.region === region.id).length,
+    })),
+    mapsFile: `african-icon-library-maps-${version}.zip`,
+    completeFile: `african-icon-library-complete-${version}.zip`,
     categories: categoryPacks.map((pack) => ({
       id: pack.categoryId,
       label: pack.categoryLabel,
@@ -173,7 +273,7 @@ async function run(): Promise<number> {
 
   process.stdout.write(
     [
-      `release ${version} — ${icons.length} icons, ${entries.length} files, ${categoryPacks.length} category packs`,
+      `release ${version} — ${icons.length} icons, ${maps.length} maps, ${categoryPacks.length} category packs`,
       ...manifest.artefacts.map(
         (artefact) =>
           `  ${artefact.name}  ${artefact.bytes} bytes  sha256:${artefact.sha256.slice(0, 16)}…`,

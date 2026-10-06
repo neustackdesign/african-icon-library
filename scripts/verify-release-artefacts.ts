@@ -16,7 +16,7 @@ import { createHash } from 'node:crypto';
 import { readFile, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 
-import { ROOT, relative } from './lib/repo.ts';
+import { ROOT, listMapAssets, relative } from './lib/repo.ts';
 
 const RELEASE_DIR = path.join(ROOT, 'release');
 const MANIFEST = path.join(RELEASE_DIR, 'manifest.json');
@@ -38,6 +38,9 @@ interface Artefact {
 interface Manifest {
   version: string;
   icons: number;
+  maps?: number;
+  mapsFile?: string;
+  completeFile?: string;
   categories: unknown[];
   artefacts: Artefact[];
 }
@@ -102,6 +105,25 @@ async function main(): Promise<number> {
       );
     }
   }
+
+  /* Country maps ship as their own archive and inside the complete bundle; the
+     icon-only archive must stay icon-only. */
+  const mapAssets = await listMapAssets();
+  if (manifest.maps !== mapAssets.length) {
+    problems.push(
+      `manifest counts ${manifest.maps} maps, packages/maps/svg has ${mapAssets.length}`,
+    );
+  }
+  for (const key of ['mapsFile', 'completeFile'] as const) {
+    const name = manifest[key];
+    if (!name || !named.has(name))
+      problems.push(`manifest ${key} is missing or carries no checksum`);
+  }
+  const iconZipName = `african-icon-library-icons-${manifest.version}.zip`;
+  const iconZip = await readFile(path.join(RELEASE_DIR, iconZipName)).catch(() => null);
+  if (!iconZip) problems.push(`${iconZipName}: missing`);
+  else if (iconZip.includes('maps/svg/') || iconZip.includes('ail/maps'))
+    problems.push(`${iconZipName}: the icon-only archive contains maps`);
 
   if (problems.length > 0) {
     process.stderr.write(

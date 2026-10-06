@@ -568,3 +568,141 @@ export function summarise(findings: readonly Finding[]): { errors: number; warni
     warnings: findings.filter((finding) => finding.severity === 'warning').length,
   };
 }
+
+/* ------------------------------------------------------------------ *
+ * Country maps
+ *
+ * Maps share the safety rules (allow-listed elements, no text, no ids,
+ * classes, styles, scripts or transforms, no hard-coded colour) but not the
+ * 24-unit canvas: each map keeps its own viewBox and aspect ratio.
+ * ------------------------------------------------------------------ */
+
+const MAP_ROOT_ATTRIBUTES: Record<string, string | RegExp> = {
+  xmlns: 'http://www.w3.org/2000/svg',
+  viewBox: /^0 0 \d+(?:\.\d+)? \d+(?:\.\d+)?$/,
+  fill: 'none',
+  stroke: 'currentColor',
+  'stroke-width': String(STROKE_WIDTH),
+  'stroke-linecap': 'round',
+  'stroke-linejoin': 'round',
+};
+
+export function validateMapAsset(asset: { file: string; source: string }): Finding[] {
+  const target = `maps/${path.basename(asset.file)}`;
+  let root: SvgNode;
+  try {
+    root = parseSvg(asset.source);
+  } catch (error) {
+    return [{ rule: 'svg-parse', severity: 'error', target, message: (error as Error).message }];
+  }
+  if (root.tag !== 'svg') {
+    return [{ rule: 'svg-parse', severity: 'error', target, message: `root is <${root.tag}>` }];
+  }
+
+  const findings: Finding[] = [];
+  for (const [name, expected] of Object.entries(MAP_ROOT_ATTRIBUTES)) {
+    const value = root.attributes[name];
+    const ok = typeof expected === 'string' ? value === expected : expected.test(value ?? '');
+    if (!ok) {
+      findings.push({
+        rule: 'map-root',
+        severity: 'error',
+        target,
+        message: `root ${name}="${value ?? ''}" does not match the map template`,
+      });
+    }
+  }
+  const extra = Object.keys(root.attributes).filter((name) => !(name in MAP_ROOT_ATTRIBUTES));
+  if (extra.length > 0) {
+    findings.push({
+      rule: 'map-root',
+      severity: 'error',
+      target,
+      message: `root carries attributes outside the map template: ${extra.join(', ')}`,
+    });
+  }
+
+  const shapes = root.children;
+  if (shapes.length !== 1 || shapes[0]?.tag !== 'path') {
+    findings.push({
+      rule: 'map-structure',
+      severity: 'error',
+      target,
+      message: 'a map is exactly one <path> (islands are further closed sub-paths)',
+    });
+  }
+  const d = shapes[0]?.attributes.d ?? '';
+  const moves = (d.match(/M/gi) ?? []).length;
+  const closes = (d.match(/Z/gi) ?? []).length;
+  if (moves === 0 || moves !== closes) {
+    findings.push({
+      rule: 'map-structure',
+      severity: 'error',
+      target,
+      message: `${moves} sub-path(s) but ${closes} close(s); every outline must be closed`,
+    });
+  }
+
+  findings.push(...findingsForElements(root, target), ...findingsForAttributes(root, target));
+
+  const match = /^0 0 ([\d.]+) ([\d.]+)$/.exec(root.attributes.viewBox ?? '');
+  if (match) {
+    const [width, height] = [Number(match[1]), Number(match[2])];
+    const { stroked } = measureAsset(root);
+    const epsilon = 0.001;
+    if (
+      stroked.minX < -epsilon ||
+      stroked.minY < -epsilon ||
+      stroked.maxX > width + epsilon ||
+      stroked.maxY > height + epsilon
+    ) {
+      findings.push({
+        rule: 'map-bounds',
+        severity: 'error',
+        target,
+        message: 'the stroke reaches outside the viewBox, so caps or joins would clip',
+      });
+    }
+  }
+  return findings;
+}
+
+export interface MapCollectionInput {
+  maps: readonly { id: string; iso2: string; iso3: string; region: string }[];
+  regions: readonly { id: string }[];
+  assets: readonly { id: string; file: string }[];
+}
+
+export function validateMapCollection(input: MapCollectionInput): Finding[] {
+  const findings: Finding[] = [];
+  const error = (target: string, rule: string, message: string) =>
+    findings.push({ rule, severity: 'error', target, message });
+
+  for (const key of ['id', 'iso2', 'iso3'] as const) {
+    const seen = new Map<string, string>();
+    for (const map of input.maps) {
+      const value = map[key];
+      if (seen.has(value))
+        error(
+          `maps/${map.id}`,
+          `map-duplicate-${key}`,
+          `${key} "${value}" is also used by ${seen.get(value)}`,
+        );
+      seen.set(value, map.id);
+    }
+  }
+  const regionIds = new Set(input.regions.map((region) => region.id));
+  const assetIds = new Set(input.assets.map((asset) => asset.id));
+  const mapIds = new Set(input.maps.map((map) => map.id));
+  for (const map of input.maps) {
+    if (!regionIds.has(map.region))
+      error(`maps/${map.id}`, 'map-region', `region "${map.region}" is not in map-regions.json`);
+    if (!assetIds.has(map.id))
+      error(`maps/${map.id}`, 'map-missing-asset', `no packages/maps/svg/${map.id}.svg`);
+  }
+  for (const asset of input.assets) {
+    if (!mapIds.has(asset.id))
+      error(`maps/${asset.id}.svg`, 'map-orphan-asset', 'no maps.json record for this SVG');
+  }
+  return findings;
+}

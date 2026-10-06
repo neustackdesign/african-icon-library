@@ -35,6 +35,7 @@ import {
   CAROUSEL_COPY,
   CONFIRMED_BADGE,
   LINKS,
+  MAPS_SLIDE_COPY,
   MAX_CAROUSEL_SLIDES,
   NAMES_INTRO,
   PENDING_BADGE,
@@ -42,12 +43,15 @@ import {
   coverSubtitle,
   honestCounts,
   licenceBlocks,
+  mapsSlideSubtitle,
   startHereBlocks,
   tagline,
   type Block,
 } from './copy';
 import {
   LIBRARY_NAME,
+  MAP_COMPONENT_SIZE,
+  PLUGIN_MAP_SVG,
   PLUGIN_SVG,
   allIconSections,
   anyIconHasMultipleWeights,
@@ -56,17 +60,22 @@ import {
   drawnWeights,
   fragmentIcons,
   libraryVersion,
+  mapComponentName,
+  mapFrame,
+  mapSections,
   planPages,
   preferredIcon,
   regionLabel,
   releasedIcons,
+  releasedMaps,
   undrawnWeights,
   weightLabel,
+  type MapSection,
   type PlannedPage,
   type Section,
 } from './plan';
 import { badge, column, eyebrow, frame, row, rule, text, wrapGrid } from './nodes';
-import type { Icon } from '@african-icon-library/metadata';
+import type { CountryMap, Icon } from '@african-icon-library/metadata';
 
 /* ------------------------------------------------------------------ *
  * The marker
@@ -85,6 +94,7 @@ export interface BuildRecord {
   builtAt: string;
   pages: string[];
   icons: number;
+  maps?: number;
 }
 
 export function readMarker(): BuildRecord | null {
@@ -425,6 +435,104 @@ class Placer {
 }
 
 /* ------------------------------------------------------------------ *
+ * Country maps
+ * ------------------------------------------------------------------ */
+
+/**
+ * One component per country map, named `ail/maps/<id>`.
+ *
+ * The imported vectors are scaled with the frame (SCALE constraints, set
+ * before the resize) so the component's longest side matches the icons' 24 px
+ * frame and its other side keeps the country's proportions. Figma does not
+ * scale `strokeWeight` on resize, so the live 1.5 stroke survives. No text is
+ * ever placed inside a map component.
+ */
+function mapComponentFromSvg(map: CountryMap): ComponentNode | null {
+  const svg = PLUGIN_MAP_SVG[map.id];
+  if (!svg) return null;
+
+  let imported: FrameNode;
+  try {
+    imported = figma.createNodeFromSvg(paintForFigma(svg));
+  } catch {
+    return null;
+  }
+
+  const size = mapFrame(map, MAP_COMPONENT_SIZE);
+  for (const child of imported.children) {
+    if ('constraints' in child) child.constraints = { horizontal: 'SCALE', vertical: 'SCALE' };
+  }
+  imported.resize(size.width, size.height);
+
+  const component = figma.createComponent();
+  component.name = mapComponentName(map);
+  component.resize(size.width, size.height);
+  // A stroke centred on the outline sits half outside it; never clip it.
+  component.clipsContent = false;
+  component.description = `${map.name} (${map.iso3}) — outline map. ${LIBRARY_NAME}.`;
+
+  for (const child of [...imported.children]) {
+    component.appendChild(child);
+    if ('constraints' in child) {
+      child.constraints = { horizontal: 'SCALE', vertical: 'SCALE' };
+    }
+  }
+
+  try {
+    imported.remove();
+  } catch {
+    /* already detached */
+  }
+  return component;
+}
+
+class MapPlacer {
+  count = 0;
+  constructor(
+    private readonly byId: Map<string, ComponentNode>,
+    private readonly notes: string[],
+  ) {}
+
+  /** An instance whose longest side is `size`; the other side keeps the proportions. */
+  instance(map: CountryMap, size: number): InstanceNode | null {
+    const component = this.byId.get(map.id);
+    if (!component) return null;
+    try {
+      const instance = component.createInstance();
+      instance.name = map.id;
+      const fitted = mapFrame(map, size);
+      instance.resize(fitted.width, fitted.height);
+      this.count += 1;
+      return instance;
+    } catch {
+      this.notes.push(`Could not place an instance of the ${map.id} map.`);
+      return null;
+    }
+  }
+
+  /** A map centred in a square presentation frame, captioned outside the component. */
+  cell(map: CountryMap, size: number, width: number): FrameNode {
+    const cell = column(map.id, 10, { align: 'CENTER', width });
+    const stage = frame(`${map.id} frame`, {});
+    stage.resize(size, size);
+    const instance = this.instance(map, size);
+    if (instance) {
+      stage.appendChild(instance);
+      instance.x = Math.round((size - instance.width) / 2);
+      instance.y = Math.round((size - instance.height) / 2);
+    }
+    cell.appendChild(stage);
+    cell.appendChild(
+      text(map.name, { font: MEDIUM, size: 13, colour: INK, width, lineHeight: 130 }),
+    );
+    cell.appendChild(
+      text(`${map.iso3} · ${map.id}`, { size: 11, colour: INK_MUTED, width, lineHeight: 130 }),
+    );
+    return cell;
+  }
+}
+
+/* ------------------------------------------------------------------ *
  * Shared page furniture
  * ------------------------------------------------------------------ */
 
@@ -489,7 +597,7 @@ function centreInSlide(node: FrameNode, content: FrameNode): void {
 }
 
 /** The cover composition, used for both `Cover` and `Community/Cover`. */
-function composeCover(name: string, placer: Placer): FrameNode {
+function composeCover(name: string, placer: Placer, maps?: MapPlacer): FrameNode {
   const node = slide(name);
   const content = column('Cover content', 44, { align: 'MIN' });
 
@@ -504,6 +612,16 @@ function composeCover(name: string, placer: Placer): FrameNode {
     if (instance) strip.appendChild(instance);
   }
   content.appendChild(strip);
+
+  // Announce the maps with a run of real map components, at their proportions.
+  if (maps && releasedMaps.length > 0) {
+    const mapStrip = row('Maps', 40, { align: 'CENTER' });
+    for (const map of releasedMaps.slice(0, 12)) {
+      const instance = maps.instance(map, 72);
+      if (instance) mapStrip.appendChild(instance);
+    }
+    content.appendChild(mapStrip);
+  }
 
   content.appendChild(text(LIBRARY_NAME, { font: SEMIBOLD, size: 116, lineHeight: 105 }));
   content.appendChild(text(coverSubtitle(), { size: 34, colour: INK_MUTED, lineHeight: 130 }));
@@ -764,9 +882,89 @@ function carouselHonest(): FrameNode {
   return node;
 }
 
+/** Announces the country maps: every map, grouped by region, at real proportions. */
+function carouselMaps(maps: MapPlacer, number: string): FrameNode {
+  const node = slide(`Community/Carousel-${number}`);
+  const content = column('Content', 32, { align: 'MIN' });
+  content.appendChild(
+    slideHeading(MAPS_SLIDE_COPY.title, mapsSlideSubtitle(), SLIDE_CONTENT_WIDTH),
+  );
+  const sections = column('Regions', 18, { width: SLIDE_CONTENT_WIDTH });
+  for (const section of mapSections()) {
+    const group = row(section.label, 20, { align: 'CENTER', width: SLIDE_CONTENT_WIDTH });
+    group.appendChild(eyebrow(section.label, INK_MUTED));
+    for (const map of section.maps) {
+      const instance = maps.instance(map, 56);
+      if (instance) group.appendChild(instance);
+    }
+    sections.appendChild(group);
+  }
+  content.appendChild(sections);
+  node.appendChild(content);
+  centreInSlide(node, content);
+  return node;
+}
+
 /* ------------------------------------------------------------------ *
  * Pages
  * ------------------------------------------------------------------ */
+
+function mapSectionHeader(section: MapSection, width: number): FrameNode {
+  const head = column(section.label, 6, { width });
+  head.appendChild(eyebrow(`${section.label} · ${section.maps.length}`, ACCENT));
+  return head;
+}
+
+/** `Components — Maps`: one `ail/maps/<id>` component per country, grouped by region. */
+function buildMapComponentsPage(page: PageNode, notes: string[]): Map<string, ComponentNode> {
+  const shell = pageShell(
+    'Components — Maps',
+    'One component per country, named ail/maps/<country-id>. Real proportions, longest side 24 px, live 1.5 stroke.',
+  );
+  page.appendChild(shell);
+  shell.x = 0;
+  shell.y = 0;
+
+  const byId = new Map<string, ComponentNode>();
+  for (const section of mapSections()) {
+    const group = column(section.label, 16, { width: CONTENT_WIDTH });
+    group.appendChild(mapSectionHeader(section, CONTENT_WIDTH));
+    const holder = wrapGrid(`${section.label} components`, CONTENT_WIDTH, 32, 32);
+    for (const map of section.maps) {
+      const component = mapComponentFromSvg(map);
+      if (!component) {
+        notes.push(`Figma could not read the ${map.id} map; it is not in the file.`);
+        continue;
+      }
+      holder.appendChild(component);
+      byId.set(map.id, component);
+    }
+    group.appendChild(holder);
+    shell.appendChild(group);
+  }
+  return byId;
+}
+
+/** `Country Maps`: every map as an instance, grouped by AIL region. */
+function buildMapsPage(page: PageNode, planned: PlannedPage, maps: MapPlacer): void {
+  const sections = planned.mapSections ?? [];
+  const total = sections.reduce((sum, section) => sum + section.maps.length, 0);
+  const shell = pageShell(
+    'Country Maps',
+    `${total} outline maps of African countries, grouped by the library’s own regional grouping. Instances of the map components, at real proportions.`,
+  );
+  for (const section of sections) {
+    const group = column(section.label, 20, { width: CONTENT_WIDTH });
+    group.appendChild(mapSectionHeader(section, CONTENT_WIDTH));
+    const grid = wrapGrid(`${section.label} grid`, CONTENT_WIDTH, 24, 32);
+    for (const map of section.maps) grid.appendChild(maps.cell(map, 96, 152));
+    group.appendChild(grid);
+    shell.appendChild(group);
+  }
+  page.appendChild(shell);
+  shell.x = 0;
+  shell.y = 0;
+}
 
 function buildComponentsPage(page: PageNode, notes: string[]): Map<string, BuiltIcon> {
   const multiWeight = anyIconHasMultipleWeights();
@@ -792,10 +990,10 @@ function buildComponentsPage(page: PageNode, notes: string[]): Map<string, Built
   return byId;
 }
 
-function buildStartHerePage(page: PageNode, placer: Placer): void {
+function buildStartHerePage(page: PageNode, placer: Placer, maps: MapPlacer): void {
   // The cover must be the first frame on the first page — Figma reads the file
   // thumbnail from exactly that. It is appended before anything else.
-  const cover = composeCover('Cover', placer);
+  const cover = composeCover('Cover', placer, maps);
   page.appendChild(cover);
   cover.x = 0;
   cover.y = 0;
@@ -969,14 +1167,17 @@ function buildLicencePage(page: PageNode): void {
  * an empty slide is worse than a missing one — so the count is what the plan can
  * fill, capped at nine.
  */
-function buildCommunityFrames(page: PageNode, placer: Placer): number {
-  const frames: FrameNode[] = [composeCover('Community/Cover', placer)];
+function buildCommunityFrames(page: PageNode, placer: Placer, maps: MapPlacer): number {
+  const frames: FrameNode[] = [composeCover('Community/Cover', placer, maps)];
   const slides = [
     carouselWholeSet(placer),
     carouselTwentyFour(placer),
     carouselGrid(placer),
     carouselInUse(placer),
     carouselHonest(),
+    ...(releasedMaps.length > 0
+      ? [carouselMaps(maps, String(CAROUSEL_COPY.length + 1).padStart(2, '0'))]
+      : []),
   ].slice(0, MAX_CAROUSEL_SLIDES);
   frames.push(...slides);
 
@@ -1043,16 +1244,30 @@ export async function buildCommunityFile(report: Report = () => {}): Promise<Bui
   const placer = new Placer(byId, notes);
   step(`${componentsPlan.name}`);
 
+  // Map components next, for the same reason.
+  const mapComponentsPlan = planned.find((plan) => plan.kind === 'map-components');
+  const mapComponentsPage = mapComponentsPlan ? pages.get(mapComponentsPlan.name) : undefined;
+  let mapsById = new Map<string, ComponentNode>();
+  if (mapComponentsPlan && mapComponentsPage) {
+    await goToPage(mapComponentsPage);
+    mapsById = buildMapComponentsPage(mapComponentsPage, notes);
+    step(mapComponentsPlan.name);
+  }
+  const mapPlacer = new MapPlacer(mapsById, notes);
+
   for (const plan of planned) {
-    if (plan.kind === 'components') continue;
+    if (plan.kind === 'components' || plan.kind === 'map-components') continue;
     const page = pages.get(plan.name);
     if (!page) continue;
     await goToPage(page);
 
     switch (plan.kind) {
       case 'start':
-        buildStartHerePage(page, placer);
-        buildCommunityFrames(page, placer);
+        buildStartHerePage(page, placer, mapPlacer);
+        buildCommunityFrames(page, placer, mapPlacer);
+        break;
+      case 'maps':
+        buildMapsPage(page, plan, mapPlacer);
         break;
       case 'all':
       case 'category':
@@ -1118,14 +1333,15 @@ export async function buildCommunityFile(report: Report = () => {}): Promise<Bui
     builtAt: new Date().toISOString(),
     pages: planned.map((plan) => plan.name),
     icons: releasedIcons.length,
+    maps: releasedMaps.length,
   });
 
   step('Finishing');
 
   return {
     pages: created.length,
-    components: byId.size,
-    instances: placer.count,
+    components: byId.size + mapsById.size,
+    instances: placer.count + mapPlacer.count,
     notes,
   };
 }

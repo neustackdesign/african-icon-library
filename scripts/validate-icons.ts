@@ -9,8 +9,24 @@
  * human icon design, not a regression in the released set.
  */
 
-import { PATHS, listSvgAssets, loadCategories, loadIcons, relative } from './lib/repo.ts';
-import { summarise, validateAsset, validateCollection, type Finding } from './lib/validate.ts';
+import {
+  PATHS,
+  listMapAssets,
+  listSvgAssets,
+  loadCategories,
+  loadIcons,
+  loadMapRegions,
+  loadMaps,
+  relative,
+} from './lib/repo.ts';
+import {
+  summarise,
+  validateAsset,
+  validateCollection,
+  validateMapAsset,
+  validateMapCollection,
+  type Finding,
+} from './lib/validate.ts';
 
 const asJson = process.argv.includes('--json');
 
@@ -40,16 +56,23 @@ function render(title: string, findings: readonly Finding[]): string {
 }
 
 async function run(): Promise<number> {
-  const [categories, icons, assets, stagingAssets] = await Promise.all([
-    loadCategories(),
-    loadIcons(),
-    listSvgAssets(PATHS.iconsSvgRoot),
-    listSvgAssets(PATHS.iconsStagingRoot),
-  ]);
+  const [categories, icons, assets, stagingAssets, maps, mapRegions, mapAssets] = await Promise.all(
+    [
+      loadCategories(),
+      loadIcons(),
+      listSvgAssets(PATHS.iconsSvgRoot),
+      listSvgAssets(PATHS.iconsStagingRoot),
+      loadMaps(),
+      loadMapRegions(),
+      listMapAssets(),
+    ],
+  );
 
   const releasedFindings: Finding[] = [
     ...assets.flatMap((asset) => validateAsset(asset)),
     ...validateCollection({ icons, categories, assets, stagingAssets }),
+    ...mapAssets.flatMap((asset) => validateMapAsset(asset)),
+    ...validateMapCollection({ maps, regions: mapRegions, assets: mapAssets }),
   ];
 
   const stagingFindings: Finding[] = stagingAssets.flatMap((asset) =>
@@ -81,7 +104,8 @@ async function run(): Promise<number> {
   process.stdout.write(
     [
       `Released set — ${assets.length} asset(s) in ${relative(PATHS.iconsSvgRoot)}, ` +
-        `${icons.length} metadata record(s), ${categories.length} categories`,
+        `${icons.length} metadata record(s), ${categories.length} categories; ` +
+        `${mapAssets.length} map(s) in ${relative(PATHS.mapsSvgRoot)}, ${maps.length} map record(s)`,
       '',
       render('Released', releasedFindings),
       stagingAssets.length > 0

@@ -11,6 +11,8 @@ more usefully, why each field exists.
 | `src/data/icons.json`         | Released icons only                            | Yes — exported as `icons`      |
 | `src/data/categories.json`    | The nine-category taxonomy                     | Yes — exported as `categories` |
 | `src/data/regions.json`       | Regions in use                                 | Yes — exported as `regions`    |
+| `src/data/maps.json`          | The 54 country maps, in master order           | Yes — exported as `maps`       |
+| `src/data/map-regions.json`   | AIL's regional grouping for maps               | Yes — `mapRegions`             |
 | `src/data/audit-records.json` | All 86 audit rows, verdicts and notes verbatim | **No**                         |
 | `src/generated/data.ts`       | The three public files, compiled               | Yes                            |
 
@@ -105,6 +107,28 @@ the rename to stable public ids.
 
 Nine categories are defined. The website and the plugin show only those containing at least one
 released icon — an empty filter is a promise the product cannot keep.
+
+## `CountryMap`
+
+```ts
+{
+  id: string;           // slug, e.g. 'cote-d-ivoire' — stable, separate from the name
+  name: string;         // display name, e.g. 'Côte d’Ivoire'
+  officialName: string;
+  iso2: string;         // ISO 3166-1 alpha-2
+  iso3: string;         // ISO 3166-1 alpha-3
+  region: string;       // a map-regions.json id
+  keywords: string[];
+  aliases: string[];    // common alternative names: 'Ivory Coast', 'DRC'…
+  status: 'released';
+  addedIn: string;      // version, e.g. '0.3.0'
+}
+```
+
+Regions are AIL's regional grouping for browsing, not a political or UN classification. Map ids,
+names and ISO codes are unique, and every record has exactly one SVG in `packages/maps/svg`
+(enforced by `npm run validate`). `searchMaps` matches every query token against the name,
+official name, aliases, ISO2/ISO3 (exact code ranks first) and region label.
 
 ## `PipelineSummary`
 

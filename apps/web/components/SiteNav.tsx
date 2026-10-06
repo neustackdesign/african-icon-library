@@ -9,7 +9,11 @@ import { NAV, SITE } from '@/lib/site';
 import { TrackedLink } from './TrackedLink';
 
 function isCurrent(pathname: string, href: string): boolean {
-  const path = href.split('#')[0] || '/';
+  const [base, hash] = href.split('#');
+  const path = base || '/';
+  // The hash is not known on the server, so on the homepage only "Icons" is
+  // marked current; "Maps" is current on its own detail pages.
+  if (hash === 'maps') return pathname.startsWith('/maps/');
   if (path === '/') return pathname === '/' || pathname.startsWith('/icons/');
   return pathname === path || pathname.startsWith(`${path}/`);
 }

@@ -3,8 +3,15 @@
  * Counts are derived from the canonical released data rather than written by hand.
  */
 
-import { LIBRARY_NAME, libraryVersion, PLUGIN_WEIGHTS, releasedIcons } from './plan';
-import { type Icon } from '@african-icon-library/metadata';
+import {
+  LIBRARY_NAME,
+  libraryVersion,
+  PLUGIN_MAP_REGIONS,
+  PLUGIN_WEIGHTS,
+  releasedIcons,
+  releasedMaps,
+} from './plan';
+import { type CountryMap, type Icon } from '@african-icon-library/metadata';
 
 export const LINKS = {
   website: 'icons.neustackstudio.com',
@@ -31,15 +38,22 @@ function plural(count: number, one: string, many = `${one}s`): string {
   return count === 1 ? one : many;
 }
 
-export function coverSubtitle(icons: readonly Icon[] = releasedIcons): string {
-  return `${icons.length} ${plural(icons.length, 'icon')} · 24px grid · MIT`;
+export function coverSubtitle(
+  icons: readonly Icon[] = releasedIcons,
+  maps: readonly CountryMap[] = releasedMaps,
+): string {
+  const mapPart = maps.length > 0 ? ` · ${maps.length} country ${plural(maps.length, 'map')}` : '';
+  return `${icons.length} ${plural(icons.length, 'icon')}${mapPart} · 24px grid · MIT`;
 }
 
 export function tagline(): string {
   return 'Open-source icons for African everyday life — starting with Nigeria.';
 }
 
-export function startHereBlocks(icons: readonly Icon[] = releasedIcons): Block[] {
+export function startHereBlocks(
+  icons: readonly Icon[] = releasedIcons,
+  maps: readonly CountryMap[] = releasedMaps,
+): Block[] {
   return [
     {
       heading: 'What this file is',
@@ -54,6 +68,11 @@ export function startHereBlocks(icons: readonly Icon[] = releasedIcons): Block[]
         `${icons.length} released ${plural(icons.length, 'icon')} across African everyday life, with Nigeria as the starting point.`,
         `Released ${plural(PLUGIN_WEIGHTS.length, 'weight')}: ${list(PLUGIN_WEIGHTS)}.`,
         'Every icon uses a 24 × 24 component frame with live, editable strokes and consistent cap and join treatment.',
+        ...(maps.length > 0
+          ? [
+              `${maps.length} country ${plural(maps.length, 'map')} — a second asset type, not an icon category — grouped by the library’s own ${PLUGIN_MAP_REGIONS.length}-region grouping. Each map component (ail/maps/<country-id>) keeps the country’s real proportions, fitted so its longest side is 24 px, with the same live 1.5 stroke.`,
+            ]
+          : []),
       ],
     },
     {
@@ -138,11 +157,15 @@ export function licenceBlocks(): Block[] {
 }
 
 /** Public facts for the final Community carousel slide. */
-export function honestCounts(icons: readonly Icon[] = releasedIcons): Array<[string, string]> {
+export function honestCounts(
+  icons: readonly Icon[] = releasedIcons,
+  maps: readonly CountryMap[] = releasedMaps,
+): Array<[string, string]> {
   const categoryCount = new Set(icons.map((icon) => icon.category)).size;
   return [
     ['Released icons', `${icons.length}`],
     ['Categories', `${categoryCount}`],
+    ...(maps.length > 0 ? [['Country maps', `${maps.length}`] as [string, string]] : []),
     ['Base grid', '24px'],
     ['Released weight', list(PLUGIN_WEIGHTS)],
     ['Licence', 'MIT'],
@@ -183,6 +206,16 @@ export const CAROUSEL_COPY: readonly SlideCopy[] = [
     subtitle: 'Community file, plugin, website downloads and open-source files stay in sync.',
   },
 ];
+
+/** The maps announcement slide; only built when the release contains maps. */
+export const MAPS_SLIDE_COPY = {
+  title: 'Country maps, in the same line',
+  subtitle: 'Outline maps of African countries at their real proportions, as components.',
+} as const;
+
+export function mapsSlideSubtitle(maps: readonly CountryMap[] = releasedMaps): string {
+  return `${maps.length} outline ${plural(maps.length, 'map')} of African countries — real proportions, live 1.5 stroke, one component each.`;
+}
 
 export const MAX_CAROUSEL_SLIDES = 9;
 

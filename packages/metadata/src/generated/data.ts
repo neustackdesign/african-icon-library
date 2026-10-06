@@ -2,7 +2,7 @@
 // Run `npm run generate` after changing the SVG assets or the metadata JSON.
 // `npm run verify:generated` fails the build if this file has drifted.
 
-import type { Category, Icon, PipelineSummary, Region } from '../schema.js';
+import type { Category, CountryMap, Icon, MapRegion, PipelineSummary, Region } from '../schema.js';
 
 /** Released icons, sorted by id. Held and backlog concepts never appear here. */
 export const icons: readonly Icon[] = [
@@ -1198,7 +1198,7 @@ export const regions: readonly Region[] = [
  * has not been named publicly, and the public surface must not imply otherwise.
  */
 export const pipeline: PipelineSummary = {
-  "version": "0.2.0",
+  "version": "0.3.0",
   "auditRecords": 86,
   "drawingsIngested": 18,
   "released": 30,
@@ -1218,3 +1218,918 @@ export const pipeline: PipelineSummary = {
     "fill"
   ]
 };
+
+/**
+ * Country maps — a separate asset type, not an icon category. In the master's
+ * order: AIL regional grouping, then reading order within each group.
+ */
+export const maps: readonly CountryMap[] = [
+  {
+    "id": "morocco",
+    "name": "Morocco",
+    "officialName": "Kingdom of Morocco",
+    "iso2": "MA",
+    "iso3": "MAR",
+    "region": "north-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "algeria",
+    "name": "Algeria",
+    "officialName": "People’s Democratic Republic of Algeria",
+    "iso2": "DZ",
+    "iso3": "DZA",
+    "region": "north-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "tunisia",
+    "name": "Tunisia",
+    "officialName": "Republic of Tunisia",
+    "iso2": "TN",
+    "iso3": "TUN",
+    "region": "north-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "libya",
+    "name": "Libya",
+    "officialName": "State of Libya",
+    "iso2": "LY",
+    "iso3": "LBY",
+    "region": "north-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "egypt",
+    "name": "Egypt",
+    "officialName": "Arab Republic of Egypt",
+    "iso2": "EG",
+    "iso3": "EGY",
+    "region": "north-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "sudan",
+    "name": "Sudan",
+    "officialName": "Republic of the Sudan",
+    "iso2": "SD",
+    "iso3": "SDN",
+    "region": "north-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "mauritania",
+    "name": "Mauritania",
+    "officialName": "Islamic Republic of Mauritania",
+    "iso2": "MR",
+    "iso3": "MRT",
+    "region": "north-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "senegal",
+    "name": "Senegal",
+    "officialName": "Republic of Senegal",
+    "iso2": "SN",
+    "iso3": "SEN",
+    "region": "west-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "gambia",
+    "name": "The Gambia",
+    "officialName": "Republic of The Gambia",
+    "iso2": "GM",
+    "iso3": "GMB",
+    "region": "west-africa",
+    "aliases": [
+      "Gambia"
+    ],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "guinea-bissau",
+    "name": "Guinea-Bissau",
+    "officialName": "Republic of Guinea-Bissau",
+    "iso2": "GW",
+    "iso3": "GNB",
+    "region": "west-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "guinea",
+    "name": "Guinea",
+    "officialName": "Republic of Guinea",
+    "iso2": "GN",
+    "iso3": "GIN",
+    "region": "west-africa",
+    "aliases": [
+      "Guinea-Conakry"
+    ],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "sierra-leone",
+    "name": "Sierra Leone",
+    "officialName": "Republic of Sierra Leone",
+    "iso2": "SL",
+    "iso3": "SLE",
+    "region": "west-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "burkina-faso",
+    "name": "Burkina Faso",
+    "iso2": "BF",
+    "iso3": "BFA",
+    "region": "west-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "liberia",
+    "name": "Liberia",
+    "officialName": "Republic of Liberia",
+    "iso2": "LR",
+    "iso3": "LBR",
+    "region": "west-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "mali",
+    "name": "Mali",
+    "officialName": "Republic of Mali",
+    "iso2": "ML",
+    "iso3": "MLI",
+    "region": "west-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "cote-d-ivoire",
+    "name": "Côte d’Ivoire",
+    "officialName": "Republic of Côte d’Ivoire",
+    "iso2": "CI",
+    "iso3": "CIV",
+    "region": "west-africa",
+    "aliases": [
+      "Cote d'Ivoire",
+      "Ivory Coast"
+    ],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "ghana",
+    "name": "Ghana",
+    "officialName": "Republic of Ghana",
+    "iso2": "GH",
+    "iso3": "GHA",
+    "region": "west-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "niger",
+    "name": "Niger",
+    "officialName": "Republic of the Niger",
+    "iso2": "NE",
+    "iso3": "NER",
+    "region": "west-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "nigeria",
+    "name": "Nigeria",
+    "officialName": "Federal Republic of Nigeria",
+    "iso2": "NG",
+    "iso3": "NGA",
+    "region": "west-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "togo",
+    "name": "Togo",
+    "officialName": "Togolese Republic",
+    "iso2": "TG",
+    "iso3": "TGO",
+    "region": "west-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "benin",
+    "name": "Benin",
+    "officialName": "Republic of Benin",
+    "iso2": "BJ",
+    "iso3": "BEN",
+    "region": "west-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "cabo-verde",
+    "name": "Cabo Verde",
+    "officialName": "Republic of Cabo Verde",
+    "iso2": "CV",
+    "iso3": "CPV",
+    "region": "west-africa",
+    "aliases": [
+      "Cape Verde"
+    ],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "cameroon",
+    "name": "Cameroon",
+    "officialName": "Republic of Cameroon",
+    "iso2": "CM",
+    "iso3": "CMR",
+    "region": "central-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "chad",
+    "name": "Chad",
+    "officialName": "Republic of Chad",
+    "iso2": "TD",
+    "iso3": "TCD",
+    "region": "central-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "central-african-republic",
+    "name": "Central African Republic",
+    "iso2": "CF",
+    "iso3": "CAF",
+    "region": "central-africa",
+    "aliases": [
+      "CAR"
+    ],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "equatorial-guinea",
+    "name": "Equatorial Guinea",
+    "officialName": "Republic of Equatorial Guinea",
+    "iso2": "GQ",
+    "iso3": "GNQ",
+    "region": "central-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "gabon",
+    "name": "Gabon",
+    "officialName": "Gabonese Republic",
+    "iso2": "GA",
+    "iso3": "GAB",
+    "region": "central-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "congo-brazzaville",
+    "name": "Republic of the Congo",
+    "iso2": "CG",
+    "iso3": "COG",
+    "region": "central-africa",
+    "aliases": [
+      "Congo-Brazzaville",
+      "Congo",
+      "Republic of Congo"
+    ],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "sao-tome-and-principe",
+    "name": "São Tomé and Príncipe",
+    "officialName": "Democratic Republic of São Tomé and Príncipe",
+    "iso2": "ST",
+    "iso3": "STP",
+    "region": "central-africa",
+    "aliases": [
+      "Sao Tome and Principe",
+      "Sao Tome"
+    ],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "congo-kinshasa",
+    "name": "Democratic Republic of the Congo",
+    "iso2": "CD",
+    "iso3": "COD",
+    "region": "central-africa",
+    "aliases": [
+      "DRC",
+      "DR Congo",
+      "Congo-Kinshasa"
+    ],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "eritrea",
+    "name": "Eritrea",
+    "officialName": "State of Eritrea",
+    "iso2": "ER",
+    "iso3": "ERI",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "djibouti",
+    "name": "Djibouti",
+    "officialName": "Republic of Djibouti",
+    "iso2": "DJ",
+    "iso3": "DJI",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "ethiopia",
+    "name": "Ethiopia",
+    "officialName": "Federal Democratic Republic of Ethiopia",
+    "iso2": "ET",
+    "iso3": "ETH",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "somalia",
+    "name": "Somalia",
+    "officialName": "Federal Republic of Somalia",
+    "iso2": "SO",
+    "iso3": "SOM",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "south-sudan",
+    "name": "South Sudan",
+    "officialName": "Republic of South Sudan",
+    "iso2": "SS",
+    "iso3": "SSD",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "kenya",
+    "name": "Kenya",
+    "officialName": "Republic of Kenya",
+    "iso2": "KE",
+    "iso3": "KEN",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "uganda",
+    "name": "Uganda",
+    "officialName": "Republic of Uganda",
+    "iso2": "UG",
+    "iso3": "UGA",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "rwanda",
+    "name": "Rwanda",
+    "officialName": "Republic of Rwanda",
+    "iso2": "RW",
+    "iso3": "RWA",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "tanzania",
+    "name": "Tanzania",
+    "officialName": "United Republic of Tanzania",
+    "iso2": "TZ",
+    "iso3": "TZA",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "malawi",
+    "name": "Malawi",
+    "officialName": "Republic of Malawi",
+    "iso2": "MW",
+    "iso3": "MWI",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "madagascar",
+    "name": "Madagascar",
+    "officialName": "Republic of Madagascar",
+    "iso2": "MG",
+    "iso3": "MDG",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "comoros",
+    "name": "Comoros",
+    "officialName": "Union of the Comoros",
+    "iso2": "KM",
+    "iso3": "COM",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "seychelles",
+    "name": "Seychelles",
+    "officialName": "Republic of Seychelles",
+    "iso2": "SC",
+    "iso3": "SYC",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "mauritius",
+    "name": "Mauritius",
+    "officialName": "Republic of Mauritius",
+    "iso2": "MU",
+    "iso3": "MUS",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "burundi",
+    "name": "Burundi",
+    "officialName": "Republic of Burundi",
+    "iso2": "BI",
+    "iso3": "BDI",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "mozambique",
+    "name": "Mozambique",
+    "officialName": "Republic of Mozambique",
+    "iso2": "MZ",
+    "iso3": "MOZ",
+    "region": "east-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "angola",
+    "name": "Angola",
+    "officialName": "Republic of Angola",
+    "iso2": "AO",
+    "iso3": "AGO",
+    "region": "southern-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "zambia",
+    "name": "Zambia",
+    "officialName": "Republic of Zambia",
+    "iso2": "ZM",
+    "iso3": "ZMB",
+    "region": "southern-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "namibia",
+    "name": "Namibia",
+    "officialName": "Republic of Namibia",
+    "iso2": "NA",
+    "iso3": "NAM",
+    "region": "southern-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "botswana",
+    "name": "Botswana",
+    "officialName": "Republic of Botswana",
+    "iso2": "BW",
+    "iso3": "BWA",
+    "region": "southern-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "zimbabwe",
+    "name": "Zimbabwe",
+    "officialName": "Republic of Zimbabwe",
+    "iso2": "ZW",
+    "iso3": "ZWE",
+    "region": "southern-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "south-africa",
+    "name": "South Africa",
+    "officialName": "Republic of South Africa",
+    "iso2": "ZA",
+    "iso3": "ZAF",
+    "region": "southern-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "eswatini",
+    "name": "Eswatini",
+    "officialName": "Kingdom of Eswatini",
+    "iso2": "SZ",
+    "iso3": "SWZ",
+    "region": "southern-africa",
+    "aliases": [
+      "Swaziland"
+    ],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  },
+  {
+    "id": "lesotho",
+    "name": "Lesotho",
+    "officialName": "Kingdom of Lesotho",
+    "iso2": "LS",
+    "iso3": "LSO",
+    "region": "southern-africa",
+    "aliases": [],
+    "keywords": [
+      "map",
+      "country",
+      "outline"
+    ],
+    "status": "released",
+    "addedIn": "0.3.0"
+  }
+] as const satisfies readonly CountryMap[];
+
+/** AIL's regional grouping for browsing maps, not a named external standard. */
+export const mapRegions: readonly MapRegion[] = [
+  {
+    "id": "north-africa",
+    "label": "North Africa"
+  },
+  {
+    "id": "west-africa",
+    "label": "West Africa"
+  },
+  {
+    "id": "central-africa",
+    "label": "Central Africa"
+  },
+  {
+    "id": "east-africa",
+    "label": "East Africa"
+  },
+  {
+    "id": "southern-africa",
+    "label": "Southern Africa"
+  }
+] as const satisfies readonly MapRegion[];

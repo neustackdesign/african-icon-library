@@ -6,6 +6,7 @@
  *   reviews/visual-qa/dark-canvas-board.svg
  *   reviews/visual-qa/optical-scale-board.svg
  *   reviews/visual-qa/metrics.json
+ *   reviews/visual-qa/country-maps-board.svg
  *
  * The automated checks in `npm run validate` prove an icon sits inside the
  * canvas. They cannot tell you whether it reads as the object it names, or
@@ -18,7 +19,17 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
-import { PATHS, ROOT, listSvgAssets, loadCategories, loadIcons, relative } from './lib/repo.ts';
+import {
+  PATHS,
+  ROOT,
+  listMapAssets,
+  listSvgAssets,
+  loadCategories,
+  loadIcons,
+  loadMapRegions,
+  loadMaps,
+  relative,
+} from './lib/repo.ts';
 import { iconBody } from './lib/generators.ts';
 import { measureAsset } from './lib/validate.ts';
 import { parseSvg } from './lib/svg-document.ts';
@@ -226,6 +237,58 @@ function opticalScaleBoard(entries: Entry[], coverage: Map<string, number>): str
   return frame(width, height, PAPER, parts.join('\n'));
 }
 
+/**
+ * Every country map by AIL region, each shown at 96 px and 24 px on its
+ * longest side, with its name and ISO3 code. The 24 px column is the size the
+ * outlines were drawn for; the 96 px one shows the geometry for review.
+ */
+async function countryMapsBoard(): Promise<string> {
+  const [records, regions, assets] = await Promise.all([
+    loadMaps(),
+    loadMapRegions(),
+    listMapAssets(),
+  ]);
+  const sources = new Map(assets.map((asset) => [asset.id, asset.source]));
+  const CELL_W = 150;
+  const CELL_H = 150;
+  const COLS = 8;
+  const PAD = 40;
+  const parts: string[] = [];
+  let y = PAD + 30;
+  parts.push(
+    `<text x="${PAD}" y="${PAD + 4}" font-family="monospace" font-size="16" fill="${INK}">Country maps — ${records.length} outlines, 96 px and 24 px longest side</text>`,
+  );
+  for (const region of regions) {
+    const inRegion = records.filter((map) => map.region === region.id);
+    if (inRegion.length === 0) continue;
+    parts.push(
+      `<text x="${PAD}" y="${y + 14}" font-family="monospace" font-size="13" fill="${ACCENT}">${esc(region.label.toUpperCase())} · ${inRegion.length}</text>`,
+    );
+    y += 28;
+    inRegion.forEach((map, index) => {
+      const source = sources.get(map.id) ?? '';
+      const [, , w = '1', h = '1'] = /viewBox="([^"]+)"/.exec(source)?.[1]?.split(' ') ?? [];
+      const body = /<path[^>]*\/>/.exec(source)?.[0] ?? '';
+      const x = PAD + (index % COLS) * CELL_W;
+      const top = y + Math.floor(index / COLS) * CELL_H;
+      const draw = (size: number, ox: number, oy: number) => {
+        const scale = size / Math.max(Number(w), Number(h));
+        return `<g transform="translate(${ox} ${oy}) scale(${scale.toFixed(4)})" fill="none" stroke="${INK}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${body.replace('/>', ' vector-effect="non-scaling-stroke"/>')}</g>`;
+      };
+      parts.push(
+        `<rect x="${x}" y="${top}" width="${CELL_W - 10}" height="${CELL_H - 10}" fill="none" stroke="${LINE}"/>`,
+        draw(96, x + 8, top + 8),
+        draw(24, x + CELL_W - 42, top + 8),
+        `<text x="${x + 8}" y="${top + 118}" font-family="monospace" font-size="10" fill="${MUTED}">${esc(map.name.length > 22 ? `${map.name.slice(0, 21)}…` : map.name)}</text><text x="${x + 8}" y="${top + 131}" font-family="monospace" font-size="10" fill="${MUTED}">${map.iso3}</text>`,
+      );
+    });
+    y += Math.ceil(inRegion.length / COLS) * CELL_H + 10;
+  }
+  const width = PAD * 2 + COLS * CELL_W;
+  const height = y + PAD;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"><rect width="100%" height="100%" fill="${PAPER}"/>${parts.join('')}</svg>\n`;
+}
+
 async function main(): Promise<number> {
   const [icons, categories, assets] = await Promise.all([
     loadIcons(),
@@ -289,6 +352,10 @@ async function main(): Promise<number> {
     written.push(file);
   }
 
+  const mapsBoard = path.join(OUT, 'country-maps-board.svg');
+  await writeFile(mapsBoard, await countryMapsBoard(), 'utf8');
+  written.push(mapsBoard);
+
   /* Machine-readable companion to the boards. */
   await writeFile(
     path.join(OUT, 'metrics.json'),
@@ -318,7 +385,7 @@ async function main(): Promise<number> {
   process.stdout.write(
     `${written.length + 1} review boards written to ${relative(OUT)}\n` +
       `  ${SIZES.length} complete-set boards, ${categories.filter((c) => entries.some((e) => e.category === c.id)).length} category boards,\n` +
-      `  1 dark canvas, 1 optical scale, metrics.json\n`,
+      `  1 dark canvas, 1 optical scale, 1 country-maps board, metrics.json\n`,
   );
   return 0;
 }

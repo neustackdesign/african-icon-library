@@ -73,7 +73,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
           tag="${GITHUB_REF_NAME#v}"
-          for pkg in metadata icons react; do
+          for pkg in metadata icons maps react; do
             version=$(node -p "require('./packages/$pkg/package.json').version")
             if [ "$version" != "$tag" ]; then
               echo "::error::packages/$pkg is $version but the tag is $tag"
@@ -130,7 +130,7 @@ jobs:
           # Dependency order: icons depends on metadata by exact version, and
           # react depends on both. Publishing out of order leaves a window where
           # an installed package cannot resolve its own dependency.
-          for pkg in metadata icons react; do
+          for pkg in metadata icons maps react; do
             echo "::group::publish @african-icon-library/$pkg"
             npm publish -w "@african-icon-library/$pkg" --access public --provenance
             echo "::endgroup::"
@@ -174,7 +174,7 @@ jobs:
           ls -1 release/*.zip release/*.json release/figma/*.zip | sed 's|^|  |'
           echo
           echo "Packing the three packages:"
-          for pkg in metadata icons react; do
+          for pkg in metadata icons maps react; do
             npm pack -w "@african-icon-library/$pkg" --pack-destination /tmp
           done
           ls -l /tmp/*.tgz

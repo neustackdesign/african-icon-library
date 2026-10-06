@@ -16,6 +16,10 @@ import {
   listSvgAssets,
   loadCategories,
   loadIcons,
+  loadMapRegions,
+  loadMaps,
+  listMapAssets,
+  loadMapSources,
   writeGenerated,
   type SvgAsset,
 } from './repo.ts';
@@ -109,17 +113,19 @@ export function buildPipelineSummary(
 }
 
 export async function generateMetadata(): Promise<string> {
-  const [categories, icons, regions, records] = await Promise.all([
+  const [categories, icons, regions, records, maps, mapRegions] = await Promise.all([
     loadCategories(),
     loadIcons(),
     loadRegions(),
     loadAuditRecordsRaw(),
+    loadMaps(),
+    loadMapRegions(),
   ]);
 
   const pipeline = buildPipelineSummary(records, icons);
 
   const body = [
-    "import type { Category, Icon, PipelineSummary, Region } from '../schema.js';",
+    "import type { Category, CountryMap, Icon, MapRegion, PipelineSummary, Region } from '../schema.js';",
     '',
     '/** Released icons, sorted by id. Held and backlog concepts never appear here. */',
     `export const icons: readonly Icon[] = ${literal(icons)} as const satisfies readonly Icon[];`,
@@ -135,6 +141,15 @@ export async function generateMetadata(): Promise<string> {
     ' * has not been named publicly, and the public surface must not imply otherwise.',
     ' */',
     `export const pipeline: PipelineSummary = ${literal(pipeline)};`,
+    '',
+    '/**',
+    " * Country maps — a separate asset type, not an icon category. In the master's",
+    ' * order: AIL regional grouping, then reading order within each group.',
+    ' */',
+    `export const maps: readonly CountryMap[] = ${literal(maps)} as const satisfies readonly CountryMap[];`,
+    '',
+    "/** AIL's regional grouping for browsing maps, not a named external standard. */",
+    `export const mapRegions: readonly MapRegion[] = ${literal(mapRegions)} as const satisfies readonly MapRegion[];`,
   ].join('\n');
 
   await writeGenerated(PATHS.metadataGenerated, body);
@@ -181,6 +196,57 @@ export async function generateIcons(): Promise<string> {
 
   await writeGenerated(PATHS.iconsGenerated, body);
   return PATHS.iconsGenerated;
+}
+
+/* ------------------------------------------------------------------ *
+ * packages/maps
+ * ------------------------------------------------------------------ */
+
+/** Native viewBox size of a standalone map document. */
+export function mapViewBox(source: string): [number, number] {
+  const match = /viewBox="0 0 ([\d.]+) ([\d.]+)"/.exec(source);
+  if (!match) throw new Error('a map asset has no "0 0 w h" viewBox');
+  return [Number(match[1]), Number(match[2])];
+}
+
+export async function generateMaps(): Promise<string> {
+  const [assets, maps, { manifest }] = await Promise.all([
+    listMapAssets(),
+    loadMaps(),
+    loadMapSources(),
+  ]);
+  const byId = new Map(assets.map((asset) => [asset.id, asset]));
+  const ordered = maps.map((map) => {
+    const asset = byId.get(map.id);
+    if (!asset)
+      throw new Error(`maps.json lists ${map.id}, but packages/maps/svg/${map.id}.svg is missing`);
+    return { id: map.id, body: iconBody(asset.source), box: mapViewBox(asset.source) };
+  });
+
+  const body = [
+    '/**',
+    " * Inner markup for every country map, keyed by id, plus each map's native",
+    ' * viewBox. Maps keep their own aspect ratio; the root `<svg>` is composed at',
+    ' * render time so paint, stroke and caps cannot drift between maps.',
+    ' */',
+    'export const mapBodies: Readonly<Record<string, string>> = {',
+    ...ordered.map((map) => `  ${JSON.stringify(map.id)}: ${JSON.stringify(map.body)},`),
+    '};',
+    '',
+    "/** `[width, height]` of each map's viewBox. */",
+    'export const mapViewBoxes: Readonly<Record<string, readonly [number, number]>> = {',
+    ...ordered.map((map) => `  ${JSON.stringify(map.id)}: [${map.box[0]}, ${map.box[1]}],`),
+    '};',
+    '',
+    "/** Every map id, in the master's regional order. */",
+    `export const mapIds: readonly string[] = ${literal(ordered.map((map) => map.id))};`,
+    '',
+    '/** The cartographic policy from `packages/maps/source/manifest.json`. */',
+    `export const MAP_BOUNDARY_POLICY = ${JSON.stringify(manifest.policy)};`,
+  ].join('\n');
+
+  await writeGenerated(PATHS.mapsGenerated, body);
+  return PATHS.mapsGenerated;
 }
 
 /* ------------------------------------------------------------------ *
@@ -341,6 +407,48 @@ export async function generatePluginData(): Promise<string> {
   return PATHS.pluginGenerated;
 }
 
+/**
+ * Country-map data for the plugin and the Community builder: the released map
+ * metadata, AIL's regional grouping, and each map as a complete standalone
+ * `<svg>` document with its native viewBox size.
+ */
+export async function generatePluginMapData(): Promise<string> {
+  const [assets, maps, mapRegions] = await Promise.all([
+    listMapAssets(),
+    loadMaps(),
+    loadMapRegions(),
+  ]);
+  const byId = new Map(assets.map((asset) => [asset.id, asset]));
+  const svg: Record<string, string> = {};
+  const boxes: Record<string, [number, number]> = {};
+  for (const map of maps) {
+    const asset = byId.get(map.id);
+    if (!asset) throw new Error(`no SVG for map ${map.id}`);
+    svg[map.id] = asset.source.trim();
+    boxes[map.id] = mapViewBox(asset.source);
+  }
+  const usedRegions = mapRegions.filter((region) => maps.some((map) => map.region === region.id));
+
+  const body = [
+    "import type { CountryMap } from '@african-icon-library/metadata';",
+    '',
+    "/** Released country maps, in the master's regional order. */",
+    `export const PLUGIN_MAPS: CountryMap[] = ${literal(maps)};`,
+    '',
+    '/** Standalone SVG documents, keyed by map id. */',
+    `export const PLUGIN_MAP_SVG: Record<string, string> = ${literal(svg)};`,
+    '',
+    "/** `[width, height]` of each map's native viewBox. */",
+    `export const PLUGIN_MAP_BOXES: Record<string, [number, number]> = ${literal(boxes)};`,
+    '',
+    "/** AIL's regional grouping, limited to regions that contain a map. */",
+    `export const PLUGIN_MAP_REGIONS: Array<{ id: string; label: string }> = ${literal(usedRegions)};`,
+  ].join('\n');
+
+  await writeGenerated(PATHS.pluginMapsGenerated, body);
+  return PATHS.pluginMapsGenerated;
+}
+
 /* ------------------------------------------------------------------ *
  * apps/web — repository documents
  * ------------------------------------------------------------------ */
@@ -389,8 +497,10 @@ export async function generateAll(): Promise<string[]> {
   const written: string[] = [];
   written.push(await generateMetadata());
   written.push(await generateIcons());
+  written.push(await generateMaps());
   written.push(...(await generateReact()));
   written.push(await generatePluginData());
+  written.push(await generatePluginMapData());
   written.push(await generateWebContent());
   return written;
 }
@@ -400,8 +510,10 @@ export async function listGeneratedFiles(): Promise<string[]> {
   const files = [
     PATHS.metadataGenerated,
     PATHS.iconsGenerated,
+    PATHS.mapsGenerated,
     PATHS.reactGeneratedIndex,
     PATHS.pluginGenerated,
+    PATHS.pluginMapsGenerated,
     PATHS.webDocuments,
   ];
   try {

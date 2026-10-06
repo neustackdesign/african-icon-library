@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 
-import { icons } from '@african-icon-library/metadata';
+import { icons, maps } from '@african-icon-library/metadata';
 
 import { SITE } from '@/lib/site';
 
@@ -27,5 +27,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...pages, ...iconPages];
+  const mapPages: MetadataRoute.Sitemap = maps.map((map) => ({
+    url: `${SITE.url}/maps/${map.id}`,
+    changeFrequency: 'monthly',
+    priority: 0.6,
+  }));
+
+  return [...pages, ...iconPages, ...mapPages];
 }

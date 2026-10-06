@@ -9,10 +9,11 @@
  * the changelog's own.
  */
 
+import { MAP_BOUNDARY_POLICY } from '@african-icon-library/maps';
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
-import { ROOT, loadIcons, loadCategories, relative } from './lib/repo.ts';
+import { ROOT, loadCategories, loadIcons, loadMapRegions, loadMaps, relative } from './lib/repo.ts';
 
 const RELEASE_DIR = path.join(ROOT, 'release');
 
@@ -57,7 +58,12 @@ async function main(): Promise<number> {
     return 1;
   }
 
-  const [icons, categories] = await Promise.all([loadIcons(), loadCategories()]);
+  const [icons, categories, maps, mapRegions] = await Promise.all([
+    loadIcons(),
+    loadCategories(),
+    loadMaps(),
+    loadMapRegions(),
+  ]);
   const inUse = new Set(icons.map((icon) => icon.category));
   const weights = [...new Set(icons.flatMap((icon) => icon.weights))];
   const undrawn = ['thin', 'bold', 'fill'].filter((w) => !weights.includes(w as never));
@@ -86,6 +92,22 @@ async function main(): Promise<number> {
     '| --- | --- |',
     ...byCategory.map((c) => `| ${c.label} | ${c.count} |`),
     '',
+    maps.length > 0
+      ? [
+          `**${maps.length} country maps** — a second asset type alongside the icons, grouped by the ` +
+            "library's own regional grouping:",
+          '',
+          '| Region | Maps |',
+          '| --- | --- |',
+          ...mapRegions.map(
+            (region) =>
+              `| ${region.label} | ${maps.filter((map) => map.region === region.id).length} |`,
+          ),
+          '',
+          `${MAP_BOUNDARY_POLICY} See docs/maps-cartography.md.`,
+          '',
+        ].join('\n')
+      : '',
     section ? `## Changes\n\n${section}` : '',
     '',
     '## Downloads',
@@ -122,7 +144,7 @@ async function main(): Promise<number> {
   await writeFile(out, `${body}\n`, 'utf8');
   process.stdout.write(
     `Release notes for v${version} written to ${relative(out)} ` +
-      `(${icons.length} icons, ${inUse.size} categories, ${manifest.artefacts.length} artefacts).\n`,
+      `(${icons.length} icons, ${inUse.size} categories, ${maps.length} maps, ${manifest.artefacts.length} artefacts).\n`,
   );
   return 0;
 }

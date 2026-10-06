@@ -2,12 +2,12 @@
 
 A free, open-source SVG icon library for African everyday life — starting with Nigeria.
 
-**V2: 30 icons · 7 categories · 24 px grid · regular weight · MIT licensed.**
+**v0.3.0: 30 icons · 7 categories · 54 country maps · 24 px grid · regular weight · MIT licensed.**
 
 - **Website** — [icons.neustackstudio.com](https://icons.neustackstudio.com)
 - **Downloads** — complete SVG bundle, category packs and metadata from the website
 - **Figma** — Community file and plugin are generated from the same canonical release set; publication is pending
-- **Source SVGs** — `packages/icons/svg/regular`
+- **Source SVGs** — `packages/icons/svg/regular` (icons), `packages/maps/svg` (country maps)
 - **Metadata** — `packages/metadata`
 
 ## V2 release set
@@ -24,6 +24,30 @@ A free, open-source SVG icon library for African everyday life — starting with
 | **Total**           | **30** |
 
 See [docs/v2-release-manifest.md](docs/v2-release-manifest.md) for the complete named list.
+
+## Country maps
+
+Country maps are a second asset type alongside icons — not an icon category. There is one outline for each of Africa's 54 countries, grouped by AIL's regional grouping:
+
+| Region          |   Maps |
+| --------------- | -----: |
+| North Africa    |      7 |
+| West Africa     |     15 |
+| Central Africa  |      8 |
+| East Africa     |     16 |
+| Southern Africa |      8 |
+| **Total**       | **54** |
+
+Each map is a standalone `currentColor` SVG with a 1.5 stroke, a tight viewBox and its real proportions (no square canvas, no distortion). Every map is drawn at the same longest side, so maps do not show relative geographic size. `npm run maps:ingest` builds them deterministically from the sources declared in `packages/maps/source/manifest.json`: 50 come straight from the original master sheet, and four come from documented overrides that supersede it (Morocco without Western Sahara; Tanzania with Zanzibar; Mauritius with Rodrigues; Equatorial Guinea with Annobón). See [docs/maps-cartography.md](docs/maps-cartography.md). Never edit `packages/maps/svg` by hand.
+
+> AIL follows a documented cartographic treatment for disputed territories. Boundary representations do not imply endorsement of territorial claims. Metadata (names, ISO 3166-1 codes, aliases) lives in `packages/metadata/src/data/maps.json` and is searchable by name, alias, ISO2/ISO3 or region.
+
+```ts
+import { renderMapSvg } from '@african-icon-library/maps';
+renderMapSvg('nigeria', { size: 128, title: 'Nigeria' });
+```
+
+Downloads: `african-icon-library-maps-<version>.zip` (maps only) and `african-icon-library-complete-<version>.zip` (icons and maps). The icon-only ZIP is unchanged.
 
 ## Use the icons
 
@@ -55,7 +79,8 @@ apps/
   figma-community-builder/  Community-file builder
 packages/
   icons/             canonical released SVG assets
-  metadata/          typed icon/category metadata and search
+  maps/              country-map SVGs, their sources (master, overrides, manifest) and helpers
+  metadata/          typed icon, category and map metadata and search
   react/             generated React icon components
 scripts/             validation, generation and release tooling
 docs/                specification, contribution and publishing documentation

@@ -44,8 +44,9 @@ export default async function DownloadsPage() {
   return (
     <div className="page shell">
       <PageHead label="Downloads · V2" title="Take the files.">
-        {plural(LIBRARY.iconCount, 'icon')} in the {LIBRARY.weightsShipped.join(', ')} weight, ready
-        as SVGs. MIT licensed for personal and commercial work.
+        {plural(LIBRARY.iconCount, 'icon')} in the {LIBRARY.weightsShipped.join(', ')} weight and{' '}
+        {plural(LIBRARY.mapCount, 'country map')}, ready as SVGs. MIT licensed for personal and
+        commercial work.
       </PageHead>
 
       {manifest ? (
@@ -59,7 +60,27 @@ export default async function DownloadsPage() {
               target_="icons-zip"
               surface="downloads"
             >
-              Download all SVGs (.zip)
+              Icons (.zip)
+            </TrackedLink>
+            <TrackedLink
+              className="btn btn--secondary"
+              href={DOWNLOADS.maps}
+              download
+              event="release_download"
+              target_="maps-zip"
+              surface="downloads"
+            >
+              Country maps (.zip)
+            </TrackedLink>
+            <TrackedLink
+              className="btn btn--secondary"
+              href={DOWNLOADS.complete}
+              download
+              event="release_download"
+              target_="complete-zip"
+              surface="downloads"
+            >
+              Complete library (.zip)
             </TrackedLink>
             <a className="btn btn--secondary" href={SITE.repository} rel="noreferrer noopener">
               View source on GitHub
@@ -78,6 +99,9 @@ export default async function DownloadsPage() {
 
           <div className="page-block">
             <h2 className="subhead">Category packs</h2>
+            <p className="muted">
+              Icons only. Country maps are not an icon category; they ship in their own archive.
+            </p>
             <p className="muted">Download only the part of the library you need.</p>
           </div>
 
@@ -154,13 +178,26 @@ export default async function DownloadsPage() {
       )}
 
       <div className="prose page-block">
-        <h2>What is in the zip</h2>
+        <h2>What is in each zip</h2>
         <pre className="code-block">
           <code>
-            {`african-icon-library-${LIBRARY.version}/
+            {`african-icon-library-${LIBRARY.version}/          icons
   svg/regular/*.svg     ${LIBRARY.iconCount} icons, 24 x 24, currentColor
   metadata.json         names, categories and keywords
   LICENSE               MIT
+  README.txt
+
+african-icon-library-maps-${LIBRARY.version}/     country maps
+  svg/*.svg             ${LIBRARY.mapCount} maps, own viewBox, currentColor
+  metadata.json         names, ISO 3166-1 codes, regions, aliases
+  LICENSE               MIT
+  README.txt
+
+african-icon-library-complete-${LIBRARY.version}/ both
+  icons/svg/regular/*.svg
+  maps/svg/*.svg
+  metadata.json
+  LICENSE
   README.txt`}
           </code>
         </pre>

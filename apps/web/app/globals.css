@@ -1660,6 +1660,194 @@ button {
   }
 }
 
+/* ---------------- asset switch (icons | maps) ---------------- */
+
+.asset-switch {
+  display: inline-flex;
+  gap: 2px;
+  margin-bottom: 16px;
+  padding: 4px;
+  border: 1px solid var(--line);
+}
+
+.asset-switch button {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  height: 44px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--fg-2);
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.asset-switch button:hover {
+  color: var(--text);
+}
+
+.asset-switch button[aria-pressed='true'] {
+  background: var(--text);
+  color: var(--canvas);
+}
+
+.asset-switch__count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.anchor {
+  display: block;
+  height: 0;
+}
+
+.browser__toolbar--single {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* Map tiles: a fixed box the outline fits inside at its own proportions. */
+.map-grid {
+  --tile-min: 132px;
+}
+
+@media (max-width: 759.98px) {
+  .map-grid {
+    --tile-min: 104px;
+  }
+}
+
+.tile__map {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+}
+
+.map-glyph {
+  display: block;
+  flex: none;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.tile--map[aria-pressed='true'] {
+  background: var(--light-canvas);
+  color: var(--light-ink);
+}
+
+.field--map {
+  background: var(--light-canvas);
+  color: var(--light-ink);
+}
+
+.field--map .map-glyph {
+  max-width: 70%;
+  max-height: 70%;
+}
+
+/*
+ * Large previews keep a live 1.5 px stroke, as a map inserted into Figma does.
+ * Scaling the stroke with the drawing would turn small islands (Cabo Verde,
+ * Seychelles) into blots; the downloaded SVG itself is unchanged and the
+ * "working sizes" row shows exactly how it renders.
+ */
+.field--map .map-glyph :is(path),
+.map-hero .map-glyph :is(path) {
+  vector-effect: non-scaling-stroke;
+}
+
+.panel__title--name {
+  font-family: var(--font-sans);
+  font-size: 20px;
+  letter-spacing: -0.02em;
+}
+
+/* ---------------- country maps (homepage) ---------------- */
+
+.maps-intro {
+  border-top: 1px solid var(--line);
+}
+
+.maps-intro__regions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  border-top: 1px solid var(--line);
+}
+
+.maps-intro__region {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+@media (min-width: 760px) {
+  .maps-intro__region {
+    grid-template-columns: 200px minmax(0, 1fr);
+    align-items: center;
+  }
+}
+
+.maps-intro__region-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-2);
+}
+
+.maps-intro__region-label span {
+  margin-left: 8px;
+  color: var(--fg-3);
+}
+
+.maps-intro__strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.maps-intro__strip li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.maps-intro__actions {
+  margin-top: 40px;
+}
+
+/* ---------------- map detail page ---------------- */
+
+.map-hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 520px;
+  aspect-ratio: 1;
+}
+
+.map-hero .map-glyph {
+  max-width: 80%;
+  max-height: 80%;
+}
+
+.map-sizes .map-glyph {
+  color: var(--text);
+}
+
 /* ---------------- categories ---------------- */
 
 .cat-index {

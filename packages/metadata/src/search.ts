@@ -111,3 +111,87 @@ export function searchIcons(
 
   return typeof limit === 'number' ? results.slice(0, Math.max(0, limit)) : results;
 }
+
+/* ------------------------------------------------------------------ *
+ * Country maps
+ * ------------------------------------------------------------------ */
+
+export interface MapSearchOptions {
+  /** Restrict to one AIL regional group id (`west-africa`). */
+  region?: string | null;
+  limit?: number;
+}
+
+export interface MapSearchResult<T> {
+  map: T;
+  score: number;
+}
+
+interface SearchableMap {
+  id: string;
+  name: string;
+  officialName?: string;
+  iso2: string;
+  iso3: string;
+  region: string;
+  aliases: readonly string[];
+  keywords: readonly string[];
+}
+
+/** Apostrophes vanish rather than split a word, so "côte d’ivoire" meets "cote divoire" too. */
+function mapWords(value: string): string[] {
+  return normalise(value.replace(/[’']/g, ' '))
+    .split(/[^a-z0-9]+/)
+    .filter(Boolean);
+}
+
+function scoreMapToken(map: SearchableMap, regionLabel: string, token: string): number {
+  const iso = token.toUpperCase();
+  if (iso === map.iso2 || iso === map.iso3) return 100;
+
+  const names = [map.name, ...map.aliases, map.officialName ?? ''].filter(Boolean);
+  const words = [...new Set([...mapWords(map.id), ...names.flatMap(mapWords)])];
+  if (words.some((word) => word === token)) return 60;
+  if (words.some((word) => word.startsWith(token))) return 40;
+
+  const regionWords = [...mapWords(map.region), ...mapWords(regionLabel)];
+  if (regionWords.some((word) => word === token || word.startsWith(token))) return 15;
+
+  if (map.keywords.some((keyword) => normalise(keyword).startsWith(token))) return 5;
+  return 0;
+}
+
+/**
+ * Ranked, offline search over country maps: name, aliases (`DRC`, `Ivory
+ * Coast`), official name, ISO 3166-1 alpha-2 and alpha-3 codes, and region.
+ *
+ * Every token must match. Ties keep the caller's order — the master's regional
+ * order — so the website and the plugin always agree.
+ */
+export function searchMaps<T extends SearchableMap>(
+  maps: readonly T[],
+  query: string,
+  options: MapSearchOptions & { regionLabels?: Readonly<Record<string, string>> } = {},
+): MapSearchResult<T>[] {
+  const { region = null, limit, regionLabels = {} } = options;
+  const pool = maps
+    .map((map, index) => ({ map, index }))
+    .filter(({ map }) => !region || map.region === region);
+  const tokens = [...new Set(mapWords(query))];
+
+  const scored = pool
+    .map(({ map, index }) => {
+      let total = 0;
+      for (const token of tokens) {
+        const score = scoreMapToken(map, regionLabels[map.region] ?? '', token);
+        if (score === 0) return null;
+        total += score;
+      }
+      return { map, score: total, index };
+    })
+    .filter((entry): entry is { map: T; score: number; index: number } => entry !== null)
+    .sort((a, b) => b.score - a.score || a.index - b.index)
+    .map(({ map, score }) => ({ map, score }));
+
+  return typeof limit === 'number' ? scored.slice(0, Math.max(0, limit)) : scored;
+}

@@ -1,0 +1,41 @@
+{
+  "name": "@african-icon-library/maps",
+  "version": "0.3.0",
+  "description": "Canonical SVG country maps for the African Icon Library — 54 African countries in the library’s 1.5-stroke line language.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neustackdesign/african-icon-library.git",
+    "directory": "packages/maps"
+  },
+  "homepage": "https://icons.neustackstudio.com",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./svg/*": "./svg/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "LICENSE",
+    "README.md",
+    "dist",
+    "svg"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

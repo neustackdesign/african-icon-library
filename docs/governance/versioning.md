@@ -6,8 +6,8 @@ This document says what a breaking change is here, and what each kind of break c
 
 ## Where the version lives
 
-One version number covers the whole repository. `@african-icon-library/icons`, `metadata` and
-`react` are released together at the same version, because they are three views of one dataset and
+One version number covers the whole repository. `@african-icon-library/icons`, `metadata`, `maps`
+and `react` are released together at the same version, because they are three views of one dataset and
 a mismatched pair of them is a bug waiting to happen. The Figma plugin and the website carry the
 same number.
 

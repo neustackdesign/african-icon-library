@@ -312,3 +312,51 @@ export function checkMetadataConsistency(
 
   return issues;
 }
+
+/* ------------------------------------------------------------------ *
+ * Country maps
+ *
+ * A second asset type, not an icon category. Maps share nothing with the icon
+ * schema's weight, tier, category or cultural-review fields: a map is one
+ * outline per country, drawn once, with its own aspect ratio.
+ * ------------------------------------------------------------------ */
+
+/**
+ * The regional grouping the country-map master is organised by.
+ *
+ * This is the African Icon Library's own grouping for browsing, not a claim
+ * about any named external standard.
+ */
+export const mapRegionSchema = z.object({
+  id: iconIdSchema,
+  label: z.string().min(1),
+});
+export type MapRegion = z.infer<typeof mapRegionSchema>;
+export const mapRegionsSchema = z.array(mapRegionSchema).min(1);
+
+export const MAP_STATUSES = ['released'] as const;
+export const mapStatusSchema = z.enum(MAP_STATUSES);
+export type MapStatus = z.infer<typeof mapStatusSchema>;
+
+export const mapSchema = z
+  .object({
+    /** Stable slug, separate from the display name (`cote-d-ivoire`). */
+    id: iconIdSchema,
+    /** Short English name as people write it (`Côte d’Ivoire`). */
+    name: z.string().min(1),
+    /** Formal state name, where it differs usefully from `name`. */
+    officialName: z.string().min(1).optional(),
+    iso2: z.string().regex(/^[A-Z]{2}$/, 'iso2 must be an ISO 3166-1 alpha-2 code'),
+    iso3: z.string().regex(/^[A-Z]{3}$/, 'iso3 must be an ISO 3166-1 alpha-3 code'),
+    /** A `mapRegions` id — AIL's regional grouping. */
+    region: iconIdSchema,
+    /** Other names people search by (`DRC`, `Ivory Coast`). */
+    aliases: z.array(z.string().min(1)).default([]),
+    keywords: z.array(z.string().min(1)).default([]),
+    status: mapStatusSchema,
+    addedIn: z.string().regex(/^\d+\.\d+\.\d+$/, 'addedIn must be a semantic version'),
+  })
+  .strict();
+export type CountryMap = z.infer<typeof mapSchema>;
+
+export const mapsSchema = z.array(mapSchema).min(1);

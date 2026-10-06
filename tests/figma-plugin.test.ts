@@ -14,6 +14,7 @@ interface FakeNode {
   name: string;
   x: number;
   y: number;
+  clipsContent?: boolean;
   width: number;
   height: number;
   removed: boolean;
@@ -112,7 +113,7 @@ function makeHarness(options: { createThrows?: boolean } = {}): Harness {
     },
     createNodeFromSvg: (source: string) => {
       if (options.createThrows) throw new Error('unsupported markup');
-      const frame = makeNode({ type: 'FRAME', name: 'svg' });
+      const frame = makeNode({ type: 'FRAME', name: 'svg', clipsContent: true });
       frame.appendChild(makeNode({ type: 'VECTOR', name: 'Vector' }));
       // Remember what markup Figma was handed, so the test can assert on it.
       (frame as unknown as { source: string }).source = source;
@@ -174,6 +175,29 @@ describe('figma plugin — insertion', () => {
     expect(node.children[0].type).toBe('VECTOR');
     expect(node.children[0].constraints).toEqual({ horizontal: 'SCALE', vertical: 'SCALE' });
     expect(statuses(harness)[0].level).toBe('info');
+  });
+
+  it('inserts a map fitted to its longest side, unclipped and undistorted', async () => {
+    const { PLUGIN_MAP_BOXES } = await import('../apps/figma-plugin/src/generated/map-data.ts');
+    harness.send({ type: 'insert-map', id: 'nigeria', size: 256 });
+    expect(harness.createdNodes).toHaveLength(1);
+    const node = harness.createdNodes[0];
+    expect(node.name).toBe('Nigeria');
+    const [w, h] = PLUGIN_MAP_BOXES.nigeria!;
+    expect(Math.max(node.width, node.height)).toBeCloseTo(256, 5);
+    expect(node.width / node.height).toBeCloseTo(w / h, 3);
+    expect(node.clipsContent).toBe(false);
+    expect(node.children[0].constraints).toEqual({ horizontal: 'SCALE', vertical: 'SCALE' });
+    expect(statuses(harness)[0].level).toBe('info');
+  });
+
+  it('refuses an unknown map and falls back on a nonsense map size', () => {
+    harness.send({ type: 'insert-map', id: 'atlantis', size: 128 });
+    expect(harness.createdNodes).toHaveLength(0);
+    expect(statuses(harness).at(-1)?.level).toBe('error');
+    harness.send({ type: 'insert-map', id: 'kenya', size: Number.NaN });
+    const node = harness.createdNodes[0];
+    expect(Math.max(node.width, node.height)).toBeCloseTo(128, 5);
   });
 
   it('resolves currentColor before handing markup to Figma', () => {
@@ -350,7 +374,7 @@ describe('figma plugin — offline guarantees', () => {
 
   it('ships no networking call in its sources', async () => {
     const sources = await Promise.all(
-      ['main.ts', 'ui.ts', 'generated/icon-data.ts'].map((file) =>
+      ['main.ts', 'ui.ts', 'generated/icon-data.ts', 'generated/map-data.ts'].map((file) =>
         readFile(path.join(ROOT, 'apps/figma-plugin/src', file), 'utf8'),
       ),
     );

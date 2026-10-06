@@ -1,12 +1,10 @@
 import { getIconBody, renderIconSvg } from '@african-icon-library/icons';
-import { categories, icons } from '@african-icon-library/metadata';
+import { categories, icons, type Category, type Icon } from '@african-icon-library/metadata';
 
 import { CATEGORY_SYSTEM, categoryColour, categoryRank } from './brand';
-import { toPublicIcon, type PublicCategory, type PublicIcon } from './public-icon';
 
 export interface BrowserIcon {
-  /** Public fields only: internal provenance never reaches the browser. */
-  icon: PublicIcon;
+  icon: Icon;
   /** Inner markup for the regular weight. Injected as SVG, never as HTML. */
   body: string;
   /** The complete, copyable SVG document. */
@@ -38,14 +36,14 @@ export function browserEntries(): BrowserIcon[] {
       (a, b) => categoryRank(a.icon.category) - categoryRank(b.icon.category) || a.index - b.index,
     )
     .map(({ icon }) => ({
-      icon: toPublicIcon(icon),
+      icon,
       body: getIconBody(icon.id) ?? '',
       svg: renderIconSvg(icon.id, { title: icon.name }) ?? '',
     }));
 }
 
 /** Categories that contain at least one released icon — no empty filters — in V3 order. */
-export function populatedCategories(): PublicCategory[] {
+export function populatedCategories(): Category[] {
   return (
     categories
       .filter((category) => icons.some((icon) => icon.category === category.id))

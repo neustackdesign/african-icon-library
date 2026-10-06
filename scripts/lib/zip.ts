@@ -1,4 +1,4 @@
-import { deflateRawSync } from 'node:zlib';
+import { deflateRawSync, inflateRawSync } from 'node:zlib';
 
 /**
  * A minimal, dependency-free ZIP writer.
@@ -103,4 +103,29 @@ export function createZip(entries: readonly ZipEntry[]): Buffer {
   end.writeUInt16LE(0, 20); // comment length
 
   return Buffer.concat([...localChunks, central, end]);
+}
+
+/** Reads every file in a ZIP written by `createZip` (stored or deflated entries). */
+export function readZip(archive: Buffer): Array<{ path: string; contents: Buffer }> {
+  const end = archive.lastIndexOf(Buffer.from([0x50, 0x4b, 0x05, 0x06]));
+  if (end < 0) throw new Error('not a ZIP archive: no end of central directory');
+  const count = archive.readUInt16LE(end + 10);
+  let offset = archive.readUInt32LE(end + 16);
+  const files: Array<{ path: string; contents: Buffer }> = [];
+  for (let index = 0; index < count; index += 1) {
+    if (archive.readUInt32LE(offset) !== 0x02014b50) throw new Error('corrupt central directory');
+    const method = archive.readUInt16LE(offset + 10);
+    const compressed = archive.readUInt32LE(offset + 20);
+    const nameLength = archive.readUInt16LE(offset + 28);
+    const extraLength = archive.readUInt16LE(offset + 30);
+    const commentLength = archive.readUInt16LE(offset + 32);
+    const local = archive.readUInt32LE(offset + 42);
+    const name = archive.subarray(offset + 46, offset + 46 + nameLength).toString('utf8');
+    const dataStart =
+      local + 30 + archive.readUInt16LE(local + 26) + archive.readUInt16LE(local + 28);
+    const data = archive.subarray(dataStart, dataStart + compressed);
+    files.push({ path: name, contents: method === 8 ? inflateRawSync(data) : Buffer.from(data) });
+    offset += 46 + nameLength + extraLength + commentLength;
+  }
+  return files;
 }

@@ -4,17 +4,41 @@ The canonical definition is `packages/metadata/src/schema.ts`. It is Zod, so the
 runtime validation come from one source and cannot disagree. This document explains the shape and,
 more usefully, why each field exists.
 
+## Public and internal
+
+The canonical records carry internal maintenance fields (`provenance`, `culturalReview`, category
+`auditKey`) and the repository keeps the audit records. These are for maintenance, validation and
+audit traceability, and **never leave the repository**. Every public surface — the
+`@african-icon-library/metadata` package, the website, the Figma plugin, the release ZIPs and the
+standalone metadata JSON — uses the public contract in `packages/metadata/src/public.ts`:
+
+| Shape            | Fields                                                                                                               |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `Icon`           | `id`, `name`, `description`, `category`, `tier`, `regions`, `weights`, `keywords`, `localNames`, `status`, `addedIn` |
+| `Category`       | `id`, `label`, `description`                                                                                         |
+| `Region`         | `code`, `label`                                                                                                      |
+| `CountryMap`     | `id`, `name`, `officialName?`, `iso2`, `iso3`, `region`, `aliases`, `keywords`, `status`, `addedIn`                  |
+| `MapRegion`      | `id`, `label`                                                                                                        |
+| `LibrarySummary` | `version`, `icons`, `categories`, `maps`, `mapRegions`, `weights`                                                    |
+
+Generators project canonical records through `toPublicIcon` / `toPublicCategory` /
+`toPublicRegion`. The package builds only its public entry points (`src/index.ts`,
+`src/search.ts`), so `schema.ts` and `src/data/` are not in the tarball. `npm run verify:public`
+scans the website build, served downloads, release ZIPs and JSON, the Figma plugin bundle and
+packed npm tarballs, and fails on any internal field or per-record value; `npm run release:verify`
+checks every release metadata file has exactly the public shapes.
+
 ## Files
 
-| File                          | Contents                                       | Public?                        |
-| ----------------------------- | ---------------------------------------------- | ------------------------------ |
-| `src/data/icons.json`         | Released icons only                            | Yes — exported as `icons`      |
-| `src/data/categories.json`    | The nine-category taxonomy                     | Yes — exported as `categories` |
-| `src/data/regions.json`       | Regions in use                                 | Yes — exported as `regions`    |
-| `src/data/maps.json`          | The 54 country maps, in master order           | Yes — exported as `maps`       |
-| `src/data/map-regions.json`   | AIL's regional grouping for maps               | Yes — `mapRegions`             |
-| `src/data/audit-records.json` | All 86 audit rows, verdicts and notes verbatim | **No**                         |
-| `src/generated/data.ts`       | The three public files, compiled               | Yes                            |
+| File                          | Contents                                         | Public?                         |
+| ----------------------------- | ------------------------------------------------ | ------------------------------- |
+| `src/data/icons.json`         | Released icons, canonical (with internal fields) | Projected — exported as `icons` |
+| `src/data/categories.json`    | The nine-category taxonomy                       | Projected — `categories`        |
+| `src/data/regions.json`       | Regions in use                                   | Projected — `regions`           |
+| `src/data/maps.json`          | The 54 country maps, in master order             | Yes — exported as `maps`        |
+| `src/data/map-regions.json`   | AIL's regional grouping for maps                 | Yes — `mapRegions`              |
+| `src/data/audit-records.json` | All 86 audit rows, verdicts and notes verbatim   | **No**                          |
+| `src/generated/data.ts`       | The public projections and `library` summary     | Yes                             |
 
 `audit-records.json` is the internal working record. It stays in the repository — the design
 history is worth reading, and provenance tests check against it — but it is not exported from the
@@ -130,28 +154,16 @@ names and ISO codes are unique, and every record has exactly one SVG in `package
 (enforced by `npm run validate`). `searchMaps` matches every query token against the name,
 official name, aliases, ISO2/ISO3 (exact code ranks first) and region label.
 
-## `PipelineSummary`
-
-Aggregate counts, generated from the audit records:
+## `LibrarySummary`
 
 ```ts
 {
-  (auditRecords,
-    drawingsIngested,
-    released,
-    heldForCulturalReview,
-    heldForIconDesign,
-    backlogConcepts,
-    mergedByAudit,
-    droppedByAudit,
-    weightsShipped,
-    weightsPlanned);
+  (version, icons, categories, maps, mapRegions, weights);
 }
 ```
 
-Counts only — no names, no drawings. A concept that has not been released has not been named
-publicly, and this is what lets the website state its own limits precisely without leaking a
-premature name. A test asserts the parts sum to the whole.
+Public facts about the release: what ships, never how it was made. Audit, hold and backlog counts
+are maintenance data and stay with the repository's own tooling.
 
 ## Search
 

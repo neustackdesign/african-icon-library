@@ -58,16 +58,18 @@ jobs:
       - name: Build
         run: npm run build
 
-      # Internal icon provenance (audit filenames, verdicts, reviewer notes)
-      # must never reach a built page, RSC payload or client bundle.
-      - name: Scan the built website for internal metadata
-        run: npm run verify:public-site
-
       # Packs the publishable packages and installs them into a throwaway
       # consumer. `files`, `exports` and type resolution all look correct in the
       # repository and break the moment someone installs the tarball.
       - name: Verify publishable packages
         run: npm run verify:packages
+
+      # Internal metadata (audit filenames, verdicts, reviewer notes, audit keys,
+      # pipeline counts) must never reach any public surface: the website,
+      # served downloads, release ZIPs and JSON, the Figma plugin bundle or a
+      # packed npm tarball.
+      - name: Verify every public surface uses the public metadata contract
+        run: npm run verify:public
 
       - name: Upload release artefacts
         uses: actions/upload-artifact@v4

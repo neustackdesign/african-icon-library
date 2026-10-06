@@ -3,10 +3,17 @@ import path from 'node:path';
 
 import { describe, expect, it } from 'vitest';
 
-import { icons } from '@african-icon-library/metadata';
+import {
+  PUBLIC_CATEGORY_FIELDS,
+  PUBLIC_ICON_FIELDS,
+  categories,
+  icons,
+} from '@african-icon-library/metadata';
 
-import { browserEntries } from '../apps/web/lib/icons.ts';
-import { PUBLIC_ICON_FIELDS, toPublicIcon } from '../apps/web/lib/public-icon.ts';
+import { browserEntries, populatedCategories } from '../apps/web/lib/icons.ts';
+import { loadIcons } from '../scripts/lib/repo.ts';
+
+const canonical = await loadIcons();
 
 /**
  * Canonical icon metadata carries internal maintenance records: audit source
@@ -25,7 +32,7 @@ const INTERNAL_FIELDS = [
   'referentConfirmed',
   'auditKey',
 ];
-const internalValues = icons.flatMap((icon) =>
+const internalValues = canonical.flatMap((icon) =>
   [icon.provenance.auditSourceFile, icon.provenance.roadmapEntry, icon.culturalReview.note].filter(
     (value): value is string => Boolean(value),
   ),
@@ -40,12 +47,11 @@ function sources(dir: string): string[] {
 }
 
 describe('public icon pages never carry internal provenance', () => {
-  it('projects every released icon to public fields only', () => {
-    for (const icon of icons) {
-      const projected = toPublicIcon(icon);
-      expect(Object.keys(projected).sort(), icon.id).toEqual([...PUBLIC_ICON_FIELDS].sort());
-      const json = JSON.stringify(projected);
-      for (const field of INTERNAL_FIELDS) expect(json, icon.id).not.toContain(`"${field}"`);
+  it('reads icons and categories in the public shape from the metadata package', () => {
+    expect(icons).toHaveLength(canonical.length);
+    for (const icon of icons) expect(Object.keys(icon), icon.id).toEqual([...PUBLIC_ICON_FIELDS]);
+    for (const category of [...categories, ...populatedCategories()]) {
+      expect(Object.keys(category), category.id).toEqual([...PUBLIC_CATEGORY_FIELDS]);
     }
   });
 
@@ -58,7 +64,6 @@ describe('public icon pages never carry internal provenance', () => {
 
   it.each(['app', 'components', 'lib'])('no %s source reads an internal field', (dir) => {
     for (const file of sources(path.join(WEB, dir))) {
-      if (file.endsWith(path.join('lib', 'public-icon.ts'))) continue;
       const code = readFileSync(file, 'utf8').replace(/\/\*[\s\S]*?\*\/|\/\/.*$/gm, '');
       for (const field of INTERNAL_FIELDS) {
         expect(code, path.relative(WEB, file)).not.toMatch(new RegExp(`\\.${field}\\b`));
@@ -80,7 +85,7 @@ describe('public icon pages never carry internal provenance', () => {
       seen.add(file);
       const code = readFileSync(file, 'utf8');
       expect(code, path.relative(WEB, file)).not.toMatch(
-        /^import (?!type )[^;]*from '@african-icon-library\/metadata';/m,
+        /^import (?!type )[^;]*from '@african-icon-library\/metadata';/m, // the search subpath is fine
       );
       for (const [, spec] of code.matchAll(/^import (?!type )[^;]*from '((?:@\/|\.)[^']+)';/gm)) {
         const base = spec!.startsWith('@/')
@@ -100,5 +105,30 @@ describe('public icon pages never carry internal provenance', () => {
     };
     for (const file of client) visit(file);
     expect(seen.size).toBeGreaterThan(client.length);
+  });
+});
+
+describe('the metadata package exposes only the public contract', () => {
+  const src = path.resolve(import.meta.dirname, '../packages/metadata/src');
+  const read = (file: string) => readFileSync(path.join(src, file), 'utf8');
+  const valueImports = (code: string) =>
+    [...code.matchAll(/^import (?!type )[^;]*from '([^']+)';/gm)].map((match) => match[1]);
+
+  it('builds only the public entry points', () => {
+    const build = JSON.parse(readFileSync(path.resolve(src, '../tsconfig.build.json'), 'utf8')) as {
+      include: string[];
+    };
+    expect(build.include.sort()).toEqual(['src/index.ts', 'src/search.ts']);
+  });
+
+  it('keeps search and the public contract free of data and dependencies', () => {
+    expect(valueImports(read('search.ts'))).toEqual([]);
+    expect(valueImports(read('public.ts'))).toEqual([]);
+  });
+
+  it('never imports the internal schema or canonical data from a public module', () => {
+    for (const file of ['index.ts', 'search.ts', 'public.ts', 'generated/data.ts']) {
+      expect(read(file), file).not.toMatch(/from '\.\.?\/(schema|data\/)/);
+    }
   });
 });

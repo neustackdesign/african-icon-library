@@ -3,7 +3,7 @@ import path from 'node:path';
 
 import { describe, expect, it } from 'vitest';
 
-import { pipeline } from '@african-icon-library/metadata';
+import { library } from '@african-icon-library/metadata';
 
 import { FIGMA } from '../apps/web/lib/site.ts';
 import { iconBody } from '../scripts/lib/generators.ts';
@@ -28,7 +28,7 @@ const input: AssetInput = {
     body: bodies.get(icon.id) ?? '',
   })),
   categoryLabels: Object.fromEntries(categories.map((category) => [category.id, category.label])),
-  version: pipeline.version,
+  version: library.version,
   figmaPublished: FIGMA.published,
 };
 

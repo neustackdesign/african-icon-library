@@ -10,7 +10,7 @@ import {
   type KeyboardEvent as ReactKeyboardEvent,
 } from 'react';
 
-import type { PublicCategory as Category } from '@/lib/public-icon';
+import type { Category } from '@african-icon-library/metadata';
 
 import { track } from '@/lib/analytics';
 import { categoryColour } from '@/lib/brand';

@@ -104,7 +104,9 @@ async function main(): Promise<number> {
     `
 import { renderToStaticMarkup } from 'react-dom/server';
 import { createElement } from 'react';
-import { icons, categories, pipeline, searchIcons, getIcon } from '@african-icon-library/metadata';
+import * as Metadata from '@african-icon-library/metadata';
+import { icons, categories, library, searchIcons, getIcon } from '@african-icon-library/metadata';
+import * as SearchOnly from '@african-icon-library/metadata/search';
 import { renderIconSvg, iconIds, getIconWeights } from '@african-icon-library/icons';
 import * as ReactIcons from '@african-icon-library/react';
 
@@ -113,7 +115,13 @@ const check = (label, condition) => { if (!condition) failures.push(label); };
 
 check('metadata exports icons', icons.length === ${icons.length});
 check('metadata exports categories', categories.length > 0);
-check('pipeline released matches', pipeline.released === ${icons.length});
+check('library summary matches', library.icons === ${icons.length});
+check('library summary is public only', Object.keys(library).sort().join() === 'categories,icons,mapRegions,maps,version,weights');
+check('icons carry only public fields', icons.every((icon) => Object.keys(icon).sort().join() === 'addedIn,category,description,id,keywords,localNames,name,regions,status,tier,weights'));
+check('categories carry only public fields', categories.every((c) => Object.keys(c).sort().join() === 'description,id,label'));
+check('no internal API on the root', !['pipeline', 'auditRecordSchema', 'auditFileSchema', 'iconSchema', 'AUDIT_VERDICTS', 'checkMetadataConsistency'].some((name) => name in Metadata));
+check('search subpath is data-free', Object.keys(SearchOnly).sort().join() === 'searchIcons,searchMaps');
+check('search subpath searches', SearchOnly.searchIcons(icons, 'suya')[0]?.icon.id === 'suya');
 check('search finds a known icon', searchIcons(icons, 'suya')[0]?.icon.id === 'suya');
 check('getIcon resolves', getIcon('danfo')?.name === 'Danfo');
 check('icons package exports every id', iconIds.length === ${icons.length});

@@ -24,8 +24,8 @@ import {
   PLUGIN_MAP_SVG,
 } from '../../figma-plugin/src/generated/map-data';
 import {
+  WEIGHTS,
   categories,
-  pipeline,
   regions,
   type CountryMap,
   type Icon,
@@ -69,12 +69,10 @@ export function drawnWeights(icon: Icon): string[] {
 
 /** Weights the drawing system defines but the library has not drawn yet. */
 export function undrawnWeights(): string[] {
-  // Taken from the pipeline summary rather than the schema's `WEIGHTS` const:
-  // importing a value out of the schema module drags zod into the bundle, and
-  // the bundle must contain no absolute URLs (build.ts enforces that).
-  const known = [...pipeline.weightsShipped, ...pipeline.weightsPlanned];
+  // The public `WEIGHTS` constant is dependency-free, so it keeps zod (and its
+  // absolute URLs, which build.ts forbids) out of the bundle.
   const drawn = new Set(PLUGIN_WEIGHTS);
-  return [...new Set(known)].filter((weight) => !drawn.has(weight));
+  return WEIGHTS.filter((weight) => !drawn.has(weight));
 }
 
 /** True when at least one released icon is drawn in more than one weight. */

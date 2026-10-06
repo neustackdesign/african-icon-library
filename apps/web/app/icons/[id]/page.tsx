@@ -9,7 +9,6 @@ import { getCategory, getIcon, icons } from '@african-icon-library/metadata';
 import { IconGlyph } from '@/components/IconGlyph';
 import { TrackedLink } from '@/components/TrackedLink';
 import { categoryColour } from '@/lib/brand';
-import { toPublicIcon } from '@/lib/public-icon';
 import { LIBRARY, SITE } from '@/lib/site';
 
 interface Params {
@@ -41,10 +40,8 @@ const SIZES = [16, 24, 32, 48, 64] as const;
 
 export default async function IconPage({ params }: Params) {
   const { id } = await params;
-  const record = getIcon(id);
-  if (!record) notFound();
-  // Public fields only: internal provenance and review notes are not renderable here.
-  const icon = toPublicIcon(record);
+  const icon = getIcon(id);
+  if (!icon) notFound();
 
   const body = getIconBody(icon.id) ?? '';
   const svg = renderIconSvg(icon.id, { title: icon.name }) ?? '';

@@ -1,66 +1,52 @@
 /**
- * Canonical, typed metadata for the African Icon Library.
+ * Public metadata for the African Icon Library.
  *
- * This module exposes released icons only. Working records from the August 2026
- * v3 audit — verdicts, redraw notes, held drawings — live in
- * `src/data/audit-records.json`, are excluded from the published package, and
- * are never rendered in a public surface. See docs/metadata-schema.md.
+ * Everything this package exports follows the public contract in
+ * `./public.ts`: released icons, categories, regions, country maps, AIL map
+ * regions and a release summary. Internal maintenance records (audit
+ * provenance, reviewer notes, audit cross-references, pipeline counts) live
+ * only in the repository and are not part of this package. See
+ * docs/metadata-schema.md.
+ *
+ * Search is also available on its own, without loading any records, as
+ * `@african-icon-library/metadata/search`.
  */
 
 export type {
-  AuditRecord,
-  AuditVerdict,
   Category,
   CountryMap,
-  CulturalReview,
   Icon,
-  IconStatus,
+  LibrarySummary,
   LocalName,
   MapRegion,
   MapStatus,
-  MetadataConsistencyIssue,
-  PipelineSummary,
+  Region,
   Tier,
   Weight,
-} from './schema.js';
-
+} from './public.js';
 export {
-  AUDIT_VERDICTS,
   BASELINE_WEIGHT,
-  ICON_STATUSES,
+  MAP_STATUSES,
+  PUBLIC_CATEGORY_FIELDS,
+  PUBLIC_ICON_FIELDS,
   TIERS,
   WEIGHTS,
-  auditFileSchema,
-  auditRecordSchema,
-  auditVerdictSchema,
-  categoriesSchema,
-  categorySchema,
-  checkMetadataConsistency,
-  culturalReviewSchema,
-  iconIdSchema,
-  iconSchema,
-  iconStatusSchema,
-  iconsSchema,
-  localNameSchema,
-  MAP_STATUSES,
-  mapRegionSchema,
-  mapRegionsSchema,
-  mapSchema,
-  mapsSchema,
-  pipelineSummarySchema,
-  regionSchema,
-  releasedIconSchema,
-  tierSchema,
-  weightSchema,
-} from './schema.js';
+} from './public.js';
 
-export type { MapSearchOptions, MapSearchResult, SearchOptions, SearchResult } from './search.js';
+export type {
+  MapSearchOptions,
+  MapSearchResult,
+  SearchableIcon,
+  SearchableMap,
+  SearchOptions,
+  SearchResult,
+} from './search.js';
 export { searchIcons, searchMaps } from './search.js';
 
-import type { Category, CountryMap, Icon, MapRegion } from './schema.js';
-import { categories, icons, mapRegions, maps, pipeline, regions } from './generated/data.js';
+import type { Category, CountryMap, Icon, MapRegion } from './public.js';
+import { categories, icons, library, mapRegions, maps, regions } from './generated/data.js';
 
-export { categories, icons, mapRegions, maps, pipeline, regions };
+export { categories, icons, library, mapRegions, maps, regions };
 
 const mapsById = new Map<string, CountryMap>(maps.map((map) => [map.id, map]));
 const mapRegionsById = new Map<string, MapRegion>(mapRegions.map((region) => [region.id, region]));

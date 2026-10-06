@@ -17,6 +17,8 @@ import { readFile, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 
 import { ROOT, listMapAssets, relative } from './lib/repo.ts';
+import { readZip } from './lib/zip.ts';
+import { PUBLIC_CATEGORY_FIELDS, PUBLIC_ICON_FIELDS } from '../packages/metadata/src/public.ts';
 
 const RELEASE_DIR = path.join(ROOT, 'release');
 const MANIFEST = path.join(RELEASE_DIR, 'manifest.json');
@@ -125,6 +127,66 @@ async function main(): Promise<number> {
   else if (iconZip.includes('maps/svg/') || iconZip.includes('ail/maps'))
     problems.push(`${iconZipName}: the icon-only archive contains maps`);
 
+  /* Every metadata file shipped in a release must follow the public metadata
+     contract exactly: public icon and category fields only, and no top-level
+     key outside the public set. */
+  const TOP_LEVEL = new Set([
+    'version',
+    'library',
+    'icons',
+    'categories',
+    'category',
+    'maps',
+    'mapRegions',
+  ]);
+  const LIBRARY_KEYS = 'categories,icons,mapRegions,maps,version,weights';
+  const iconKeys = PUBLIC_ICON_FIELDS.join();
+  const categoryKeys = PUBLIC_CATEGORY_FIELDS.join();
+  const metadataFiles: Array<{ name: string; json: Record<string, unknown> }> = [];
+  for (const name of onDisk) {
+    const file = path.join(RELEASE_DIR, name);
+    if (name.endsWith('.json')) {
+      metadataFiles.push({ name, json: JSON.parse(await readFile(file, 'utf8')) });
+    } else if (name.endsWith('.zip')) {
+      for (const entry of readZip(await readFile(file))) {
+        if (entry.path.endsWith('/metadata.json')) {
+          metadataFiles.push({
+            name: `${name} › ${entry.path}`,
+            json: JSON.parse(entry.contents.toString('utf8')),
+          });
+        }
+      }
+    }
+  }
+  let contractChecked = 0;
+  for (const { name, json } of metadataFiles) {
+    const extra = Object.keys(json).filter((key) => !TOP_LEVEL.has(key));
+    if (extra.length > 0) problems.push(`${name}: non-public top-level key(s) ${extra.join(', ')}`);
+    const icons = (json.icons ?? []) as Array<Record<string, unknown>>;
+    for (const icon of icons) {
+      if (Object.keys(icon).join() !== iconKeys) {
+        problems.push(`${name}: icon "${String(icon.id)}" is not in the public icon shape`);
+      }
+    }
+    const categories = [
+      ...((json.categories ?? []) as Array<Record<string, unknown>>),
+      ...(json.category ? [json.category as Record<string, unknown>] : []),
+    ];
+    for (const category of categories) {
+      if (Object.keys(category).join() !== categoryKeys) {
+        problems.push(
+          `${name}: category "${String(category.id)}" is not in the public category shape`,
+        );
+      }
+    }
+    if (json.library && Object.keys(json.library).sort().join() !== LIBRARY_KEYS) {
+      problems.push(`${name}: library summary is not in the public shape`);
+    }
+    contractChecked += 1;
+  }
+  const metadataJsonFiles = metadataFiles.filter((file) => 'icons' in file.json).length;
+  if (metadataJsonFiles === 0) problems.push('no release metadata carries icons to verify');
+
   if (problems.length > 0) {
     process.stderr.write(
       `Release artefact verification FAILED — ${problems.length} problem(s):\n` +
@@ -136,7 +198,8 @@ async function main(): Promise<number> {
 
   process.stdout.write(
     `Release artefacts verified for v${manifest.version} — ` +
-      `${checked.length} file(s), every published SHA-256 recomputed from disk and matching.\n` +
+      `${checked.length} file(s), every published SHA-256 recomputed from disk and matching; ` +
+      `${contractChecked} metadata file(s) in the public metadata contract.\n` +
       checked.map((name) => `  ${name}`).join('\n') +
       '\n',
   );

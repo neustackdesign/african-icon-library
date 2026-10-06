@@ -19,6 +19,7 @@ import {
   loadMapRegions,
   loadMaps,
   listMapAssets,
+  loadMapSources,
   writeGenerated,
   type SvgAsset,
 } from './repo.ts';
@@ -209,7 +210,11 @@ export function mapViewBox(source: string): [number, number] {
 }
 
 export async function generateMaps(): Promise<string> {
-  const [assets, maps] = await Promise.all([listMapAssets(), loadMaps()]);
+  const [assets, maps, { manifest }] = await Promise.all([
+    listMapAssets(),
+    loadMaps(),
+    loadMapSources(),
+  ]);
   const byId = new Map(assets.map((asset) => [asset.id, asset]));
   const ordered = maps.map((map) => {
     const asset = byId.get(map.id);
@@ -235,6 +240,9 @@ export async function generateMaps(): Promise<string> {
     '',
     "/** Every map id, in the master's regional order. */",
     `export const mapIds: readonly string[] = ${literal(ordered.map((map) => map.id))};`,
+    '',
+    '/** The cartographic policy from `packages/maps/source/manifest.json`. */',
+    `export const MAP_BOUNDARY_POLICY = ${JSON.stringify(manifest.policy)};`,
   ].join('\n');
 
   await writeGenerated(PATHS.mapsGenerated, body);

@@ -9,6 +9,7 @@
  * the changelog's own.
  */
 
+import { MAP_BOUNDARY_POLICY } from '@african-icon-library/maps';
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
@@ -102,6 +103,8 @@ async function main(): Promise<number> {
             (region) =>
               `| ${region.label} | ${maps.filter((map) => map.region === region.id).length} |`,
           ),
+          '',
+          `${MAP_BOUNDARY_POLICY} See docs/maps-cartography.md.`,
           '',
         ].join('\n')
       : '',

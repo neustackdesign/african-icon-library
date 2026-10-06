@@ -65,7 +65,7 @@ function attributes(tag: string): Record<string, string> {
 }
 
 /** 3-decimal fixed point with trailing zeros dropped, so output is byte-stable. */
-function num(value: number): string {
+export function num(value: number): string {
   const rounded = Math.round(value * 1000) / 1000;
   return (Object.is(rounded, -0) ? 0 : rounded).toString();
 }

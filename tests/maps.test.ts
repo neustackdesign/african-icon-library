@@ -13,13 +13,22 @@ import {
   MapIngestError,
   extractMaps,
 } from '../scripts/lib/map-ingest.ts';
-import { PATHS, listMapAssets, loadMapRegions, loadMaps } from '../scripts/lib/repo.ts';
+import { readOverrideSvg, resolveMaps } from '../scripts/lib/map-sources.ts';
+import {
+  PATHS,
+  listMapAssets,
+  loadMapRegions,
+  loadMapSources,
+  loadMaps,
+} from '../scripts/lib/repo.ts';
 import { validateMapAsset, validateMapCollection } from '../scripts/lib/validate.ts';
 
 const master = await readFile(PATHS.mapsMaster, 'utf8');
 const records = await loadMaps();
 const regions = await loadMapRegions();
 const assets = await listMapAssets();
+const sources = await loadMapSources();
+const resolved = resolveMaps(master, records, sources.manifest, sources.overrides);
 
 describe('map ingest', () => {
   it('extracts exactly 54 maps in the N7 / W15 / C8 / E16 / S8 grouping', () => {
@@ -34,12 +43,11 @@ describe('map ingest', () => {
     }
   });
 
-  it('is deterministic and matches the committed SVGs byte for byte', () => {
-    const first = extractMaps(master, records);
-    const second = extractMaps(master, records);
-    expect(second).toEqual(first);
+  it('is deterministic and the committed SVGs match their resolved sources byte for byte', () => {
+    expect(extractMaps(master, records)).toEqual(extractMaps(master, records));
+    expect(resolveMaps(master, records, sources.manifest, sources.overrides)).toEqual(resolved);
     const committed = new Map(assets.map((asset) => [asset.id, asset.source]));
-    for (const map of first) expect(committed.get(map.id), map.id).toBe(map.svg);
+    for (const map of resolved) expect(committed.get(map.id), map.id).toBe(map.svg);
   });
 
   it('fails loudly when the master loses a country', () => {
@@ -55,6 +63,71 @@ describe('map ingest', () => {
     const byId = new Map(extractMaps(master, records).map((map) => [map.id, map]));
     expect(byId.get('cabo-verde')!.subpaths).toBeGreaterThan(1);
     expect(byId.get('comoros')!.subpaths).toBeGreaterThan(1);
+  });
+});
+
+describe('map sources and overrides', () => {
+  const OVERRIDES = ['equatorial-guinea', 'mauritius', 'morocco', 'tanzania'];
+  const byId = new Map(resolved.map((map) => [map.id, map]));
+
+  it('declares every map exactly once: 50 from the master, four overrides', () => {
+    expect(Object.keys(sources.manifest.overrides).sort()).toEqual(OVERRIDES);
+    expect(Object.keys(sources.overrides).sort()).toEqual(OVERRIDES);
+    expect(sources.manifest.fromMaster).toHaveLength(50);
+    expect([...sources.manifest.fromMaster, ...OVERRIDES].sort()).toEqual(
+      records.map((map) => map.id).sort(),
+    );
+    for (const id of OVERRIDES) {
+      const entry = sources.manifest.overrides[id]!;
+      expect(entry.file).toBe(`overrides/${id}.svg`);
+      expect(entry.reason.length).toBeGreaterThan(20);
+      expect(entry.sources[0]!.url).toContain('natural-earth-vector/v5.1.2');
+    }
+  });
+
+  it('ships Morocco from its override, never the master outline that includes Western Sahara', () => {
+    const morocco = byId.get('morocco')!;
+    expect(morocco.source).toBe('override');
+    expect(morocco.svg).not.toBe(morocco.masterSvg);
+    expect(assets.find((asset) => asset.id === 'morocco')!.source).toBe(sources.overrides.morocco);
+    // The master path survives only as provenance.
+    const masterD = /d="([^"]+)"/.exec(morocco.masterSvg)![1]!;
+    expect(assets.some((asset) => asset.source.includes(masterD))).toBe(false);
+  });
+
+  it('adds the missing national territory to the other three overrides', () => {
+    expect(byId.get('tanzania')!.subpaths).toBe(3); // mainland, Unguja, Pemba
+    expect(byId.get('mauritius')!.subpaths).toBe(2); // main island, Rodrigues
+    expect(byId.get('equatorial-guinea')!.subpaths).toBe(3); // Río Muni, Bioko, Annobón
+    for (const id of OVERRIDES) expect(byId.get(id)!.svg).not.toBe(byId.get(id)!.masterSvg);
+  });
+
+  it('refuses an override that silently reverts to the master', () => {
+    const reverted = { ...sources.overrides, morocco: byId.get('morocco')!.masterSvg };
+    expect(() => resolveMaps(master, records, sources.manifest, reverted)).toThrow(MapIngestError);
+  });
+
+  it('refuses undeclared, missing or double-declared sources', () => {
+    expect(() =>
+      resolveMaps(master, records, sources.manifest, { ...sources.overrides, kenya: '' }),
+    ).toThrow(/undeclared/);
+    const { morocco: _, ...rest } = sources.overrides;
+    expect(() => resolveMaps(master, records, sources.manifest, rest)).toThrow(/missing/);
+    const doubled = {
+      ...sources.manifest,
+      fromMaster: [...sources.manifest.fromMaster, 'morocco'],
+    };
+    expect(() => resolveMaps(master, records, doubled, sources.overrides)).toThrow(/twice|both/);
+  });
+
+  it('only accepts overrides in the normalised map form', () => {
+    expect(() => readOverrideSvg('morocco', '<svg/>')).toThrow(MapIngestError);
+  });
+
+  it('states the cartographic policy', () => {
+    expect(sources.manifest.policy).toBe(
+      'AIL follows a documented cartographic treatment for disputed territories. Boundary representations do not imply endorsement of territorial claims.',
+    );
   });
 });
 

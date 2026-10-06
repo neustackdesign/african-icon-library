@@ -1,3 +1,4 @@
+import { MAP_BOUNDARY_POLICY } from '@african-icon-library/maps';
 import type { CSSProperties } from 'react';
 
 import { mapEntries, populatedMapRegions } from '@/lib/maps';
@@ -26,6 +27,7 @@ export function MapsSection() {
             proportions, paints with <code>currentColor</code> and ships as its own SVG — a second
             asset type alongside the icons.
           </p>
+          <p className="note">{MAP_BOUNDARY_POLICY}</p>
         </div>
 
         <div className="maps-intro__regions">

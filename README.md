@@ -38,7 +38,9 @@ Country maps are a second asset type alongside icons — not an icon category. T
 | Southern Africa |      8 |
 | **Total**       | **54** |
 
-Each map is a standalone `currentColor` SVG with a 1.5 stroke, a tight viewBox and its real proportions (no square canvas, no distortion). Every map is drawn at the same longest side, so maps do not show relative geographic size. They are extracted deterministically from `packages/maps/source/african-country-maps-4x-master.svg` by `npm run maps:ingest`; never edit `packages/maps/svg` by hand. Metadata (names, ISO 3166-1 codes, aliases) lives in `packages/metadata/src/data/maps.json` and is searchable by name, alias, ISO2/ISO3 or region.
+Each map is a standalone `currentColor` SVG with a 1.5 stroke, a tight viewBox and its real proportions (no square canvas, no distortion). Every map is drawn at the same longest side, so maps do not show relative geographic size. `npm run maps:ingest` builds them deterministically from the sources declared in `packages/maps/source/manifest.json`: 50 come straight from the original master sheet, and four come from documented overrides that supersede it (Morocco without Western Sahara; Tanzania with Zanzibar; Mauritius with Rodrigues; Equatorial Guinea with Annobón). See [docs/maps-cartography.md](docs/maps-cartography.md). Never edit `packages/maps/svg` by hand.
+
+> AIL follows a documented cartographic treatment for disputed territories. Boundary representations do not imply endorsement of territorial claims. Metadata (names, ISO 3166-1 codes, aliases) lives in `packages/metadata/src/data/maps.json` and is searchable by name, alias, ISO2/ISO3 or region.
 
 ```ts
 import { renderMapSvg } from '@african-icon-library/maps';
@@ -77,7 +79,7 @@ apps/
   figma-community-builder/  Community-file builder
 packages/
   icons/             canonical released SVG assets
-  maps/              country-map SVGs, their source master and helpers
+  maps/              country-map SVGs, their sources (master, overrides, manifest) and helpers
   metadata/          typed icon, category and map metadata and search
   react/             generated React icon components
 scripts/             validation, generation and release tooling

@@ -1,6 +1,7 @@
 import { readFile, readdir, writeFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import type { MapSourceManifest } from './map-sources.ts';
 
 import {
   auditFileSchema,
@@ -27,6 +28,8 @@ export const PATHS = {
   maps: path.join(ROOT, 'packages/metadata/src/data/maps.json'),
   mapRegions: path.join(ROOT, 'packages/metadata/src/data/map-regions.json'),
   mapsMaster: path.join(ROOT, 'packages/maps/source/african-country-maps-4x-master.svg'),
+  mapsSourceManifest: path.join(ROOT, 'packages/maps/source/manifest.json'),
+  mapsOverrides: path.join(ROOT, 'packages/maps/source/overrides'),
   mapsSvgRoot: path.join(ROOT, 'packages/maps/svg'),
   mapsGenerated: path.join(ROOT, 'packages/maps/src/generated/maps.ts'),
   pluginMapsGenerated: path.join(ROOT, 'apps/figma-plugin/src/generated/map-data.ts'),
@@ -140,4 +143,25 @@ export async function writeGenerated(file: string, body: string): Promise<void> 
 
 export function relative(file: string): string {
   return path.relative(ROOT, file);
+}
+
+/** The master sheet, the source manifest and every committed override SVG. */
+export async function loadMapSources(): Promise<{
+  master: string;
+  manifest: MapSourceManifest;
+  overrides: Record<string, string>;
+}> {
+  const [master, manifest] = await Promise.all([
+    readFile(PATHS.mapsMaster, 'utf8'),
+    readJson(PATHS.mapsSourceManifest) as Promise<MapSourceManifest>,
+  ]);
+  const overrides: Record<string, string> = {};
+  const files = await readdir(PATHS.mapsOverrides).catch(() => [] as string[]);
+  for (const file of files.filter((name) => name.endsWith('.svg')).sort()) {
+    overrides[path.basename(file, '.svg')] = await readFile(
+      path.join(PATHS.mapsOverrides, file),
+      'utf8',
+    );
+  }
+  return { master, manifest, overrides };
 }

@@ -1,24 +1,27 @@
 /**
- * Writes `packages/maps/svg/<id>.svg` from the country-map master.
+ * Writes `packages/maps/svg/<id>.svg` from the canonical map sources.
  *
  *   npm run maps:ingest            regenerate the 54 standalone SVGs
  *   npm run maps:ingest -- --check fail if any committed SVG differs
  *
- * Deterministic: the same master and metadata always produce the same bytes.
+ * `packages/maps/source/manifest.json` decides each map's source: the master
+ * sheet by default, or a declared override in `source/overrides/` that
+ * supersedes it. An override is never overwritten by the master.
+ * Deterministic: the same sources and metadata always produce the same bytes.
  * It also deletes any SVG with no metadata row, so an orphan cannot linger.
  */
 
 import { readFile, readdir, rm, writeFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
 
-import { extractMaps } from '../lib/map-ingest.ts';
-import { PATHS, loadMaps, relative } from '../lib/repo.ts';
+import { resolveMaps } from '../lib/map-sources.ts';
+import { PATHS, loadMapSources, loadMaps, relative } from '../lib/repo.ts';
 
 const check = process.argv.includes('--check');
 
 async function main(): Promise<number> {
-  const [source, maps] = await Promise.all([readFile(PATHS.mapsMaster, 'utf8'), loadMaps()]);
-  const extracted = extractMaps(source, maps);
+  const [{ master, manifest, overrides }, maps] = await Promise.all([loadMapSources(), loadMaps()]);
+  const extracted = resolveMaps(master, maps, manifest, overrides);
 
   await mkdir(PATHS.mapsSvgRoot, { recursive: true });
   const existing = (await readdir(PATHS.mapsSvgRoot)).filter((file) => file.endsWith('.svg'));
@@ -31,7 +34,7 @@ async function main(): Promise<number> {
     if (current === map.svg) continue;
     if (check)
       problems.push(
-        `${relative(file)} ${current === null ? 'is missing' : 'differs from the master'}`,
+        `${relative(file)} ${current === null ? 'is missing' : `differs from its ${map.source === 'override' ? 'override' : 'master'} source`}`,
       );
     else await writeFile(file, map.svg, 'utf8');
   }
@@ -57,6 +60,10 @@ async function main(): Promise<number> {
     .map((map) => `${map.id}(${map.subpaths})`);
   process.stdout.write(
     `${check ? 'verified' : 'wrote'} ${extracted.length} country maps in ${relative(PATHS.mapsSvgRoot)}\n` +
+      `  overrides: ${extracted
+        .filter((map) => map.source === 'override')
+        .map((map) => map.id)
+        .join(', ')}\n` +
       `  multi-part outlines: ${islands.join(', ')}\n`,
   );
   return 0;

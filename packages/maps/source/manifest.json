@@ -1,0 +1,131 @@
+{
+  "$comment": "Canonical source of every country map. `npm run maps:ingest` extracts maps listed in fromMaster from the master sheet and copies each declared override as canonical; an override is never overwritten by the master. The master stays unchanged as provenance.",
+  "policy": "AIL follows a documented cartographic treatment for disputed territories. Boundary representations do not imply endorsement of territorial claims.",
+  "scope": "54 UN member states in Africa. Western Sahara is not a separate AIL map in this release.",
+  "master": {
+    "file": "african-country-maps-4x-master.svg",
+    "role": "Original AIL presentation master. Immutable provenance; default source for every map not overridden."
+  },
+  "naturalEarth": {
+    "version": "5.1.2",
+    "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_10m_admin_0_map_subunits.geojson",
+    "sha256": "76896018b9265072d8063e118e46df765be0ceb54a803b1a2571ebe25b36a071",
+    "derivedBy": "scripts/ingest/derive-map-overrides.ts"
+  },
+  "fromMaster": [
+    "algeria",
+    "tunisia",
+    "libya",
+    "egypt",
+    "sudan",
+    "mauritania",
+    "senegal",
+    "gambia",
+    "guinea-bissau",
+    "guinea",
+    "sierra-leone",
+    "burkina-faso",
+    "liberia",
+    "mali",
+    "cote-d-ivoire",
+    "ghana",
+    "niger",
+    "nigeria",
+    "togo",
+    "benin",
+    "cabo-verde",
+    "cameroon",
+    "chad",
+    "central-african-republic",
+    "gabon",
+    "congo-brazzaville",
+    "sao-tome-and-principe",
+    "congo-kinshasa",
+    "eritrea",
+    "djibouti",
+    "ethiopia",
+    "somalia",
+    "south-sudan",
+    "kenya",
+    "uganda",
+    "rwanda",
+    "malawi",
+    "madagascar",
+    "comoros",
+    "seychelles",
+    "burundi",
+    "mozambique",
+    "angola",
+    "zambia",
+    "namibia",
+    "botswana",
+    "zimbabwe",
+    "south-africa",
+    "eswatini",
+    "lesotho"
+  ],
+  "overrides": {
+    "morocco": {
+      "file": "overrides/morocco.svg",
+      "reason": "The master's Morocco includes Western Sahara. AIL's approved cartographic treatment shows Morocco without Western Sahara.",
+      "treatment": "Redrawn from Natural Earth subunit MAR, clipped at 27.661439°N (the Morocco–Western Sahara line in the same dataset); equirectangular, x scaled by cos(mean latitude); Douglas–Peucker simplified; normalised to the shared 19.6 longest side.",
+      "sources": [
+        {
+          "dataset": "Natural Earth 1:10m Cultural — Admin 0 map subunits (v5.1.2)",
+          "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_10m_admin_0_map_subunits.geojson",
+          "licence": "Public domain (Natural Earth terms of use)",
+          "features": [
+            "SU_A3=MAR"
+          ]
+        }
+      ]
+    },
+    "tanzania": {
+      "file": "overrides/tanzania.svg",
+      "reason": "The master omits Zanzibar (Unguja and Pemba), sovereign Tanzanian territory.",
+      "treatment": "Master mainland outline kept unchanged in shape; Unguja and Pemba added from Natural Earth, placed by fitting Natural Earth's mainland to the master's.",
+      "sources": [
+        {
+          "dataset": "Natural Earth 1:10m Cultural — Admin 0 map subunits (v5.1.2)",
+          "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_10m_admin_0_map_subunits.geojson",
+          "licence": "Public domain (Natural Earth terms of use)",
+          "features": [
+            "SU_A3=TZZ (Unguja, Pemba)",
+            "SU_A3=TZA (mainland, for placement only)"
+          ]
+        }
+      ]
+    },
+    "mauritius": {
+      "file": "overrides/mauritius.svg",
+      "reason": "The master omits Rodrigues, sovereign Mauritian territory.",
+      "treatment": "Master main island kept unchanged in shape; Rodrigues added from Natural Earth at true relative scale and bearing. The ~560 km sea gap is shortened to one main-island width, as an inset. Agaléga and other outer islets are not drawn.",
+      "sources": [
+        {
+          "dataset": "Natural Earth 1:10m Cultural — Admin 0 map subunits (v5.1.2)",
+          "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_10m_admin_0_map_subunits.geojson",
+          "licence": "Public domain (Natural Earth terms of use)",
+          "features": [
+            "SU_A3=MUS (Rodrigues; main island for placement only)"
+          ]
+        }
+      ]
+    },
+    "equatorial-guinea": {
+      "file": "overrides/equatorial-guinea.svg",
+      "reason": "The master omits Annobón, sovereign Equatoguinean territory.",
+      "treatment": "Master Río Muni and Bioko kept unchanged in shape; Annobón added from Natural Earth at its true position and scale, placed by fitting Natural Earth's Río Muni to the master's.",
+      "sources": [
+        {
+          "dataset": "Natural Earth 1:10m Cultural — Admin 0 map subunits (v5.1.2)",
+          "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_10m_admin_0_map_subunits.geojson",
+          "licence": "Public domain (Natural Earth terms of use)",
+          "features": [
+            "SU_A3=GNA (Annobón)",
+            "SU_A3=GNR (Río Muni, for placement only)"
+          ]
+        }
+      ]
+    }
+  }
+}

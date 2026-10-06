@@ -12,7 +12,7 @@ Country Maps: a second asset type alongside icons.
 
 ### Added
 
-- **54 country maps**, one outline per African country, grouped by AIL's regional grouping (North 7, West 15, Central 8, East 16, Southern 8). Stroked `currentColor` SVGs with real proportions, extracted deterministically from a committed master (`npm run maps:ingest`).
+- **54 country maps**, one outline per African country, grouped by AIL's regional grouping (North 7, West 15, Central 8, East 16, Southern 8). Stroked `currentColor` SVGs with real proportions, built deterministically (`npm run maps:ingest`) from a committed master plus four documented overrides: Morocco shown without Western Sahara, and Zanzibar, Rodrigues and Annobón added to Tanzania, Mauritius and Equatorial Guinea. AIL follows a documented cartographic treatment for disputed territories. Boundary representations do not imply endorsement of territorial claims.
 - Map metadata with names, official names, ISO 3166-1 alpha-2/alpha-3 codes and common aliases (Ivory Coast, Cape Verde, Swaziland, DRC…); search by name, alias, ISO code or region.
 - New package `@african-icon-library/maps` (`renderMapSvg`, `fitMapSize`, view boxes); `@african-icon-library/metadata` exports `maps`, `mapRegions` and `searchMaps`.
 - Website: Icons | Maps switch in the browser, a static page per country at `/maps/<id>`, map pages in the sitemap.

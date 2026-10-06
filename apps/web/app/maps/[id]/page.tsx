@@ -1,3 +1,4 @@
+import { MAP_BOUNDARY_POLICY } from '@african-icon-library/maps';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -150,6 +151,7 @@ export default async function MapPage({ params }: Params) {
               Download all maps (.zip)
             </a>
           </p>
+          <p className="note">{MAP_BOUNDARY_POLICY}</p>
 
           <h2 className="subhead">SVG source</h2>
           <pre className="code-block code-block--wrap">

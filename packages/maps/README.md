@@ -12,13 +12,18 @@ codes, AIL's regional grouping, aliases — lives in `@african-icon-library/meta
 
 ```
 svg/*.svg        one standalone SVG per country, its own viewBox, currentColor
-source/          the design master the SVGs are extracted from (not published)
+source/          the master sheet, overrides and source manifest (not published)
 src/generated/   the drawings compiled into a module
 ```
 
-`npm run maps:ingest` extracts `svg/` from `source/african-country-maps-4x-master.svg`. It is
-deterministic and fails loudly if the master's count, order or drawing treatment changes. Never
-edit `svg/` by hand.
+`npm run maps:ingest` builds `svg/` from the sources declared in `source/manifest.json`: the
+master sheet `source/african-country-maps-4x-master.svg` by default, or a declared override in
+`source/overrides/` that supersedes it. The master is kept unchanged as provenance. Ingest is
+deterministic and fails loudly if the master's count, order or drawing treatment changes, or if an
+override is missing, undeclared or identical to the master outline it replaces. Never edit `svg/`
+by hand.
+
+AIL follows a documented cartographic treatment for disputed territories. Boundary representations do not imply endorsement of territorial claims. It is exported as `MAP_BOUNDARY_POLICY`.
 
 ## Usage
 

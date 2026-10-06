@@ -7,9 +7,9 @@
  * with `currentColor`.
  */
 
-import { mapBodies, mapIds, mapViewBoxes } from './generated/maps.js';
+import { MAP_BOUNDARY_POLICY, mapBodies, mapIds, mapViewBoxes } from './generated/maps.js';
 
-export { mapBodies, mapIds, mapViewBoxes };
+export { MAP_BOUNDARY_POLICY, mapBodies, mapIds, mapViewBoxes };
 
 export const MAP_STROKE_WIDTH = 1.5;
 

@@ -99,7 +99,7 @@
     "mauritius": {
       "file": "overrides/mauritius.svg",
       "reason": "The master omits Rodrigues, sovereign Mauritian territory.",
-      "treatment": "Master main island kept unchanged in shape; Rodrigues added from Natural Earth at true relative scale and bearing. The ~560 km sea gap is shortened to one main-island width, as an inset. Agaléga and other outer islets are not drawn.",
+      "treatment": "Master main island kept unchanged in shape. Rodrigues is added from Natural Earth at its true relative scale and true bearing from the drawing's centre, then moved inward along that bearing until it sits one inset gap (2.5 units: the 1.5 stroke plus one clear unit) clear of the existing drawing, so the ~560 km of open sea is shortened. Agaléga and other outer islets are not drawn.",
       "sources": [
         {
           "dataset": "Natural Earth 1:10m Cultural — Admin 0 map subunits (v5.1.2)",
@@ -114,7 +114,7 @@
     "equatorial-guinea": {
       "file": "overrides/equatorial-guinea.svg",
       "reason": "The master omits Annobón, sovereign Equatoguinean territory.",
-      "treatment": "Master Río Muni and Bioko kept unchanged in shape; Annobón added from Natural Earth at its true position and scale, placed by fitting Natural Earth's Río Muni to the master's.",
+      "treatment": "Master Río Muni and Bioko kept unchanged in shape. Annobón is added from Natural Earth at its true relative scale and true bearing from the drawing's centre, then deliberately moved inward along that bearing as an inset, sitting one inset gap (2.5 units: the 1.5 stroke plus one clear unit) clear of the existing drawing, so the open-sea distance is shortened. Placement against the master uses a fit of Natural Earth's Río Muni to the master's.",
       "sources": [
         {
           "dataset": "Natural Earth 1:10m Cultural — Admin 0 map subunits (v5.1.2)",

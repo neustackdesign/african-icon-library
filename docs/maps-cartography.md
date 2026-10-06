@@ -22,12 +22,12 @@ to the master outline it replaces.
 
 ## The four overrides
 
-| Map               | Why                                           | Treatment                                                                                                                                                              |
-| ----------------- | --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Morocco           | The master's Morocco includes Western Sahara. | Redrawn from Natural Earth subunit `MAR`, clipped at 27.661439°N, the Morocco–Western Sahara line in the same dataset.                                                 |
-| Tanzania          | The master omits Zanzibar.                    | Master mainland kept; Unguja and Pemba (`TZZ`) added at their true positions.                                                                                          |
-| Mauritius         | The master omits Rodrigues.                   | Master main island kept; Rodrigues added at true scale and bearing, as an inset: the open sea between them is shortened. Agaléga and other outer islets are not drawn. |
-| Equatorial Guinea | The master omits Annobón.                     | Master Río Muni and Bioko kept; Annobón (`GNA`) added at true scale and bearing, as an inset.                                                                          |
+| Map               | Why                                           | Treatment                                                                                                                                                                                                                                           |
+| ----------------- | --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Morocco           | The master's Morocco includes Western Sahara. | Redrawn from Natural Earth subunit `MAR`, clipped at 27.661439°N, the Morocco–Western Sahara line in the same dataset.                                                                                                                              |
+| Tanzania          | The master omits Zanzibar.                    | Master mainland kept; Unguja and Pemba (`TZZ`) added at their true positions.                                                                                                                                                                       |
+| Mauritius         | The master omits Rodrigues.                   | Master main island kept; Rodrigues added at its true relative scale and bearing, then moved inward along that bearing until it sits one inset gap clear of the drawing, so the open sea is shortened. Agaléga and other outer islets are not drawn. |
+| Equatorial Guinea | The master omits Annobón.                     | Master Río Muni and Bioko kept; Annobón (`GNA`) added at its true relative scale and bearing, then deliberately moved inward along that bearing as an inset, one inset gap clear of the drawing, so the open-sea distance is shortened.             |
 
 Source: [Natural Earth](https://www.naturalearthdata.com/) 1:10m Admin 0 map subunits, v5.1.2
 (public domain), pinned by SHA-256 in the manifest. The overrides are derived by
@@ -39,6 +39,7 @@ npx tsx scripts/ingest/derive-map-overrides.ts --source ne_10m_admin_0_map_subun
 npm run maps:ingest
 ```
 
+The inset gap is 2.5 units in the master's drawing space: the 1.5 stroke plus one clear unit.
 Islands are placed against the master's own mainland drawing by fitting Natural Earth's mainland to
 it, so the designed mainland geometry is kept. Projection is equirectangular with x scaled by
 cos(mean latitude), which matches the master. Every map is normalised to the same longest side,

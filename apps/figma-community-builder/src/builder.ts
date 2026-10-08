@@ -1130,16 +1130,6 @@ function buildNamesPage(page: PageNode, placer: Placer): void {
     }
     card.appendChild(local);
 
-    if (icon.culturalReview.required) {
-      card.appendChild(
-        text(`Cultural review — ${icon.culturalReview.status}`, {
-          size: 12,
-          colour: INK_MUTED,
-          width: inner,
-        }),
-      );
-    }
-
     grid.appendChild(card);
   }
 

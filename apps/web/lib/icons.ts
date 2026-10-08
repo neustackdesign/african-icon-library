@@ -44,9 +44,13 @@ export function browserEntries(): BrowserIcon[] {
 
 /** Categories that contain at least one released icon — no empty filters — in V3 order. */
 export function populatedCategories(): Category[] {
-  return categories
-    .filter((category) => icons.some((icon) => icon.category === category.id))
-    .sort((a, b) => categoryRank(a.id) - categoryRank(b.id));
+  return (
+    categories
+      .filter((category) => icons.some((icon) => icon.category === category.id))
+      .sort((a, b) => categoryRank(a.id) - categoryRank(b.id))
+      // Public fields only; `auditKey` is an internal audit cross-reference.
+      .map(({ id, label, description }) => ({ id, label, description }))
+  );
 }
 
 /** The category index: one row per populated category, built from canonical data. */

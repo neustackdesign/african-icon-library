@@ -630,8 +630,6 @@ describe('figma community builder — when a second weight is drawn', () => {
       localNames: [],
       status: 'released',
       addedIn: '0.2.0',
-      culturalReview: { required: false, status: 'not-required' },
-      provenance: { referentConfirmed: true },
     });
 
     vi.doMock(GENERATED_DATA, () => ({

@@ -2,14 +2,19 @@ import { readFile, readdir, rm } from 'node:fs/promises';
 import path from 'node:path';
 
 import type {
-  AuditRecord,
   Category,
+  CountryMap,
   Icon,
-  PipelineSummary,
   Region,
   Weight,
 } from '../../packages/metadata/src/schema.ts';
 import { WEIGHTS } from '../../packages/metadata/src/schema.ts';
+import {
+  toPublicCategory,
+  toPublicIcon,
+  toPublicRegion,
+  type LibrarySummary,
+} from '../../packages/metadata/src/public.ts';
 import {
   PATHS,
   ROOT,
@@ -28,7 +33,7 @@ import { parseSvg, serializeChildren, type SvgNode } from './svg-document.ts';
 
 /**
  * The repository version is the release version: the release workflow refuses
- * to publish unless the tag and all three package versions agree with it. Every
+ * to publish unless the tag and all four package versions agree with it. Every
  * generated surface reads it from here so no copy of it can drift.
  */
 const REPO_VERSION: string = JSON.parse(
@@ -62,94 +67,66 @@ async function loadRegions(): Promise<Region[]> {
   return regionsSchema.parse(JSON.parse(await readFile(file, 'utf8')));
 }
 
-async function loadAuditRecordsRaw(): Promise<AuditRecord[]> {
-  const parsed = JSON.parse(await readFile(PATHS.auditRecords, 'utf8')) as {
-    records: AuditRecord[];
-  };
-  return parsed.records;
-}
-
 /* ------------------------------------------------------------------ *
  * packages/metadata
  * ------------------------------------------------------------------ */
 
-export function buildPipelineSummary(
-  records: readonly AuditRecord[],
+/**
+ * The public release summary: counts of what ships, nothing about how it was
+ * made. Audit and pipeline counts stay with the repository's own tooling.
+ */
+export function buildLibrarySummary(
   icons: readonly Icon[],
-): PipelineSummary {
-  const held = records.filter((record) => record.disposition === 'held');
+  maps: readonly CountryMap[],
+): LibrarySummary {
   const shipped = new Set<Weight>();
   for (const icon of icons) for (const weight of icon.weights) shipped.add(weight);
-
-  const bySource = (source: string) =>
-    icons.filter((icon) => icon.provenance.source === source).length;
-  const releasedIds = new Set(icons.map((icon) => icon.id));
-
   return {
     version: REPO_VERSION,
-    auditRecords: records.length,
-    drawingsIngested: records.filter(
-      (record) => record.disposition === 'released' || record.disposition === 'held',
-    ).length,
-    // Counted from the released set. Audit dispositions describe what happened
-    // to the audit's own assets; they do not describe the library's size.
-    released: icons.length,
-    releasedFromAuditDrawings: bySource('v3-audit-drawing') + bySource('v2-asset-redrawn'),
-    releasedFromRoadmap: bySource('v3-audit-roadmap'),
-    heldForCulturalReview: held.filter((record) => record.hold?.blocker === 'cultural-review')
-      .length,
-    heldForIconDesign: held.filter((record) => record.hold?.blocker === 'icon-design').length,
-    // An audit row stays 'backlog' — the audit produced no drawing for it — even
-    // after this release drew the concept. Subtracting the ones now released is
-    // the difference between "still to do" and "the audit's own bookkeeping".
-    backlogConcepts: records.filter(
-      (record) => record.disposition === 'backlog' && !releasedIds.has(record.proposedId),
-    ).length,
-    mergedByAudit: records.filter((record) => record.disposition === 'merged').length,
-    droppedByAudit: records.filter((record) => record.disposition === 'dropped').length,
-    weightsShipped: WEIGHTS.filter((weight) => shipped.has(weight)),
-    weightsPlanned: WEIGHTS.filter((weight) => !shipped.has(weight)),
+    icons: icons.length,
+    categories: new Set(icons.map((icon) => icon.category)).size,
+    maps: maps.length,
+    mapRegions: new Set(maps.map((map) => map.region)).size,
+    weights: WEIGHTS.filter((weight) => shipped.has(weight)),
   };
 }
 
 export async function generateMetadata(): Promise<string> {
-  const [categories, icons, regions, records, maps, mapRegions] = await Promise.all([
+  const [categories, icons, regions, maps, mapRegions] = await Promise.all([
     loadCategories(),
     loadIcons(),
     loadRegions(),
-    loadAuditRecordsRaw(),
     loadMaps(),
     loadMapRegions(),
   ]);
 
-  const pipeline = buildPipelineSummary(records, icons);
-
   const body = [
-    "import type { Category, CountryMap, Icon, MapRegion, PipelineSummary, Region } from '../schema.js';",
-    '',
-    '/** Released icons, sorted by id. Held and backlog concepts never appear here. */',
-    `export const icons: readonly Icon[] = ${literal(icons)} as const satisfies readonly Icon[];`,
-    '',
-    `export const categories: readonly Category[] = ${literal(categories)} as const satisfies readonly Category[];`,
-    '',
-    `export const regions: readonly Region[] = ${literal(regions)} as const satisfies readonly Region[];`,
+    "import type { Category, CountryMap, Icon, LibrarySummary, MapRegion, Region } from '../public.js';",
     '',
     '/**',
-    ' * Aggregate view of the drawing pipeline.',
-    ' *',
-    ' * Counts only — no names, no drawings. A concept that has not been released',
-    ' * has not been named publicly, and the public surface must not imply otherwise.',
+    ' * Public records only, projected through `src/public.ts`. The canonical',
+    ' * records in `src/data/` carry internal maintenance fields; they never reach',
+    ' * this module.',
     ' */',
-    `export const pipeline: PipelineSummary = ${literal(pipeline)};`,
+    '',
+    '/** Released icons, sorted by id. */',
+    `export const icons: readonly Icon[] = ${literal(icons.map(toPublicIcon))};`,
+    '',
+    `export const categories: readonly Category[] = ${literal(categories.map(toPublicCategory))};`,
+    '',
+    `export const regions: readonly Region[] = ${literal(regions.map(toPublicRegion))};`,
+    '',
+    '/** Public facts about this release. */',
+    `export const library: LibrarySummary = ${literal(buildLibrarySummary(icons, maps))};`,
     '',
     '/**',
     " * Country maps — a separate asset type, not an icon category. In the master's",
     ' * order: AIL regional grouping, then reading order within each group.',
     ' */',
-    `export const maps: readonly CountryMap[] = ${literal(maps)} as const satisfies readonly CountryMap[];`,
+    `export const maps: readonly CountryMap[] = ${literal(maps)};`,
     '',
     "/** AIL's regional grouping for browsing maps, not a named external standard. */",
-    `export const mapRegions: readonly MapRegion[] = ${literal(mapRegions)} as const satisfies readonly MapRegion[];`,
+    `export const mapRegions: readonly MapRegion[] = ${literal(mapRegions)};`,
   ].join('\n');
 
   await writeGenerated(PATHS.metadataGenerated, body);
@@ -390,8 +367,8 @@ export async function generatePluginData(): Promise<string> {
   const body = [
     "import type { Icon } from '@african-icon-library/metadata';",
     '',
-    '/** Released icon metadata, identical to what the website consumes. */',
-    `export const PLUGIN_ICONS: Icon[] = ${literal(icons)};`,
+    '/** Released icons in the public metadata shape, identical to what the website consumes. */',
+    `export const PLUGIN_ICONS: Icon[] = ${literal(icons.map(toPublicIcon))};`,
     '',
     '/** Standalone SVG documents, keyed by icon id and then by drawn weight. */',
     `export const PLUGIN_SVG: Record<string, Record<string, string | undefined>> = ${literal(sourcesById)};`,

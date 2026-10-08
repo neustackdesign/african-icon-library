@@ -1,20 +1,54 @@
 # Metadata schema
 
-The canonical definition is `packages/metadata/src/schema.ts`. It is Zod, so the types and the
-runtime validation come from one source and cannot disagree. This document explains the shape and,
-more usefully, why each field exists.
+Two definitions, with different jobs:
+
+- **`packages/metadata/src/public.ts`** is the supported public contract: plain TypeScript types
+  for every record the library distributes, plus the projections (`toPublicIcon`,
+  `toPublicCategory`, `toPublicRegion`) that produce them. It has no runtime dependencies and holds
+  no data. It is what `@african-icon-library/metadata` exports.
+- **`packages/metadata/src/schema.ts`** is the repository-only Zod schema for the canonical
+  maintenance records in `src/data/`. Those records are richer than the public shapes. The schema
+  validates them before anything is generated, and it is not part of the published package.
+
+Generated public data is always the canonical records passed through the public projections, so
+the two cannot drift apart unnoticed: tests assert that the projections emit exactly the public
+fields. This document explains each shape and, more usefully, why each field exists.
+
+## Public and internal
+
+The canonical records carry internal maintenance fields (`provenance`, `culturalReview`, category
+`auditKey`) and the repository keeps the audit records. These are for maintenance, validation and
+audit traceability, and **never leave the repository**. Every public surface — the
+`@african-icon-library/metadata` package, the website, the Figma plugin, the release ZIPs and the
+standalone metadata JSON — uses the public contract in `packages/metadata/src/public.ts`:
+
+| Shape            | Fields                                                                                                               |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `Icon`           | `id`, `name`, `description`, `category`, `tier`, `regions`, `weights`, `keywords`, `localNames`, `status`, `addedIn` |
+| `Category`       | `id`, `label`, `description`                                                                                         |
+| `Region`         | `code`, `label`                                                                                                      |
+| `CountryMap`     | `id`, `name`, `officialName?`, `iso2`, `iso3`, `region`, `aliases`, `keywords`, `status`, `addedIn`                  |
+| `MapRegion`      | `id`, `label`                                                                                                        |
+| `LibrarySummary` | `version`, `icons`, `categories`, `maps`, `mapRegions`, `weights`                                                    |
+
+Generators project canonical records through `toPublicIcon` / `toPublicCategory` /
+`toPublicRegion`. The package builds only its public entry points (`src/index.ts`,
+`src/search.ts`), so `schema.ts` and `src/data/` are not in the tarball. `npm run verify:public`
+scans the website build, served downloads, release ZIPs and JSON, the Figma plugin bundle and
+packed npm tarballs, and fails on any internal field or per-record value; `npm run release:verify`
+checks every release metadata file has exactly the public shapes.
 
 ## Files
 
-| File                          | Contents                                       | Public?                        |
-| ----------------------------- | ---------------------------------------------- | ------------------------------ |
-| `src/data/icons.json`         | Released icons only                            | Yes — exported as `icons`      |
-| `src/data/categories.json`    | The nine-category taxonomy                     | Yes — exported as `categories` |
-| `src/data/regions.json`       | Regions in use                                 | Yes — exported as `regions`    |
-| `src/data/maps.json`          | The 54 country maps, in master order           | Yes — exported as `maps`       |
-| `src/data/map-regions.json`   | AIL's regional grouping for maps               | Yes — `mapRegions`             |
-| `src/data/audit-records.json` | All 86 audit rows, verdicts and notes verbatim | **No**                         |
-| `src/generated/data.ts`       | The three public files, compiled               | Yes                            |
+| File                          | Contents                                         | Public?                         |
+| ----------------------------- | ------------------------------------------------ | ------------------------------- |
+| `src/data/icons.json`         | Released icons, canonical (with internal fields) | Projected — exported as `icons` |
+| `src/data/categories.json`    | The nine-category taxonomy                       | Projected — `categories`        |
+| `src/data/regions.json`       | Regions in use                                   | Projected — `regions`           |
+| `src/data/maps.json`          | The 54 country maps, in master order             | Yes — exported as `maps`        |
+| `src/data/map-regions.json`   | AIL's regional grouping for maps                 | Yes — `mapRegions`              |
+| `src/data/audit-records.json` | All 86 audit rows, verdicts and notes verbatim   | **No**                          |
+| `src/generated/data.ts`       | The public projections and `library` summary     | Yes                             |
 
 `audit-records.json` is the internal working record. It stays in the repository — the design
 history is worth reading, and provenance tests check against it — but it is not exported from the
@@ -22,6 +56,8 @@ package root, is excluded from the published `files` list, and never reaches a p
 A test asserts that no held drawing's id or component name appears in any generated output.
 
 ## `Icon`
+
+The public shape, as distributed:
 
 ```ts
 {
@@ -36,12 +72,6 @@ A test asserts that no held drawing's id or component name appears in any genera
   localNames: LocalName[];
   status: 'released';            // public metadata is released-only, by type
   addedIn: string;               // semver of first release
-  culturalReview: CulturalReview;
-  provenance: {
-    auditSourceFile: string;     // e.g. "Group-27.png"
-    auditVerdict: AuditVerdict;
-    referentConfirmed: boolean;
-  };
 }
 ```
 
@@ -77,33 +107,55 @@ Only `confirmed` entries are rendered publicly. Pending ones still feed the sear
 diacritics stripped, so the work is useful while it waits. See
 [cultural-review.md](./cultural-review.md).
 
-### `culturalReview`
+### Internal canonical fields (repository-only)
+
+The canonical icon records in `src/data/icons.json` carry two more fields. They exist for
+maintenance, validation and audit traceability. `schema.ts` validates them, but they are **not**
+part of the public `Icon` shape, and no public surface carries them.
+
+#### `culturalReview`
 
 ```ts
 { required: boolean; status: 'not-required' | 'pending' | 'approved'; note?: string }
 ```
 
 `releasedIconSchema` refuses to parse an icon where `required` is true and `status` is not
-`approved`. The invariant is enforced by the type, not by a habit.
+`approved`. The invariant is enforced by the type, not by a habit. `note` is free text for
+reviewers.
 
-### `provenance`
+#### `provenance`
+
+```ts
+{
+  source: 'v3-audit-drawing' | 'v2-asset-redrawn' | 'v3-audit-roadmap';
+  auditSourceFile?: string;      // e.g. "Group-27.png"
+  auditVerdict?: AuditVerdict;
+  roadmapEntry?: string;
+  referentConfirmed: boolean;
+  redrawnSinceIngest: boolean;
+}
+```
 
 Points back to the audit row the drawing descends from. `referentConfirmed` mirrors whether the
 audit flagged the name with a warning; a test asserts no released icon has it false.
 
 ## `Category`
 
+The public shape, as distributed:
+
 ```ts
 {
   id: string;
   label: string;
   description: string;
-  auditKey: string;
 }
 ```
 
-`auditKey` retains the audit's short key (`fas`, `mus`, `pla`…) so audit rows stay traceable after
-the rename to stable public ids.
+### Internal canonical field (repository-only)
+
+The canonical records in `src/data/categories.json` also carry `auditKey: string`. It keeps the
+audit's short key (`fas`, `mus`, `pla`…) so audit rows stay traceable after the rename to stable
+public ids. It is not part of the public `Category` shape.
 
 Nine categories are defined. The website and the plugin show only those containing at least one
 released icon — an empty filter is a promise the product cannot keep.
@@ -130,28 +182,16 @@ names and ISO codes are unique, and every record has exactly one SVG in `package
 (enforced by `npm run validate`). `searchMaps` matches every query token against the name,
 official name, aliases, ISO2/ISO3 (exact code ranks first) and region label.
 
-## `PipelineSummary`
-
-Aggregate counts, generated from the audit records:
+## `LibrarySummary`
 
 ```ts
 {
-  (auditRecords,
-    drawingsIngested,
-    released,
-    heldForCulturalReview,
-    heldForIconDesign,
-    backlogConcepts,
-    mergedByAudit,
-    droppedByAudit,
-    weightsShipped,
-    weightsPlanned);
+  (version, icons, categories, maps, mapRegions, weights);
 }
 ```
 
-Counts only — no names, no drawings. A concept that has not been released has not been named
-publicly, and this is what lets the website state its own limits precisely without leaking a
-premature name. A test asserts the parts sum to the whole.
+Public facts about the release: what ships, never how it was made. Audit, hold and backlog counts
+are maintenance data and stay with the repository's own tooling.
 
 ## Search
 
@@ -167,7 +207,11 @@ plugin rank identically. It:
 
 ## Adding a field
 
-1. Add it to the schema with a doc comment saying why it exists.
+1. Add it to `schema.ts` with a doc comment saying why it exists.
 2. Add it to every record in `icons.json` (the schema will tell you which are missing).
-3. Run `npm run generate` and commit the regenerated output.
-4. Add a test if the field carries an invariant. Most do.
+3. Decide whether it is public. An internal maintenance field stops here: it stays in the
+   repository. A public field also goes into the public type, `PUBLIC_ICON_FIELDS` and
+   `toPublicIcon` in `public.ts`. If it is internal, add its key to `INTERNAL_KEYS` in
+   `scripts/verify-public-distribution.ts` so a leak fails the build.
+4. Run `npm run generate` and commit the regenerated output.
+5. Add a test if the field carries an invariant. Most do.

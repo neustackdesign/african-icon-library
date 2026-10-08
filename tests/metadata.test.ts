@@ -10,7 +10,13 @@ import {
   loadCategories,
   loadIcons,
 } from '../scripts/lib/repo.ts';
-import { buildPipelineSummary, pascalCase } from '../scripts/lib/generators.ts';
+import {
+  PUBLIC_CATEGORY_FIELDS,
+  PUBLIC_ICON_FIELDS,
+  toPublicCategory,
+  toPublicIcon,
+} from '../packages/metadata/src/public.ts';
+import { buildLibrarySummary, pascalCase } from '../scripts/lib/generators.ts';
 import {
   BASELINE_WEIGHT,
   checkMetadataConsistency,
@@ -155,47 +161,39 @@ describe('audit provenance', () => {
   });
 });
 
-describe('pipeline summary', () => {
-  const pipeline = buildPipelineSummary(auditRecords, icons);
+describe('public contract', () => {
+  const maps = [{ region: 'a' }, { region: 'a' }, { region: 'b' }] as unknown as Parameters<
+    typeof buildLibrarySummary
+  >[1];
+  const summary = buildLibrarySummary(icons, maps);
 
-  it('accounts for every audit record exactly once', () => {
-    const dispositions = auditRecords.reduce<Record<string, number>>((counts, record) => {
-      counts[record.disposition] = (counts[record.disposition] ?? 0) + 1;
-      return counts;
-    }, {});
-    const total = Object.values(dispositions).reduce((sum, count) => sum + count, 0);
-    expect(total).toBe(pipeline.auditRecords);
-    expect(pipeline.mergedByAudit).toBe(dispositions.merged ?? 0);
-    expect(pipeline.droppedByAudit).toBe(dispositions.dropped ?? 0);
-  });
-
-  it('excludes released concepts from the backlog count', () => {
-    // An audit row stays 'backlog' — the audit produced no drawing for it —
-    // even after a later release drew the concept. Reporting the raw
-    // disposition count would overstate what is left to do.
-    const releasedIds = new Set(icons.map((icon) => icon.id));
-    const rawBacklog = auditRecords.filter((record) => record.disposition === 'backlog');
-    const stillOutstanding = rawBacklog.filter((record) => !releasedIds.has(record.proposedId));
-
-    expect(pipeline.backlogConcepts).toBe(stillOutstanding.length);
-    expect(pipeline.backlogConcepts).toBeLessThan(rawBacklog.length);
-  });
-
-  it('splits the released set by where each icon actually came from', () => {
-    expect(pipeline.releasedFromAuditDrawings + pipeline.releasedFromRoadmap).toBe(
-      pipeline.released,
+  it('summarises the release with public counts only', () => {
+    expect(Object.keys(summary).sort()).toEqual(
+      ['categories', 'icons', 'mapRegions', 'maps', 'version', 'weights'].sort(),
     );
-    expect(pipeline.releasedFromRoadmap).toBeGreaterThan(0);
+    expect(summary.icons).toBe(icons.length);
+    expect(summary.categories).toBe(new Set(icons.map((icon) => icon.category)).size);
+    expect(summary.maps).toBe(3);
+    expect(summary.mapRegions).toBe(2);
+    expect(summary.weights).toEqual([BASELINE_WEIGHT]);
   });
 
-  it('counts the released icons that actually exist', () => {
-    expect(pipeline.released).toBe(icons.length);
+  it('projects every canonical icon to exactly the public fields', () => {
+    for (const icon of icons) {
+      expect(Object.keys(toPublicIcon(icon))).toEqual([...PUBLIC_ICON_FIELDS]);
+    }
   });
 
-  it('separates shipped weights from planned ones', () => {
-    expect(pipeline.weightsShipped).toEqual([BASELINE_WEIGHT]);
-    expect(pipeline.weightsShipped).not.toContain('bold');
-    expect(pipeline.weightsPlanned).toContain('bold');
+  it('projects categories to id, label and description', () => {
+    for (const category of categories) {
+      expect(Object.keys(toPublicCategory(category))).toEqual([...PUBLIC_CATEGORY_FIELDS]);
+    }
+  });
+
+  it('refuses to project an unreleased icon', () => {
+    expect(() => toPublicIcon({ ...icons[0]!, status: 'held-cultural-review' })).toThrow(
+      /only released/,
+    );
   });
 });
 

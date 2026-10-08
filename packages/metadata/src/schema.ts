@@ -1,5 +1,9 @@
 import { z } from 'zod';
 
+import { BASELINE_WEIGHT, MAP_STATUSES, TIERS, WEIGHTS, type Weight } from './public.js';
+
+export { BASELINE_WEIGHT, MAP_STATUSES, TIERS, WEIGHTS };
+
 /* ------------------------------------------------------------------ *
  * Primitives
  * ------------------------------------------------------------------ */
@@ -19,14 +23,11 @@ export const regionSchema = z
  * `weights` array when a real, separately drawn asset exists for it — a weight
  * is never synthesised by changing `stroke-width` on another weight.
  */
-export const WEIGHTS = ['thin', 'regular', 'bold', 'fill'] as const;
 export const weightSchema = z.enum(WEIGHTS);
-export type Weight = z.infer<typeof weightSchema>;
+export type { Weight };
 
 /** The weight every released icon must ship. */
-export const BASELINE_WEIGHT: Weight = 'regular';
 
-export const TIERS = ['icon', 'illustration'] as const;
 export const tierSchema = z.enum(TIERS);
 export type Tier = z.infer<typeof tierSchema>;
 
@@ -222,36 +223,6 @@ export const auditFileSchema = z.object({
 });
 
 /* ------------------------------------------------------------------ *
- * Pipeline summary (aggregate only — no premature names, no held drawings)
- * ------------------------------------------------------------------ */
-
-export const pipelineSummarySchema = z.object({
-  /**
-   * The release this data describes, taken from the repository version at
-   * generation time. Download filenames are built from it, so a hand-typed copy
-   * anywhere else is a broken link waiting to happen — which is exactly what it
-   * was before this field existed.
-   */
-  version: z.string().regex(/^\d+\.\d+\.\d+$/),
-  auditRecords: z.number().int().nonnegative(),
-  drawingsIngested: z.number().int().nonnegative(),
-  /** Icons released, counted from the released set — not from audit dispositions. */
-  released: z.number().int().nonnegative(),
-  /** Released icons that descend from a drawing the audit produced. */
-  releasedFromAuditDrawings: z.number().int().nonnegative(),
-  /** Released icons drawn for this release from a roadmap gap the audit named. */
-  releasedFromRoadmap: z.number().int().nonnegative(),
-  heldForCulturalReview: z.number().int().nonnegative(),
-  heldForIconDesign: z.number().int().nonnegative(),
-  backlogConcepts: z.number().int().nonnegative(),
-  mergedByAudit: z.number().int().nonnegative(),
-  droppedByAudit: z.number().int().nonnegative(),
-  weightsShipped: z.array(weightSchema),
-  weightsPlanned: z.array(weightSchema),
-});
-export type PipelineSummary = z.infer<typeof pipelineSummarySchema>;
-
-/* ------------------------------------------------------------------ *
  * Cross-file invariants
  * ------------------------------------------------------------------ */
 
@@ -334,7 +305,6 @@ export const mapRegionSchema = z.object({
 export type MapRegion = z.infer<typeof mapRegionSchema>;
 export const mapRegionsSchema = z.array(mapRegionSchema).min(1);
 
-export const MAP_STATUSES = ['released'] as const;
 export const mapStatusSchema = z.enum(MAP_STATUSES);
 export type MapStatus = z.infer<typeof mapStatusSchema>;
 

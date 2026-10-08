@@ -9,12 +9,9 @@
  * weight). Each mode keeps its own query, filter, size and selection.
  */
 
-import {
-  searchIcons,
-  searchMaps,
-  type CountryMap,
-  type Icon,
-} from '@african-icon-library/metadata';
+import type { CountryMap, Icon } from '@african-icon-library/metadata';
+// Data-free search: the plugin's records come from its own generated bundle.
+import { searchIcons, searchMaps } from '@african-icon-library/metadata/search';
 
 import { PLUGIN_CATEGORIES, PLUGIN_ICONS, PLUGIN_SVG, PLUGIN_WEIGHTS } from './generated/icon-data';
 import {

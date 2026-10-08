@@ -1,4 +1,5 @@
-import { searchIcons, searchMaps } from '@african-icon-library/metadata';
+// The data-free search entry point: client code never loads the library's records.
+import { searchIcons, searchMaps } from '@african-icon-library/metadata/search';
 
 import type { BrowserIcon } from './icons';
 

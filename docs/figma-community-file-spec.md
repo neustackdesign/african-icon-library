@@ -2,6 +2,10 @@
 
 The Community file is the design-facing home of the African Icon Library. It must contain the same released set as the website, downloads and plugin — never a separate Figma-only version.
 
+Live Community file:
+[figma.com/community/file/1688005719745631513/african-icon-library-v2](https://www.figma.com/community/file/1688005719745631513/african-icon-library-v2).
+Each release updates this file; it is never republished as a new one.
+
 ## Publishing metadata
 
 **File name**  
@@ -14,20 +18,26 @@ The Community file is the design-facing home of the African Icon Library. It mus
 
 > A free, open-source icon library for African everyday life — starting with Nigeria.
 >
-> V2 contains 30 icons across seven categories, including food, transport, culture, commerce,
-> identity, fashion and play. Every icon follows the same 24-pixel drawing system and is provided
-> as an editable Figma component.
+> 30 icons across seven categories, including food, transport, culture, commerce, identity,
+> fashion and play. Every icon follows the same 24-pixel drawing system and is provided as an
+> editable Figma component.
+>
+> New in v0.3.0: Country Maps — outline maps of all 54 African countries in the same 1.5 stroke,
+> grouped by region, each an editable `ail/maps/<id>` component at its real proportions.
 >
 > Use the Community file as a library, download the SVGs from icons.neustackstudio.com, or use the
-> companion Figma plugin to search and place icons directly on your canvas.
+> companion Figma plugin to search and place icons and maps directly on your canvas.
+>
+> AIL follows a documented cartographic treatment for disputed territories. Boundary
+> representations do not imply endorsement of territorial claims.
 >
 > MIT licensed. Free for personal and commercial use.
 >
 > Source: github.com/neustackdesign/african-icon-library
 
 **Tags**  
-`icons`, `icon set`, `african`, `nigeria`, `culture`, `open source`, `design system`, `ui icons`,
-`svg`, `24px`, `components`, `vector`
+`icons`, `icon set`, `maps`, `country maps`, `african`, `nigeria`, `culture`, `open source`,
+`design system`, `ui icons`, `svg`, `components`
 
 **Category**  
 Icons

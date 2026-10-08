@@ -1,29 +1,33 @@
-import { icons, maps, pipeline } from '@african-icon-library/metadata';
+import { library } from '@african-icon-library/metadata';
+
+import { NAV, REPOSITORY_URL } from './nav';
+
+export { NAV };
 
 /** Public release facts derived from the canonical library data. */
 export const SITE = {
   name: 'African Icon Library',
   shortName: 'African Icons',
   url: 'https://icons.neustackstudio.com',
-  repository: 'https://github.com/neustackdesign/african-icon-library',
+  repository: REPOSITORY_URL,
   issues: 'https://github.com/neustackdesign/african-icon-library/issues',
   newIssue: 'https://github.com/neustackdesign/african-icon-library/issues/new/choose',
   maintainer: 'Neustack Design',
   contact: 'icons@neustackstudio.com',
   description:
     'A free, open-source SVG icon library for African everyday life — starting with Nigeria — ' +
-    `with outline maps of ${maps.length} African countries.`,
+    `with outline maps of ${library.maps} African countries.`,
   locale: 'en_NG',
 } as const;
 
 export const LIBRARY = {
-  version: pipeline.version,
-  iconCount: icons.length,
-  categoryCount: new Set(icons.map((icon) => icon.category)).size,
-  weightsShipped: pipeline.weightsShipped,
-  mapCount: maps.length,
-  mapRegionCount: new Set(maps.map((map) => map.region)).size,
-  // Keep this public contract for icon detail pages without exposing internal pipeline/backlog data.
+  version: library.version,
+  iconCount: library.icons,
+  categoryCount: library.categories,
+  weightsShipped: library.weights,
+  mapCount: library.maps,
+  mapRegionCount: library.mapRegions,
+  // Undrawn weights are not part of the public contract.
   weightsPlanned: [] as const,
 } as const;
 
@@ -34,14 +38,6 @@ export const DOWNLOADS = {
   metadata: `/downloads/african-icon-library-metadata-${LIBRARY.version}.json`,
   manifest: '/downloads/manifest.json',
 } as const;
-
-export const NAV = [
-  { href: '/#browse', label: 'Icons' },
-  { href: '/#maps', label: 'Maps' },
-  { href: '/downloads', label: 'Downloads' },
-  { href: '/spec', label: 'Spec' },
-  { href: '/changelog', label: 'Releases' },
-] as const;
 
 /** Issue forms in `.github/ISSUE_TEMPLATE`, linked directly so each route lands on its form. */
 export const ISSUE_FORMS = {

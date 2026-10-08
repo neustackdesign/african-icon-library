@@ -3,5 +3,7 @@
   "compilerOptions": {
     "noEmit": false
   },
+  "//": "Only the public entry points and what they import. src/schema.ts and src/data/ are repository-only.",
+  "include": ["src/index.ts", "src/search.ts"],
   "exclude": ["src/**/*.test.ts"]
 }

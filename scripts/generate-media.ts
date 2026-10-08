@@ -19,7 +19,7 @@
 import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
-import { pipeline } from '@african-icon-library/metadata';
+import { library } from '@african-icon-library/metadata';
 
 import { FONT_STACK, LIGHT } from '../apps/web/lib/brand.ts';
 import { FIGMA } from '../apps/web/lib/site.ts';
@@ -375,7 +375,7 @@ async function main(): Promise<number> {
       body: bodies.get(icon.id) ?? '',
     })),
     categoryLabels: Object.fromEntries(categories.map((category) => [category.id, category.label])),
-    version: pipeline.version,
+    version: library.version,
     figmaPublished: FIGMA.published,
   });
   await mkdir(RELEASE_DIR, { recursive: true });
@@ -387,7 +387,7 @@ async function main(): Promise<number> {
     path.join(RELEASE_DIR, 'manifest.json'),
     JSON.stringify(
       {
-        version: pipeline.version,
+        version: library.version,
         icons: count,
         assets: releaseAssets.map(({ svg: _svg, ...asset }) => ({
           ...asset,
@@ -401,7 +401,7 @@ async function main(): Promise<number> {
   );
   await writeFile(
     path.join(RELEASE_DIR, 'README.md'),
-    releaseAssetReadme(releaseAssets, pipeline.version, count),
+    releaseAssetReadme(releaseAssets, library.version, count),
     'utf8',
   );
   written.push('release-assets/manifest.json', 'release-assets/README.md');

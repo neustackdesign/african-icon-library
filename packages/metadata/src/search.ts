@@ -1,4 +1,22 @@
-import type { Icon } from './schema.js';
+/**
+ * Deterministic, offline search shared by the website and the Figma plugin.
+ *
+ * Data-free: importable as `@african-icon-library/metadata/search` without
+ * loading the library's records. Both functions accept the minimal shape they
+ * read, so callers pass whatever records they hold.
+ */
+
+/** The fields icon search reads. Any public icon record satisfies it. */
+export interface SearchableIcon {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  regions: readonly string[];
+  weights: readonly string[];
+  keywords: readonly string[];
+  localNames: readonly { value: string }[];
+}
 
 export interface SearchOptions {
   /** Restrict to a single category id. */
@@ -11,8 +29,8 @@ export interface SearchOptions {
   limit?: number;
 }
 
-export interface SearchResult {
-  icon: Icon;
+export interface SearchResult<T extends SearchableIcon = SearchableIcon> {
+  icon: T;
   score: number;
 }
 
@@ -39,7 +57,7 @@ function tokenize(query: string): string[] {
  * The ordering is deliberate: an exact id match must always outrank a keyword
  * brush, otherwise typing "suya" surfaces every skewer-adjacent glyph first.
  */
-function scoreToken(icon: Icon, token: string): number {
+function scoreToken(icon: SearchableIcon, token: string): number {
   const id = normalise(icon.id);
   const name = normalise(icon.name);
 
@@ -76,23 +94,23 @@ function scoreToken(icon: Icon, token: string): number {
  * output is stable across runs — the Figma plugin and the website must not
  * disagree about ordering.
  */
-export function searchIcons(
-  icons: readonly Icon[],
+export function searchIcons<T extends SearchableIcon>(
+  icons: readonly T[],
   query: string,
   options: SearchOptions = {},
-): SearchResult[] {
+): SearchResult<T>[] {
   const { category = null, region = null, weight = null, limit } = options;
 
   const pool = icons.filter((icon) => {
     if (category && icon.category !== category) return false;
     if (region && !icon.regions.includes(region)) return false;
-    if (weight && !icon.weights.includes(weight as Icon['weights'][number])) return false;
+    if (weight && !icon.weights.includes(weight)) return false;
     return true;
   });
 
   const tokens = tokenize(query);
 
-  const results: SearchResult[] =
+  const results: SearchResult<T>[] =
     tokens.length === 0
       ? pool.map((icon) => ({ icon, score: 0 }))
       : pool
@@ -105,7 +123,7 @@ export function searchIcons(
             }
             return { icon, score: total };
           })
-          .filter((result): result is SearchResult => result !== null);
+          .filter((result): result is SearchResult<T> => result !== null);
 
   results.sort((a, b) => b.score - a.score || a.icon.id.localeCompare(b.icon.id));
 
@@ -127,7 +145,7 @@ export interface MapSearchResult<T> {
   score: number;
 }
 
-interface SearchableMap {
+export interface SearchableMap {
   id: string;
   name: string;
   officialName?: string;

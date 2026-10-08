@@ -134,9 +134,9 @@ export default async function IconPage({ params }: Params) {
 
           {icon.localNames.length > 0 ? (
             <p className="notice notice--caution">
-              <strong>Local names in review.</strong> {icon.localNames.length} name(s) carried over
-              from the v3 audit have not yet been confirmed by a speaker of the language, so they
-              are not shown here as authoritative. They do work as search terms.
+              <strong>Local names in review.</strong> {icon.localNames.length} local name(s) have
+              not yet been confirmed by a speaker of the language, so they are not shown here as
+              authoritative. They do work as search terms.
             </p>
           ) : null}
 
@@ -153,12 +153,6 @@ export default async function IconPage({ params }: Params) {
               </li>
             ))}
           </ul>
-
-          <h2 className="subhead">Provenance</h2>
-          <p className="muted">
-            Redrawn from <code>{icon.provenance.auditSourceFile}</code> in the August 2026 audit,
-            whose verdict for that file was <code>{icon.provenance.auditVerdict}</code>.
-          </p>
         </div>
       </div>
 

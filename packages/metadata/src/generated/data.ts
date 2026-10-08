@@ -2,9 +2,15 @@
 // Run `npm run generate` after changing the SVG assets or the metadata JSON.
 // `npm run verify:generated` fails the build if this file has drifted.
 
-import type { Category, CountryMap, Icon, MapRegion, PipelineSummary, Region } from '../schema.js';
+import type { Category, CountryMap, Icon, LibrarySummary, MapRegion, Region } from '../public.js';
 
-/** Released icons, sorted by id. Held and backlog concepts never appear here. */
+/**
+ * Public records only, projected through `src/public.ts`. The canonical
+ * records in `src/data/` carry internal maintenance fields; they never reach
+ * this module.
+ */
+
+/** Released icons, sorted by id. */
 export const icons: readonly Icon[] = [
   {
     "id": "agogo",
@@ -28,19 +34,7 @@ export const icons: readonly Icon[] = [
     ],
     "localNames": [],
     "status": "released",
-    "addedIn": "0.1.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "Descriptive object name in common English use; the v3 audit raised no naming question."
-    },
-    "provenance": {
-      "source": "v3-audit-drawing",
-      "auditSourceFile": "Group-26.png",
-      "auditVerdict": "redraw",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": false
-    }
+    "addedIn": "0.1.0"
   },
   {
     "id": "akara",
@@ -65,19 +59,7 @@ export const icons: readonly Icon[] = [
     ],
     "localNames": [],
     "status": "released",
-    "addedIn": "0.2.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "\"Akara\" is the dish's everyday name in Nigeria and was used unflagged in the v3 audit."
-    },
-    "provenance": {
-      "source": "v2-asset-redrawn",
-      "auditSourceFile": "Akara Line.png",
-      "auditVerdict": "redraw",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": true
-    }
+    "addedIn": "0.2.0"
   },
   {
     "id": "aso-oke-fabric",
@@ -103,19 +85,7 @@ export const icons: readonly Icon[] = [
     ],
     "localNames": [],
     "status": "released",
-    "addedIn": "0.2.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "Aso oke is a specific, uncontested Yoruba hand-woven cloth. The v3 audit named it without a flag and asked only for a shared roll construction, which this drawing establishes."
-    },
-    "provenance": {
-      "source": "v2-asset-redrawn",
-      "auditSourceFile": "Aso Oke Fabric Line.png",
-      "auditVerdict": "redraw",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": true
-    }
+    "addedIn": "0.2.0"
   },
   {
     "id": "ata-rodo",
@@ -141,18 +111,7 @@ export const icons: readonly Icon[] = [
     ],
     "localNames": [],
     "status": "released",
-    "addedIn": "0.2.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "\"Ata rodo\" is in universal Nigerian-English use and the v3 audit's expansion roadmap proposed exactly this name. The scotch bonnet reading is carried in the description and keywords for non-Nigerian users."
-    },
-    "provenance": {
-      "source": "v3-audit-roadmap",
-      "roadmapEntry": "Food & Drink — ata-rodo pepper",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": false
-    }
+    "addedIn": "0.2.0"
   },
   {
     "id": "beaded-crown",
@@ -178,19 +137,7 @@ export const icons: readonly Icon[] = [
     ],
     "localNames": [],
     "status": "released",
-    "addedIn": "0.2.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "Named descriptively in English rather than with a specific title, so the glyph does not assert a particular kingdom's regalia. The v3 audit asked only that the fringe read as fringe rather than texture noise."
-    },
-    "provenance": {
-      "source": "v2-asset-redrawn",
-      "auditSourceFile": "King's Cap Outline.png",
-      "auditVerdict": "redraw",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": true
-    }
+    "addedIn": "0.2.0"
   },
   {
     "id": "broom",
@@ -215,18 +162,7 @@ export const icons: readonly Icon[] = [
     ],
     "localNames": [],
     "status": "released",
-    "addedIn": "0.2.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "Named in plain English. The Yoruba name igbale appears as a search keyword rather than as an asserted local name, pending review."
-    },
-    "provenance": {
-      "source": "v3-audit-roadmap",
-      "roadmapEntry": "Everyday Life — broom (igbale)",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": false
-    }
+    "addedIn": "0.2.0"
   },
   {
     "id": "calabash",
@@ -251,18 +187,7 @@ export const icons: readonly Icon[] = [
     ],
     "localNames": [],
     "status": "released",
-    "addedIn": "0.2.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "\"Calabash\" is the standard English term across West Africa and was the v3 audit's own roadmap wording."
-    },
-    "provenance": {
-      "source": "v3-audit-roadmap",
-      "roadmapEntry": "Culture & People — calabash",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": false
-    }
+    "addedIn": "0.2.0"
   },
   {
     "id": "canoe",
@@ -286,19 +211,7 @@ export const icons: readonly Icon[] = [
     ],
     "localNames": [],
     "status": "released",
-    "addedIn": "0.1.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "Generic object; no cultural naming claim is made."
-    },
-    "provenance": {
-      "source": "v3-audit-drawing",
-      "auditSourceFile": "Group-16.png",
-      "auditVerdict": "redraw",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": false
-    }
+    "addedIn": "0.1.0"
   },
   {
     "id": "clay-pot",
@@ -324,19 +237,7 @@ export const icons: readonly Icon[] = [
     ],
     "localNames": [],
     "status": "released",
-    "addedIn": "0.2.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "Descriptive object name. The v3 audit called this the strongest glyph candidate in its category and raised no naming question."
-    },
-    "provenance": {
-      "source": "v3-audit-drawing",
-      "auditSourceFile": "Group-18.png",
-      "auditVerdict": "redraw",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": true
-    }
+    "addedIn": "0.2.0"
   },
   {
     "id": "cocoa-pod",
@@ -361,19 +262,7 @@ export const icons: readonly Icon[] = [
     ],
     "localNames": [],
     "status": "released",
-    "addedIn": "0.1.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "Botanical object; no cultural naming claim is made."
-    },
-    "provenance": {
-      "source": "v3-audit-drawing",
-      "auditSourceFile": "Group-5.png",
-      "auditVerdict": "redraw",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": false
-    }
+    "addedIn": "0.1.0"
   },
   {
     "id": "coral-beads",
@@ -398,19 +287,7 @@ export const icons: readonly Icon[] = [
     ],
     "localNames": [],
     "status": "released",
-    "addedIn": "0.2.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "Named for the material rather than for any one court's regalia, so the glyph makes no claim about a specific tradition."
-    },
-    "provenance": {
-      "source": "v2-asset-redrawn",
-      "auditSourceFile": "Coral Bead Line.png",
-      "auditVerdict": "redraw",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": true
-    }
+    "addedIn": "0.2.0"
   },
   {
     "id": "danfo",
@@ -435,19 +312,7 @@ export const icons: readonly Icon[] = [
     ],
     "localNames": [],
     "status": "released",
-    "addedIn": "0.1.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "\"Danfo\" is the everyday Nigerian name for the vehicle and was used unflagged in the v3 audit."
-    },
-    "provenance": {
-      "source": "v3-audit-drawing",
-      "auditSourceFile": "Danfo Line.png",
-      "auditVerdict": "redraw",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": false
-    }
+    "addedIn": "0.1.0"
   },
   {
     "id": "film-clapper",
@@ -472,19 +337,7 @@ export const icons: readonly Icon[] = [
     ],
     "localNames": [],
     "status": "released",
-    "addedIn": "0.1.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "The v3 audit removed the \"NOLLYWOOD\" lettering; the glyph now carries no text."
-    },
-    "provenance": {
-      "source": "v3-audit-drawing",
-      "auditSourceFile": "Nollywood Clapper Line.png",
-      "auditVerdict": "redraw",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": false
-    }
+    "addedIn": "0.1.0"
   },
   {
     "id": "football-jersey",
@@ -509,19 +362,7 @@ export const icons: readonly Icon[] = [
     ],
     "localNames": [],
     "status": "released",
-    "addedIn": "0.1.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "The v3 audit flagged \"10 NIGERIA\" lettering on the v2 drawing. The redraw carries no lettering, number or crest."
-    },
-    "provenance": {
-      "source": "v3-audit-drawing",
-      "auditSourceFile": "Nigeria Jersey Line.png",
-      "auditVerdict": "generic",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": false
-    }
+    "addedIn": "0.1.0"
   },
   {
     "id": "jerry-can",
@@ -547,18 +388,7 @@ export const icons: readonly Icon[] = [
     ],
     "localNames": [],
     "status": "released",
-    "addedIn": "0.2.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "Generic object; no cultural naming claim is made."
-    },
-    "provenance": {
-      "source": "v3-audit-roadmap",
-      "roadmapEntry": "Transport — fuel-queue jerry-can",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": false
-    }
+    "addedIn": "0.2.0"
   },
   {
     "id": "jollof-rice",
@@ -583,19 +413,7 @@ export const icons: readonly Icon[] = [
     ],
     "localNames": [],
     "status": "released",
-    "addedIn": "0.1.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "\"Jollof rice\" is the dish's standard English name across West Africa."
-    },
-    "provenance": {
-      "source": "v3-audit-drawing",
-      "auditSourceFile": "Jollof Rice Line.png",
-      "auditVerdict": "redraw",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": false
-    }
+    "addedIn": "0.1.0"
   },
   {
     "id": "kerosene-lantern",
@@ -620,18 +438,7 @@ export const icons: readonly Icon[] = [
     ],
     "localNames": [],
     "status": "released",
-    "addedIn": "0.2.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "Generic object; no cultural naming claim is made."
-    },
-    "provenance": {
-      "source": "v3-audit-roadmap",
-      "roadmapEntry": "Everyday Life — kerosene-lantern",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": false
-    }
+    "addedIn": "0.2.0"
   },
   {
     "id": "market-umbrella",
@@ -657,18 +464,7 @@ export const icons: readonly Icon[] = [
     ],
     "localNames": [],
     "status": "released",
-    "addedIn": "0.2.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "Generic object; no cultural naming claim is made."
-    },
-    "provenance": {
-      "source": "v3-audit-roadmap",
-      "roadmapEntry": "Commerce & Industry — market-umbrella",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": false
-    }
+    "addedIn": "0.2.0"
   },
   {
     "id": "naira-note",
@@ -693,19 +489,7 @@ export const icons: readonly Icon[] = [
     ],
     "localNames": [],
     "status": "released",
-    "addedIn": "0.1.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "The naira mark is drawn as geometry, which the v3 drawing spec permits as its single lettering exception."
-    },
-    "provenance": {
-      "source": "v3-audit-drawing",
-      "auditSourceFile": "Naira Line.png",
-      "auditVerdict": "redraw",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": false
-    }
+    "addedIn": "0.1.0"
   },
   {
     "id": "naira-sign",
@@ -731,18 +515,7 @@ export const icons: readonly Icon[] = [
     ],
     "localNames": [],
     "status": "released",
-    "addedIn": "0.2.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "The naira mark is drawn as geometry, which the v3 drawing spec permits as its single lettering exception."
-    },
-    "provenance": {
-      "source": "v3-audit-roadmap",
-      "roadmapEntry": "Identity & State — naira-sign",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": false
-    }
+    "addedIn": "0.2.0"
   },
   {
     "id": "nigeria-flag",
@@ -766,19 +539,7 @@ export const icons: readonly Icon[] = [
     ],
     "localNames": [],
     "status": "released",
-    "addedIn": "0.1.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "Drawn as an outline in currentColor. The flag's colours are not encoded in the asset."
-    },
-    "provenance": {
-      "source": "v3-audit-drawing",
-      "auditSourceFile": "Nigerian Flag Line.png",
-      "auditVerdict": "keep",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": false
-    }
+    "addedIn": "0.1.0"
   },
   {
     "id": "oil-pumpjack",
@@ -803,19 +564,7 @@ export const icons: readonly Icon[] = [
     ],
     "localNames": [],
     "status": "released",
-    "addedIn": "0.1.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "Industrial object; no cultural naming claim is made."
-    },
-    "provenance": {
-      "source": "v3-audit-drawing",
-      "auditSourceFile": "Oil Derrick Line.png",
-      "auditVerdict": "redraw",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": false
-    }
+    "addedIn": "0.1.0"
   },
   {
     "id": "okada",
@@ -840,19 +589,7 @@ export const icons: readonly Icon[] = [
     ],
     "localNames": [],
     "status": "released",
-    "addedIn": "0.2.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "\"Okada\" is the everyday Nigerian name for a commercial motorcycle and was used unflagged in the v3 audit."
-    },
-    "provenance": {
-      "source": "v2-asset-redrawn",
-      "auditSourceFile": "Okada Line.png",
-      "auditVerdict": "redraw",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": true
-    }
+    "addedIn": "0.2.0"
   },
   {
     "id": "passport",
@@ -877,19 +614,7 @@ export const icons: readonly Icon[] = [
     ],
     "localNames": [],
     "status": "released",
-    "addedIn": "0.2.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "The v3 audit asked for the type to be dropped. The cover device is a neutral globe, not a national crest, so the glyph does not reproduce a state emblem."
-    },
-    "provenance": {
-      "source": "v2-asset-redrawn",
-      "auditSourceFile": "Nigerian Passport Line.png",
-      "auditVerdict": "redraw",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": true
-    }
+    "addedIn": "0.2.0"
   },
   {
     "id": "pepper-soup",
@@ -915,19 +640,7 @@ export const icons: readonly Icon[] = [
     ],
     "localNames": [],
     "status": "released",
-    "addedIn": "0.1.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "\"Pepper soup\" is the dish's standard English name in Nigeria."
-    },
-    "provenance": {
-      "source": "v3-audit-drawing",
-      "auditSourceFile": "Group-11.png",
-      "auditVerdict": "redraw",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": false
-    }
+    "addedIn": "0.1.0"
   },
   {
     "id": "pos-terminal",
@@ -953,18 +666,7 @@ export const icons: readonly Icon[] = [
     ],
     "localNames": [],
     "status": "released",
-    "addedIn": "0.2.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "Generic device; no cultural naming claim and no brand is reproduced."
-    },
-    "provenance": {
-      "source": "v3-audit-roadmap",
-      "roadmapEntry": "Commerce & Industry — pos-terminal",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": false
-    }
+    "addedIn": "0.2.0"
   },
   {
     "id": "shekere",
@@ -990,18 +692,7 @@ export const icons: readonly Icon[] = [
     ],
     "localNames": [],
     "status": "released",
-    "addedIn": "0.2.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "\"Shekere\" is the instrument's established name in English-language music writing and was the v3 audit's own roadmap wording."
-    },
-    "provenance": {
-      "source": "v3-audit-roadmap",
-      "roadmapEntry": "Music, Art & Play — shekere",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": false
-    }
+    "addedIn": "0.2.0"
   },
   {
     "id": "suya",
@@ -1026,19 +717,7 @@ export const icons: readonly Icon[] = [
     ],
     "localNames": [],
     "status": "released",
-    "addedIn": "0.1.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "\"Suya\" is the dish's everyday name in Nigeria and was used unflagged in the v3 audit."
-    },
-    "provenance": {
-      "source": "v3-audit-drawing",
-      "auditSourceFile": "Suya Line.png",
-      "auditVerdict": "redraw",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": false
-    }
+    "addedIn": "0.1.0"
   },
   {
     "id": "talking-drum",
@@ -1073,19 +752,7 @@ export const icons: readonly Icon[] = [
       }
     ],
     "status": "released",
-    "addedIn": "0.1.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "The English name is uncontested. The two Yoruba names carried over from the v3 audit are marked pending until a Yoruba speaker confirms them, and are not presented publicly as authoritative."
-    },
-    "provenance": {
-      "source": "v3-audit-drawing",
-      "auditSourceFile": "Talking Drum Outline.png",
-      "auditVerdict": "redraw",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": false
-    }
+    "addedIn": "0.1.0"
   },
   {
     "id": "train-ticket",
@@ -1110,112 +777,74 @@ export const icons: readonly Icon[] = [
     ],
     "localNames": [],
     "status": "released",
-    "addedIn": "0.1.0",
-    "culturalReview": {
-      "required": false,
-      "status": "not-required",
-      "note": "The v3 audit flagged \"NGN 10\" lettering on the v2 drawing. The redraw carries no lettering or denomination."
-    },
-    "provenance": {
-      "source": "v3-audit-drawing",
-      "auditSourceFile": "Group-34.png",
-      "auditVerdict": "generic",
-      "referentConfirmed": true,
-      "redrawnSinceIngest": false
-    }
+    "addedIn": "0.1.0"
   }
-] as const satisfies readonly Icon[];
+];
 
 export const categories: readonly Category[] = [
   {
     "id": "identity-state",
     "label": "Identity & State",
-    "description": "Flags, maps, documents and the marks a country uses to identify itself.",
-    "auditKey": "id"
+    "description": "Flags, documents and the marks a country uses to identify itself."
   },
   {
     "id": "fashion-textiles",
     "label": "Fashion & Textiles",
-    "description": "Cloth, garments, headwear and the crafts behind them.",
-    "auditKey": "fas"
+    "description": "Cloth, garments, headwear and the crafts behind them."
   },
   {
     "id": "food-drink",
     "label": "Food & Drink",
-    "description": "Dishes, ingredients, street food and the vessels they are served in.",
-    "auditKey": "food"
+    "description": "Dishes, ingredients, street food and the vessels they are served in."
   },
   {
     "id": "music-art-play",
     "label": "Music, Art & Play",
-    "description": "Instruments, games, film and the making of things.",
-    "auditKey": "mus"
+    "description": "Instruments, games, film and the making of things."
   },
   {
     "id": "transport",
     "label": "Transport",
-    "description": "How people and goods move — road, water and rail.",
-    "auditKey": "tra"
+    "description": "How people and goods move — road, water and rail."
   },
   {
     "id": "places-landmarks",
     "label": "Places & Landmarks",
-    "description": "Buildings, bridges, natural formations and named places.",
-    "auditKey": "pla"
+    "description": "Buildings, bridges, natural formations and named places."
   },
   {
     "id": "commerce-industry",
     "label": "Commerce & Industry",
-    "description": "Money, markets, trade and the industries behind them.",
-    "auditKey": "com"
+    "description": "Money, markets, trade and the industries behind them."
   },
   {
     "id": "culture-people",
     "label": "Culture & People",
-    "description": "Ceremony, craft, regalia and everyday cultural objects.",
-    "auditKey": "cul"
+    "description": "Ceremony, craft, regalia and everyday cultural objects."
   },
   {
     "id": "defence",
     "label": "Defence",
-    "description": "Armed-forces equipment and insignia.",
-    "auditKey": "def"
+    "description": "Armed-forces equipment and insignia."
   }
-] as const satisfies readonly Category[];
+];
 
 export const regions: readonly Region[] = [
   {
     "code": "NG",
-    "label": "Nigeria",
-    "note": "The first region shipped. The library's architecture treats region as a first-class axis, so entries from other African countries slot in without being treated as outliers."
+    "label": "Nigeria"
   }
-] as const satisfies readonly Region[];
+];
 
-/**
- * Aggregate view of the drawing pipeline.
- *
- * Counts only — no names, no drawings. A concept that has not been released
- * has not been named publicly, and the public surface must not imply otherwise.
- */
-export const pipeline: PipelineSummary = {
+/** Public facts about this release. */
+export const library: LibrarySummary = {
   "version": "0.3.0",
-  "auditRecords": 86,
-  "drawingsIngested": 18,
-  "released": 30,
-  "releasedFromAuditDrawings": 21,
-  "releasedFromRoadmap": 9,
-  "heldForCulturalReview": 1,
-  "heldForIconDesign": 2,
-  "backlogConcepts": 55,
-  "mergedByAudit": 3,
-  "droppedByAudit": 4,
-  "weightsShipped": [
+  "icons": 30,
+  "categories": 7,
+  "maps": 54,
+  "mapRegions": 5,
+  "weights": [
     "regular"
-  ],
-  "weightsPlanned": [
-    "thin",
-    "bold",
-    "fill"
   ]
 };
 
@@ -2108,7 +1737,7 @@ export const maps: readonly CountryMap[] = [
     "status": "released",
     "addedIn": "0.3.0"
   }
-] as const satisfies readonly CountryMap[];
+];
 
 /** AIL's regional grouping for browsing maps, not a named external standard. */
 export const mapRegions: readonly MapRegion[] = [
@@ -2132,4 +1761,4 @@ export const mapRegions: readonly MapRegion[] = [
     "id": "southern-africa",
     "label": "Southern Africa"
   }
-] as const satisfies readonly MapRegion[];
+];

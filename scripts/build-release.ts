@@ -35,6 +35,8 @@ import {
   validateMapCollection,
 } from './lib/validate.ts';
 import { createZip, type ZipEntry } from './lib/zip.ts';
+import { buildLibrarySummary } from './lib/generators.ts';
+import { toPublicCategory, toPublicIcon } from '../packages/metadata/src/public.ts';
 
 const WEB_DOWNLOADS = path.join(ROOT, 'apps/web/public/downloads');
 
@@ -91,7 +93,7 @@ async function run(): Promise<number> {
     '',
     'Layout:',
     '  svg/<weight>/<icon-id>.svg   the drawings',
-    '  metadata.json                names, categories, keywords and provenance',
+    '  metadata.json                names, descriptions, categories and keywords',
     '  LICENSE                      MIT',
     '',
     'Full documentation: https://icons.neustackstudio.com',
@@ -99,11 +101,15 @@ async function run(): Promise<number> {
     '',
   ].join('\n');
 
+  // Every metadata file in a public artefact uses the public contract: the
+  // canonical records' internal maintenance fields never leave the repository.
+  const publicIcons = icons.map(toPublicIcon);
+  const publicCategories = categories.map(toPublicCategory);
   const metadata = {
     version,
-    generatedFrom: 'packages/metadata/src/data',
-    icons,
-    categories,
+    library: buildLibrarySummary(icons, maps),
+    icons: publicIcons,
+    categories: publicCategories,
   };
 
   const entries: ZipEntry[] = [
@@ -124,7 +130,7 @@ async function run(): Promise<number> {
   /* ---------------- country maps ---------------- */
 
   const mapAssetsById = new Map(mapAssets.map((asset) => [asset.id, asset]));
-  const mapMetadata = { version, generatedFrom: 'packages/metadata/src/data', maps, mapRegions };
+  const mapMetadata = { version, maps, mapRegions };
   const mapsReadme = [
     `African Icon Library — country maps, version ${version}`,
     '',
@@ -192,7 +198,7 @@ async function run(): Promise<number> {
   // empty category would be a download that promises something it cannot give.
   const categoryPacks = categories
     .map((category) => {
-      const members = icons.filter((icon) => icon.category === category.id);
+      const members = publicIcons.filter((icon) => icon.category === category.id);
       if (members.length === 0) return null;
       const ids = new Set(members.map((icon) => icon.id));
       const packEntries: ZipEntry[] = [
@@ -204,7 +210,7 @@ async function run(): Promise<number> {
           })),
         {
           path: `african-icon-library-${category.id}-${version}/metadata.json`,
-          contents: `${JSON.stringify({ version, category, icons: members }, null, 2)}\n`,
+          contents: `${JSON.stringify({ version, category: toPublicCategory(category), icons: members }, null, 2)}\n`,
         },
         { path: `african-icon-library-${category.id}-${version}/LICENSE`, contents: licence },
       ];

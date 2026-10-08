@@ -1193,3 +1193,6 @@ export const PLUGIN_MAP_REGIONS: Array<{ id: string; label: string }> = [
     "label": "Southern Africa"
   }
 ];
+
+/** The cartographic policy from `packages/maps/source/manifest.json`. */
+export const MAP_BOUNDARY_POLICY = "AIL follows a documented cartographic treatment for disputed territories. Boundary representations do not imply endorsement of territorial claims.";

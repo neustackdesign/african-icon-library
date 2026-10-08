@@ -186,7 +186,7 @@ export const CATEGORY_PAGE_SPECS: readonly CategoryPageSpec[] = [
   {
     key: 'identity-state',
     title: 'Identity & State',
-    blurb: 'Flags, maps, documents and the marks a country uses to identify itself.',
+    blurb: 'Flags, documents and the marks a country uses to identify itself.',
     // Armed-forces insignia are marks the state makes about itself, so `defence`
     // sits here rather than getting a page of its own.
     categoryIds: ['identity-state', 'defence'],

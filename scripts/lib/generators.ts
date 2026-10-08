@@ -33,7 +33,7 @@ import { parseSvg, serializeChildren, type SvgNode } from './svg-document.ts';
 
 /**
  * The repository version is the release version: the release workflow refuses
- * to publish unless the tag and all three package versions agree with it. Every
+ * to publish unless the tag and all four package versions agree with it. Every
  * generated surface reads it from here so no copy of it can drift.
  */
 const REPO_VERSION: string = JSON.parse(

@@ -785,7 +785,7 @@ export const categories: readonly Category[] = [
   {
     "id": "identity-state",
     "label": "Identity & State",
-    "description": "Flags, maps, documents and the marks a country uses to identify itself."
+    "description": "Flags, documents and the marks a country uses to identify itself."
   },
   {
     "id": "fashion-textiles",

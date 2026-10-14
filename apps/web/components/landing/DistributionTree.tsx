@@ -102,6 +102,16 @@ export function DistributionTree() {
               ) : (
                 <span className="surface__status">Community publication pending</span>
               )}
+              <TrackedLink
+                className="mono-link"
+                href="https://www.figma.com/community/plugin/1687997071772751842/african-icon-library"
+                rel="noreferrer noopener"
+                event="figma_click"
+                target_="plugin"
+                surface="home"
+              >
+                Open plugin →
+              </TrackedLink>
             </li>
 
             <li className="surface">

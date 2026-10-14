@@ -54,8 +54,8 @@ export const ISSUE_FORMS = {
  * distribution tree then links to it instead of showing the pending tag.
  */
 export const FIGMA: { published: boolean; url: string | null } = {
-  published: false,
-  url: null,
+  published: true,
+  url: 'https://www.figma.com/community/file/1688005719745631513/african-icon-library-v2',
 };
 
 /** Grammatical helper so copy reads correctly when the set is tiny or large. */

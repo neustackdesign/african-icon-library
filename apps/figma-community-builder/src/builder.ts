@@ -39,18 +39,24 @@ import {
   MAX_CAROUSEL_SLIDES,
   NAMES_INTRO,
   PENDING_BADGE,
+  SECTION_COPY,
   componentsNote,
   coverSubtitle,
   honestCounts,
   licenceBlocks,
+  mapPolicyBlocks,
   mapsSlideSubtitle,
+  publishingChecklist,
+  sourceOfTruthBlocks,
+  specBlocks,
   startHereBlocks,
-  tagline,
   type Block,
 } from './copy';
 import {
   LIBRARY_NAME,
+  MAP_BOUNDARY_POLICY,
   MAP_COMPONENT_SIZE,
+  MAX_PAGES,
   PLUGIN_MAP_SVG,
   PLUGIN_SVG,
   allIconSections,
@@ -197,60 +203,89 @@ function isDisposableDefaultPage(page: PageNode): boolean {
   }
 }
 
+export class PageLimitError extends Error {
+  constructor(foreign: number, wanted: number) {
+    super(
+      `This file already has ${foreign} page${foreign === 1 ? '' : 's'} the builder did not make, and the file may hold at most ${MAX_PAGES} pages (Figma's Free plan). ` +
+        `The builder needs ${wanted}. Run it in a blank file, or delete the other pages first. Nothing was changed.`,
+    );
+    this.name = 'PageLimitError';
+  }
+}
+
+function isOurs(page: PageNode, recorded: ReadonlySet<string>): boolean {
+  try {
+    return page.getPluginData(PAGE_MARKER_KEY) === '1' || recorded.has(page.name);
+  } catch {
+    return false;
+  }
+}
+
+/** Removes every child of a page, so it can be rebuilt in place. */
+function emptyPage(page: PageNode): void {
+  for (const child of [...page.children]) {
+    try {
+      child.remove();
+    } catch {
+      /* a node that refuses to go is left alone rather than half-emptied */
+    }
+  }
+}
+
 /**
- * Removes a previous build.
+ * Returns exactly `names.length` pages for the build, never creating more than
+ * `MAX_PAGES` pages in the document.
  *
  * Pages are identified by the marker the builder wrote on them, and by the names
  * recorded in the root marker — never by pattern-matching a name, which would
- * put someone else's page at risk.
+ * put someone else's page at risk. Pages from an earlier build (including the
+ * thirteen-page layout this builder replaced) and Figma's untouched default
+ * page are reused or removed. Pages the builder did not make are never touched:
+ * if they leave no room, nothing is changed and the build refuses.
+ *
+ * Reusing pages instead of parking a scratch page also means a rebuild never
+ * needs a fourth page, even briefly.
  */
-async function wipePreviousBuild(): Promise<number> {
-  const record = readMarker();
-  if (!record) return 0;
-
+async function acquirePages(names: readonly string[]): Promise<PageNode[]> {
   await ensurePagesLoaded();
 
-  const recorded = new Set(record.pages);
-  const doomed = figma.root.children.filter((page) => {
-    try {
-      return page.getPluginData(PAGE_MARKER_KEY) === '1' || recorded.has(page.name);
-    } catch {
-      return false;
-    }
-  });
-  if (doomed.length === 0) {
-    try {
-      figma.root.setPluginData(MARKER_KEY, '');
-    } catch {
-      /* nothing to clear */
-    }
-    return 0;
-  }
+  const recorded = new Set(readMarker()?.pages ?? []);
+  const all = [...figma.root.children];
+  const reusable = all.filter((page) => isOurs(page, recorded) || isDisposableDefaultPage(page));
+  const foreign = all.length - reusable.length;
+  if (foreign + names.length > MAX_PAGES) throw new PageLimitError(foreign, names.length);
 
-  // A Figma document must always keep at least one page, so a scratch page is
-  // parked in the document while the old ones go. It is removed at the end of
-  // the build, once the real pages exist.
-  const scratch = figma.createPage();
-  scratch.name = 'Rebuilding…';
-  scratch.setPluginData(PAGE_MARKER_KEY, '1');
-  await goToPage(scratch);
+  const kept = reusable.slice(0, names.length);
+  const surplus = reusable.slice(names.length);
 
-  let removed = 0;
-  for (const page of doomed) {
+  // Stand on a page that survives before removing any that does not: Figma
+  // refuses to remove the page the user is on.
+  if (kept[0]) await goToPage(kept[0]);
+  for (const page of surplus) {
     try {
       page.remove();
-      removed += 1;
     } catch {
-      /* a page that refuses to go is left alone rather than half-emptied */
+      /* left in place rather than emptied */
     }
   }
+
+  const pages: PageNode[] = [];
+  names.forEach((name, index) => {
+    let page = kept[index];
+    if (page) emptyPage(page);
+    else page = figma.createPage();
+    page.name = name;
+    page.setPluginData(PAGE_MARKER_KEY, '1');
+    if ('backgrounds' in page) page.backgrounds = [solid(PAPER)];
+    pages.push(page);
+  });
 
   try {
     figma.root.setPluginData(MARKER_KEY, '');
   } catch {
     /* the rebuild overwrites it anyway */
   }
-  return removed;
+  return pages;
 }
 
 /* ------------------------------------------------------------------ *
@@ -915,22 +950,60 @@ function mapSectionHeader(section: MapSection, width: number): FrameNode {
   return head;
 }
 
-/** `Components — Maps`: one `ail/maps/<id>` component per country, grouped by region. */
-function buildMapComponentsPage(page: PageNode, notes: string[]): Map<string, ComponentNode> {
-  const shell = pageShell(
-    'Components — Maps',
-    'One component per country, named ail/maps/<country-id>. Real proportions, longest side 24 px, live 1.5 stroke.',
-  );
-  page.appendChild(shell);
-  shell.x = 0;
-  shell.y = 0;
+/** A large section heading with its one-line description, used on the long pages. */
+function sectionTitle(
+  copy: { title: string; subtitle: string },
+  width: number,
+  count?: number,
+): FrameNode {
+  const head = column(copy.title, 10, { width });
+  head.appendChild(eyebrow(count === undefined ? copy.title : `${copy.title} · ${count}`, ACCENT));
+  head.appendChild(text(copy.title, { font: SEMIBOLD, size: 36, lineHeight: 120 }));
+  head.appendChild(text(copy.subtitle, { size: 16, colour: INK_MUTED, width: 880 }));
+  return head;
+}
 
+/** A component section: a labelled frame holding the components in a wrapped grid. */
+function componentSection(
+  copy: { title: string; subtitle: string },
+  gap: number,
+): { section: FrameNode; holder: FrameNode } {
+  const section = column(copy.title, 28, { width: CONTENT_WIDTH });
+  section.appendChild(sectionTitle(copy, CONTENT_WIDTH));
+  const holder = wrapGrid(copy.title, CONTENT_WIDTH, gap, gap + 8);
+  section.appendChild(holder);
+  return { section, holder };
+}
+
+function buildIconComponents(notes: string[]): {
+  section: FrameNode;
+  byId: Map<string, BuiltIcon>;
+} {
+  const { section, holder } = componentSection(SECTION_COPY.iconComponents, 32);
+  section.insertChild(1, blockNode(componentsNote(anyIconHasMultipleWeights()), 980));
+  const byId = new Map<string, BuiltIcon>();
+  for (const sectionOfIcons of allIconSections()) {
+    for (const icon of sectionOfIcons.icons) {
+      const built = buildIconEntry(icon, holder, notes);
+      if (built) byId.set(icon.id, built);
+    }
+  }
+  return { section, byId };
+}
+
+/** One `ail/maps/<id>` component per country, grouped by region. */
+function buildMapComponents(notes: string[]): {
+  section: FrameNode;
+  byId: Map<string, ComponentNode>;
+} {
+  const section = column(SECTION_COPY.mapComponents.title, 28, { width: CONTENT_WIDTH });
+  section.appendChild(sectionTitle(SECTION_COPY.mapComponents, CONTENT_WIDTH));
   const byId = new Map<string, ComponentNode>();
-  for (const section of mapSections()) {
-    const group = column(section.label, 16, { width: CONTENT_WIDTH });
-    group.appendChild(mapSectionHeader(section, CONTENT_WIDTH));
-    const holder = wrapGrid(`${section.label} components`, CONTENT_WIDTH, 32, 32);
-    for (const map of section.maps) {
+  for (const group of mapSections()) {
+    const regionGroup = column(group.label, 16, { width: CONTENT_WIDTH });
+    regionGroup.appendChild(mapSectionHeader(group, CONTENT_WIDTH));
+    const holder = wrapGrid(`${group.label} components`, CONTENT_WIDTH, 32, 32);
+    for (const map of group.maps) {
       const component = mapComponentFromSvg(map);
       if (!component) {
         notes.push(`Figma could not read the ${map.id} map; it is not in the file.`);
@@ -939,117 +1012,122 @@ function buildMapComponentsPage(page: PageNode, notes: string[]): Map<string, Co
       holder.appendChild(component);
       byId.set(map.id, component);
     }
-    group.appendChild(holder);
-    shell.appendChild(group);
+    regionGroup.appendChild(holder);
+    section.appendChild(regionGroup);
   }
-  return byId;
+  return { section, byId };
 }
 
-/** `Country Maps`: every map as an instance, grouped by AIL region. */
-function buildMapsPage(page: PageNode, planned: PlannedPage, maps: MapPlacer): void {
-  const sections = planned.mapSections ?? [];
-  const total = sections.reduce((sum, section) => sum + section.maps.length, 0);
-  const shell = pageShell(
-    'Country Maps',
-    `${total} outline maps of African countries, grouped by the library’s own regional grouping. Instances of the map components, at real proportions.`,
-  );
-  for (const section of sections) {
-    const group = column(section.label, 20, { width: CONTENT_WIDTH });
-    group.appendChild(mapSectionHeader(section, CONTENT_WIDTH));
-    const grid = wrapGrid(`${section.label} grid`, CONTENT_WIDTH, 24, 32);
-    for (const map of section.maps) grid.appendChild(maps.cell(map, 96, 152));
-    group.appendChild(grid);
-    shell.appendChild(group);
+/** The counts the Library page opens with. */
+function countsRow(width: number): FrameNode {
+  const table = row('Counts', 24, { width, align: 'MIN' });
+  const entries: Array<[string, string]> = [
+    ['Icons', `${releasedIcons.length}`],
+    ['Categories', `${new Set(releasedIcons.map((icon) => icon.category)).size}`],
+    ...(releasedMaps.length > 0
+      ? ([['Country maps', `${releasedMaps.length}`]] as Array<[string, string]>)
+      : []),
+    ['Version', libraryVersion()],
+  ];
+  for (const [label, value] of entries) {
+    const card = column(label, 4, { fill: CARD, padding: 20, cornerRadius: 12 });
+    card.appendChild(text(value, { font: SEMIBOLD, size: 40, lineHeight: 110 }));
+    card.appendChild(eyebrow(label, INK_MUTED));
+    table.appendChild(card);
   }
-  page.appendChild(shell);
-  shell.x = 0;
-  shell.y = 0;
+  return table;
 }
 
-function buildComponentsPage(page: PageNode, notes: string[]): Map<string, BuiltIcon> {
-  const multiWeight = anyIconHasMultipleWeights();
-  const shell = pageShell(
-    'Components',
-    'The set itself. Everything on every other page is an instance of something here.',
-  );
-  shell.appendChild(blockNode(componentsNote(multiWeight), 980));
+/**
+ * `01 — Library`: one long page.
+ *
+ * The shell on the left reads top to bottom: intro and counts, All Icons by
+ * group, Country Maps by region. The canonical components sit to its right in
+ * labelled sections, because every instance on every page is made from them and
+ * so they are created first.
+ */
+function buildLibraryPage(
+  page: PageNode,
+  planned: PlannedPage,
+  notes: string[],
+): { placer: Placer; maps: MapPlacer; components: number } {
+  const shellWidth = CONTENT_WIDTH + PAGE_PADDING * 2;
 
-  const holder = wrapGrid('Components', CONTENT_WIDTH, 32, 40);
-  shell.appendChild(holder);
-  page.appendChild(shell);
-  shell.x = 0;
-  shell.y = 0;
-
-  const byId = new Map<string, BuiltIcon>();
-  for (const section of allIconSections()) {
-    for (const icon of section.icons) {
-      const built = buildIconEntry(icon, holder, notes);
-      if (built) byId.set(icon.id, built);
-    }
-  }
-  return byId;
-}
-
-function buildStartHerePage(page: PageNode, placer: Placer, maps: MapPlacer): void {
-  // The cover must be the first frame on the first page — Figma reads the file
-  // thumbnail from exactly that. It is appended before anything else.
-  const cover = composeCover('Cover', placer, maps);
-  page.appendChild(cover);
-  cover.x = 0;
-  cover.y = 0;
-
-  const shell = column('Start Here', 44, {
+  const componentsFrame = column('Components', 160, {
     fill: PAPER,
     padding: PAGE_PADDING,
-    width: CONTENT_WIDTH + PAGE_PADDING * 2,
+    width: shellWidth,
   });
-  const head = column('Header', 14, { width: CONTENT_WIDTH });
-  head.appendChild(eyebrow(`version ${libraryVersion()}`, ACCENT));
-  head.appendChild(text(LIBRARY_NAME, { font: SEMIBOLD, size: 64, lineHeight: 110 }));
-  head.appendChild(text(tagline(), { size: 22, colour: INK_MUTED, width: 900 }));
-  shell.appendChild(head);
-  shell.appendChild(rule(CONTENT_WIDTH, RULE));
+  const icons = buildIconComponents(notes);
+  componentsFrame.appendChild(icons.section);
+  const mapComponents = buildMapComponents(notes);
+  if (releasedMaps.length > 0) componentsFrame.appendChild(mapComponents.section);
+  page.appendChild(componentsFrame);
+  componentsFrame.x = shellWidth + 320;
+  componentsFrame.y = 0;
 
+  const placer = new Placer(icons.byId, notes);
+  const maps = new MapPlacer(mapComponents.byId, notes);
+
+  const shell = pageShell(
+    'Library',
+    `The ${LIBRARY_NAME}: ${coverSubtitle()}. The canonical components are to the right of this column.`,
+  );
+  shell.appendChild(countsRow(CONTENT_WIDTH));
   for (const block of startHereBlocks()) shell.appendChild(blockNode(block, 980));
 
-  shell.appendChild(rule(CONTENT_WIDTH, RULE));
-  shell.appendChild(
-    text(
-      'Built by the Community File Builder plugin from the repository’s generated icon data. Re-run it after a release rather than editing pages by hand.',
-      { size: 14, colour: INK_MUTED, width: 980 },
-    ),
+  // --- All Icons, by group
+  const groups = planned.groups ?? [];
+  const iconTotal = groups.reduce(
+    (sum, group) => sum + group.sections.reduce((n, section) => n + section.icons.length, 0),
+    0,
   );
-
-  page.appendChild(shell);
-  shell.x = 0;
-  shell.y = SLIDE_HEIGHT + 160;
-}
-
-function buildIconPage(page: PageNode, planned: PlannedPage, placer: Placer): void {
-  const sections = planned.sections ?? [];
-  const total = sections.reduce((sum, section) => sum + section.icons.length, 0);
-  const subtitle =
-    planned.kind === 'all'
-      ? `Every released icon — ${total} in ${sections.length} ${sections.length === 1 ? 'category' : 'categories'}. Instances, not copies.`
-      : (planned.spec?.blurb ?? '');
-
-  const shell = pageShell(planned.spec?.title ?? 'All Icons', subtitle);
-  const metrics = gridMetrics(total);
-
-  for (const section of sections) {
-    const group = column(section.label, 20, { width: CONTENT_WIDTH });
-    group.appendChild(sectionHeader(section, CONTENT_WIDTH));
-    const grid = wrapGrid(`${section.label} grid`, CONTENT_WIDTH, metrics.gap, metrics.gap + 8);
-    for (const icon of section.icons) {
-      grid.appendChild(placer.cell(icon, metrics.size, metrics.cell, 'both'));
+  const metrics = gridMetrics(iconTotal);
+  shell.appendChild(rule(CONTENT_WIDTH, RULE));
+  shell.appendChild(sectionTitle(SECTION_COPY.allIcons, CONTENT_WIDTH, iconTotal));
+  for (const group of groups) {
+    const block = column(group.title, 24, { width: CONTENT_WIDTH });
+    const single = group.sections.length === 1;
+    const head = column(`${group.title} heading`, 6, { width: CONTENT_WIDTH });
+    const groupCount = group.sections.reduce((n, section) => n + section.icons.length, 0);
+    head.appendChild(text(group.title, { font: SEMIBOLD, size: 24, lineHeight: 125 }));
+    head.appendChild(eyebrow(`${groupCount} ${groupCount === 1 ? 'icon' : 'icons'}`, ACCENT));
+    if (group.blurb)
+      head.appendChild(text(group.blurb, { size: 15, colour: INK_MUTED, width: 880 }));
+    block.appendChild(head);
+    for (const section of group.sections) {
+      const inner = column(section.label, 16, { width: CONTENT_WIDTH });
+      if (!single) inner.appendChild(sectionHeader(section, CONTENT_WIDTH));
+      const grid = wrapGrid(`${section.label} grid`, CONTENT_WIDTH, metrics.gap, metrics.gap + 8);
+      for (const icon of section.icons) {
+        grid.appendChild(placer.cell(icon, metrics.size, metrics.cell, 'both'));
+      }
+      inner.appendChild(grid);
+      block.appendChild(inner);
     }
-    group.appendChild(grid);
-    shell.appendChild(group);
+    shell.appendChild(block);
+  }
+
+  // --- Country Maps, by region
+  const regionsOfMaps = planned.mapSections ?? [];
+  if (regionsOfMaps.length > 0) {
+    const mapTotal = regionsOfMaps.reduce((sum, section) => sum + section.maps.length, 0);
+    shell.appendChild(rule(CONTENT_WIDTH, RULE));
+    shell.appendChild(sectionTitle(SECTION_COPY.maps, CONTENT_WIDTH, mapTotal));
+    for (const group of regionsOfMaps) {
+      const block = column(group.label, 20, { width: CONTENT_WIDTH });
+      block.appendChild(mapSectionHeader(group, CONTENT_WIDTH));
+      const grid = wrapGrid(`${group.label} grid`, CONTENT_WIDTH, 24, 32);
+      for (const map of group.maps) grid.appendChild(maps.cell(map, 96, 152));
+      block.appendChild(grid);
+      shell.appendChild(block);
+    }
   }
 
   page.appendChild(shell);
   shell.x = 0;
   shell.y = 0;
+  return { placer, maps, components: icons.byId.size + mapComponents.byId.size };
 }
 
 function localNameRow(language: string, value: string, pending: boolean, width: number): FrameNode {
@@ -1062,102 +1140,111 @@ function localNameRow(language: string, value: string, pending: boolean, width: 
   return line;
 }
 
-function buildNamesPage(page: PageNode, placer: Placer): void {
-  const shell = pageShell(
-    'Names & Cultural Notes',
-    'One card per icon: what it depicts, where the referent is from, and what it is called.',
+function nameCard(icon: Icon, placer: Placer, cardWidth: number): FrameNode {
+  const card = column(icon.id, 14, {
+    fill: CARD,
+    padding: 24,
+    cornerRadius: 12,
+    width: cardWidth,
+  });
+  const inner = cardWidth - 48;
+
+  const head = row('Head', 14, { align: 'CENTER', width: inner });
+  const instance = placer.instance(icon, 40);
+  if (instance) head.appendChild(instance);
+  const names = column('Names', 2, {});
+  names.appendChild(text(icon.name, { font: SEMIBOLD, size: 18, lineHeight: 125 }));
+  names.appendChild(text(icon.id, { size: 12, colour: INK_MUTED, lineHeight: 130 }));
+  head.appendChild(names);
+  card.appendChild(head);
+
+  card.appendChild(text(icon.description, { size: 14, colour: INK, width: inner }));
+  card.appendChild(
+    text(`Region — ${icon.regions.map(regionLabel).join(', ')}`, {
+      size: 13,
+      colour: INK_MUTED,
+      width: inner,
+    }),
   );
-  shell.appendChild(blockNode(NAMES_INTRO, 980));
 
-  const cardWidth = 400;
-  const grid = wrapGrid('Cards', CONTENT_WIDTH, 40, 40);
-
-  for (const icon of releasedIcons) {
-    const card = column(icon.id, 14, {
-      fill: CARD,
-      padding: 24,
-      cornerRadius: 12,
-      width: cardWidth,
-    });
-    const inner = cardWidth - 48;
-
-    const head = row('Head', 14, { align: 'CENTER', width: inner });
-    const instance = placer.instance(icon, 40);
-    if (instance) head.appendChild(instance);
-    const names = column('Names', 2, {});
-    names.appendChild(text(icon.name, { font: SEMIBOLD, size: 18, lineHeight: 125 }));
-    names.appendChild(text(icon.id, { size: 12, colour: INK_MUTED, lineHeight: 130 }));
-    head.appendChild(names);
-    card.appendChild(head);
-
-    card.appendChild(text(icon.description, { size: 14, colour: INK, width: inner }));
-    card.appendChild(
-      text(`Region — ${icon.regions.map(regionLabel).join(', ')}`, {
+  const local = column('Local names', 8, { width: inner });
+  local.appendChild(eyebrow('local names', INK_MUTED));
+  if (icon.localNames.length === 0) {
+    local.appendChild(
+      text('None recorded yet. Contributions welcome — see Licence & Contributions below.', {
         size: 13,
         colour: INK_MUTED,
         width: inner,
       }),
     );
-
-    const local = column('Local names', 8, { width: inner });
-    local.appendChild(eyebrow('local names', INK_MUTED));
-    if (icon.localNames.length === 0) {
-      local.appendChild(
-        text('None recorded yet. Contributions welcome — see page 10.', {
-          size: 13,
-          colour: INK_MUTED,
-          width: inner,
-        }),
-      );
-    } else {
-      for (const name of icon.localNames) {
-        local.appendChild(
-          localNameRow(name.language, name.value, name.review === 'pending', inner),
-        );
-      }
-      if (icon.localNames.some((name) => name.review === 'pending')) {
-        local.appendChild(
-          text(
-            'A pending name has not been confirmed by a speaker. It is recorded so it can be corrected, not asserted.',
-            {
-              size: 12,
-              colour: WARN,
-              width: inner,
-            },
-          ),
-        );
-      }
+  } else {
+    for (const name of icon.localNames) {
+      local.appendChild(localNameRow(name.language, name.value, name.review === 'pending', inner));
     }
-    card.appendChild(local);
-
-    grid.appendChild(card);
+    if (icon.localNames.some((name) => name.review === 'pending')) {
+      local.appendChild(
+        text(
+          'A pending name has not been confirmed by a speaker. It is recorded so it can be corrected, not asserted.',
+          { size: 12, colour: WARN, width: inner },
+        ),
+      );
+    }
   }
-
-  shell.appendChild(grid);
-  page.appendChild(shell);
-  shell.x = 0;
-  shell.y = 0;
+  card.appendChild(local);
+  return card;
 }
 
-function buildLicencePage(page: PageNode): void {
+/**
+ * `03 — Notes & Publishing`: spec guidance, names, map policy, licence and
+ * contributions, source of truth and the release checklist, on one page.
+ */
+function buildNotesPage(page: PageNode, placer: Placer): void {
   const shell = pageShell(
-    'Licence & Contributions',
-    'What you may do with these icons, and how to tell the project it got something wrong.',
+    'Notes & Publishing',
+    'How the library is drawn and named, the map policy, the licence, and the checklist for publishing an update.',
   );
-  for (const block of licenceBlocks()) shell.appendChild(blockNode(block, 980));
+  const addBlocks = (copy: { title: string; subtitle: string }, blocks: Block[]): void => {
+    shell.appendChild(rule(CONTENT_WIDTH, RULE));
+    shell.appendChild(sectionTitle(copy, CONTENT_WIDTH));
+    for (const block of blocks) shell.appendChild(blockNode(block, 980));
+  };
+
+  addBlocks(SECTION_COPY.spec, specBlocks());
+
+  shell.appendChild(rule(CONTENT_WIDTH, RULE));
+  shell.appendChild(sectionTitle(SECTION_COPY.names, CONTENT_WIDTH, releasedIcons.length));
+  shell.appendChild(blockNode(NAMES_INTRO, 980));
+  const grid = wrapGrid('Cards', CONTENT_WIDTH, 40, 40);
+  for (const icon of releasedIcons) grid.appendChild(nameCard(icon, placer, 400));
+  shell.appendChild(grid);
+
+  if (releasedMaps.length > 0)
+    addBlocks(SECTION_COPY.mapPolicy, mapPolicyBlocks(MAP_BOUNDARY_POLICY));
+  addBlocks(SECTION_COPY.licence, licenceBlocks());
+  addBlocks(SECTION_COPY.source, sourceOfTruthBlocks());
+  addBlocks(SECTION_COPY.checklist, [publishingChecklist()]);
+
   page.appendChild(shell);
   shell.x = 0;
   shell.y = 0;
 }
 
 /**
- * The frames the Community listing itself needs, parked beside the file cover.
+ * `02 — Community Listing`: the file `Cover` first, then the frames the
+ * Community listing itself needs, parked beside it.
  *
  * Figma allows nine carousel images. Only slides with real content are made —
  * an empty slide is worse than a missing one — so the count is what the plan can
- * fill, capped at nine.
+ * fill, capped at nine. The maps slide and the maps strip on both covers are
+ * built only when the release contains maps.
  */
-function buildCommunityFrames(page: PageNode, placer: Placer, maps: MapPlacer): number {
+function buildListingPage(page: PageNode, placer: Placer, maps: MapPlacer): number {
+  // The cover is the first frame on the page — appended before anything else.
+  const cover = composeCover('Cover', placer, maps);
+  page.appendChild(cover);
+  cover.x = 0;
+  cover.y = 0;
+
   const frames: FrameNode[] = [composeCover('Community/Cover', placer, maps)];
   const slides = [
     carouselWholeSet(placer),
@@ -1197,7 +1284,10 @@ export type Report = (done: number, total: number, label: string) => void;
 export async function buildCommunityFile(report: Report = () => {}): Promise<BuildSummary> {
   const notes: string[] = [];
   const planned = planPages();
-  const total = planned.length + 4;
+  if (planned.length > MAX_PAGES) {
+    throw new Error(`the page plan has ${planned.length} pages; the limit is ${MAX_PAGES}`);
+  }
+  const total = planned.length + 3;
   let done = 0;
   const step = (label: string): void => {
     done += 1;
@@ -1207,108 +1297,43 @@ export async function buildCommunityFile(report: Report = () => {}): Promise<Bui
   step('Loading fonts');
   await loadFonts();
 
-  step('Clearing any previous build');
-  await wipePreviousBuild();
+  step('Preparing the three pages');
+  const pages = await acquirePages(planned.map((plan) => plan.name));
+  const pageOf = (kind: PlannedPage['kind']): PageNode => {
+    const index = planned.findIndex((plan) => plan.kind === kind);
+    const page = pages[index];
+    if (!page) throw new Error(`the page plan has no ${kind} page`);
+    return page;
+  };
 
-  step('Creating pages');
-  const preexisting = [...figma.root.children];
-  const pages = new Map<string, PageNode>();
-  const created: PageNode[] = [];
-  for (const plan of planned) {
-    const page = figma.createPage();
-    page.name = plan.name;
-    page.setPluginData(PAGE_MARKER_KEY, '1');
-    if ('backgrounds' in page) page.backgrounds = [solid(PAPER)];
-    pages.set(plan.name, page);
-    created.push(page);
-  }
+  // The Library page first: it holds the components that every other page
+  // places instances of.
+  const libraryPlan = planned.find((plan) => plan.kind === 'library');
+  if (!libraryPlan) throw new Error('the page plan has no library page');
+  await goToPage(pageOf('library'));
+  const library = buildLibraryPage(pageOf('library'), libraryPlan, notes);
+  step(libraryPlan.name);
 
-  // Components first: every other page places instances of them.
-  const componentsPlan = planned.find((plan) => plan.kind === 'components');
-  const componentsPage = componentsPlan ? pages.get(componentsPlan.name) : undefined;
-  if (!componentsPlan || !componentsPage) {
-    throw new Error('the page plan produced no components page');
-  }
-  await goToPage(componentsPage);
-  const byId = buildComponentsPage(componentsPage, notes);
-  const placer = new Placer(byId, notes);
-  step(`${componentsPlan.name}`);
+  await goToPage(pageOf('listing'));
+  buildListingPage(pageOf('listing'), library.placer, library.maps);
+  step(planned.find((plan) => plan.kind === 'listing')?.name ?? 'Community Listing');
 
-  // Map components next, for the same reason.
-  const mapComponentsPlan = planned.find((plan) => plan.kind === 'map-components');
-  const mapComponentsPage = mapComponentsPlan ? pages.get(mapComponentsPlan.name) : undefined;
-  let mapsById = new Map<string, ComponentNode>();
-  if (mapComponentsPlan && mapComponentsPage) {
-    await goToPage(mapComponentsPage);
-    mapsById = buildMapComponentsPage(mapComponentsPage, notes);
-    step(mapComponentsPlan.name);
-  }
-  const mapPlacer = new MapPlacer(mapsById, notes);
+  await goToPage(pageOf('notes'));
+  buildNotesPage(pageOf('notes'), library.placer);
+  step(planned.find((plan) => plan.kind === 'notes')?.name ?? 'Notes & Publishing');
 
-  for (const plan of planned) {
-    if (plan.kind === 'components' || plan.kind === 'map-components') continue;
-    const page = pages.get(plan.name);
-    if (!page) continue;
-    await goToPage(page);
-
-    switch (plan.kind) {
-      case 'start':
-        buildStartHerePage(page, placer, mapPlacer);
-        buildCommunityFrames(page, placer, mapPlacer);
-        break;
-      case 'maps':
-        buildMapsPage(page, plan, mapPlacer);
-        break;
-      case 'all':
-      case 'category':
-        buildIconPage(page, plan, placer);
-        break;
-      case 'names':
-        buildNamesPage(page, placer);
-        break;
-      case 'licence':
-        buildLicencePage(page);
-        break;
-    }
-    step(plan.name);
-  }
-
-  // Our pages go to the front so the cover really is on the first page.
-  created.forEach((page, index) => {
+  // Library, Listing, Notes — in that order, whatever order Figma kept.
+  pages.forEach((page, index) => {
     try {
       figma.root.insertChild(index, page);
     } catch {
-      /* the document refused a reorder; creation order already approximates it */
+      /* the document refused a reorder; the names still carry the order */
     }
   });
-
-  // Land on the finished file's first page *before* the sweep below: Figma
-  // refuses to remove the page the user is standing on.
-  const first = created[0];
-  if (first) {
-    try {
-      await goToPage(first);
-    } catch {
-      /* the build stands even if the viewport does not follow */
-    }
-  }
-
-  // The scratch page from a rebuild, and Figma's untouched default page, go now.
-  for (const page of [...preexisting, ...figma.root.children]) {
-    if (created.includes(page)) continue;
-    const ours = (() => {
-      try {
-        return page.getPluginData(PAGE_MARKER_KEY) === '1';
-      } catch {
-        return false;
-      }
-    })();
-    if (!ours && !isDisposableDefaultPage(page)) continue;
-    try {
-      page.remove();
-    } catch {
-      /* left in place rather than emptied */
-    }
+  try {
+    await goToPage(pages[0]);
+  } catch {
+    /* the build stands even if the viewport does not follow */
   }
 
   const undrawn = undrawnWeights();
@@ -1329,9 +1354,9 @@ export async function buildCommunityFile(report: Report = () => {}): Promise<Bui
   step('Finishing');
 
   return {
-    pages: created.length,
-    components: byId.size + mapsById.size,
-    instances: placer.count + mapPlacer.count,
+    pages: pages.length,
+    components: library.components,
+    instances: library.placer.count + library.maps.count,
     notes,
   };
 }

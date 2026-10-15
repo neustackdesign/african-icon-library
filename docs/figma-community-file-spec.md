@@ -47,18 +47,21 @@ Neustack Design
 
 ## Generated file structure
 
-The Community builder currently creates a deliberately navigable file rather than one enormous icon page:
+The published Community source file is on Figma's Free plan, which allows **no more than three
+pages**. The Community builder therefore generates exactly three, and never creates a fourth:
 
-1. `00 — Start Here` — cover, public intro and Community listing frames.
-2. `01 — All Icons` — complete released set grouped by category.
-3. Populated category pages — Identity & State; Fashion & Textiles; Food & Drink; Music, Art & Play; Transport; Everyday Life & Commerce.
-4. `Country Maps` — every country map, in sections by AIL regional grouping.
-5. `Components — Icons` — the canonical editable icon components used by the other pages.
-6. `Components — Maps` — one `ail/maps/<id>` component per country map.
-7. `Names & Cultural Notes` — public descriptions and confirmed naming context.
-8. `Licence & Contributions` — licence, corrections and contribution routes.
+1. `01 — Library` — one long, navigable page: intro and counts; **All Icons**, grouped visually by
+   category group (Identity & State; Fashion & Textiles; Food & Drink; Music, Art & Play; Transport;
+   Everyday Life & Commerce); **Country Maps**, grouped by AIL region; and, in labelled sections to
+   the right, the canonical **Components — Icons** and **Components — Maps**.
+2. `02 — Community Listing` — `Cover` (the first frame), `Community/Cover` and the carousel frames,
+   including the country-maps slide.
+3. `03 — Notes & Publishing` — drawing and spec guidance, Names & Cultural Notes, the maps'
+   cartographic and boundary policy, licence, contributions and corrections, source-of-truth
+   guidance and the release and publishing checklist.
 
-Empty metadata categories do not get their own page. Page numbering closes automatically around whatever is actually released.
+Empty metadata categories do not get their own group. Counts and groups are derived from the
+generated data, so a release changes what is on the pages, never how many pages there are.
 
 ### Component rules
 
@@ -74,25 +77,27 @@ Empty metadata categories do not get their own page. Page numbering closes autom
 - One component per released map, named `ail/maps/<id>`; no text inside the component.
 - Longest side 24, the other side at the map's real proportion — geography is never stretched to a square.
 - Clip content off; vector constraints SCALE; 1.5 live stroke.
-- Map counts on the cover, carousel and Start Here page are computed from the generated data.
+- Map counts on the cover, carousel and Library page are computed from the generated data.
 
 ## Cover and carousel
 
-**Cover:** 1920 × 960, first frame of the first page, named `Cover`. Use real released artwork only and keep the headline/count treatment simple enough to remain legible as a Community thumbnail.
+**Cover:** 1920 × 960, first frame of the `02 — Community Listing` page, named `Cover`, showing the current counts (for v0.3.0, `30 icons · 54 maps`). Use real released artwork only and keep the headline/count treatment simple enough to remain legible as a Community thumbnail.
 
 **Carousel:**
 
-1. Full V2 category grid.
+1. The full icon set, grouped by category.
 2. Icons at real UI size, then enlarged.
 3. One representative icon on the 24 px drawing grid.
 4. A few icons used in realistic product-interface contexts.
 5. Community file, plugin, website downloads and open-source source shown as one connected library.
+6. Country maps: every released map, by region, at real proportions.
 
 Do not publish audit diagnostics, rejected concepts, internal backlog counts, deployment state or release-operation notes in the Community file or listing media.
 
 ## Pre-publish integrity checks
 
-- [ ] Component count matches the canonical released count.
+- [ ] The file has exactly three pages.
+- [ ] Component count matches the canonical released count (icons and maps).
 - [ ] Every component id exists in the repository metadata.
 - [ ] No unreleased/staging icon appears in the file, cover or carousel.
 - [ ] Component geometry matches the canonical SVG source after final Figma cleanup.

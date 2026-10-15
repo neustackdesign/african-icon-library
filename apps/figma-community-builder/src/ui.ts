@@ -82,14 +82,14 @@ window.addEventListener('message', (event: MessageEvent) => {
   switch (message.type) {
     case 'state': {
       const weights = message.weights.length > 0 ? message.weights.join(', ') : 'none';
-      lede.textContent = `${message.icons} released icons · ${weights} drawn. One click builds every page, component and Community frame.`;
+      lede.textContent = `${message.icons} released icons · ${weights} drawn. One click builds the file's three pages, every component and the Community frames.`;
 
       if (message.existingBuild) {
         existing.hidden = false;
         existing.textContent =
           `This file already contains a build (version ${message.existingBuild.version}, ` +
           `${message.existingBuild.pages} pages, ${message.existingBuild.builtAt}). ` +
-          'Rebuilding removes those pages first so nothing is duplicated.';
+          'Rebuilding replaces those pages, so nothing is duplicated.';
         rebuildButton.hidden = false;
         buildButton.disabled = true;
       } else {

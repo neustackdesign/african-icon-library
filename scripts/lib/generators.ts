@@ -390,10 +390,11 @@ export async function generatePluginData(): Promise<string> {
  * `<svg>` document with its native viewBox size.
  */
 export async function generatePluginMapData(): Promise<string> {
-  const [assets, maps, mapRegions] = await Promise.all([
+  const [assets, maps, mapRegions, { manifest }] = await Promise.all([
     listMapAssets(),
     loadMaps(),
     loadMapRegions(),
+    loadMapSources(),
   ]);
   const byId = new Map(assets.map((asset) => [asset.id, asset]));
   const svg: Record<string, string> = {};
@@ -420,6 +421,9 @@ export async function generatePluginMapData(): Promise<string> {
     '',
     "/** AIL's regional grouping, limited to regions that contain a map. */",
     `export const PLUGIN_MAP_REGIONS: Array<{ id: string; label: string }> = ${literal(usedRegions)};`,
+    '',
+    '/** The cartographic policy from `packages/maps/source/manifest.json`. */',
+    `export const MAP_BOUNDARY_POLICY = ${JSON.stringify(manifest.policy)};`,
   ].join('\n');
 
   await writeGenerated(PATHS.pluginMapsGenerated, body);

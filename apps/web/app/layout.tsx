@@ -9,7 +9,9 @@ import { LIBRARY, SITE, plural } from '@/lib/site';
 
 import './globals.css';
 
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim();
+const GA_MEASUREMENT_ID = process.env.VERCEL_ENV === 'production'
+  ? process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim()
+  : undefined;
 
 // Design System v3: Geist at 400/500 for everything, Geist Mono for facts.
 // Self-hosted from app/fonts (OFL-1.1, see app/fonts/README.md) rather than

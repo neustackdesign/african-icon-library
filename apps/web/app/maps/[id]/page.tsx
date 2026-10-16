@@ -147,9 +147,9 @@ export default async function MapPage({ params }: Params) {
           </div>
           <p className="note">
             Region is the {SITE.name}’s own grouping for browsing.{' '}
-            <a href={DOWNLOADS.maps} download>
+            <TrackedLink href={DOWNLOADS.maps} download event="release_download" target_="maps-zip" surface="map-page">
               Download all maps (.zip)
-            </a>
+            </TrackedLink>
           </p>
           <p className="note">{MAP_BOUNDARY_POLICY}</p>
 

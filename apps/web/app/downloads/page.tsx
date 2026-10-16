@@ -82,9 +82,10 @@ export default async function DownloadsPage() {
             >
               Complete library (.zip)
             </TrackedLink>
-            <a className="btn btn--secondary" href={SITE.repository} rel="noreferrer noopener">
+            <TrackedLink className="btn btn--secondary" href={SITE.repository} rel="noreferrer noopener"
+              event="github_click" target_="repository" surface="downloads">
               View source on GitHub
-            </a>
+            </TrackedLink>
             <TrackedLink
               className="btn btn--secondary"
               href={DOWNLOADS.metadata}
@@ -154,9 +155,10 @@ export default async function DownloadsPage() {
                 {manifest.artefacts.map((artefact) => (
                   <tr key={artefact.name}>
                     <th scope="row">
-                      <a href={`/downloads/${artefact.name}`} download>
+                      <TrackedLink href={`/downloads/${artefact.name}`} download event="release_download"
+                        target_={artefact.name} surface="checksum-table">
                         {artefact.name}
-                      </a>
+                      </TrackedLink>
                     </th>
                     <td className="nowrap">{formatBytes(artefact.bytes)}</td>
                     <td className="checksum">{artefact.sha256}</td>
@@ -170,9 +172,10 @@ export default async function DownloadsPage() {
         <div className="empty-state">
           <p>Direct downloads are temporarily unavailable on this build.</p>
           <p>
-            <a href={SITE.repository} rel="noreferrer noopener">
+            <TrackedLink href={SITE.repository} rel="noreferrer noopener"
+              event="github_click" target_="repository" surface="downloads-fallback">
               Get the source files from GitHub →
-            </a>
+            </TrackedLink>
           </p>
         </div>
       )}

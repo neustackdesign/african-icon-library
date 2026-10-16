@@ -55,13 +55,20 @@ declare global {
  */
 export function campaignProperties(): Record<string, string> {
   if (typeof window === 'undefined') return {};
-  const params = new URLSearchParams(window.location.search);
-  const campaign: Record<string, string> = {};
-  for (const key of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'] as const) {
-    const value = params.get(key);
-    if (value) campaign[key] = value.slice(0, 64);
+  const context: Record<string, string> = {};
+  const keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'] as const;
+  try {
+    const current = new URLSearchParams(window.location.search);
+    const stored = JSON.parse(window.sessionStorage.getItem('ail_campaign') || '{}') as Record<string, unknown>;
+    for (const key of keys) {
+      const candidate = current.get(key) || (typeof stored[key] === 'string' ? stored[key] as string : '');
+      if (candidate) context[key] = candidate.slice(0, 64);
+    }
+    if (Object.keys(context).length) window.sessionStorage.setItem('ail_campaign', JSON.stringify(context));
+  } catch {
+    // Respect disabled storage; tracking is never necessary for library use.
   }
-  return campaign;
+  return context;
 }
 
 /**
@@ -72,8 +79,8 @@ export function campaignProperties(): Record<string, string> {
  * working" without recording what anyone typed.
  */
 export function track(event: AnalyticsEvent, properties: AnalyticsProperties = {}): void {
-  if (typeof window === 'undefined') return;
-  const payload = { ...properties, ...campaignProperties() };
+  if (typeof window === 'undefined' || window.location.hostname !== 'icons.neustackstudio.com') return;
+  const payload = { ...properties, ...campaignProperties(), source_page: window.location.pathname, transport_type: 'beacon' };
   try {
     window.ail?.track?.(event, payload);
     window.gtag?.('event', event, payload);

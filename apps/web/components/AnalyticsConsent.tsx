@@ -40,7 +40,7 @@ export function AnalyticsConsent() {
     ;(window as Window & { gtag?: (...args: unknown[]) => void }).gtag?.('consent', 'update', { analytics_storage: next })
     setChoice(next)
   }
-  const btn = { padding: '9px 13px', cursor: 'pointer', font: '600 13px/1.2 system-ui,sans-serif', borderRadius: '4px' }
+  const btn = { padding: '9px 13px', cursor: 'pointer', font: '600 13px/1.2 system-ui,sans-serif', borderRadius: '4px' } as const
   return (
     <section role="region" aria-label="Analytics preferences" style={{ position: 'fixed', zIndex: 99999, bottom: 16, left: 16, width: 'min(430px, calc(100vw - 32px))', padding: 20, background: '#191919', color: '#fff', border: '1px solid #555', boxShadow: '0 12px 30px #0006', font: '400 14px/1.5 system-ui,sans-serif' }}>
       <p style={{ margin: '0 0 14px' }}>We use optional Google Analytics cookies to understand which tools and pages people use. Choose whether to allow them.</p>

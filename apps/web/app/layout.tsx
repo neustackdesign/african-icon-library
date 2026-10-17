@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 
 import { Analytics } from '@/components/Analytics';
+import { AnalyticsConsent } from '@/components/AnalyticsConsent'
 import { SiteFooter } from '@/components/SiteFooter';
 import { SiteHeader } from '@/components/SiteHeader';
 import { DARK } from '@/lib/brand';
@@ -120,6 +121,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   window.dataLayer = window.dataLayer || [];
                   function gtag(){dataLayer.push(arguments);}
                   window.gtag = window.gtag || gtag;
+                  gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied'});
+                  try { if(document.cookie.split(';').some(function(x){return x.trim()==='ns_ga_consent=granted'})) gtag('consent','update',{analytics_storage:'granted'}); } catch(e) {}
                   gtag('js', new Date());
                   gtag('config', '${GA_MEASUREMENT_ID}');
                 `,
@@ -136,6 +139,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main id="main">{children}</main>
         <SiteFooter />
         <Analytics />
+        {GA_MEASUREMENT_ID ? <AnalyticsConsent /> : null}
         <script
           type="application/ld+json"
           // Static, build-time constant. No user input reaches this string.

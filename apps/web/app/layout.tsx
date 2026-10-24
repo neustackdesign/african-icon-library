@@ -72,11 +72,13 @@ export const metadata: Metadata = {
     title: `${SITE.name} — icons for African life`,
     description: SITE.description,
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
-  },
+  robots: process.env.VERCEL_ENV === 'production'
+    ? {
+        index: true,
+        follow: true,
+        googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
+      }
+    : { index: false, follow: false },
   category: 'design',
 };
 

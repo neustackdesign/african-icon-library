@@ -42,7 +42,7 @@ export function coverSubtitle(
   icons: readonly Icon[] = releasedIcons,
   maps: readonly CountryMap[] = releasedMaps,
 ): string {
-  const mapPart = maps.length > 0 ? ` · ${maps.length} country ${plural(maps.length, 'map')}` : '';
+  const mapPart = maps.length > 0 ? ` · ${maps.length} ${plural(maps.length, 'map')}` : '';
   return `${icons.length} ${plural(icons.length, 'icon')}${mapPart} · 24px grid · MIT`;
 }
 
@@ -58,8 +58,9 @@ export function startHereBlocks(
     {
       heading: 'What this file is',
       lines: [
-        'The Figma home of the African Icon Library V2: every released icon as an editable component, generated from the same source as the website, downloads and plugin.',
-        'The repository is the canonical source. A released icon should match everywhere the library appears.',
+        `The Figma home of the ${LIBRARY_NAME}: every released icon and country map as an editable component, generated from the same source as the website, downloads and plugin.`,
+        'The repository is the canonical source. A released icon or map should match everywhere the library appears.',
+        'This file has three pages: Library (everything, plus the components), Community Listing (the cover and carousel) and Notes & Publishing.',
       ],
     },
     {
@@ -104,7 +105,7 @@ export function componentsNote(multiWeight: boolean): Block {
           'Names mirror repository ids so the Community file, plugin and downloadable source remain in correspondence.',
         ]
       : [
-          `V2 ships the ${list(PLUGIN_WEIGHTS)} ${plural(PLUGIN_WEIGHTS.length, 'weight')} as its baseline.`,
+          `This release ships the ${list(PLUGIN_WEIGHTS)} ${plural(PLUGIN_WEIGHTS.length, 'weight')} as its baseline.`,
           'The components keep live strokes so they remain editable in Figma.',
           'Names mirror repository ids so the Community file, plugin and downloadable source remain in correspondence.',
         ],
@@ -182,8 +183,8 @@ export interface SlideCopy {
 export const CAROUSEL_COPY: readonly SlideCopy[] = [
   {
     number: '01',
-    title: 'The V2 set',
-    subtitle: 'The released library, grouped by category.',
+    title: 'The icon set',
+    subtitle: 'The released icons, grouped by category.',
   },
   {
     number: '02',
@@ -203,7 +204,8 @@ export const CAROUSEL_COPY: readonly SlideCopy[] = [
   {
     number: '05',
     title: 'One library, several ways in',
-    subtitle: 'Community file, plugin, website downloads and open-source files stay in sync.',
+    subtitle:
+      'Icons and country maps: Community file, plugin, website downloads and open-source files stay in sync.',
   },
 ];
 
@@ -218,6 +220,122 @@ export function mapsSlideSubtitle(maps: readonly CountryMap[] = releasedMaps): s
 }
 
 export const MAX_CAROUSEL_SLIDES = 9;
+
+/** The big section headings of the Library and Notes pages. */
+export const SECTION_COPY = {
+  allIcons: {
+    title: 'All Icons',
+    subtitle:
+      'Every released icon, grouped the way the library presents its categories. Instances, not copies.',
+  },
+  maps: {
+    title: 'Country Maps',
+    subtitle:
+      'Outline maps of African countries, grouped by the library’s own regional grouping. Instances of the map components, at real proportions.',
+  },
+  iconComponents: {
+    title: 'Components — Icons',
+    subtitle: 'The icon set itself. Every icon in this file is an instance of something here.',
+  },
+  mapComponents: {
+    title: 'Components — Maps',
+    subtitle:
+      'One component per country, named ail/maps/<country-id>. Real proportions, longest side 24 px, live 1.5 stroke.',
+  },
+  spec: {
+    title: 'Drawing & spec guidance',
+    subtitle: 'How the library is drawn, so additions extend it rather than start a second system.',
+  },
+  names: {
+    title: 'Names & Cultural Notes',
+    subtitle:
+      'One card per icon: what it depicts, where the referent is from, and what it is called.',
+  },
+  mapPolicy: {
+    title: 'Maps — cartographic policy',
+    subtitle: 'How the country maps treat boundaries and scale.',
+  },
+  licence: {
+    title: 'Licence & Contributions',
+    subtitle:
+      'What you may do with these assets, and how to tell the project it got something wrong.',
+  },
+  source: {
+    title: 'Source of truth',
+    subtitle: 'Where the library really lives.',
+  },
+  checklist: {
+    title: 'Release & publishing checklist',
+    subtitle: 'For whoever holds the Figma account.',
+  },
+} as const;
+
+/** Drawing and spec guidance, with figures taken from the generated data. */
+export function specBlocks(): Block[] {
+  return [
+    {
+      heading: 'The drawing system',
+      lines: [
+        'Every icon is drawn on a 24 × 24 grid inside a 2-unit live area, with a 1.5 stroke, round caps and joins, and no fill.',
+        `Released ${plural(PLUGIN_WEIGHTS.length, 'weight')}: ${list(PLUGIN_WEIGHTS)}. A further weight is added only when it is genuinely drawn, never by mechanically changing the stroke width.`,
+        'Components keep live, editable strokes: restyle the stroke colour on the instance and resize proportionally; do not outline the strokes.',
+        `Full specification — ${LINKS.github}/blob/main/docs/icon-spec.md`,
+      ],
+    },
+    {
+      heading: 'Components and names',
+      lines: [
+        'Icon components are named african-icons/<category-id>/<icon-id>; map components are named ail/maps/<country-id>. Names mirror repository ids.',
+        'Icon components are 24 × 24 frames with Clip content off and vectors constrained to Scale. Map components are fitted so their longest side is 24 and their other side keeps the country’s real proportions.',
+        'A Weight property exists only where more than one weight is genuinely drawn.',
+      ],
+    },
+  ];
+}
+
+export function mapPolicyBlocks(policy: string): Block[] {
+  return [
+    {
+      heading: 'Boundaries',
+      lines: [
+        policy,
+        `Treatment details and sources — ${LINKS.github}/blob/main/docs/maps-cartography.md`,
+      ],
+    },
+    {
+      heading: 'Scale and proportions',
+      lines: [
+        'Every map is drawn at the same longest side, so the maps do not show the countries’ relative size.',
+        'Each map keeps its own real proportions: it is never stretched to a square.',
+      ],
+    },
+  ];
+}
+
+export function sourceOfTruthBlocks(): Block[] {
+  return [
+    {
+      heading: 'The repository is canonical',
+      lines: [
+        `Icons, maps and metadata live in ${LINKS.github}. This file is generated from them by the Community File Builder plugin.`,
+        'Change the library in the repository and regenerate. Do not edit this file by hand: a manual edit is lost on the next rebuild and would make the file disagree with the website, downloads and plugin.',
+      ],
+    },
+  ];
+}
+
+export function publishingChecklist(): Block {
+  return {
+    heading: 'Before publishing an update',
+    lines: [
+      '1. Run the Community File Builder with “Wipe and rebuild” in this file. The result must be exactly three pages.',
+      '2. Check the counts on the Library page and the Cover against the repository release.',
+      '3. Check the Cover is the first frame on the Community Listing page, and that the carousel frames show icons and country maps.',
+      '4. Check the component names: african-icons/<category>/<icon> and ail/maps/<country>.',
+      '5. Publish the update to the existing Community file, then confirm the live listing shows the new version.',
+    ],
+  };
+}
 
 export function versionLine(icons: readonly Icon[] = releasedIcons): string {
   return `${LIBRARY_NAME} · version ${libraryVersion(icons)} · ${coverSubtitle(icons)}`;

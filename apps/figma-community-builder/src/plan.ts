@@ -18,6 +18,7 @@ import {
   PLUGIN_WEIGHTS,
 } from '../../figma-plugin/src/generated/icon-data';
 import {
+  MAP_BOUNDARY_POLICY,
   PLUGIN_MAPS,
   PLUGIN_MAP_BOXES,
   PLUGIN_MAP_REGIONS,
@@ -32,7 +33,7 @@ import {
 } from '@african-icon-library/metadata';
 
 export { PLUGIN_CATEGORIES, PLUGIN_ICONS, PLUGIN_SVG, PLUGIN_WEIGHTS };
-export { PLUGIN_MAPS, PLUGIN_MAP_BOXES, PLUGIN_MAP_REGIONS, PLUGIN_MAP_SVG };
+export { MAP_BOUNDARY_POLICY, PLUGIN_MAPS, PLUGIN_MAP_BOXES, PLUGIN_MAP_REGIONS, PLUGIN_MAP_SVG };
 
 export const LIBRARY_NAME = 'African Icon Library';
 
@@ -170,13 +171,13 @@ export function categoryDescription(id: string): string {
 export interface CategoryPageSpec {
   /** Stable key, used for the marker record and for tests. */
   key: string;
-  /** The page title, without its number. */
+  /** The group title on the Library page. */
   title: string;
   /** One line under the title. */
   blurb: string;
   /**
-   * Metadata category ids folded onto this page, in the order their sections
-   * appear. Nine metadata categories, six pages — the mapping is stated in the
+   * Metadata category ids folded into this group, in the order their sections
+   * appear. Nine metadata categories, six groups — the mapping is stated in the
    * README so nobody has to reverse-engineer it from here.
    */
   categoryIds: readonly string[];
@@ -227,7 +228,7 @@ export const CATEGORY_PAGE_SPECS: readonly CategoryPageSpec[] = [
   },
 ];
 
-/** A labelled run of icons inside a page. */
+/** A labelled run of icons inside a group. */
 export interface Section {
   categoryId: string;
   label: string;
@@ -235,18 +236,34 @@ export interface Section {
   icons: Icon[];
 }
 
-export type PageKind =
-  'start' | 'all' | 'category' | 'maps' | 'components' | 'map-components' | 'names' | 'licence';
+/**
+ * The Community source file is on Figma's Free plan, which allows three pages.
+ * The builder never creates more than this, and never leaves more than this
+ * behind.
+ */
+export const MAX_PAGES = 3;
+
+export type PageKind = 'library' | 'listing' | 'notes';
+
+/**
+ * One visual group of icons on the Library page — what used to be a page of
+ * its own. Nine metadata categories fold into six groups; a group is still a
+ * presentation choice, never a re-classification of the data.
+ */
+export interface IconGroup {
+  key: string;
+  title: string;
+  blurb: string;
+  sections: Section[];
+}
 
 export interface PlannedPage {
-  /** Page name including its number, e.g. `03 — Food & Drink`. */
+  /** Page name including its number, e.g. `01 — Library`. */
   name: string;
   kind: PageKind;
-  /** Populated for `category` pages only. */
-  spec?: CategoryPageSpec;
-  /** Populated for `category` and `all` pages. */
-  sections?: Section[];
-  /** Populated for the `maps` page. */
+  /** Populated for the `library` page. */
+  groups?: IconGroup[];
+  /** Populated for the `library` page. */
   mapSections?: MapSection[];
 }
 
@@ -269,7 +286,7 @@ function sectionFor(categoryId: string, icons: readonly Icon[]): Section | null 
 /**
  * Every populated category, in the order `categories.json` lists them.
  *
- * This is the order the `01 — All Icons` page and the first carousel slide use;
+ * This is the order the first carousel slide and the component sections use;
  * an empty category never appears, because `PLUGIN_CATEGORIES` is already
  * filtered to categories that contain a released icon.
  */
@@ -282,49 +299,64 @@ export function allIconSections(icons: readonly Icon[] = releasedIcons): Section
   return sections;
 }
 
+/**
+ * The icon groups of the Library page, in `CATEGORY_PAGE_SPECS` order. A group
+ * with no released icon is dropped. A populated category that no spec claims
+ * still appears, as a group of its own at the end, so nothing released can be
+ * missing from the page.
+ */
+export function iconGroups(icons: readonly Icon[] = releasedIcons): IconGroup[] {
+  const groups: IconGroup[] = [];
+  const claimed = new Set<string>();
+  for (const spec of CATEGORY_PAGE_SPECS) {
+    const sections = spec.categoryIds
+      .map((categoryId) => sectionFor(categoryId, icons))
+      .filter((section): section is Section => section !== null);
+    spec.categoryIds.forEach((id) => claimed.add(id));
+    if (sections.length > 0) {
+      groups.push({ key: spec.key, title: spec.title, blurb: spec.blurb, sections });
+    }
+  }
+  for (const section of allIconSections(icons)) {
+    if (claimed.has(section.categoryId)) continue;
+    groups.push({
+      key: section.categoryId,
+      title: section.label,
+      blurb: section.description,
+      sections: [section],
+    });
+  }
+  return groups;
+}
+
 /** Two-digit page number, so Figma sorts the pages the way they read. */
 function numbered(index: number, title: string): string {
   return `${String(index).padStart(2, '0')} — ${title}`;
 }
 
 /**
- * The whole page list, numbered contiguously.
+ * The page list: always exactly three pages, numbered 01 to 03.
  *
- * A category page only exists when at least one released icon maps onto it, and
- * the numbers close up behind a category that is empty — so `08 — Components`
- * is only `08` while all six category pages are populated.
+ *   01 — Library              intro, every icon by group, every map by region,
+ *                             and the canonical icon and map components
+ *   02 — Community Listing    Cover and the Community carousel frames
+ *   03 — Notes & Publishing   spec guidance, names, map policy, licence,
+ *                             contributions, source of truth, checklist
  */
 export function planPages(
   icons: readonly Icon[] = releasedIcons,
   maps: readonly CountryMap[] = releasedMaps,
 ): PlannedPage[] {
-  const pages: PlannedPage[] = [];
-  const push = (kind: PageKind, title: string, extra: Partial<PlannedPage> = {}): void => {
-    pages.push({ name: numbered(pages.length, title), kind, ...extra });
-  };
-
-  push('start', 'Start Here');
-  push('all', 'All Icons', { sections: allIconSections(icons) });
-
-  for (const spec of CATEGORY_PAGE_SPECS) {
-    const sections = spec.categoryIds
-      .map((categoryId) => sectionFor(categoryId, icons))
-      .filter((section): section is Section => section !== null);
-    if (sections.length === 0) continue;
-    push('category', spec.title, { spec, sections });
-  }
-
-  const regionsWithMaps = mapSections(maps);
-  if (regionsWithMaps.length > 0) {
-    push('maps', 'Country Maps', { mapSections: regionsWithMaps });
-  }
-
-  push('components', regionsWithMaps.length > 0 ? 'Components — Icons' : 'Components');
-  if (regionsWithMaps.length > 0) push('map-components', 'Components — Maps');
-  push('names', 'Names & Cultural Notes');
-  push('licence', 'Licence & Contributions');
-
-  return pages;
+  return [
+    {
+      name: numbered(1, 'Library'),
+      kind: 'library',
+      groups: iconGroups(icons),
+      mapSections: mapSections(maps),
+    },
+    { name: numbered(2, 'Community Listing'), kind: 'listing' },
+    { name: numbered(3, 'Notes & Publishing'), kind: 'notes' },
+  ];
 }
 
 /* ------------------------------------------------------------------ *

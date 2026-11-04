@@ -12,59 +12,62 @@ It is not published to the Figma Community. It is a tool for whoever holds the F
 
 ## What it builds
 
-Pages, in this order, numbered contiguously:
+**Exactly three pages.** The published Community source file is on Figma's Free plan, which allows
+no more than three pages per file, so the builder produces three and never creates a fourth — not
+even briefly during a rebuild.
 
 ```
-00 — Start Here
-01 — All Icons
-02 … NN — one page per populated category group
-NN — Country Maps
-NN — Components — Icons
-NN — Components — Maps
-NN — Names & Cultural Notes
-NN — Licence & Contributions
+01 — Library
+02 — Community Listing
+03 — Notes & Publishing
 ```
 
-For v0.3.0 (30 icons, 54 country maps), with every category group populated, that is:
+The page list is fixed. What changes with a release is what is _on_ the pages: every count, icon,
+map, group and region is derived from the generated data each time the builder runs.
 
-```
-00 — Start Here
-01 — All Icons
-02 — Identity & State
-03 — Fashion & Textiles
-04 — Food & Drink
-05 — Music, Art & Play
-06 — Transport
-07 — Everyday Life & Commerce
-08 — Country Maps
-09 — Components — Icons
-10 — Components — Maps
-11 — Names & Cultural Notes
-12 — Licence & Contributions
-```
+### `01 — Library`
 
-A category group with no released icon gets **no page**, and the numbers close up behind it — so
-`Country Maps` is only `08` while all six groups are populated. With no released maps, the two map
-pages are left out and the icon components page is called `Components`. Nothing about the page list is
-hard-coded; it is derived from the icons in the build every time it runs.
+One long, navigable page. Reading down the main column:
 
-On top of the pages it produces, on `00 — Start Here`:
+1. **Intro and counts** — what the file is, the three-page structure, and the counts (for the
+   current release: 30 icons, 54 country maps).
+2. **All Icons** — every released icon as an instance, grouped visually by the category groups in
+   the mapping below (a group with no released icon is left out).
+3. **Country Maps** — every released map as an instance, grouped by AIL's regional grouping, each at
+   its real proportions.
 
-- `Cover` — 1920 × 960, the **first frame on the first page**, which is where Figma reads the file
-  thumbnail from. Paper `#FAF9F6`, ink `#16150F`, accent `#2E7D4F` used once. Real icons drawn from
-  the bundled data, the library name, and one line of subtitle.
-- `Community/Cover` and `Community/Carousel-01` … `-05` — 1920 × 960 each, for the Community
+To the right of that column, in a frame named `Components`, sit the canonical components in two
+labelled sections:
+
+4. **Components — Icons** — one component per released icon, `african-icons/<category>/<id>`.
+5. **Components — Maps** — one component per released map, `ail/maps/<id>`.
+
+The components are created first, because every instance anywhere in the file is made from them.
+
+### `02 — Community Listing`
+
+- `Cover` — 1920 × 960, the **first frame on the page**. Paper `#FAF9F6`, ink `#16150F`, accent
+  `#2E7D4F` used once. A row of real icons, a row of real country maps, the library name, and the
+  current counts — `30 icons · 54 maps` for this release.
+- `Community/Cover` and `Community/Carousel-01` … `-06` — 1920 × 960 each, for the Community
   listing, following [docs/figma-community-file-spec.md](../../docs/figma-community-file-spec.md).
-  Figma allows nine carousel images; the builder makes only the slides it has real content for, and
-  caps at nine.
+  One carousel slide is the country maps. Figma allows nine carousel images; the builder makes only
+  the slides it has real content for, and caps at nine.
+
+### `03 — Notes & Publishing`
+
+Everything that is guidance rather than assets, as sections of one page: drawing and spec guidance,
+**Names & Cultural Notes** (one card per icon), the maps' cartographic and boundary policy, licence,
+contributions and corrections, source-of-truth guidance, and the release and publishing checklist.
+It carries no internal audit or provenance workflow data.
 
 ## Category → page mapping
 
-`packages/metadata/src/data/categories.json` defines nine categories. The Community file presents
-six pages, because three of the nine are folded into a neighbour rather than given a page that
-would hold one or two icons.
+`packages/metadata/src/data/categories.json` defines nine categories. The Library page's **All
+Icons** section presents six groups, because three of the nine are folded into a neighbour rather
+than given a group that would hold one or two icons.
 
-| Metadata category   | Page                         | Why                                                                               |
+| Metadata category   | Group                        | Why                                                                               |
 | ------------------- | ---------------------------- | --------------------------------------------------------------------------------- |
 | `identity-state`    | **Identity & State**         | Direct.                                                                           |
 | `defence`           | **Identity & State**         | Armed-forces equipment and insignia are marks the state makes about itself.       |
@@ -76,9 +79,10 @@ would hold one or two icons.
 | `commerce-industry` | **Everyday Life & Commerce** | Direct — money, markets, trade.                                                   |
 | `places-landmarks`  | **Everyday Life & Commerce** | The built environment ordinary life and trade take place in.                      |
 
-Inside a folded page each metadata category still gets its own labelled section with its real
+Inside a folded group each metadata category still gets its own labelled section with its real
 category label, so `Commerce & Industry` and `Places & Landmarks` are never presented as one thing.
-The folding is a page-count decision, not a re-classification of the data.
+The folding is a presentation decision, not a re-classification of the data. A populated category
+that no group claims still appears, as a group of its own.
 
 The mapping lives in `src/plan.ts` (`CATEGORY_PAGE_SPECS`) and is restated independently in
 `tests/figma-community-builder.test.ts`, so changing it in one place fails the test rather than
@@ -86,14 +90,14 @@ silently making this table wrong.
 
 ## Country Maps
 
-`Country Maps` shows every released country map in sections by AIL's regional grouping (North,
-West, Central, East and Southern Africa), each map at its real proportions with its name and ISO
-codes. The cover strip and a dedicated carousel slide announce the maps; their counts are read from
-the generated data.
+The **Country Maps** section of the Library page shows every released country map in subsections by
+AIL's regional grouping (North, West, Central, East and Southern Africa), each map at its real
+proportions with its name. The cover strip and a dedicated carousel slide on the Community Listing
+page announce the maps; their counts are read from the generated data.
 
 ## Components
 
-One component per released icon on the `Components — Icons` page, named
+One component per released icon in the **Components — Icons** section of the Library page, named
 `african-icons/<category-id>/<icon-id>` — so Figma's asset panel nests them by category and the
 names correspond exactly to ids in `packages/metadata/src/data/icons.json`.
 
@@ -103,16 +107,16 @@ instance resized to 48 or 480 stays on-grid and nothing on the edge of the canva
 **Weights.** A `Weight` variant property is created **only** where more than one weight is genuinely
 drawn — that is, where the icon's metadata lists the weight _and_ a real SVG exists for it in the
 build. With a single drawn weight the builder makes a plain component with no variant property, and
-the Components page says so in as many words. A one-value `Weight=Regular` property would imply the
+the Components — Icons section says so in as many words. A one-value `Weight=Regular` property would imply the
 other three weights exist somewhere in the file; they do not. The builder never creates a variant
 for a weight nobody has drawn, even if the metadata claims it.
 
-One component per released map on the `Components — Maps` page, named `ail/maps/<id>` — e.g.
+One component per released map in the **Components — Maps** section of the Library page, named `ail/maps/<id>` — e.g.
 `ail/maps/nigeria`. Each is fitted so its longest side is 24 and the other side follows the map's
 real proportions; geography is never stretched to a square. Clip content is off, vectors are
 constrained to `Scale`, and the component holds the outline only — no text.
 
-Every icon on `01 — All Icons`, on the category pages, on the cover, on the name cards and in the
+Every icon in the Library page's All Icons section, on the cover, on the name cards and in the
 Community frames is an **instance** of one of these components. Nothing is a copy.
 
 ## Data source
@@ -141,8 +145,8 @@ npm run build -w @african-icon-library/metadata
 ```
 
 The first regenerates `icon-data.ts` from the metadata JSON; the second rebuilds the metadata
-package's `dist/`, which is what the pipeline counts on `00 — Start Here` and
-`Community/Carousel-05` are read from.
+package's `dist/`, which is what the counts on `01 — Library` and the Community
+listing frames are read from.
 
 ## Build and run locally
 
@@ -171,20 +175,26 @@ Then, in the **Figma desktop app** (this cannot be done in the browser):
 
 The builder writes a marker to `figma.root` with `setPluginData`, and one to every page it creates.
 On a second run it refuses to build and tells you the file already contains one, offering **Wipe and
-rebuild** instead. That path removes exactly the pages it owns — identified by the marker, not by
-matching a page name — parks a scratch page while it does so (Figma requires a document to keep at
-least one page), and rebuilds. Pages you added yourself are never touched.
+rebuild** instead.
 
-Figma's untouched default page (`Page 1`, empty) is removed so the cover really is on the first
-page. A default page you have put something on is left alone, after the built pages.
+That path **reuses the pages it owns** — identified by the marker, not by matching a page name —
+empties them and rebuilds into them, so the file never holds more than three pages at any moment.
+(An earlier version of this builder produced thirteen pages; a file built that way is rebuilt into
+three, and the surplus pages are removed.) A blank file's untouched default page (`Page 1`, empty)
+is reused too. It does not park a scratch page, because on the Free plan there is no room for one.
+
+Pages you added yourself are never touched. Because the Free plan allows only three pages, a file
+that holds any page the builder did not make has no room for the three it needs: the builder then
+**refuses before changing anything** and says so. Run it in a blank file, or delete the other pages
+first.
 
 ## What to check by eye before publishing
 
 The automated tests cover structure, naming and counts. These are the things only a person looking
 at the file can confirm:
 
-- [ ] The `Cover` frame is first on `00 — Start Here` and the thumbnail Figma shows is the one you
-      expect.
+- [ ] The file has exactly three pages, and the `Cover` frame is first on `02 — Community Listing`
+      with the thumbnail you expect.
 - [ ] The icons on the cover render as real drawings, not empty frames — a Figma SVG import failure
       is reported as a note in the panel, but check anyway.
 - [ ] Text on the cover and every carousel slide sits inside 120 px of each edge.
@@ -212,7 +222,7 @@ The manifest declares:
 `apps/figma-plugin/build.ts` performs, duplicated rather than imported because that file runs its
 own build at the top level. A test asserts the same thing about the sources.
 
-One visible consequence: **the addresses on `00 — Start Here` and `10 — Licence & Contributions` are
+One visible consequence: **the addresses on `01 — Library` and `03 — Notes & Publishing` are
 plain text, not clickable Figma hyperlinks.** A hyperlink needs a full `https://…` URL in the
 bundle, which the offline assertion forbids. Addresses are written the way the repository's own docs
 write them — bare domains a reader can copy. Working around the assertion to make them clickable
@@ -248,7 +258,8 @@ it, and you get a `figma.notify` naming the font that failed and what to do abou
 ## What has not been verified
 
 Everything below is asserted by the test suite against a fake of the Figma API
-(`tests/figma-community-builder.test.ts`): page count and numbering, component count and naming,
+(`tests/figma-community-builder.test.ts`): exactly three pages and never a fourth (the fake enforces
+Figma's Free-plan limit), the page contents, component count and naming,
 the single-weight-no-variant rule, the multi-weight variant path, instance placement, the cover
 frame's position and size, the Community frame sizes, pending-name labelling, idempotency across
 three runs, and graceful failure when fonts reject or the SVG importer throws.
@@ -262,8 +273,10 @@ README does not claim they have:
   is well-composed at a given release size is a judgement to make with your eyes. `gridMetrics()`
   and the carousel sizing scale with the icon count, but they are heuristics.
 - That `figma.root.insertChild` reorders pages in the running app. It is guarded — if it throws, the
-  pages stay in creation order, which is already the right order once the default page is removed —
-  but the guard has not been exercised against Figma itself.
+  names still carry the order (`01`, `02`, `03`) — but the guard has not been exercised against
+  Figma itself.
+- That a real Free-plan file accepts the three-page build. The limit is enforced by the test fake,
+  not by Figma.
 - Whether the thumbnail Figma generates from the `Cover` frame crops acceptably at every Community
   card ratio. The 120 px safe area follows the spec; the result needs looking at.
 - Font availability. Inter is bundled with Figma, so the failure path should be rare, but it is the

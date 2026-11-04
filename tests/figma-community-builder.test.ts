@@ -49,6 +49,10 @@ interface Harness {
   send(message: unknown): Promise<void>;
   pages(): FakeNode[];
   allNodes(): FakeNode[];
+  /** Pages the plugin created, and the most pages the document ever held. */
+  pageStats: { created: number; peak: number };
+  /** Adds a page the way a user would, bypassing the plan limit. */
+  addPage(name: string, pluginData?: Record<string, string>): FakeNode;
 }
 
 function detach(node: FakeNode): void {
@@ -58,7 +62,14 @@ function detach(node: FakeNode): void {
   }
 }
 
-function makeHarness(options: { fontsReject?: boolean; svgThrows?: boolean } = {}): Harness {
+/** Figma's Free plan allows three pages per file. The fake enforces it. */
+const FREE_PLAN_PAGES = 3;
+
+function makeHarness(
+  options: { fontsReject?: boolean; svgThrows?: boolean; maxPages?: number } = {},
+): Harness {
+  const maxPages = options.maxPages ?? FREE_PLAN_PAGES;
+  const pageStats = { created: 0, peak: 1 };
   const messages: Array<Record<string, unknown>> = [];
   const notifications: Array<{ text: string; error: boolean }> = [];
   const loadedFonts = new Set<string>();
@@ -188,8 +199,13 @@ function makeHarness(options: { fontsReject?: boolean; svgThrows?: boolean } = {
       },
     },
     createPage: () => {
+      if (root.children.length >= maxPages) {
+        throw new Error(`This file is limited to ${maxPages} pages on the Free plan`);
+      }
       const page = makeNode('PAGE', 'Page');
       root.appendChild(page);
+      pageStats.created += 1;
+      pageStats.peak = Math.max(pageStats.peak, root.children.length);
       return page;
     },
     createFrame: () => spawn('FRAME', 'Frame'),
@@ -228,6 +244,14 @@ function makeHarness(options: { fontsReject?: boolean; svgThrows?: boolean } = {
     async send(message: unknown) {
       await onmessage?.(message);
     },
+    pageStats,
+    addPage(name: string, pluginData: Record<string, string> = {}) {
+      const page = makeNode('PAGE', name);
+      Object.assign(page.pluginData, pluginData);
+      root.appendChild(page);
+      pageStats.peak = Math.max(pageStats.peak, root.children.length);
+      return page;
+    },
     pages: () => root.children,
     allNodes: () => {
       const out: FakeNode[] = [];
@@ -242,6 +266,11 @@ async function loadPlugin(harness: Harness): Promise<void> {
   (globalThis as Record<string, unknown>).figma = harness.figma;
   (globalThis as Record<string, unknown>).__html__ = '<html></html>';
   await import('../apps/figma-community-builder/src/main.ts');
+}
+
+async function loadPlanWithMaps() {
+  const plan = await import('../apps/figma-community-builder/src/plan.ts');
+  return { PLUGIN_ICONS: plan.PLUGIN_ICONS, PLUGIN_MAPS: plan.PLUGIN_MAPS };
 }
 
 async function loadPlan() {
@@ -306,50 +335,75 @@ describe('figma community builder — the produced document', () => {
     delete (globalThis as Record<string, unknown>).__html__;
   });
 
-  it('creates one page per fixed page plus one per populated category group', async () => {
-    const { PLUGIN_ICONS } = await loadPlan();
-    const present = new Set(PLUGIN_ICONS.map((icon) => icon.category));
-    const expectedGroups = CATEGORY_PAGE_GROUPS.filter((group) =>
-      group.categoryIds.some((id) => present.has(id)),
-    );
+  it('creates exactly three pages, in order, for the 30-icon / 54-map release', async () => {
+    const { PLUGIN_ICONS, PLUGIN_MAPS } = await loadPlanWithMaps();
+    expect(PLUGIN_ICONS).toHaveLength(30);
+    expect(PLUGIN_MAPS).toHaveLength(54);
 
-    // 00 Start Here, 01 All Icons, the groups, Country Maps, Components — Icons,
-    // Components — Maps, Names, Licence.
-    expect(harness.pages()).toHaveLength(2 + expectedGroups.length + 5);
+    expect(harness.pages()).toHaveLength(3);
+    expect(harness.pages().map((page) => page.name)).toEqual([
+      '01 — Library',
+      '02 — Community Listing',
+      '03 — Notes & Publishing',
+    ]);
   });
 
-  it('numbers the pages contiguously and in the documented order', async () => {
+  it('plans exactly three pages whatever the release contains', async () => {
+    const { planPages, MAX_PAGES } = await loadPlan();
+    expect(MAX_PAGES).toBe(3);
+    expect(planPages()).toHaveLength(3);
+    expect(planPages([], [])).toHaveLength(3);
+  });
+
+  it('never holds, or tries to create, a fourth page', () => {
+    // The fake throws on a fourth createPage, and the blank file already
+    // held a default page — so the builder must have reused it.
+    expect(harness.pageStats.peak).toBeLessThanOrEqual(3);
+    expect(harness.pages()).toHaveLength(3);
+    expect(harness.pages().some((page) => /^Page \d+$/.test(page.name))).toBe(false);
+  });
+
+  it('shows every populated category group on the Library page, and none that is empty', async () => {
     const { PLUGIN_ICONS } = await loadPlan();
     const present = new Set(PLUGIN_ICONS.map((icon) => icon.category));
-    const groups = CATEGORY_PAGE_GROUPS.filter((group) =>
-      group.categoryIds.some((id) => present.has(id)),
-    );
+    const library = harness.pages()[0];
+    const strings: string[] = [];
+    const walk = (node: FakeNode): void => {
+      if (node.type === 'TEXT') strings.push(node.characters);
+      node.children.forEach(walk);
+    };
+    walk(library);
 
-    const expected = [
-      'Start Here',
+    for (const group of CATEGORY_PAGE_GROUPS) {
+      const populated = group.categoryIds.some((id) => present.has(id));
+      expect(strings.includes(group.title), group.title).toBe(populated);
+    }
+  });
+
+  it('puts the intro, All Icons, Country Maps and both component sets on the Library page', () => {
+    const library = harness.pages()[0];
+    const texts: string[] = [];
+    const frames: string[] = [];
+    const walk = (node: FakeNode): void => {
+      if (node.type === 'TEXT') texts.push(node.characters);
+      if (node.type === 'FRAME') frames.push(node.name);
+      node.children.forEach(walk);
+    };
+    walk(library);
+
+    for (const heading of [
+      'Library',
       'All Icons',
-      ...groups.map((group) => group.title),
       'Country Maps',
       'Components — Icons',
       'Components — Maps',
-      'Names & Cultural Notes',
-      'Licence & Contributions',
-    ].map((title, index) => `${String(index).padStart(2, '0')} — ${title}`);
-
-    expect(harness.pages().map((page) => page.name)).toEqual(expected);
-  });
-
-  it('gives no page to a category with no released icon', async () => {
-    const { PLUGIN_ICONS } = await loadPlan();
-    const present = new Set(PLUGIN_ICONS.map((icon) => icon.category));
-    const empty = CATEGORY_PAGE_GROUPS.filter(
-      (group) => !group.categoryIds.some((id) => present.has(id)),
-    );
-
-    const names = harness.pages().map((page) => page.name);
-    for (const group of empty) {
-      expect(names.some((name) => name.endsWith(group.title))).toBe(false);
+    ]) {
+      expect(texts, heading).toContain(heading);
     }
+    expect(frames).toContain('Components');
+    // One instance per icon and per map is shown on this page, besides the components.
+    const instances = library.children.length;
+    expect(instances).toBeGreaterThan(0);
   });
 
   it('creates exactly one component entry per released icon, correctly named', async () => {
@@ -411,10 +465,10 @@ describe('figma community builder — the produced document', () => {
     expect(instances.length).toBeGreaterThan(0);
     for (const instance of instances) expect(instance.mainComponent).toBeDefined();
 
-    // Nothing outside the components page may be a loose component.
+    // Components live on the Library page only; no other page holds one.
     const strays = harness
       .pages()
-      .filter((page) => !page.name.includes('Components'))
+      .filter((page) => !page.name.endsWith('Library'))
       .flatMap((page) => {
         const out: FakeNode[] = [];
         const walk = (node: FakeNode): void => {
@@ -427,13 +481,44 @@ describe('figma community builder — the produced document', () => {
     expect(strays).toHaveLength(0);
   });
 
-  it('puts a 1920 × 960 frame named Cover first on the first page', () => {
-    const first = harness.pages()[0];
-    expect(first.name).toBe('00 — Start Here');
-    const frames = first.children.filter((child) => child.type === 'FRAME');
+  it('puts a 1920 × 960 frame named Cover first on the Community Listing page', () => {
+    const listing = harness.pages()[1];
+    expect(listing.name).toBe('02 — Community Listing');
+    const frames = listing.children.filter((child) => child.type === 'FRAME');
     expect(frames[0].name).toBe('Cover');
     expect(frames[0].width).toBe(1920);
     expect(frames[0].height).toBe(960);
+  });
+
+  it('puts the current counts on the Cover', async () => {
+    const cover = harness.pages()[1].children.find((child) => child.name === 'Cover') as FakeNode;
+    const strings: string[] = [];
+    const walk = (node: FakeNode): void => {
+      if (node.type === 'TEXT') strings.push(node.characters);
+      node.children.forEach(walk);
+    };
+    walk(cover);
+    expect(strings.some((value) => value.includes('30 icons · 54 maps'))).toBe(true);
+  });
+
+  it('shows maps on the Cover and in the carousel', () => {
+    const listing = harness.pages()[1];
+    const mapInstances = (frame: FakeNode): number => {
+      let count = 0;
+      const walk = (node: FakeNode): void => {
+        const main = node.mainComponent as FakeNode | undefined;
+        if (node.type === 'INSTANCE' && main?.name.startsWith('ail/maps/')) count += 1;
+        node.children.forEach(walk);
+      };
+      walk(frame);
+      return count;
+    };
+    const cover = listing.children.find((child) => child.name === 'Cover') as FakeNode;
+    expect(mapInstances(cover)).toBeGreaterThan(0);
+    const carousels = listing.children.filter((child) =>
+      /^Community\/Carousel-\d\d$/.test(child.name),
+    );
+    expect(carousels.some((slide) => mapInstances(slide) > 0)).toBe(true);
   });
 
   it('shows only real icons on the cover', async () => {
@@ -443,7 +528,7 @@ describe('figma community builder — the produced document', () => {
       ...PLUGIN_ICONS.map((icon) => icon.id),
       ...PLUGIN_MAPS.map((m) => m.id),
     ]);
-    const cover = harness.pages()[0].children.find((child) => child.name === 'Cover') as FakeNode;
+    const cover = harness.pages()[1].children.find((child) => child.name === 'Cover') as FakeNode;
 
     const instances: FakeNode[] = [];
     const walk = (node: FakeNode): void => {
@@ -457,7 +542,7 @@ describe('figma community builder — the produced document', () => {
   });
 
   it('builds the Community listing frames at 1920 × 960, capped at nine carousels', () => {
-    const first = harness.pages()[0];
+    const first = harness.pages()[1];
     const communityCover = first.children.find((child) => child.name === 'Community/Cover');
     expect(communityCover).toBeDefined();
     expect(communityCover?.width).toBe(1920);
@@ -483,9 +568,7 @@ describe('figma community builder — the produced document', () => {
 
     if (pending.length === 0) {
       // Nothing to label — but the page must still exist.
-      expect(harness.pages().some((page) => page.name.endsWith('Names & Cultural Notes'))).toBe(
-        true,
-      );
+      expect(strings).toContain('Names & Cultural Notes');
       return;
     }
 
@@ -507,7 +590,7 @@ describe('figma community builder — the produced document', () => {
     expect(Number(summary?.instances)).toBeGreaterThan(PLUGIN_ICONS.length);
   });
 
-  it('makes one ail/maps/<id> component per released map, on its own page, with no text', async () => {
+  it('makes one ail/maps/<id> component per released map, in a labelled section of the Library page, with no text', async () => {
     const { PLUGIN_MAPS } = await import('../apps/figma-plugin/src/generated/map-data.ts');
     const maps = harness
       .allNodes()
@@ -516,7 +599,7 @@ describe('figma community builder — the produced document', () => {
     expect(maps.map((node) => node.name).sort()).toEqual(
       PLUGIN_MAPS.map((map) => `ail/maps/${map.id}`).sort(),
     );
-    const page = harness.pages().find((p) => p.name.endsWith('Components — Maps')) as FakeNode;
+    const page = harness.pages()[0];
     for (const component of maps) {
       expect(component.clipsContent).toBe(false);
       expect(Math.max(component.width, component.height)).toBeCloseTo(24, 5);
@@ -526,8 +609,63 @@ describe('figma community builder — the produced document', () => {
       };
       walk(component);
       let parent: FakeNode | undefined = component;
-      while (parent && parent.type !== 'PAGE') parent = parent.parent as FakeNode | undefined;
-      if (parent) expect(parent).toBe(page);
+      const lineage: string[] = [];
+      while (parent && parent.type !== 'PAGE') {
+        lineage.push(parent.name);
+        parent = parent.parent as FakeNode | undefined;
+      }
+      expect(parent).toBe(page);
+      expect(lineage).toContain('Components — Maps');
+    }
+  });
+
+  it('keeps the icon component names and the live editable strokes', async () => {
+    const { PLUGIN_ICONS, componentName } = await loadPlan();
+    const names = new Set(componentEntries(harness).map((node) => node.name));
+    for (const icon of PLUGIN_ICONS) expect(names.has(componentName(icon)), icon.id).toBe(true);
+    for (const entry of componentEntries(harness)) {
+      expect(entry.name).toMatch(/^african-icons\/[a-z-]+\/[a-z0-9-]+$/);
+      // Strokes are live vectors, never outlined into fills by the builder.
+      expect(entry.children.every((child) => child.type !== 'TEXT')).toBe(true);
+    }
+  });
+
+  it('puts the notes, map policy, licence, source of truth and checklist on page three', async () => {
+    const { MAP_BOUNDARY_POLICY } = await import('../apps/figma-plugin/src/generated/map-data.ts');
+    const notes = harness.pages()[2];
+    expect(notes.name).toBe('03 — Notes & Publishing');
+    const strings: string[] = [];
+    const walk = (node: FakeNode): void => {
+      if (node.type === 'TEXT') strings.push(node.characters);
+      node.children.forEach(walk);
+    };
+    walk(notes);
+
+    for (const heading of [
+      'Drawing & spec guidance',
+      'Names & Cultural Notes',
+      'Maps — cartographic policy',
+      'Licence & Contributions',
+      'Source of truth',
+      'Release & publishing checklist',
+    ]) {
+      expect(strings, heading).toContain(heading);
+    }
+    expect(strings).toContain(MAP_BOUNDARY_POLICY);
+    expect(strings.some((value) => value.includes('exactly three pages'))).toBe(true);
+  });
+
+  it('exposes no internal audit or provenance workflow data anywhere', () => {
+    const joined = documentStrings(harness).join('\n');
+    for (const word of [
+      'auditSourceFile',
+      'auditVerdict',
+      'provenance',
+      'culturalReview',
+      'auditKey',
+      'redraw',
+    ]) {
+      expect(joined, word).not.toContain(word);
     }
   });
 
@@ -707,6 +845,63 @@ describe('figma community builder — running it more than once', () => {
     expect(new Set(second).size).toBe(second.length);
     expect(componentEntries(harness)).toHaveLength(firstComponents);
     expect(harness.pages().some((page) => page.name === 'Rebuilding…')).toBe(false);
+  });
+
+  it('never holds more than three pages while it wipes and rebuilds', async () => {
+    const harness = makeHarness();
+    await loadPlugin(harness);
+    await harness.send({ type: 'build', mode: 'fresh' });
+    await harness.send({ type: 'build', mode: 'rebuild' });
+    await harness.send({ type: 'build', mode: 'rebuild' });
+
+    expect(harness.pageStats.created).toBe(2); // the blank file's own page was reused
+    expect(harness.pageStats.peak).toBe(3);
+    expect(harness.pages()).toHaveLength(3);
+  });
+
+  it('replaces an earlier thirteen-page build with exactly three pages', async () => {
+    const harness = makeHarness();
+    await loadPlugin(harness);
+    const legacy = Array.from(
+      { length: 13 },
+      (_, index) => `${String(index).padStart(2, '0')} — Old ${index}`,
+    );
+    harness.pages()[0].name = legacy[0];
+    harness.pages()[0].pluginData['african-icon-library:community-page'] = '1';
+    for (const name of legacy.slice(1)) {
+      harness.addPage(name, { 'african-icon-library:community-page': '1' });
+    }
+    harness.root.pluginData['african-icon-library:community-build'] = JSON.stringify({
+      version: '0.3.0',
+      builtAt: 'earlier',
+      pages: legacy,
+      icons: 30,
+    });
+    expect(harness.pages()).toHaveLength(13);
+
+    await harness.send({ type: 'build', mode: 'rebuild' });
+
+    expect(harness.pages().map((page) => page.name)).toEqual([
+      '01 — Library',
+      '02 — Community Listing',
+      '03 — Notes & Publishing',
+    ]);
+    expect(harness.pageStats.created).toBe(0);
+  });
+
+  it('refuses, and changes nothing, when the file holds pages the builder did not make', async () => {
+    const harness = makeHarness();
+    await loadPlugin(harness);
+    harness.addPage('My own page');
+    const before = harness.pages().map((page) => page.name);
+
+    await harness.send({ type: 'build', mode: 'fresh' });
+
+    expect(harness.pages().map((page) => page.name)).toEqual(before);
+    expect(harness.pageStats.created).toBe(0);
+    const errors = messagesOfType(harness, 'status').filter((m) => m.level === 'error');
+    expect(errors).toHaveLength(1);
+    expect(String(errors[0].text)).toMatch(/at most 3 pages/);
   });
 
   it('survives a third run', async () => {

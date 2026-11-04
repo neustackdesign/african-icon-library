@@ -1,0 +1,67 @@
+name: Prune fully merged inactive branches
+
+# Each stale remote branch can keep an old Vercel preview deployment protected.
+# Never delete branches with unmerged commits or open pull requests.
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/prune-merged-branches.yml']
+  schedule:
+    - cron: '0 4 * * 1'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: read
+
+concurrency:
+  group: prune-fully-merged-branches
+  cancel-in-progress: false
+
+jobs:
+  prune:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+          filter: blob:none
+          persist-credentials: false
+      - name: Remove fully merged branches inactive for 21 days
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          # checkout fetch-depth:0 already fetched all origin branches; no credentials are kept.
+          git rev-parse --verify refs/remotes/origin/main >/dev/null
+          # Fail closed if the open-PR lookup fails.
+          open_heads="$(gh api --paginate "repos/${REPOSITORY}/pulls?state=open&per_page=100" --jq '.[].head.ref')"
+          cutoff="$(date -u -d '21 days ago' +%s)"
+          removed=0
+          eligible=0
+          while IFS= read -r branch; do
+            [[ -z "$branch" ]] && continue
+            case "$branch" in HEAD|main|master|production|staging|develop|release/*|deploy/*) continue ;; esac
+            if [[ -n "$open_heads" ]] && grep -Fxq -- "$branch" <<< "$open_heads"; then continue; fi
+            ref="refs/remotes/origin/$branch"
+            # No unique commits: branch tip MUST already exist in main's history.
+            if ! git merge-base --is-ancestor "$ref" refs/remotes/origin/main; then continue; fi
+            ts="$(git log -1 --format=%ct "$ref")"
+            (( ts <= cutoff )) || continue
+            eligible=$((eligible + 1))
+            if gh api -X DELETE "repos/${REPOSITORY}/git/refs/heads/$branch" >/dev/null; then
+              printf 'Deleted fully merged, inactive branch: %s\n' "$branch"
+              removed=$((removed + 1))
+            else
+              printf 'Could not delete protected branch: %s\n' "$branch" >&2
+            fi
+            if (( removed >= 50 )); then
+              echo 'Safety cap of 50 deletions reached.'
+              break
+            fi
+          done < <(git for-each-ref --format='%(refname:strip=3)' refs/remotes/origin)
+          echo "Eligible: $eligible; successfully removed: $removed"
